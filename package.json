@@ -1,0 +1,46 @@
+{
+  "name": "@reactionable/cli",
+  "version": "1.0.0",
+  "description": "Reactionable cli",
+  "main": "dist/index",
+  "bin": "./bin/reactionable",
+  "scripts": {
+    "start": "npm link && tsc --watch",
+    "build": "tsc",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neilime/reactionable-cli.git"
+  },
+  "keywords": [
+    "reactionable",
+    "cli",
+    "tools"
+  ],
+  "author": "ESCEMI <developer@escemi.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neilime/reactionable-cli/issues"
+  },
+  "homepage": "https://github.com/neilime/reactionable-cli#readme",
+  "devDependencies": {
+    "@types/inquirer": "^6.5.0",
+    "@types/mustache": "^0.8.32",
+    "@types/node": "^12.7.12",
+    "tsc-watch": "^4.0.0",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "cli-spinner": "^0.2.10",
+    "esm": "^3.2.25",
+    "figlet": "^1.2.4",
+    "get-package-info": "^1.0.0",
+    "inquirer": "^7.0.0",
+    "inversify": "^5.0.1",
+    "js-ini": "^1.1.2",
+    "mustache": "^3.1.0",
+    "reflect-metadata": "^0.1.13",
+    "shelljs": "^0.8.3"
+  }
+}
