@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neilime/reactionable-cli.git"
+    "url": "git+https://github.com/reactionable/reactionable-cli.git"
   },
   "keywords": [
     "reactionable",
@@ -24,9 +24,9 @@
   "author": "ESCEMI <developer@escemi.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neilime/reactionable-cli/issues"
+    "url": "https://github.com/reactionable/reactionable-cli/issues"
   },
-  "homepage": "https://github.com/neilime/reactionable-cli#readme",
+  "homepage": "https://github.com/reactionable/reactionable-cli#readme",
   "devDependencies": {
     "@types/inquirer": "^6.5.0",
     "@types/mustache": "^0.8.32",
