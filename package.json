@@ -2,6 +2,9 @@
   "name": "@reactionable/cli",
   "version": "1.0.0",
   "description": "Reactionable cli",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "main": "dist/index",
   "bin": "./bin/reactionable",
   "scripts": {
