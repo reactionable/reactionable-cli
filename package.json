@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npm link && tsc --watch",
     "build": "tsc",
-    "test": "test"
+    "test": ""
   },
   "repository": {
     "type": "git",
