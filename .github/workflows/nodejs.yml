@@ -24,10 +24,6 @@ jobs:
         npm test --if-present
       env:
         CI: true
-    - name: Publish Filter
-      uses: actions/bin/filter@master
-      with:
-        args: branch master
     - name: Automated releases for npm packages.
       uses: mikeal/merge-release@master
 
