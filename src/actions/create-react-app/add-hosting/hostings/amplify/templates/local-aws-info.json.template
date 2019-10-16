@@ -1,0 +1,7 @@
+export default `{
+    {{{projectPath}}}: {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "default"
+    }
+}`
