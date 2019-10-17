@@ -1,10 +1,9 @@
-import { which } from 'shelljs';
 import { prompt } from 'inquirer';
 import { existsSync } from 'fs';
 import { basename, resolve, dirname } from 'path';
 import chalk from 'chalk';
 import { injectable, inject } from 'inversify';
-import { error, success, info, exec } from '../../plugins/Cli';
+import { error, success, info, exec, getCmd } from '../../plugins/Cli';
 import AddUIFramework from './add-ui-framework/AddUIFramework';
 import AddHosting from './add-hosting/AddHosting';
 import { IAction } from '../IAction';
@@ -54,7 +53,7 @@ export default class CreateReactApp implements IAction {
             }
         }
 
-        const createReactAppCmd = this.getCreateReactAppCmd();
+        const createReactAppCmd = getCmd('create-react-app');
         if (!createReactAppCmd) {
             return error('Unable to create app, install globally "create-react-app" or "npx"');
         }
@@ -85,23 +84,13 @@ export default class CreateReactApp implements IAction {
 
         // Add hosting
         info('Adding Hosting...');
-        // await this.addHosting.run({ realpath });
+        await this.addHosting.run({ realpath });
         success('Hosting has been added in "' + realpath + '"');
 
         // Add Versioning
         info('Adding Versioning...');
         await this.addVersioning.run({ realpath });
         success('Versioning has been added in "' + realpath + '"');
-    }
-
-    getCreateReactAppCmd(): string | null {
-        if (which('create-react-app')) {
-            return 'create-react-app';
-        }
-        if (which('npx')) {
-            return 'npx create-react-app';
-        }
-        return null;
     }
 
 

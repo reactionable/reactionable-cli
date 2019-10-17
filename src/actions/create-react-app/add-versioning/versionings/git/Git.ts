@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { prompt } from 'inquirer';
 import { which } from 'shelljs';
+import * as parseGitRemote from 'parse-github-url';
 import { IVersioningAction } from '../IVersioningAction';
 import { success, info, error, exec } from '../../../../../plugins/Cli';
 import { getGitRemoteOriginUrl, getGitCurrentBranch } from '../../../../../plugins/Git';
@@ -26,27 +27,12 @@ export default class Git implements IVersioningAction {
                 type: 'input',
                 name: 'remoteOriginUrl',
                 message: 'Remote origin url (https://gitxxx.com/username/new_repo)',
-                validate: function (input) {
-                    const URL = require('url').URL;
-
-                    const stringIsAValidUrl = (s) => {
-                      try {
-                        new URL(s);
-                        return true;
-                      } catch (err) {
-                        return false;
-                      }
-                    };
-                    if(stringIsAValidUrl(input)){
-                        return true;
-                    }
-                    return 'Remote origin url must be a valid url';
-                },
+                validate: input => (parseGitRemote(input) ? true : `Could not parse Git remote ${input}`),
             }]);
 
-            const currentBranch = getGitCurrentBranch(realpath);
+            const currentBranch = getGitCurrentBranch(realpath, 'master');
             await exec(gitCmd + ' remote add origin ' + remoteOriginUrl);
-            await exec(gitCmd + ' push -u origin ' + (currentBranch ? currentBranch : 'master'));
+            await exec(gitCmd + ' push -u origin ' + currentBranch);
         }
 
         const { commitMessage } = await prompt([{

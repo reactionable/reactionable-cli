@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
-import { parse, IIniObjectSection } from 'js-ini';
+import { parse } from 'js-ini';
 
 const hasGit = (dirPath: string) => {
     if (!existsSync(dirPath)) {
@@ -9,13 +9,13 @@ const hasGit = (dirPath: string) => {
     return existsSync(resolve(dirPath, '.git'));
 }
 
-export const getGitCurrentBranch = (dirPath: string): string | null => {
+export const getGitCurrentBranch = (dirPath: string, defaultBranch:string): string => {
     const filepath = resolve(dirPath, '.git/HEAD');
     if (!existsSync(filepath)) {
         throw new Error('File "' + filepath + '" does not exist');
     }
     const match = /ref: refs\/heads\/([^\n]+)/.exec(readFileSync(filepath).toString());
-    return match ? match[1] : null;
+    return match ? match[1] : defaultBranch;
 }
 
 export const getGitConfig = (dirPath: string) => {

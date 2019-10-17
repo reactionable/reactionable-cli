@@ -1,6 +1,26 @@
 import chalk from 'chalk';
 import { existsSync } from 'fs';
 import { spawn } from 'child_process';
+import { which } from 'shelljs';
+
+export const getCmd = (cmd: string): string | null => {
+    if (which(cmd)) {
+        return cmd;
+    }
+    if (which('npx')) {
+        return 'npx ' + cmd;
+    }
+    return null;
+}
+
+export const getNodeVersion = (): string => {
+    const nodeVersionMatch = process.version.match(/^v(\d+\.\d+)/);
+
+    if (!nodeVersionMatch) {
+        throw new Error('Unable to retrieve node version');
+    }
+    return nodeVersionMatch[1];
+}
 
 export const exec = (
     cmd: string,

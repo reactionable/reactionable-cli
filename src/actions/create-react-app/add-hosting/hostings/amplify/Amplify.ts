@@ -1,7 +1,6 @@
 import { injectable } from 'inversify';
-import { which } from 'shelljs';
 import { IHostingAction } from '../IHostingAction';
-import { success, info, error, exec } from '../../../../../plugins/Cli';
+import { success, info, error, exec, getCmd } from '../../../../../plugins/Cli';
 import { getPackageInfo } from '../../../../../plugins/Package';
 import { getGitCurrentBranch } from '../../../../../plugins/Git';
 import { renderTemplate } from '../../../../../plugins/Template';
@@ -23,7 +22,8 @@ export default class Amplify implements IHostingAction {
         // Add amplify default configuration files
         info('Configure Amplify...');
         
-        const currentBranch = getGitCurrentBranch(realpath);
+        const projectBranch = getGitCurrentBranch(realpath, 'master');
+        const projectName = getPackageInfo(realpath, 'name');
         renderTemplate(
             realpath,
             {
@@ -37,30 +37,19 @@ export default class Amplify implements IHostingAction {
                 },
             },
             {
-                projectBranch: JSON.stringify(currentBranch ? currentBranch : 'master'),
+                projectBranch: JSON.stringify(projectBranch),
                 projectPath: JSON.stringify(realpath),
-                projectName: JSON.stringify(getPackageInfo(realpath, 'name')),
+                projectName: JSON.stringify(projectName),
             }
         );
 
 
         // Configure amplify        
-        const amplifyCmd = this.getAmplifyCmd();
+        const amplifyCmd = getCmd('amplify');
         if (!amplifyCmd) {
             return error('Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"');
         }
         await exec(amplifyCmd + ' init', realpath);
         success('Amplify has been configured in "' + realpath + '"');
     }
-
-    getAmplifyCmd(): string | null {
-        if (which('amplify')) {
-            return 'amplify';
-        }
-        if (which('npx')) {
-            return 'npx amplify';
-        }
-        return null;
-    }
-
 }
