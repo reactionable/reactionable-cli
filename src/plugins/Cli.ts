@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import { Spinner } from 'cli-spinner';
 import { existsSync } from 'fs';
 import { spawn } from 'child_process';
 
@@ -51,11 +50,4 @@ export const success = (message: string) => {
 
 export const error = (message: string) => {
     process.stderr.write("\n" + chalk.red('⚠ ' + message) + "\n");
-}
-
-export const spin = (title: string): Spinner => {
-    const spinner = new Spinner(title + ' %s');
-    spinner.setSpinnerString('◐◓◑◒');
-    spinner.start();
-    return spinner;
 }
