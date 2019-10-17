@@ -9,6 +9,7 @@ import AddHosting from './add-hosting/AddHosting';
 import { IAction } from '../IAction';
 import { replaceFileExtension, replaceInFile } from '../../plugins/File';
 import AddVersioning from './add-versioning/AddVersioning';
+import { installPackages } from '../../plugins/Package';
 
 @injectable()
 export default class CreateReactApp implements IAction {
@@ -60,13 +61,13 @@ export default class CreateReactApp implements IAction {
 
         // Create app
         info('Creating app...');
-        // exec(createReactAppCmd + ' ' + realpath + ' --typescript');
-        // installPackages(realpath, ['@reactionable/reactionable']);
+        exec(createReactAppCmd + ' ' + realpath + ' --typescript');
+        installPackages(realpath, ['@reactionable/core']);
         success('App has been created in "' + realpath + '"');
 
         // Add Saas
         info('Adding Saas...');
-        // installPackages(realpath, ['node-sass']);
+        installPackages(realpath, ['node-sass']);
 
         // Replace css files
         replaceFileExtension(realpath + '/src/index.css', 'scss');
@@ -79,7 +80,7 @@ export default class CreateReactApp implements IAction {
 
         // Add UI framework
         info('Adding UI framemork...');
-        // await this.addUIFramework.run({ realpath });
+        await this.addUIFramework.run({ realpath });
         success('UI framemork has been added in "' + realpath + '"');
 
         // Add hosting

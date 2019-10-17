@@ -14,7 +14,7 @@ export default class ReactBootstrap implements IUIFrameworkAction {
     async run({ realpath }) {
         // Installs packages        
         info('Installs packages...');
-        installPackages(realpath, ['react-bootstrap', 'bootstrap']);
+        installPackages(realpath, ['@reactionable/ui-bootstrap']);
         success('Packages have been installed in "' + realpath + '"');
 
         // Import style files
