@@ -1,10 +1,7 @@
 {
   "name": "@reactionable/cli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Reactionable cli",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "main": "dist/index",
   "bin": "./bin/reactionable",
   "scripts": {
@@ -35,10 +32,8 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "cli-spinner": "^0.2.10",
     "esm": "^3.2.25",
     "figlet": "^1.2.4",
-    "get-package-info": "^1.0.0",
     "inquirer": "^7.0.0",
     "inversify": "^5.0.1",
     "js-ini": "^1.1.2",
