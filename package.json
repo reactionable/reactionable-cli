@@ -38,6 +38,7 @@
     "inversify": "^5.0.1",
     "js-ini": "^1.1.2",
     "mustache": "^3.1.0",
+    "parse-github-url": "^1.0.2",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.3"
   }

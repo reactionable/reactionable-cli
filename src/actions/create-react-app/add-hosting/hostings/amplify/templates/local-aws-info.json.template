@@ -1,5 +1,5 @@
 export default `{
-    {{{projectPath}}}: {
+    {{{projectBranch}}}: {
         "configLevel": "project",
         "useProfile": true,
         "profileName": "default"
