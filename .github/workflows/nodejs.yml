@@ -24,6 +24,9 @@ jobs:
         npm test --if-present
       env:
         CI: true
-    - name: Automated releases for npm packages.
+    - name: Publish
       uses: mikeal/merge-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
