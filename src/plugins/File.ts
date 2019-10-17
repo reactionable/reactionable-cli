@@ -1,5 +1,4 @@
 import { existsSync, appendFileSync, writeFileSync, readFileSync } from 'fs';
-import { render } from 'mustache';
 import { mv, sed } from 'shelljs';
 import { extname, basename, dirname, resolve } from 'path';
 
@@ -28,18 +27,7 @@ export const replaceFileExtension = (filePath: string, newExtension: string, mus
     mv(filePath, newFilePath);
 }
 
-export const createFileFromTemplate = (filePath: string, template: string, view: Object, encoding = 'utf8') => {
-    const parentDir = dirname(filePath);
-    if (!existsSync(parentDir)) {
-        throw new Error('Unable to create file "' + filePath + '", directory "' + parentDir + '" does not exist');
-    }
 
-    writeFileSync(
-        filePath,
-        render(template, view),
-        encoding
-    );
-}
 
 export const addInFile = (file: string, content: string, onlyIfNotExists = true, encoding = 'utf8') => {
     if (!existsSync(file)) {
