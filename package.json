@@ -26,12 +26,14 @@
   "homepage": "https://github.com/reactionable/reactionable-cli#readme",
   "devDependencies": {
     "@types/inquirer": "^6.5.0",
+    "@types/inversify": "^2.0.33",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.12",
     "tsc-watch": "^4.0.0",
     "typescript": "^3.6.4"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
     "esm": "^3.2.25",
     "figlet": "^1.2.4",
     "inquirer": "^7.0.0",
