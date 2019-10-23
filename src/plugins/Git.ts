@@ -1,15 +1,18 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
+import { which } from 'shelljs';
 import { parse } from 'js-ini';
+import { exec } from './Cli';
 
-const hasGit = (dirPath: string) => {
-    if (!existsSync(dirPath)) {
-        throw new Error('Directory "' + dirPath + '" does not exist');
+export const initializedGit = async (dirPath: string) => {    
+    const filepath = resolve(dirPath, '.git/HEAD');
+    if (existsSync(filepath)) {
+        return;
     }
-    return existsSync(resolve(dirPath, '.git'));
+    await exec(getGitCmd() + ' init', dirPath);
 }
 
-export const getGitCurrentBranch = (dirPath: string, defaultBranch:string): string => {
+export const getGitCurrentBranch = (dirPath: string, defaultBranch: string): string => {
     const filepath = resolve(dirPath, '.git/HEAD');
     if (!existsSync(filepath)) {
         throw new Error('File "' + filepath + '" does not exist');
@@ -29,5 +32,12 @@ export const getGitConfig = (dirPath: string) => {
 export const getGitRemoteOriginUrl = (dirPath: string) => {
     const config = getGitConfig(dirPath) as any;
     return config.remote && config.remote.origin && config.remote.origin.url;
+}
+
+export const getGitCmd = (): string | null => {
+    if (which('git')) {
+        return 'git';
+    }
+    return null;
 }
 

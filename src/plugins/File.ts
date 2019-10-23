@@ -1,4 +1,5 @@
-import { existsSync, appendFileSync, writeFileSync, readFileSync } from 'fs';
+import { EOL } from 'os';
+import { existsSync, appendFileSync, readFileSync, writeFileSync } from 'fs';
 import { mv, sed } from 'shelljs';
 import { extname, basename, dirname, resolve } from 'path';
 
@@ -20,14 +21,12 @@ export const replaceFileExtension = (filePath: string, newExtension: string, mus
     const newFilePath = resolve(
         dirname(filePath),
         basename(
-            filePath, 
+            filePath,
             extname(filePath)
         ) + '.' + newExtension.replace(/^[\s\.]+/, '')
     );
     mv(filePath, newFilePath);
 }
-
-
 
 export const addInFile = (file: string, content: string, onlyIfNotExists = true, encoding = 'utf8') => {
     if (!existsSync(file)) {
@@ -42,4 +41,18 @@ export const addInFile = (file: string, content: string, onlyIfNotExists = true,
     }
 
     appendFileSync(file, content, encoding);
+}
+
+export const getFileContentEOL = (fileContent: string): string => {
+    const m = fileContent.match(/\r\n|\n/g);
+    if (!m) {
+        return EOL; // use the OS default
+    }
+    const u = m && m.filter(a => a === '\n').length;
+
+    const w = m && m.length - u;
+    if (u === w) {
+        return EOL; // use the OS default
+    }
+    return u > w ? '\n' : '\r\n';
 }

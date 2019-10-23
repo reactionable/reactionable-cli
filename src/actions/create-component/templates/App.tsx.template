@@ -1,0 +1,20 @@
+export default `import React, { lazy } from 'react';
+import { App as CoreApp, IAppProps } from '@reactionable/core';
+import './App.scss';
+
+// Lazy load these components
+const HomeComponent = lazy(() => import('./views/home/Home'));
+const NotFoundComponent = lazy(() => import('./views/not-found/NotFound'));
+
+// Configure app
+const appConfig: IAppProps = {
+  routes: [],
+  HomeComponent,
+  NotFoundComponent,
+  LoaderComponent: undefined, // You must provide a UI loader component
+};
+
+const {{componentName}}: React.FC = () => {
+  return <CoreApp {...appConfig} />;
+};
+export default {{componentName}};`

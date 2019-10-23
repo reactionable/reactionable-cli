@@ -1,10 +1,9 @@
 import { injectable } from 'inversify';
 import { prompt } from 'inquirer';
-import { which } from 'shelljs';
 import * as parseGitRemote from 'parse-github-url';
 import { IVersioningAction } from '../IVersioningAction';
-import { success, info, error, exec } from '../../../../../plugins/Cli';
-import { getGitRemoteOriginUrl, getGitCurrentBranch } from '../../../../../plugins/Git';
+import { success, info, error, exec } from '../../../../plugins/Cli';
+import { getGitRemoteOriginUrl, getGitCurrentBranch, initializedGit, getGitCmd } from '../../../../plugins/Git';
 
 @injectable()
 export default class Git implements IVersioningAction {
@@ -13,12 +12,14 @@ export default class Git implements IVersioningAction {
     }
 
     async run({ realpath }) {
-        info('Configure Git...');
-        const gitCmd = this.getGitCmd();
+
+        const gitCmd = getGitCmd();
         if (!gitCmd) {
             return error('Unable to configure Git, please "Git"');
         }
-        await exec(gitCmd + ' init', realpath);
+
+        info('Configure Git...');
+        await initializedGit(realpath);
         success('Git has been configured in "' + realpath + '"');
 
         const gitRemoteOriginUrl = getGitRemoteOriginUrl(realpath);
@@ -49,11 +50,6 @@ export default class Git implements IVersioningAction {
         success('Files have been pushed');
     }
 
-    getGitCmd(): string | null {
-        if (which('git')) {
-            return 'git';
-        }
-        return null;
-    }
+    
 
 }
