@@ -5,8 +5,9 @@
   "main": "dist/index",
   "bin": "./bin/reactionable",
   "scripts": {
-    "start": "npm link && tsc --watch",
-    "build": "tsc",
+    "start": "npm link && tsc-watch --onSuccess \"npm run build:copy-templates\"",
+    "build": "rimraf ./dist && tsc && npm run build:copy-templates",
+    "build:copy-templates": "cd src && copyfiles ./**/*.template ../dist/ && cd ..",
     "test": ""
   },
   "repository": {
@@ -29,6 +30,8 @@
     "@types/inversify": "^2.0.33",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.12",
+    "copyfiles": "^2.1.1",
+    "rimraf": "^3.0.0",
     "tsc-watch": "^4.0.0",
     "typescript": "^3.6.4"
   },

@@ -1,5 +1,0 @@
-export default `{
-    "projectPath": {{{projectPath}}},
-    "defaultEditor": "vscode",
-    "envName": {{{projectBranch}}}
-}`

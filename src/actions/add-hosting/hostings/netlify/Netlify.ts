@@ -1,9 +1,9 @@
 import { injectable } from 'inversify';
 import { IHostingAction } from '../IHostingAction';
-import { success, info, error, exec, getNodeVersion, getCmd } from '../../../../../plugins/Cli';
-import { getPackageInfo } from '../../../../../plugins/Package';
-import { getGitCurrentBranch } from '../../../../../plugins/Git';
-import { renderTemplate } from '../../../../../plugins/Template';
+import { success, info, error, exec, getNodeVersion, getCmd } from '../../../../plugins/Cli';
+import { getPackageInfo } from '../../../../plugins/Package';
+import { getGitCurrentBranch } from '../../../../plugins/Git';
+import { renderTemplate } from '../../../../plugins/Template';
 // Templates
 import netlifyTemplate from './templates/netlify.toml.template';
 
@@ -21,7 +21,7 @@ export default class Netlify implements IHostingAction {
 
         const projectName = getPackageInfo(realpath, 'name');
 
-        renderTemplate(
+        await renderTemplate(
             realpath,
             {
                 'netlify.toml': netlifyTemplate,

@@ -1,7 +1,0 @@
-export default `{
-    {{{projectBranch}}}: {
-        "configLevel": "project",
-        "useProfile": true,
-        "profileName": "default"
-    }
-}`

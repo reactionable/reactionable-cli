@@ -1,6 +1,6 @@
 import { prompt } from 'inquirer';
 import { injectable } from 'inversify';
-import { IRealpathRunnable } from '../../IRealpathRunnable';
+import { IRealpathRunnable } from '../IRealpathRunnable';
 import container from './container';
 import { IHostingAction } from './hostings/IHostingAction';
 

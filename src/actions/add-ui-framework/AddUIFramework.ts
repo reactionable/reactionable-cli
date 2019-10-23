@@ -1,7 +1,7 @@
 import { prompt } from 'inquirer';
 import { injectable } from 'inversify'
 import container from './container';
-import { IRealpathRunnable } from '../../IRealpathRunnable';
+import { IRealpathRunnable } from '../IRealpathRunnable';
 import { IUIFrameworkAction } from './ui-frameworks/IUIFrameworkAction';
 
 @injectable()
