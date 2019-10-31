@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm link && tsc-watch --onSuccess \"npm run build:copy-templates\"",
     "build": "rimraf ./dist && tsc && npm run build:copy-templates",
-    "build:copy-templates": "cd src && copyfiles ./**/*.template ../dist/ && cd ..",
+    "build:copy-templates": "rimraf ./dist/**/*.template && cd src && copyfiles ./**/*.template ../dist/ && cd ..",
     "test": ""
   },
   "repository": {
@@ -26,25 +26,38 @@
   },
   "homepage": "https://github.com/reactionable/reactionable-cli#readme",
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@types/chalk": "^2.2.0",
+    "@types/figlet": "^1.2.0",
     "@types/inquirer": "^6.5.0",
     "@types/inversify": "^2.0.33",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.12",
+    "@types/shelljs": "^0.8.5",
     "copyfiles": "^2.1.1",
+    "husky": "^3.0.9",
     "rimraf": "^3.0.0",
     "tsc-watch": "^4.0.0",
     "typescript": "^3.6.4"
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "diff": "^4.0.1",
     "esm": "^3.2.25",
     "figlet": "^1.2.4",
+    "handlebars": "^4.5.1",
     "inquirer": "^7.0.0",
     "inversify": "^5.0.1",
     "js-ini": "^1.1.2",
-    "mustache": "^3.1.0",
     "parse-github-url": "^1.0.2",
+    "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
