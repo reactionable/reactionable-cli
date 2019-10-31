@@ -33,6 +33,7 @@ export default class Git implements IVersioningAction {
 
             const currentBranch = getGitCurrentBranch(realpath, 'master');
             await exec(gitCmd + ' remote add origin ' + remoteOriginUrl);
+            await exec(gitCmd + ' branch --set-upstream-to=origin/' + currentBranch + ' ' + currentBranch);
             await exec(gitCmd + ' push -u origin ' + currentBranch);
         }
 
@@ -46,10 +47,11 @@ export default class Git implements IVersioningAction {
         info('Push files...');
         await exec(gitCmd + ' add .', realpath);
         await exec(gitCmd + ' commit -am "' + commitMessage + '"', realpath);
+        await exec(gitCmd + ' pull --allow-unrelated-histories');
         await exec(gitCmd + ' push', realpath);
         success('Files have been pushed');
     }
 
-    
+
 
 }

@@ -1,12 +1,12 @@
 import { injectable } from 'inversify';
 import { IHostingAction } from '../IHostingAction';
 import { success, info, error, exec, getCmd } from '../../../../plugins/Cli';
-import { getPackageInfo } from '../../../../plugins/Package';
+import { getPackageInfo, installPackages } from '../../../../plugins/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
-import { renderTemplate } from '../../../../plugins/Template';
-// Templates
-import projectConfigTemplate from './templates/project-config.json.template';
-import backendConfigTemplate from './templates/backend-config.json.template';
+import { renderTemplateTree } from '../../../../plugins/Template';
+import { addTypescriptImports } from '../../../../plugins/Typescript';
+import { replaceInFile, addInFile } from '../../../../plugins/File';
+import { resolve } from 'path';
 
 @injectable()
 export default class Amplify implements IHostingAction {
@@ -16,21 +16,52 @@ export default class Amplify implements IHostingAction {
 
     async run({ realpath }) {
 
+        // Installs packages        
+        await installPackages(realpath, ['@reactionable/amplify']);
+
+        // Add amplify config in App component
+        info('Add amplify config in App component...');
+        const appFile = resolve(realpath, 'src/App.tsx');
+        addTypescriptImports(
+            appFile,
+            [
+                {
+                    packageName: '@reactionable/amplify',
+                    modules: {
+                        'configure': '',
+                        'useIdentityContextProviderProps': '',
+                    },
+                },
+            ]
+        );
+        
+        addInFile(
+            appFile,
+            'import awsconfig from \'./aws-exports\';' + "\n" +
+            'configure(awsconfig);',
+            'import \'./App.scss\';'
+        );        
+        replaceInFile(
+            appFile,
+            /identity: undefined,.+$/,
+            'identity: useIdentityContextProviderProps(),'
+        );
+
         // Add amplify default configuration files
         info('Configure Amplify...');
-
         const projectBranch = getGitCurrentBranch(realpath, 'master');
         const projectName = getPackageInfo(realpath, 'name');
         const projectVersion = getPackageInfo(realpath, 'version');
-        await renderTemplate(
+
+        await renderTemplateTree(
             realpath,
             {
                 'amplify': {
                     '.config': {
-                        'project-config.json': projectConfigTemplate,
+                        'project-config.json': 'amplify/project-config.json',
                     },
                     'backend': {
-                        'backend-config.json': backendConfigTemplate,
+                        'backend-config.json': 'amplify/backend-config.json',
                     },
                 },
             },
@@ -42,7 +73,6 @@ export default class Amplify implements IHostingAction {
             }
         );
 
-
         // Configure amplify        
         let amplifyCmd = getCmd('amplify');
         if (!amplifyCmd) {
@@ -53,7 +83,7 @@ export default class Amplify implements IHostingAction {
         // Amplify config
         amplifyCmd += ' --amplify ' + JSON.stringify(JSON.stringify({
             envName: getGitCurrentBranch(realpath, 'master'),
-        }));        
+        }));
         amplifyCmd += ' --awscloudformation ' + JSON.stringify(JSON.stringify({
             useProfile: true,
             profileName: 'default',

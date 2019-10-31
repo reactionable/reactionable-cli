@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { resolve } from 'path';
 import { IUIFrameworkAction } from './IUIFrameworkAction';
 import { info, success } from '../../../plugins/Cli';
-import { installPackages, hasDependency } from '../../../plugins/Package';
+import { installPackages } from '../../../plugins/Package';
 import { addInFile, replaceInFile } from '../../../plugins/File';
 import { addTypescriptImports } from '../../../plugins/Typescript';
 
@@ -16,16 +16,13 @@ export default class ReactBootstrap implements IUIFrameworkAction {
 
         const packageName = '@reactionable/ui-bootstrap';
 
-        // Installs packages        
-        info('Installs packages...');
-        if (!hasDependency(realpath, packageName)) {
-            await installPackages(realpath, [packageName]);
-        }
-        success('Packages have been installed in "' + realpath + '"');
+        // Installs packages
+        await installPackages(realpath, [packageName]);
 
         // Import style files
         info('Import style files...');
         const mainStyleFile = resolve(realpath, 'src/index.scss');
+
         addInFile(
             mainStyleFile,
             "\n" +

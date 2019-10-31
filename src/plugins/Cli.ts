@@ -68,6 +68,24 @@ export const success = (message: string) => {
     process.stdout.write(chalk.green('✓ ') + message + "\n");
 }
 
-export const error = (message: string) => {
-    process.stderr.write("\n" + chalk.red('⚠ ' + message) + "\n");
+export const error = (error: Error | string) => {
+    if ('string' === typeof error) {
+        process.stderr.write("\n" + chalk.red(`⚠ ${error}`) + "\n");
+        return;
+    }
+    process.stderr.write("\n" + chalk.red(`⚠ [${error.name}] ${error.message}`) + "\n" + error.stack + "\n");
+}
+
+export const pause = (message = `Press any key to continue...`) => {
+    return new Promise((resolve, reject) => {
+        try {
+            info(message + "\n");
+            process.stdin.setRawMode(true);
+            process.stdin.resume();
+            process.stdin.on('data', resolve);
+        } catch (error) {
+            reject(error);
+        }
+    })
+
 }

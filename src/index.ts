@@ -3,6 +3,7 @@ import { text } from 'figlet';
 import container from './container';
 import { IAction } from './actions/IAction';
 import { error } from './plugins/Cli';
+import { resolve } from 'path';
 
 const displayBanner = async (): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -24,7 +25,7 @@ export const run = async (): Promise<boolean> => {
     try {
         // Display banner
         await displayBanner();
-        const answer = await prompt([
+        const answer = await prompt<{ action: IAction }>([
             {
                 name: 'action',
                 message: 'What do you want to do?',
@@ -36,8 +37,17 @@ export const run = async (): Promise<boolean> => {
             },
         ]);
 
+        const { projectDir } = await prompt([
+            {
+                name: 'projectDir',
+                message: 'Where to you you want to ' + answer.action.getName().toLowerCase() + ' (path)?',
+            },
+        ]);
+
+        const realpath = resolve(projectDir);
+
         // Execute action
-        await answer.action.run({});
+        await answer.action.run({ realpath });
         return true;
     }
     catch (err) {

@@ -31,7 +31,7 @@ export const getGitConfig = (dirPath: string) => {
 
 export const getGitRemoteOriginUrl = (dirPath: string) => {
     const config = getGitConfig(dirPath) as any;
-    return config.remote && config.remote.origin && config.remote.origin.url;
+    return config['remote "origin"'] && config['remote "origin"'].url;
 }
 
 export const getGitCmd = (): string | null => {

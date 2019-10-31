@@ -3,9 +3,7 @@ import { IHostingAction } from '../IHostingAction';
 import { success, info, error, exec, getNodeVersion, getCmd } from '../../../../plugins/Cli';
 import { getPackageInfo } from '../../../../plugins/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
-import { renderTemplate } from '../../../../plugins/Template';
-// Templates
-import netlifyTemplate from './templates/netlify.toml.template';
+import { renderTemplateTree } from '../../../../plugins/Template';
 
 
 @injectable()
@@ -21,10 +19,10 @@ export default class Netlify implements IHostingAction {
 
         const projectName = getPackageInfo(realpath, 'name');
 
-        await renderTemplate(
+        await renderTemplateTree(
             realpath,
             {
-                'netlify.toml': netlifyTemplate,
+                'netlify.toml': 'netlify/netlify.toml',
             },
             {
                 nodeVersion: getNodeVersion(),
