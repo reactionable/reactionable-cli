@@ -3,17 +3,18 @@ import { existsSync } from 'fs';
 import { basename, resolve, dirname } from 'path';
 import chalk from 'chalk';
 import { injectable, inject } from 'inversify';
+import { IRealpathRunnable } from '../IRealpathRunnable';
 import { error, success, info, exec, getCmd } from '../../plugins/Cli';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
 import AddHosting from '../add-hosting/AddHosting';
-import { IAction } from '../IAction';
-import { replaceFileExtension, replaceInFile } from '../../plugins/File';
+import { replaceFileExtension, replaceInFile, addInFile } from '../../plugins/File';
+import {  renderTemplateTree } from '../../plugins/Template';
 import AddVersioning from '../add-versioning/AddVersioning';
-import { installPackages, hasDependency, getPackageJson } from '../../plugins/Package';
+import { installPackages, getPackageJson, hasInstalledPackage, getPackageInfo } from '../../plugins/Package';
 import CreateComponent from '../create-component/CreateComponent';
 
 @injectable()
-export default class CreateReactApp implements IAction {
+export default class CreateReactApp implements IRealpathRunnable {
 
     constructor(
         @inject(AddUIFramework) private addUIFramework: AddUIFramework,
@@ -26,15 +27,7 @@ export default class CreateReactApp implements IAction {
         return 'Create a new react app';
     }
 
-    async run({ name }) {
-        const { projectDir } = await prompt([
-            {
-                name: 'projectDir',
-                message: 'Where to create your new app (path)?',
-            },
-        ]);
-
-        const realpath = resolve(projectDir);
+    async run({ realpath }) {
         const projectName = basename(realpath);
 
         let reactAppExistsAlready = false;
@@ -52,7 +45,7 @@ export default class CreateReactApp implements IAction {
 
             if (
                 getPackageJson(realpath)
-                && hasDependency(realpath, 'react')
+                && hasInstalledPackage(realpath, 'react')
                 && existsSync(resolve(realpath, 'src/react-app-env.d.ts'))) {
                 reactAppExistsAlready = true;
             }
@@ -77,18 +70,16 @@ export default class CreateReactApp implements IAction {
             success('App has been created in "' + realpath + '"');
         }
 
-        if (!hasDependency(realpath, '@reactionable/core')) {
-            info('Installing dependencies...');
-            await installPackages(realpath, ['@reactionable/core']);
-            success('Dependencies have been installed');
-        }
+        await installPackages(realpath, [
+            '@reactionable/core',
+            '@types/react-helmet',
+            '@types/react-router-dom',
+            '@types/yup',
+        ]);
 
         // Add Saas
         info('Adding Saas...');
-
-        if (!hasDependency(realpath, 'node-sass')) {
-            await installPackages(realpath, ['node-sass']);
-        }
+        await installPackages(realpath, ['node-sass']);
 
         // Replace css files
         replaceFileExtension(resolve(realpath, 'src/index.css'), 'scss');
@@ -106,6 +97,28 @@ export default class CreateReactApp implements IAction {
         await this.createComponent.run({ realpath, name: 'Home' });
         success('Components have been created in "' + realpath + '"');
 
+        // Add i18n config
+        info('Add i18n configuration...');
+        const i18nPath = 'src/i18n';
+        await renderTemplateTree(
+            realpath,
+            {
+                [i18nPath]: {
+                    'i18n.ts': 'i18n/i18n.ts',
+                    'locales/en/translation.json': 'i18n/translation.json',
+                },
+            },
+            {
+                projectName: JSON.stringify(getPackageInfo(realpath, 'name')),
+            }
+        );
+        addInFile(
+            resolve(realpath, 'src/index.tsx'),
+            'import \'./i18n/i18n.ts\';',            
+            'import \'./index.scss\';',
+        );
+        success('I18n configuration has been created in "' + resolve(realpath, i18nPath) + '"');
+
         // Add UI framework
         info('Adding UI framemork...');
         await this.addUIFramework.run({ realpath });
@@ -121,6 +134,5 @@ export default class CreateReactApp implements IAction {
         await this.addHosting.run({ realpath });
         success('Hosting has been added in "' + realpath + '"');
     }
-
 
 }

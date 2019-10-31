@@ -1,0 +1,8 @@
+export default `{{#> layout }}
+  {{#*inline "description"}}The page you are looking for might have been removed had its name changed or is temporarily unavailable.{{/inline}}
+  {{#*inline "render"}}
+    <h1>404 - {t('Page not found')}</h1>
+    <p>{t('The page you are looking for might have been removed had its name changed or is temporarily unavailable.')}</p>
+    <p><Link to="/">{t('Go To Homepage')}</Link></p>
+  {{/inline}}
+{{/layout}}`;

@@ -1,0 +1,26 @@
+export default `import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { INavProps } from '@reactionable/core';
+{{#> imports-block}}
+{{!-- Custom imports could be added. --}}
+{{/imports-block}}
+
+interface IProps {};
+
+const {{componentName}}: React.FC<IProps> = (props) => { 
+    const { t } = useTranslation();
+    {{#> pre-render-block}}
+    {{!-- Custom pre render script could be added. --}}
+    {{/pre-render-block}}
+
+    return <>
+        <Helmet>
+            <meta charSet="utf-8" />
+            <title>{t('{{projectName}}')} - {t('{{componentName}}')}</title>
+            <meta name="description" content={t('{{#> description-block}}{{componentName}} description{{/description-block}}')} />
+        </Helmet>
+        {{#> render-block}}{{!-- Custom render content could be added. --}}{{/render-block}}
+    </>;
+};
+export default {{componentName}};`

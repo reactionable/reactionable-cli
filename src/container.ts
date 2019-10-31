@@ -11,6 +11,7 @@ let container = new Container({ defaultScope: 'Singleton' });
 
 // Actions
 container.bind<IAction>('Action').to(CreateReactApp);
+container.bind<IAction>('Action').to(CreateComponent);
 
 // Others services
 container.bind<IAction>(CreateComponent).toSelf();

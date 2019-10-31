@@ -1,12 +1,12 @@
-import { existsSync, readFileSync, appendFileSync, writeFileSync } from "fs";
-import { getFileContentEOL } from "./File";
+import { existsSync, readFileSync } from "fs";
+import { getFileContentEOL, safeWriteFile } from "./File";
 
 export interface ITypescriptImport {
     packageName: string,
     modules: ITypescriptImportModules,
 };
 
-export const addTypescriptImports = (
+export const addTypescriptImports = async (
     file: string,
     imports: Array<ITypescriptImport>,
     encoding = 'utf8'
@@ -25,6 +25,8 @@ export const addTypescriptImports = (
     const lines = fileContent.split(eol);
     let firstImportLine: number | undefined;
     const fileLines: string[] = [];
+
+    let importsHaveChanged = false;
     for (const line of lines) {
 
         const typescriptImport = TypescriptImport.fromString(line);
@@ -39,18 +41,26 @@ export const addTypescriptImports = (
             if (importItem.packageName !== typescriptImport.packageName) {
                 continue;
             }
+
+            const previousModules = importsHaveChanged ? null : JSON.stringify(typescriptImport.modules);
             importItem.addModules(typescriptImport.modules);
+            if (!importsHaveChanged && JSON.stringify(typescriptImport.modules) !== previousModules) {
+                importsHaveChanged = true;
+            }
         }
         if (!foundImport) {
             importItems.push(typescriptImport);
+            importsHaveChanged = true;
         }
     }
 
-    const importLines = importItems.map(importItem => importItem.toString());
-    importLines.sort();
+    if (importsHaveChanged) {
+        const importLines = importItems.map(importItem => importItem.toString());
+        importLines.sort();
 
-    fileLines.splice(firstImportLine || 0, 0, ...importLines);
-    writeFileSync(file, fileLines.join(eol), encoding);
+        fileLines.splice(firstImportLine || 0, 0, ...importLines);
+        await safeWriteFile(file, fileLines.join(eol), encoding);
+    }
 }
 
 type ITypescriptImportModules = { [key: string]: string };

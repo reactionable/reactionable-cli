@@ -1,16 +1,14 @@
 import { existsSync, readFileSync, statSync } from 'fs';
 import { resolve } from 'path';
 import { which } from 'shelljs';
-import { exec } from './Cli';
+import { exec, info, success } from './Cli';
 
 enum PackageManager {
     yarn,
     npm,
 }
 
-const packageCache: { [key: string]: { mtime: Date, data: Object } } = {
-
-};
+const packageCache: { [key: string]: { mtime: Date, data: Object } } = {};
 
 export const getPackageManager = (dirPath: string): PackageManager => {
     if (!existsSync(dirPath)) {
@@ -26,10 +24,16 @@ export const getPackageManager = (dirPath: string): PackageManager => {
 export const installPackages = async (
     dirPath: string,
     packages: string[] = [],
-    dev: boolean = false
-): Promise<void> => {
+    verbose: boolean = true,
+    dev: boolean = false,
+): Promise<string[]> => {
+    verbose && info('Installs packages...');
+    // Remove already installed packges
+    packages = packages.filter(packageName => !hasInstalledPackage(dirPath, packageName, dev));
+
     if (!packages.length) {
-        return;
+        verbose && success('No package has been installed');
+        return packages;
     }
 
     // Retrieve package manager
@@ -52,13 +56,17 @@ export const installPackages = async (
     }
 
     await exec(command, dirPath);
+
+    verbose && success(packages.length ? 'Package(s) "' + packages.join(', ') + '" have been installed' : 'no package has been installed');
+    return packages;
 }
 
 export const installDevPackages = (
     dirPath: string,
-    devPackages: string[] = []
-): Promise<void> => {
-    return installPackages(dirPath, devPackages, true);
+    devPackages: string[] = [],
+    verbose: boolean = true,
+): Promise<string[]> => {
+    return installPackages(dirPath, devPackages, verbose, true);
 }
 
 export const getPackageJson = (dirPath: string): string | null => {
@@ -103,7 +111,17 @@ export const getPackageInfo = (dirPath: string, property: string, encoding = 'ut
     return data[property];
 }
 
-export const hasDependency = (dirPath: string, dependency: string, encoding = 'utf8'): boolean => {
-    const dependencies = getPackageInfo(dirPath, 'dependencies', encoding);
-    return dependencies && dependencies[dependency];
+export const hasInstalledPackage = (
+    dirPath: string,
+    packageName: string,
+    dev: boolean = false,
+    encoding = 'utf8'
+): boolean => {
+    const installedPackages = getPackageInfo(
+        dirPath,
+        dev ? 'devDependencies' : 'dependencies',
+        encoding
+    );
+
+    return !!(installedPackages && installedPackages[packageName]);
 }
