@@ -28,13 +28,14 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "@commitlint/prompt-cli": "^8.2.0",
     "@types/chalk": "^2.2.0",
+    "@types/diff": "^4.0.2",
     "@types/figlet": "^1.2.0",
     "@types/inquirer": "^6.5.0",
     "@types/inversify": "^2.0.33",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.12",
+    "@types/parse-github-url": "^1.0.0",
     "@types/shelljs": "^0.8.5",
     "commitizen": "^4.0.3",
     "copyfiles": "^2.1.1",
@@ -46,6 +47,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "deepmerge": "^4.2.2",
     "diff": "^4.0.1",
     "esm": "^3.2.25",
     "figlet": "^1.2.4",

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
 import { IVersioningAction } from './versionings/IVersioningAction';
-import Git from './versionings/git/Git';
+import Git from './versionings/github/Github';
 
 let container = new Container({ defaultScope: 'Singleton' });
 

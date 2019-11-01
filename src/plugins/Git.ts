@@ -1,15 +1,19 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
+import * as parseGitRemote from 'parse-github-url';
 import { which } from 'shelljs';
 import { parse } from 'js-ini';
-import { exec } from './Cli';
+import { exec, info, success } from './Cli';
+import { Result } from 'parse-github-url';
 
-export const initializedGit = async (dirPath: string) => {    
+export const initializedGit = async (dirPath: string) => {
     const filepath = resolve(dirPath, '.git/HEAD');
     if (existsSync(filepath)) {
         return;
     }
+    info('Initilize Git...');
     await exec(getGitCmd() + ' init', dirPath);
+    success('Git has been initialized in "' + dirPath + '"');
 }
 
 export const getGitCurrentBranch = (dirPath: string, defaultBranch: string): string => {
@@ -27,11 +31,28 @@ export const getGitConfig = (dirPath: string) => {
         throw new Error('File "' + filepath + '" does not exist');
     }
     return parse(readFileSync(filepath, 'utf-8'));
-}
+};
 
-export const getGitRemoteOriginUrl = (dirPath: string) => {
+export function getGitRemoteOriginUrl(dirPath: string, parsed: true): Result | null;
+export function getGitRemoteOriginUrl(dirPath: string, parsed: false): string | null;
+export function getGitRemoteOriginUrl(dirPath: string, parsed: boolean = false): string | Result | null {
     const config = getGitConfig(dirPath) as any;
-    return config['remote "origin"'] && config['remote "origin"'].url;
+    const url = config['remote "origin"'] && config['remote "origin"'].url;
+    if (!parsed) {
+        return url || null;
+    }
+    if(!url){
+        throw new Error('Unable to parse undefined git remote origin url');
+    }
+    return parseGitRemoteUrl(url);
+};
+
+const parsedGitRemoteUrlCache: { [key: string]: Result | null } = {};
+export const parseGitRemoteUrl = (remoteUrl: string): Result | null => {
+    if (parsedGitRemoteUrlCache[remoteUrl] !== undefined) {
+        return parsedGitRemoteUrlCache[remoteUrl];
+    }
+    return parsedGitRemoteUrlCache[remoteUrl] = parseGitRemote(remoteUrl);
 }
 
 export const getGitCmd = (): string | null => {
