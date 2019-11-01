@@ -11,7 +11,7 @@ const appConfig: IAppProps = {
   routes: [],
   HomeComponent,
   NotFoundComponent,
-  LoaderComponent: undefined, // You must provide a UI loader component,
+  ui: undefined, // You must provide UI context providers properties
   identity: undefined, // You must provide identity config to use private routes
 };
 
