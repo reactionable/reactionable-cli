@@ -14,7 +14,7 @@ export default class AddVersioning implements IRealpathRunnable {
             message: 'Which versioning do you want to add?',
             type: 'list',
             choices: [
-                ...container.getAll<IAdapter>('Versioning').map(versioning => ({
+                ...container.getAll<IAdapter>('Adapter').map(versioning => ({
                     'name': versioning.getName(),
                     'value': versioning,
                 })),
