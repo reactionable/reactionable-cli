@@ -1,5 +1,4 @@
-import { existsSync, readFileSync } from "fs";
-import { getFileContentEOL, safeWriteFile } from "./File";
+import { safeWriteFile, getFileContent, FileContentType } from './File';
 
 export interface ITypescriptImport {
     packageName: string,
@@ -11,27 +10,20 @@ export const addTypescriptImports = async (
     imports: Array<ITypescriptImport>,
     encoding = 'utf8'
 ) => {
-    if (!existsSync(file)) {
-        throw new Error('File "' + file + '" does not exist');
-    }
-
-    const fileContent = readFileSync(file).toString();
-    const eol = getFileContentEOL(fileContent);
     const importItems = imports.map(importItem => new TypescriptImport(
         importItem.packageName,
         importItem.modules
     ));
-
-    const lines = fileContent.split(eol);
     let firstImportLine: number | undefined;
-    const fileLines: string[] = [];
+    const newFileLines: string[] = [];
 
     let importsHaveChanged = false;
+    const lines = getFileContent(file, encoding, FileContentType.lines);
     for (const line of lines) {
 
         const typescriptImport = TypescriptImport.fromString(line);
         if (!typescriptImport) {
-            fileLines.push(line);
+            newFileLines.push(line);
             continue;
         }
 
@@ -58,8 +50,8 @@ export const addTypescriptImports = async (
         const importLines = importItems.map(importItem => importItem.toString());
         importLines.sort();
 
-        fileLines.splice(firstImportLine || 0, 0, ...importLines);
-        await safeWriteFile(file, fileLines.join(eol), encoding);
+        newFileLines.splice(firstImportLine || 0, 0, ...importLines);
+        await safeWriteFile(file, newFileLines, encoding);
     }
 }
 

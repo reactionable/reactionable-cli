@@ -1,24 +1,42 @@
 import { prompt } from 'inquirer';
 import { injectable } from 'inversify';
-import { IRealpathRunnable } from '../IRealpathRunnable';
+import { IAction } from '../IAction';
 import container from './container';
-import { IHostingAction } from './hostings/IHostingAction';
+import { success, info } from '../../plugins/Cli';
+import { IAdapter } from '../IAdapter';
 
 @injectable()
-export default class AddHosting implements IRealpathRunnable {
+export default class AddHosting implements IAction {
+
+    getName() {
+        return 'Add hosting';
+    }
+
     async run(options) {
-        const answer = await prompt([
+        info('Adding Hosting...');
+        const { hosting } = await prompt<{ hosting: IAdapter | false }>([
             {
                 name: 'hosting',
                 message: 'Which hosting do you want to add?',
                 type: 'list',
-                choices: container.getAll<IHostingAction>('Hosting').map(hosting => ({
-                    'name': hosting.getName(),
-                    'value': hosting,
-                })),
+                choices: [
+                    ...container.getAll<IAdapter>('Adapter').map(hosting => ({
+                        'name': hosting.getName(),
+                        'value': hosting,
+                    })),
+                    {
+                        'name': 'None',
+                        'value': false,
+                    },
+                ],
             },
         ]);
 
-        await answer.hosting.run(options);
+        if (!hosting) {
+            return;
+        }
+
+        await hosting.run(options);
+        success('Hosting has been added in "' + options.realpath + '"');
     }
 }

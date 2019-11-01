@@ -1,15 +1,15 @@
 import { injectable } from 'inversify';
-import { IHostingAction } from '../IHostingAction';
+import { resolve } from 'path';
+import { IAdapter } from '../../../IAdapter';
 import { success, info, error, exec, getCmd } from '../../../../plugins/Cli';
 import { getPackageInfo, installPackages } from '../../../../plugins/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
 import { renderTemplateTree } from '../../../../plugins/Template';
 import { addTypescriptImports } from '../../../../plugins/Typescript';
-import { replaceInFile, addInFile } from '../../../../plugins/File';
-import { resolve } from 'path';
+import { safeReplaceFile, safeAppendFile } from '../../../../plugins/File';
 
 @injectable()
-export default class Amplify implements IHostingAction {
+export default class Amplify implements IAdapter {
     getName() {
         return 'Amplify (https://aws-amplify.github.io/)';
     }
@@ -22,7 +22,7 @@ export default class Amplify implements IHostingAction {
         // Add amplify config in App component
         info('Add amplify config in App component...');
         const appFile = resolve(realpath, 'src/App.tsx');
-        addTypescriptImports(
+        await addTypescriptImports(
             appFile,
             [
                 {
@@ -34,14 +34,14 @@ export default class Amplify implements IHostingAction {
                 },
             ]
         );
-        
-        addInFile(
+
+        await safeAppendFile(
             appFile,
             'import awsconfig from \'./aws-exports\';' + "\n" +
             'configure(awsconfig);',
             'import \'./App.scss\';'
-        );        
-        replaceInFile(
+        );
+        await safeReplaceFile(
             appFile,
             /identity: undefined,.+$/,
             'identity: useIdentityContextProviderProps(),'
@@ -55,14 +55,11 @@ export default class Amplify implements IHostingAction {
 
         await renderTemplateTree(
             realpath,
+            'add-hosting/amplify',
             {
                 'amplify': {
-                    '.config': {
-                        'project-config.json': 'amplify/project-config.json',
-                    },
-                    'backend': {
-                        'backend-config.json': 'amplify/backend-config.json',
-                    },
+                    '.config': ['project-config.json'],
+                    'backend': ['backend-config.json'],
                 },
             },
             {

@@ -1,4 +1,7 @@
-import { IRunnable } from './IRunnable';
+import { IRunnable, IOptions } from './IRunnable';
 
-export interface IRealpathRunnable<O = any|{}> extends IRunnable<O & { realpath: string }> {}
+export interface IRealpathRunnableOptions extends IOptions { 
+    realpath: string 
+};
+export interface IRealpathRunnable<O extends IOptions = any> extends IRunnable<IRealpathRunnableOptions & O> {}
 
