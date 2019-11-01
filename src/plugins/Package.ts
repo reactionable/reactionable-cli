@@ -1,15 +1,14 @@
-import { existsSync, readFileSync, statSync } from 'fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { which } from 'shelljs';
+import { all } from 'deepmerge';
 import { exec, info, success } from './Cli';
+import { getFileContent, FileContentType, safeWriteJsonFile } from './File';
 
 enum PackageManager {
     yarn,
     npm,
 }
-
-const packageCache: { [key: string]: { mtime: Date, data: Object } } = {};
-
 export const getPackageManager = (dirPath: string): PackageManager => {
     if (!existsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
@@ -21,13 +20,15 @@ export const getPackageManager = (dirPath: string): PackageManager => {
     return PackageManager.npm;
 }
 
+
+
 export const installPackages = async (
     dirPath: string,
     packages: string[] = [],
     verbose: boolean = true,
     dev: boolean = false,
 ): Promise<string[]> => {
-    verbose && info('Installs packages...');
+    verbose && info('Installing packages...');
     // Remove already installed packges
     packages = packages.filter(packageName => !hasInstalledPackage(dirPath, packageName, dev));
 
@@ -69,7 +70,20 @@ export const installDevPackages = (
     return installPackages(dirPath, devPackages, verbose, true);
 }
 
-export const getPackageJson = (dirPath: string): string | null => {
+export const updatePackageJson = (dirPath: string, data: Object): Promise<void> => {
+    const packageJsonPath = getPackageJsonPath(dirPath);
+    if (!packageJsonPath) {
+        throw new Error('package.json does not exist in directory "' + dirPath + '"');
+    }
+
+    const packageInfo = getPackageInfo(dirPath);
+    const newPackageInfo = all([packageInfo, data]);
+
+    return safeWriteJsonFile(packageJsonPath, newPackageInfo);
+};
+
+
+export const getPackageJsonPath = (dirPath: string): string | null => {
     if (!existsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
     }
@@ -81,34 +95,19 @@ export const getPackageJson = (dirPath: string): string | null => {
     return null;
 }
 
-export const getPackageInfo = (dirPath: string, property: string, encoding = 'utf8') => {
+export const getPackageInfo = (dirPath: string, property?: string, encoding = 'utf8') => {
     if (!existsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
     }
 
-    const packageJsonPath = getPackageJson(dirPath);
+    const packageJsonPath = getPackageJsonPath(dirPath);
 
     if (!packageJsonPath) {
         throw new Error('package.json does not exist in directory "' + dirPath + '"');
     }
 
-    const mtime = statSync(packageJsonPath).mtime;
-
-    if (
-        packageCache[dirPath]
-        && packageCache[dirPath].mtime >= mtime
-    ) {
-        return packageCache[dirPath].data[property];
-    }
-
-    const data = JSON.parse(readFileSync(
-        packageJsonPath,
-        encoding
-    ));
-
-    // Store cache
-    packageCache[dirPath] = { mtime, data };
-    return data[property];
+    const data = getFileContent(packageJsonPath, encoding, FileContentType.data);
+    return property ? data[property] : data;
 }
 
 export const hasInstalledPackage = (

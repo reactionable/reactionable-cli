@@ -1,14 +1,14 @@
 import { injectable } from 'inversify';
 import { prompt } from 'inquirer';
 import { Result } from 'parse-github-url';
-import { IVersioningAction } from './IVersioningAction';
 import { success, info, error, exec } from '../../../plugins/Cli';
 import { getGitRemoteOriginUrl, initializedGit, getGitCmd, parseGitRemoteUrl } from '../../../plugins/Git';
 import { installPackages, updatePackageJson } from '../../../plugins/Package';
 import { renderTemplateTree } from '../../../plugins/Template';
+import { IAdapter } from '../../IAdapter';
 
 @injectable()
-export default abstract class AbstractVersioning implements IVersioningAction {
+export default abstract class AbstractVersioning implements IAdapter {
     abstract getName();
 
     async run({ realpath }) {

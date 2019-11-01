@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { IHostingAction } from './hostings/IHostingAction';
-import Amplify from './hostings/amplify/Amplify';
-import Netlify from './hostings/netlify/Netlify';
+import Amplify from './adapters/amplify/Amplify';
+import Netlify from './adapters/netlify/Netlify';
+import { IAdapter } from '../IAdapter';
 
 let container = new Container({ defaultScope: 'Singleton' });
 
-container.bind<IHostingAction>('Hosting').to(Amplify);
-container.bind<IHostingAction>('Hosting').to(Netlify);
+container.bind<IAdapter>('Adapter').to(Amplify);
+container.bind<IAdapter>('Adapter').to(Netlify);
 
 export default container;

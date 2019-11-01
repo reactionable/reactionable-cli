@@ -3,24 +3,26 @@ import { existsSync } from 'fs';
 import { basename, resolve, dirname } from 'path';
 import chalk from 'chalk';
 import { injectable, inject } from 'inversify';
-import { IRealpathRunnable } from '../IRealpathRunnable';
+import { IAction } from '../IAction';
 import { error, success, info, exec, getCmd } from '../../plugins/Cli';
+import { replaceFileExtension, safeReplaceFile, safeAppendFile } from '../../plugins/File';
+import { installPackages, getPackageJsonPath, hasInstalledPackage, getPackageInfo } from '../../plugins/Package';
+import { renderTemplateTree } from '../../plugins/Template';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
 import AddHosting from '../add-hosting/AddHosting';
-import { replaceFileExtension, replaceInFile, addInFile } from '../../plugins/File';
-import {  renderTemplateTree } from '../../plugins/Template';
 import AddVersioning from '../add-versioning/AddVersioning';
-import { installPackages, getPackageJson, hasInstalledPackage, getPackageInfo } from '../../plugins/Package';
 import CreateComponent from '../create-component/CreateComponent';
+import GenerateReadme from '../generate-readme/GenerateReadme';
 
 @injectable()
-export default class CreateReactApp implements IRealpathRunnable {
+export default class CreateReactApp implements IAction {
 
     constructor(
         @inject(AddUIFramework) private addUIFramework: AddUIFramework,
         @inject(AddHosting) private addHosting: AddHosting,
         @inject(AddVersioning) private addVersioning: AddVersioning,
         @inject(CreateComponent) private createComponent: CreateComponent,
+        @inject(GenerateReadme) private generateReadme: GenerateReadme,
     ) { }
 
     getName() {
@@ -44,7 +46,7 @@ export default class CreateReactApp implements IRealpathRunnable {
             }
 
             if (
-                getPackageJson(realpath)
+                getPackageJsonPath(realpath)
                 && hasInstalledPackage(realpath, 'react')
                 && existsSync(resolve(realpath, 'src/react-app-env.d.ts'))) {
                 reactAppExistsAlready = true;
@@ -66,7 +68,7 @@ export default class CreateReactApp implements IRealpathRunnable {
 
             // Create app
             info('Creating app...');
-            await exec(createReactAppCmd + ' ' + realpath + ' --typescript');
+            await exec(createReactAppCmd + ' ' + realpath + ' --typescript', dirname(realpath));
             success('App has been created in "' + realpath + '"');
         }
 
@@ -83,10 +85,10 @@ export default class CreateReactApp implements IRealpathRunnable {
 
         // Replace css files
         replaceFileExtension(resolve(realpath, 'src/index.css'), 'scss');
-        replaceInFile(resolve(realpath, 'src/index.tsx'), 'import \'./index.css\';', 'import \'./index.scss\';');
+        await safeReplaceFile(resolve(realpath, 'src/index.tsx'), 'import \'./index.css\';', 'import \'./index.scss\';');
 
         replaceFileExtension(resolve(realpath, 'src/App.css'), 'scss');
-        replaceInFile(resolve(realpath, 'src/App.tsx'), 'import \'./App.css\';', 'import \'./App.scss\';');
+        await safeReplaceFile(resolve(realpath, 'src/App.tsx'), 'import \'./App.css\';', 'import \'./App.scss\';');
 
         success('Saas has been added in "' + realpath + '"');
 
@@ -102,37 +104,35 @@ export default class CreateReactApp implements IRealpathRunnable {
         const i18nPath = 'src/i18n';
         await renderTemplateTree(
             realpath,
+            'i18n',
             {
-                [i18nPath]: {
-                    'i18n.ts': 'i18n/i18n.ts',
-                    'locales/en/translation.json': 'i18n/translation.json',
-                },
+                [i18nPath]: [
+                    'i18n.ts',
+                    'locales/en/translation.json',
+                ],
             },
             {
                 projectName: JSON.stringify(getPackageInfo(realpath, 'name')),
             }
         );
-        addInFile(
+        await safeAppendFile(
             resolve(realpath, 'src/index.tsx'),
-            'import \'./i18n/i18n.ts\';',            
+            'import \'./i18n/i18n.ts\';',
             'import \'./index.scss\';',
         );
         success('I18n configuration has been created in "' + resolve(realpath, i18nPath) + '"');
 
         // Add UI framework
-        info('Adding UI framemork...');
         await this.addUIFramework.run({ realpath });
-        success('UI framemork has been added in "' + realpath + '"');
 
         // Add Versioning
-        info('Adding Versioning...');
         await this.addVersioning.run({ realpath });
-        success('Versioning has been added in "' + realpath + '"');
 
         // Add hosting
-        info('Adding Hosting...');
         await this.addHosting.run({ realpath });
-        success('Hosting has been added in "' + realpath + '"');
+
+        // Generate README
+        await this.generateReadme.run({ realpath, mustPrompt: true });
     }
 
 }

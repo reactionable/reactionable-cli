@@ -1,13 +1,13 @@
 import { injectable } from 'inversify';
 import { resolve } from 'path';
-import { IUIFrameworkAction } from './IUIFrameworkAction';
+import { IAdapter } from '../../IAdapter';
 import { info, success } from '../../../plugins/Cli';
 import { installPackages } from '../../../plugins/Package';
-import { addInFile, replaceInFile } from '../../../plugins/File';
+import { safeReplaceFile, safeAppendFile } from '../../../plugins/File';
 import { addTypescriptImports } from '../../../plugins/Typescript';
 
 @injectable()
-export default class ReactBootstrap implements IUIFrameworkAction {
+export default class ReactBootstrap implements IAdapter {
     getName() {
         return 'React Bootstrap (https://react-bootstrap.github.io)';
     }
@@ -23,7 +23,7 @@ export default class ReactBootstrap implements IUIFrameworkAction {
         info('Import style files...');
         const mainStyleFile = resolve(realpath, 'src/index.scss');
 
-        addInFile(
+        await safeAppendFile(
             mainStyleFile,
             "\n" +
             '// Import Bootstrap and its default variables' + "\n" +
@@ -35,13 +35,13 @@ export default class ReactBootstrap implements IUIFrameworkAction {
         // Add UI components to existing App components
         info('Add UI components to existing components...');
         const appFile = resolve(realpath, 'src/App.tsx');
-        addTypescriptImports(
+        await addTypescriptImports(
             appFile,
             [
                 { packageName, modules: { 'Loader': '' } }
             ]
         );
-        replaceInFile(
+        await safeReplaceFile(
             appFile,
             /LoaderComponent: undefined,.+$/,
             'LoaderComponent: Loader,'

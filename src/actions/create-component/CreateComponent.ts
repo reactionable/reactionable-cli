@@ -1,7 +1,7 @@
 import { join, resolve } from 'path';
 import { injectable } from 'inversify';
 import { prompt } from 'inquirer';
-import { IRealpathRunnable } from '../IRealpathRunnable';
+import { IAction } from '../IAction';
 import { renderTemplateTree } from '../../plugins/Template';
 import { getPackageInfo } from '../../plugins/Package';
 import { info, success } from '../../plugins/Cli';
@@ -9,7 +9,7 @@ import { existsSync } from 'fs';
 import chalk from 'chalk';
 
 @injectable()
-export default class CreateComponent implements IRealpathRunnable<{ name: string | undefined }> {
+export default class CreateComponent implements IAction<{ name: string | undefined }> {
 
     constructor() { }
 
@@ -19,7 +19,7 @@ export default class CreateComponent implements IRealpathRunnable<{ name: string
 
     async run({ realpath, name }) {
         if (!name) {
-            const answer = await prompt<{name: string}>([
+            const answer = await prompt<{ name: string }>([
                 {
                     name: 'name',
                     message: 'What\'s the component name?',
@@ -35,19 +35,21 @@ export default class CreateComponent implements IRealpathRunnable<{ name: string
         // Define component path
         let viewsPath = join('', 'src', 'views');
         let componentDirPath = name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-        
-        if(realpath.indexOf(viewsPath) === -1){
+
+        if (realpath.indexOf(viewsPath) === -1) {
             componentDirPath = join(viewsPath, componentDirPath);
         }
-        let componentTemplate: string = 'component/simple/Simple.tsx';
+
+        const templateNamespace = 'create-component';
+        let componentTemplate: string = 'simple/Simple.tsx';
 
         switch (name) {
             case 'App':
                 componentDirPath = 'src';
-                componentTemplate = 'component/app/App.tsx';
+                componentTemplate = 'app/App.tsx';
                 break;
             case 'NotFound':
-                componentTemplate = 'component/not-found/NotFound.tsx';
+                componentTemplate = 'not-found/NotFound.tsx';
                 break;
         }
 
@@ -56,10 +58,11 @@ export default class CreateComponent implements IRealpathRunnable<{ name: string
         // Create component from template
         await renderTemplateTree(
             realpath,
+            templateNamespace,
             {
                 [componentDirPath]: {
                     [name + '.tsx']: componentTemplate,
-                    [name + '.test.tsx']: 'component/simple/Simple.test.tsx',
+                    [name + '.test.tsx']: componentTemplate,
                 },
             },
             {

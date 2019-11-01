@@ -1,13 +1,12 @@
 import { injectable } from 'inversify';
-import { IHostingAction } from '../IHostingAction';
+import { IAdapter } from '../../../IAdapter';
 import { success, info, error, exec, getNodeVersion, getCmd } from '../../../../plugins/Cli';
 import { getPackageInfo } from '../../../../plugins/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
 import { renderTemplateTree } from '../../../../plugins/Template';
 
-
 @injectable()
-export default class Netlify implements IHostingAction {
+export default class Netlify implements IAdapter {
     getName() {
         return 'Netlify (https://aws-amplify.github.io/)';
     }
@@ -21,9 +20,8 @@ export default class Netlify implements IHostingAction {
 
         await renderTemplateTree(
             realpath,
-            {
-                'netlify.toml': 'netlify/netlify.toml',
-            },
+            'add-hosting/netlify',
+            ['netlify.toml'],
             {
                 nodeVersion: getNodeVersion(),
                 projectBranch: getGitCurrentBranch(realpath, 'master'),

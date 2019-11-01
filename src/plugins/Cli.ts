@@ -24,7 +24,8 @@ export const getNodeVersion = (): string => {
 
 export const exec = (
     cmd: string,
-    cwd?: string,
+    cwd: string,
+    silent: boolean = false,
 ): Promise<string> => {
     if (cwd && !existsSync(cwd)) {
         throw new Error('Directory "' + cwd + '" does not exist');
@@ -32,7 +33,7 @@ export const exec = (
     return new Promise((resolve, reject) => {
 
         const child = spawn(cmd, {
-            stdio: 'inherit',
+            stdio: silent ? 'pipe' : 'inherit',
             shell: true,
             cwd,
         });
