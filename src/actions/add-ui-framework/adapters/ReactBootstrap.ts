@@ -62,19 +62,6 @@ export default class ReactBootstrap implements IAdapter {
             /ui: undefined,.*$/m,
             'ui: useUIContextProviderProps(),'
         );
-
-        const projectName = getPackageInfo(realpath, 'name');
-        await safeReplaceFile(
-            appFile,
-            /layout: \{\},.*$/m,
-            `layout: {
-    header: {
-      brand: ${JSON.stringify(projectName)},
-    },
-    footer: {
-      brand: ${JSON.stringify(projectName)},
-    },
-  },`);
         success('UI components have been added to existing components');
     }
 }

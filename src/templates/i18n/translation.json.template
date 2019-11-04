@@ -1,3 +1,4 @@
 export default `{
-    {{{projectName}}}: {{{projectName}}}
+    {{{projectName}}}: {{{projectName}}},
+    "NotFound": "404 - Page not found"
 }`;
