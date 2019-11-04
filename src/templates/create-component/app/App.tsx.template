@@ -1,5 +1,5 @@
 export default `import React, { lazy } from 'react';
-import { App as CoreApp, IAppProps } from '@reactionable/core';
+import { App as CoreApp, IAppProps, IIdentityContextProviderProps, IUIContextProviderProps, IUseLayoutProps } from '@reactionable/core';
 import './App.scss';
 
 // Lazy load these components
@@ -7,12 +7,17 @@ const HomeComponent = lazy(() => import('./views/home/Home'));
 const NotFoundComponent = lazy(() => import('./views/not-found/NotFound'));
 
 // Configure app
-const appConfig: IAppProps = {
+const appConfig: IAppProps<
+  IIdentityContextProviderProps,
+  IUIContextProviderProps,
+  IUseLayoutProps
+> = {
   routes: [],
   HomeComponent,
   NotFoundComponent,
   ui: undefined, // You must provide UI context providers properties
-  identity: undefined, // You must provide identity config to use private routes
+  layout: {},
+  identity: undefined, // You must provide identity config to use private routes,
 };
 
 const {{componentName}}: React.FC = () => {

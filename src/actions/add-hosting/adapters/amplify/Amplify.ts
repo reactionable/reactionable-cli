@@ -5,7 +5,7 @@ import { success, info, error, exec, getCmd } from '../../../../plugins/Cli';
 import { getPackageInfo, installPackages } from '../../../../plugins/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
 import { renderTemplateTree } from '../../../../plugins/Template';
-import { addTypescriptImports } from '../../../../plugins/Typescript';
+import { setTypescriptImports } from '../../../../plugins/Typescript/Typescript';
 import { safeReplaceFile, safeAppendFile } from '../../../../plugins/File';
 
 @injectable()
@@ -22,14 +22,34 @@ export default class Amplify implements IAdapter {
         // Add amplify config in App component
         info('Add amplify config in App component...');
         const appFile = resolve(realpath, 'src/App.tsx');
-        await addTypescriptImports(
+        await setTypescriptImports(
             appFile,
             [
                 {
                     packageName: '@reactionable/amplify',
                     modules: {
-                        'configure': '',
                         'useIdentityContextProviderProps': '',
+                        'IIdentityContextProviderProps': '',
+                    },
+                },
+                {
+                    packageName: '@reactionable/amplify',
+                    modules: {
+                        'aws-amplify': '',
+                    },
+                },
+                {
+                    packageName: './aws-exports',
+                    modules: {
+                        'awsconfig': 'default',
+                    },
+                },
+            ],
+            [
+                {
+                    packageName: '@reactionable/core',
+                    modules: {
+                        'IIdentityContextProviderProps': '',
                     },
                 },
             ]
@@ -37,13 +57,12 @@ export default class Amplify implements IAdapter {
 
         await safeAppendFile(
             appFile,
-            'import awsconfig from \'./aws-exports\';' + "\n" +
             'configure(awsconfig);',
             'import \'./App.scss\';'
         );
         await safeReplaceFile(
             appFile,
-            /identity: undefined,.+$/,
+            /identity: undefined,.*$/m,
             'identity: useIdentityContextProviderProps(),'
         );
 

@@ -1,7 +1,6 @@
 export default `import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { INavProps } from '@reactionable/core';
 {{#> imports-block}}
 {{!-- Custom imports could be added. --}}
 {{/imports-block}}

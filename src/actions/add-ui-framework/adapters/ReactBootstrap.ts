@@ -2,9 +2,9 @@ import { injectable } from 'inversify';
 import { resolve } from 'path';
 import { IAdapter } from '../../IAdapter';
 import { info, success } from '../../../plugins/Cli';
-import { installPackages } from '../../../plugins/Package';
+import { installPackages, getPackageInfo } from '../../../plugins/Package';
 import { safeReplaceFile, safeAppendFile } from '../../../plugins/File';
-import { addTypescriptImports } from '../../../plugins/Typescript';
+import { setTypescriptImports } from '../../../plugins/Typescript/Typescript';
 
 @injectable()
 export default class ReactBootstrap implements IAdapter {
@@ -35,17 +35,46 @@ export default class ReactBootstrap implements IAdapter {
         // Add UI components to existing App components
         info('Add UI components to existing components...');
         const appFile = resolve(realpath, 'src/App.tsx');
-        await addTypescriptImports(
+        await setTypescriptImports(
             appFile,
             [
-                { packageName, modules: { 'Loader': '' } }
+                {
+                    packageName,
+                    modules: {
+                        'useUIContextProviderProps': '',
+                        'IUIContextProviderProps': '',
+                        'IUseLayoutProps': '',
+                    },
+                },
+            ],
+            [
+                {
+                    packageName: '@reactionable/core',
+                    modules: {
+                        'IUIContextProviderProps': '',
+                        'IUseLayoutProps': '',
+                    },
+                },
             ]
         );
         await safeReplaceFile(
             appFile,
-            /LoaderComponent: undefined,.+$/,
-            'LoaderComponent: Loader,'
+            /ui: undefined,.*$/m,
+            'ui: useUIContextProviderProps(),'
         );
+
+        const projectName = getPackageInfo(realpath, 'name');
+        await safeReplaceFile(
+            appFile,
+            /layout: \{\},.*$/m,
+            `layout: {
+    header: {
+      brand: ${JSON.stringify(projectName)},
+    },
+    footer: {
+      brand: ${JSON.stringify(projectName)},
+    },
+  },`);
         success('UI components have been added to existing components');
     }
 }

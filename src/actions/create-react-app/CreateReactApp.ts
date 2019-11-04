@@ -85,10 +85,10 @@ export default class CreateReactApp implements IAction {
 
         // Replace css files
         replaceFileExtension(resolve(realpath, 'src/index.css'), 'scss');
-        await safeReplaceFile(resolve(realpath, 'src/index.tsx'), 'import \'./index.css\';', 'import \'./index.scss\';');
+        await safeReplaceFile(resolve(realpath, 'src/index.tsx'), /import '\.\/index\.css';/, 'import \'./index.scss\';');
 
         replaceFileExtension(resolve(realpath, 'src/App.css'), 'scss');
-        await safeReplaceFile(resolve(realpath, 'src/App.tsx'), 'import \'./App.css\';', 'import \'./App.scss\';');
+        await safeReplaceFile(resolve(realpath, 'src/App.tsx'), /import '\.\/App\.css';/, 'import \'./App.scss\';');
 
         success('Saas has been added in "' + realpath + '"');
 

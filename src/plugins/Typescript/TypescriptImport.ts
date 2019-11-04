@@ -1,70 +1,14 @@
-import { safeWriteFile, getFileContent, FileContentType } from './File';
-
 export interface ITypescriptImport {
     packageName: string,
     modules: ITypescriptImportModules,
 };
 
-export const addTypescriptImports = async (
-    file: string,
-    imports: Array<ITypescriptImport>,
-    encoding = 'utf8'
-) => {
-    const importItems = imports.map(importItem => new TypescriptImport(
-        importItem.packageName,
-        importItem.modules
-    ));
-    let firstImportLine: number | undefined;
-    const newFileLines: string[] = [];
+export type ITypescriptImportModules = { [key: string]: string };
 
-    let importsHaveChanged = false;
-    const lines = getFileContent(file, encoding, FileContentType.lines);
-    for (const line of lines) {
-
-        const typescriptImport = TypescriptImport.fromString(line);
-        if (!typescriptImport) {
-            newFileLines.push(line);
-            continue;
-        }
-
-        // Add typescript import to existing import items
-        let foundImport = false;
-        for (const importItem of importItems) {
-            if (importItem.packageName !== typescriptImport.packageName) {
-                continue;
-            }
-
-            const previousModules = importsHaveChanged ? null : JSON.stringify(typescriptImport.modules);
-            importItem.addModules(typescriptImport.modules);
-            if (!importsHaveChanged && JSON.stringify(typescriptImport.modules) !== previousModules) {
-                importsHaveChanged = true;
-            }
-        }
-        if (!foundImport) {
-            importItems.push(typescriptImport);
-            importsHaveChanged = true;
-        }
-    }
-
-    if (importsHaveChanged) {
-        const importLines = importItems.map(importItem => importItem.toString());
-        importLines.sort();
-
-        newFileLines.splice(firstImportLine || 0, 0, ...importLines);
-        await safeWriteFile(file, newFileLines, encoding);
-    }
-}
-
-type ITypescriptImportModules = { [key: string]: string };
-
-class TypescriptImport {
-
+export class TypescriptImport {
     static readonly defaultImport = 'default';
 
-    constructor(
-        public packageName: string,
-        public modules: ITypescriptImportModules
-    ) { }
+    constructor(public packageName: string, public modules: ITypescriptImportModules) { }
 
     static fromString(line: string): TypescriptImport | null {
         const importRegex = /^\s*import\s(.+)\sfrom\s+['"](.+)['"]\s*;?$/;
@@ -72,32 +16,20 @@ class TypescriptImport {
         if (!matches) {
             return null;
         }
-
-        return new TypescriptImport(
-            matches[2],
-            TypescriptImport.parseImportModules(matches[1])
-        );
+        return new TypescriptImport(matches[2], TypescriptImport.parseImportModules(matches[1]));
     }
 
     private static parseImportModules(modules: string): ITypescriptImportModules {
         let parsedPodules: ITypescriptImportModules = {};
-
         modules = modules.trim();
         const brakesMatches = /\{(.+)\}/.exec(modules);
         if (brakesMatches) {
-            parsedPodules = Object.assign(
-                parsedPodules,
-                TypescriptImport.parseImportModule(brakesMatches[1])
-            );
+            parsedPodules = Object.assign(parsedPodules, TypescriptImport.parseImportModule(brakesMatches[1]));
             modules = modules.replace(brakesMatches[0], '').trim();
         }
         if (modules.length) {
-            parsedPodules = Object.assign(
-                parsedPodules,
-                TypescriptImport.parseImportModule(modules, 'default')
-            );
+            parsedPodules = Object.assign(parsedPodules, TypescriptImport.parseImportModule(modules, 'default'));
         }
-
         return parsedPodules;
     }
 
@@ -108,7 +40,6 @@ class TypescriptImport {
                 continue;
             }
             const moduleParts = modulePart.trim().split('as');
-
             parsedPodules[moduleParts[0].trim()] = moduleParts.length === 1
                 ? defaultAs
                 : moduleParts[1].trim();
@@ -118,6 +49,16 @@ class TypescriptImport {
 
     addModules(modules: ITypescriptImportModules) {
         this.modules = Object.assign(this.modules, modules);
+    }
+
+    removeModules(modulesToRemove: ITypescriptImportModules) {
+        for (const moduleName of Object.keys(this.modules)) {
+            for (const moduleToRemove of Object.keys(modulesToRemove)) {
+                if (moduleName === moduleToRemove) {
+                    delete this.modules[moduleName];
+                }
+            }
+        }
     }
 
     toString() {
@@ -132,7 +73,6 @@ class TypescriptImport {
                 defaultImport = moduleName;
                 continue;
             }
-
             let brakesImport = moduleName;
             if (this.modules[moduleName].length) {
                 brakesImport += ' as ' + this.modules[moduleName];
@@ -144,6 +84,6 @@ class TypescriptImport {
         if (brakesImports.length) {
             imports += (imports.length ? ', ' : '') + '{ ' + brakesImports.join(', ') + ' }';
         }
-        return `import ${imports} from '${this.packageName}';`;
+        return imports.length ? `import ${imports} from '${this.packageName}';` : '';
     }
 }
