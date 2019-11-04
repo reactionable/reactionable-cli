@@ -57,7 +57,7 @@ export default class Amplify implements IAdapter {
 
         await safeAppendFile(
             appFile,
-            'configure(awsconfig);',
+            'Amplify.configure(awsconfig);',
             'import \'./App.scss\';'
         );
         await safeReplaceFile(
