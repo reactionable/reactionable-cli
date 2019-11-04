@@ -33,9 +33,9 @@ export default class Amplify implements IAdapter {
                     },
                 },
                 {
-                    packageName: '@reactionable/amplify',
+                    packageName: 'aws-amplify',
                     modules: {
-                        'aws-amplify': '',
+                        'Amplify': 'default',
                     },
                 },
                 {
