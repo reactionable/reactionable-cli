@@ -19,6 +19,7 @@ const {{componentName}}: React.FC<IProps> = (props) => {
             <title>{t('{{projectName}}')} - {t('{{componentName}}')}</title>
             <meta name="description" content={t('{{#> description-block}}{{componentName}} description{{/description-block}}')} />
         </Helmet>
+        <h1>{t('{{componentName}}')}</h1>
         {{#> render-block}}{{!-- Custom render content could be added. --}}{{/render-block}}
     </>;
 };
