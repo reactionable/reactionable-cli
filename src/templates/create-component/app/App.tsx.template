@@ -1,5 +1,6 @@
 export default `import React, { lazy } from 'react';
 import { App as CoreApp, IAppProps, IIdentityContextProviderProps, IUIContextProviderProps, IUseLayoutProps } from '@reactionable/core';
+import './i18n/i18n';
 import './App.scss';
 
 // Lazy load these components
