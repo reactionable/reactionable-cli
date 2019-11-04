@@ -5,8 +5,6 @@ import { IAction } from '../IAction';
 import { renderTemplateTree } from '../../plugins/Template';
 import { getPackageInfo } from '../../plugins/Package';
 import { info, success } from '../../plugins/Cli';
-import { existsSync } from 'fs';
-import chalk from 'chalk';
 
 @injectable()
 export default class CreateComponent implements IAction<{ name: string | undefined }> {
@@ -42,6 +40,7 @@ export default class CreateComponent implements IAction<{ name: string | undefin
 
         const templateNamespace = 'create-component';
         let componentTemplate: string = 'simple/Simple.tsx';
+        const testComponentTemplate: string = 'simple/Simple.test.tsx';
 
         switch (name) {
             case 'App':
@@ -62,7 +61,7 @@ export default class CreateComponent implements IAction<{ name: string | undefin
             {
                 [componentDirPath]: {
                     [name + '.tsx']: componentTemplate,
-                    [name + '.test.tsx']: componentTemplate,
+                    [name + '.test.tsx']: testComponentTemplate,
                 },
             },
             {

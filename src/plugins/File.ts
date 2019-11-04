@@ -8,7 +8,7 @@ import chalk from 'chalk';
 import { info } from 'console';
 import { pause } from './Cli';
 
-export const safeReplaceFile = (file: string, search, replacement: string, encoding = 'utf8'): Promise<void> => {
+export const safeReplaceFile = (file: string, search: RegExp, replacement: string, encoding = 'utf8'): Promise<void> => {
     if (!existsSync(file)) {
         throw new Error('File "' + file + '" does not exist');
     }
@@ -16,7 +16,7 @@ export const safeReplaceFile = (file: string, search, replacement: string, encod
     const content = getFileContent(file, encoding);
     return safeWriteFile(
         file,
-        content.replace(new RegExp(search), replacement),
+        content.replace(search, replacement),
         encoding
     );
 }
