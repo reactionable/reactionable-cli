@@ -1,21 +1,20 @@
 import { injectable } from 'inversify';
-import { IAdapter } from '../../../IAdapter';
 import { success, info, error, exec, getNodeVersion, getCmd } from '../../../../plugins/Cli';
-import { getPackageInfo } from '../../../../plugins/Package';
+import { getPackageInfo } from '../../../../plugins/package/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
-import { renderTemplateTree } from '../../../../plugins/Template';
+import { renderTemplateTree } from '../../../../plugins/template/Template';
+import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
 
 @injectable()
-export default class Netlify implements IAdapter {
-    getName() {
-        return 'Netlify (https://aws-amplify.github.io/)';
-    }
+export default class Netlify extends AbstractAdapterWithPackage {
+    protected name = 'Netlify (https://aws-amplify.github.io/)';
+    protected packageName = '@reactionable/netlify';
 
     async run({ realpath }) {
+        await super.run({ realpath });
 
         // Add netlify default configuration files
         info('Configure Netlify...');
-
         const projectName = getPackageInfo(realpath, 'name');
 
         await renderTemplateTree(

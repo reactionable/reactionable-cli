@@ -1,8 +1,8 @@
 import { existsSync, mkdirSync } from 'fs';
 import { resolve, dirname, join, basename, extname, sep } from 'path';
-import { plural } from 'pluralize';
+import { plural, singular } from 'pluralize';
 import { compile, registerHelper, SafeString, registerPartial, partials } from 'handlebars';
-import { safeWriteFile } from './File';
+import { FileFactory } from '../file/FileFactory';
 
 // Compile template
 registerHelper({
@@ -27,11 +27,35 @@ registerHelper({
         }
         return str.charAt(0).toUpperCase() + str.slice(1);
     },
+    decapitalize: (str) => {
+        if ('string' !== typeof str) {
+            return str;
+        }
+        return str.charAt(0).toLowerCase() + str.slice(1);
+    },
     pluralize: (str) => {
         if ('string' !== typeof str) {
             return str;
         }
         return plural(str);
+    },
+    singularize: (str) => {
+        if ('string' !== typeof str) {
+            return str;
+        }
+        return singular(str);
+    },
+    hyphenize: (str) => {
+        if ('string' !== typeof str) {
+            return str;
+        }
+        return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    },
+    decamelize: (str) => {
+        if ('string' !== typeof str) {
+            return str;
+        }
+        return str.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
     },
     halfSplit: (array) => {
         if (!Array.isArray(array)) {
@@ -96,7 +120,7 @@ export const renderTemplateTree = async (dirPath: string, namespace: string, con
     }
 }
 
-const createFileFromTemplate = async (filePath: string, namespace: string, context: Object, encoding = 'utf8') => {
+const createFileFromTemplate = async (filePath: string, namespace: string, context: Object, encoding = 'utf8'): Promise<void> => {
     const parentDir = dirname(filePath);
     if (!existsSync(parentDir)) {
         throw new Error('Unable to create file "' + filePath + '", directory "' + parentDir + '" does not exist');
@@ -104,12 +128,16 @@ const createFileFromTemplate = async (filePath: string, namespace: string, conte
 
     const templateKey = extname(namespace) ? namespace : join(namespace, basename(filePath));
     const fileContent = await renderTemplateFile(templateKey, context);
-    await safeWriteFile(filePath, fileContent, encoding);
+
+    return FileFactory.fromString(fileContent, filePath, encoding).saveFile();
 };
 
 const getTemplateFileContent = async (template: string): Promise<string> => {
-    const templatePath = join('./../templates', template + '.template');
-    const templateContent = (await import(templatePath)).default;
+    const templatePath = join('./../../templates', template + '.template');
+
+    const importContent = await import(templatePath);
+
+    const templateContent = importContent;
 
     // Register partials if any
     const regex = /\{\{#> ([a-zA-Z]+) \}\}/img;
@@ -155,10 +183,19 @@ const getCompiledTemplateFile = async (templateKey: string): Promise<CompiledTem
     if (compiledTemplates[templateKey]) {
         return compiledTemplates[templateKey];
     }
-    return compiledTemplates[templateKey] = compile(await getTemplateFileContent(templateKey));
+    try {
+        return compiledTemplates[templateKey] = compile(await getTemplateFileContent(templateKey));
+    } catch (error) {
+        throw new Error(`An error occurred while compiling template "${templateKey}": ${error}`);
+    }
 }
 
 const renderTemplateFile = async (templateKey: string, context: Object): Promise<string> => {
     const compiledTemplate = await getCompiledTemplateFile(templateKey);
-    return compiledTemplate(context);
+    try {
+        const content = compiledTemplate(context);
+        return content;
+    } catch (error) {
+        throw new Error(`An error occurred while rendering template "${templateKey}": ${error}`);
+    }
 }

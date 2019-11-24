@@ -1,0 +1,25 @@
+const template = `{{#> component }}
+{{#*inline "imports-block"}}
+import { IOnSubmitForm } from '@reactionable/core';
+import { Create, ICreateProps } from '{{ uiPackage }}';
+import { I{{ entityName }}Values, I{{ entityName }}Data, {{decapitalize entityName }}FormSchema, {{decapitalize entityName }}FormValues, {{decapitalize entityName }}FormChildren } from '../{{ entitiesName }}Config';
+{{/inline}}
+{{#*inline "props-block"}}
+interface IProps extends Pick<ICreateProps<I{{ entityName }}Values, I{{ entityName }}Data>, 'onSuccess'> { }
+{{/inline}}
+{{#*inline "helmet-block"}}{{/inline}}
+{{#*inline "pre-render-block"}}const onSubmit: IOnSubmitForm<I{{ entityName }}Values, I{{ entityName }}Data> = async (values, formikHelpers) => {
+    return { id: '', label: '' };
+  };
+{{/inline}}
+{{#*inline "render-block-title"}}{{/inline}}
+{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data>
+      {...props}
+      title={t('Create a new {{decamelize entityName }}')}
+      onSubmit={onSubmit}
+      formValues={ {{decapitalize entityName }}FormValues}
+      formSchema={ {{decapitalize entityName }}FormSchema(t)}
+      formChildren={ {{decapitalize entityName }}FormChildren(t)}
+    />{{/inline}}
+{{/component}}`;
+module.exports = template;

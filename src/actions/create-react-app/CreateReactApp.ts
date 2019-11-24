@@ -1,13 +1,13 @@
 import { prompt } from 'inquirer';
 import { existsSync } from 'fs';
 import { basename, resolve, dirname } from 'path';
-import chalk from 'chalk';
+import { red } from 'chalk';
 import { injectable, inject } from 'inversify';
 import { IAction } from '../IAction';
 import { error, success, info, exec, getCmd } from '../../plugins/Cli';
 import { replaceFileExtension, safeReplaceFile, safeAppendFile } from '../../plugins/File';
-import { installPackages, getPackageJsonPath, hasInstalledPackage, getPackageInfo } from '../../plugins/Package';
-import { renderTemplateTree } from '../../plugins/Template';
+import { installPackages, getPackageJsonPath, hasInstalledPackage, getPackageInfo } from '../../plugins/package/Package';
+import { renderTemplateTree } from '../../plugins/template/Template';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
 import AddHosting from '../add-hosting/AddHosting';
 import AddVersioning from '../add-versioning/AddVersioning';
@@ -38,7 +38,7 @@ export default class CreateReactApp implements IAction {
                 {
                     type: 'confirm',
                     name: 'override',
-                    message: 'Directory "' + realpath + '" exists already, ' + chalk.red('override it?'),
+                    message: 'Directory "' + realpath + '" exists already, ' + red('override it?'),
                 },
             ]);
             if (!override) {

@@ -1,0 +1,36 @@
+const template = `{{#> component }}
+{{#*inline "imports-block"}}
+import { Link, useParams } from 'react-router-dom';
+import { lazy } from 'react';
+import { Read } from '{{ uiPackage }}';
+const Update{{ entityName }} = lazy(() => import('../update-{{hyphenize entityName }}/Update{{ entityName }}'));
+import { I{{ entityName }}Data } from '../{{ entitiesName }}Config';
+{{/inline}}
+{{#*inline "helmet-block"}}{{/inline}}
+{{#*inline "pre-render-block"}}const matchParams = useParams<{ {{decapitalize entityName }}Id: string }>();
+  
+  const renderChildren = (data: I{{ entityName }}Data) => <>
+    <Helmet>
+      <title>{t('{{projectName}}')} - {t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)}</title>
+      <meta name="description" content={t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)} />
+    </Helmet>
+    <h1>{t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)}</h1>
+    { data && <>
+      <Update{{ entityName }}
+        onSuccess={refetch}
+        formValues={data}
+      >
+        <Link to="#">{ t('Update {{decamelize entityName }} "\\{{label}}"', data) }</Link>
+      </Update{{ entityName }}>
+    </>}
+  </>;
+{{/inline}}
+{{#*inline "render-block-title"}}{{/inline}}
+{{#*inline "render-block"}}<Read<I{{ entityName }}Data>
+      isLoading={isLoading}
+      error={error}
+      data={data}
+      children={renderChildren}
+    />{{/inline}}
+{{/component}}`;
+module.exports = template;

@@ -1,4 +1,4 @@
-export default `import React from 'react';
+const template = `import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router';
 {{#> imports-block}}
@@ -10,4 +10,5 @@ it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<MemoryRouter><{{componentName}} {{#> props-block}}{{/props-block}}/></MemoryRouter>, div);
     ReactDOM.unmountComponentAtNode(div);
-});`
+});`;
+module.exports = template;

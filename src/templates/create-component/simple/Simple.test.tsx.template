@@ -1,1 +1,2 @@
-export default `{{#> componentTest }}{{/componentTest}}`;
+const template = `{{#> componentTest }}{{/componentTest}}`;
+module.exports = template;
