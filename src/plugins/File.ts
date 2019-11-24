@@ -3,8 +3,8 @@ import { existsSync, readFileSync, writeFileSync, statSync, realpathSync } from 
 import { mv } from 'shelljs';
 import { extname, basename, dirname, resolve } from 'path';
 import { prompt } from 'inquirer';
-import { diffLines, Change, diffJson } from 'diff';
-import chalk from 'chalk';
+import { diffLines, Change, diffJson, diffChars } from 'diff';
+import { bgGreen, bgRed, grey, red, green } from 'chalk';
 import { info } from 'console';
 import { pause } from './Cli';
 
@@ -54,7 +54,7 @@ export const safeWriteFile = async (file: string, content: string | string[], en
     }
 
     let fileContent = getFileContent(file, encoding);
-    const diff = diffLines(fileContent, content);
+    const diff = diffChars(fileContent, content);
     const overwrite = await promptOverwriteFileDiff(file, diff);
 
     if (overwrite) {
@@ -117,8 +117,6 @@ const fileContentCache: {
         [FileContentType.data]: Object | undefined;
     }
 } = {};
-
-
 
 export function getFileContent(file: string, encoding: string, type: FileContentType.data): Object;
 export function getFileContent(file: string, encoding: string, type: FileContentType.mtime): Date;
@@ -227,17 +225,17 @@ const promptOverwriteFileDiff = async (file: string, diff: Change[]): Promise<bo
         for (const part of diff) {
             // green for additions, red for deletions
             // grey for common parts
-            const isSpaces = part.value.match(/^\s+$/);
+            const isSpaces = part.value.match(/^[\r\n\s]+$/);
             let data = part.value;
             switch (true) {
                 case !!part.added:
-                    data = isSpaces ? chalk.bgGreen(data) : chalk.green(data);
+                    data = isSpaces ? bgGreen(data) : green(data);
                     break;
                 case !!part.removed:
-                    data = isSpaces ? chalk.bgRed(data) : chalk.red(data);
+                    data = isSpaces ? bgRed(data) : red(data);
                     break;
                 default:
-                    data = chalk.grey(data);
+                    data = grey(data);
                     break;
             }
             process.stderr.write(data);

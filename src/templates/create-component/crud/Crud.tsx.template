@@ -1,48 +1,19 @@
-export default `import React, { lazy } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import { INavProps, Crud } from '@reactionable/core';
-import { Loader } from '@reactionable/ui-bootstrap';
-
-const ListImages = lazy(() => import('./list-images/ListImages'));
-const ReadImage = lazy(() => import('./read-image/ReadImage'));
-
-interface IProps extends INavProps {};
-
-const Images: React.FC<IProps> = (props) => { 
-
-  const { t } = useTranslation();
-
-  return <>
-      <Helmet>
-          <meta charSet="utf-8" />
-          <title>arn-poc-backoffice - {t('Dashboard')} - {t('Images')}</title>
-          <meta name="description" content={t('Dashboard Images description')} />
-      </Helmet>
-      <Crud
-        name="image"
-        ListComponent={ListImages}
-        ReadComponent={ReadImage}
-        LoaderComponent={Loader}
-        {...props}
-    />;
-  </>;
-};
-export default Images;`;
-
-{{#> layout }}
-  {{#*inline "imports"}}  
-    import { Crud } from '@reactionable/core';
-    const List{{capitalize (pluralize entityName) }} = lazy(() => import('./list-{{pluralize entityName }}/List{{capitalize (pluralize entityName) }}'));
-    const Read{{capitalize entityName }} = lazy(() => import('./read-{{ entityName }}/Read{{capitalize entityName }}'));
-  {{/inline}}
-  {{#*inline "render"}}
-    <Crud
-        name="{{ entityName }}"
-        ListComponent={List{{capitalize (pluralize entityName) }}}
-        ReadComponent={Read{{capitalize entityName }}}
-        LoaderComponent={Loader}
-        {...props}
-    />;
-  {{/inline}}
-{{/layout}}
+const template = `{{#> component }}
+{{#*inline "imports-block"}}
+import { lazy } from 'react';
+import { Crud } from '@reactionable/core';
+import { IUseLayoutProps } from '{{ uiPackage }}';
+import { I{{ entityName }}Data } from './{{ entitiesName }}Config';
+const List{{ entitiesName }} = lazy(() => import('./list-{{hyphenize entitiesName }}/List{{ entitiesName }}'));
+const Read{{ entityName }} = lazy(() => import('./read-{{hyphenize entityName }}/Read{{ entityName }}'));
+{{/inline}}
+{{#*inline "helmet-block"}}{{/inline}}
+{{#*inline "render-block-title"}}{{/inline}}
+{{#*inline "render-block"}}<Crud<I{{ entityName }}Data, IUseLayoutProps>
+      name="{{ entityName }}"
+      listComponent={ List{{ entitiesName }} }
+      readComponent={ Read{{ entityName }} }
+      {...props}
+    />{{/inline}}
+{{/component}}`;
+module.exports = template;

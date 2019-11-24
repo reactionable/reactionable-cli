@@ -1,21 +1,35 @@
-import { join, resolve } from 'path';
-import { injectable } from 'inversify';
+import { join, resolve, dirname, basename } from 'path';
+import { injectable, inject } from 'inversify';
 import { prompt } from 'inquirer';
 import { IAction } from '../IAction';
-import { renderTemplateTree } from '../../plugins/Template';
-import { getPackageInfo } from '../../plugins/Package';
+import { renderTemplateTree } from '../../plugins/template/Template';
+import { getPackageInfo } from '../../plugins/package/Package';
 import { info, success } from '../../plugins/Cli';
+import AddUIFramework from '../add-ui-framework/AddUIFramework';
+import AddHosting from '../add-hosting/AddHosting';
 
 @injectable()
-export default class CreateComponent implements IAction<{ name: string | undefined }> {
+export default class CreateComponent implements IAction<{
+    name: string | undefined,
+}> {
 
-    constructor() { }
+    protected static defaultPackage = '@reactionable/core';
+    protected static viewsPath = join('', 'src', 'views');
+    protected static templateNamespace = 'create-component';
+
+    constructor(
+        @inject(AddUIFramework) private addUIFramework: AddUIFramework,
+        @inject(AddHosting) private addHosting: AddHosting,
+    ) { }
 
     getName() {
         return 'Create a new react component';
     }
 
-    async run({ realpath, name }) {
+    async run({
+        realpath,
+        name,
+    }) {
         if (!name) {
             const answer = await prompt<{ name: string }>([
                 {
@@ -27,20 +41,31 @@ export default class CreateComponent implements IAction<{ name: string | undefin
             name = answer.name;
         }
 
-        name = name.charAt(0).toUpperCase() + name.slice(1);
+        name = this.formatName(name);
         info(`Create component "${name}"...`);
 
+        const componentDirPath = await this.createComponent({ realpath, name });
+
+        success(`Component "${name}" has been created in "${componentDirPath}"`);
+    }
+
+    async createComponent({
+        realpath,
+        name,
+        componentTemplate = 'simple/Simple.tsx',
+        testComponentTemplate = 'simple/Simple.test.tsx',
+        templateContext = {},
+    }): Promise<string> {
         // Define component path
-        let viewsPath = join('', 'src', 'views');
-        let componentDirPath = name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        let componentDirName = name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
-        if (realpath.indexOf(viewsPath) === -1) {
-            componentDirPath = join(viewsPath, componentDirPath);
+        let componentDirPath: string;
+        if (realpath.indexOf(CreateComponent.viewsPath) === -1) {
+            componentDirPath = resolve(realpath, CreateComponent.viewsPath, componentDirName);
         }
-
-        const templateNamespace = 'create-component';
-        let componentTemplate: string = 'simple/Simple.tsx';
-        const testComponentTemplate: string = 'simple/Simple.test.tsx';
+        else {
+            componentDirPath = resolve(realpath, componentDirName);
+        }
 
         switch (name) {
             case 'App':
@@ -52,25 +77,60 @@ export default class CreateComponent implements IAction<{ name: string | undefin
                 break;
         }
 
-        componentDirPath = resolve(componentDirPath);
+        // Get enabled UI framework
+        const context = {
+            ...templateContext,
+            componentName: name,
+            projectName: getPackageInfo(this.getProjectRootPath(realpath), 'name'),
+            uiPackage: await this.getUIPackage(realpath),
+            hostingPackage: await this.getHostingPackage(realpath),
+        }
 
         // Create component from template
         await renderTemplateTree(
-            realpath,
-            templateNamespace,
+            dirname(componentDirPath),
+            CreateComponent.templateNamespace,
             {
-                [componentDirPath]: {
+                [basename(componentDirPath)]: {
                     [name + '.tsx']: componentTemplate,
                     [name + '.test.tsx']: testComponentTemplate,
                 },
             },
-            {
-                componentName: name,
-                projectName: getPackageInfo(realpath, 'name'),
-            }
+            context,
         );
-        success(`Component "${name}" has been created in "${componentDirPath}"`);
+        return componentDirPath;
     }
 
+    formatName(name: string): string {
+        name = name.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase());
+        return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+
+    async getUIPackage(realpath: string): Promise<string> {
+        const uiPackage = (await this.addUIFramework.detectAdapter(this.getProjectRootPath(realpath)))?.getPackageName();
+        if (uiPackage) {
+            return uiPackage;
+        }
+        return CreateComponent.defaultPackage;
+    }
+
+    async getHostingPackage(realpath: string): Promise<string> {
+        const hostingPackage = (await this.addHosting.detectAdapter(this.getProjectRootPath(realpath)))?.getPackageName();
+        if (hostingPackage) {
+            return hostingPackage;
+        }
+        return CreateComponent.defaultPackage;
+    }
+
+    getProjectRootPath(realpath: string): string {
+        let projectRootPath: string;
+        if (realpath.indexOf(CreateComponent.viewsPath) === -1) {
+            projectRootPath = realpath;
+        }
+        else {
+            projectRootPath = realpath.split(CreateComponent.viewsPath)[0];
+        }
+        return projectRootPath;
+    }
 
 }

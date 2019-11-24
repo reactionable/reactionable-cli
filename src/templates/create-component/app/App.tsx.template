@@ -1,4 +1,4 @@
-export default `import React, { lazy } from 'react';
+const template = `import React, { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import { App as CoreApp, IAppProps, IIdentityContextProviderProps, IUIContextProviderProps, IUseLayoutProps } from '@reactionable/core';
 import './i18n/i18n';
@@ -35,3 +35,4 @@ const {{componentName}}: React.FC = () => {
   return <CoreApp {...appConfig} />;
 };
 export default {{componentName}};`
+module.exports = template;

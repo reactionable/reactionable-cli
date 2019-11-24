@@ -1,14 +1,15 @@
-import { existsSync, readFileSync, statSync, writeFileSync } from 'fs';
+import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { which } from 'shelljs';
 import { all } from 'deepmerge';
-import { exec, info, success } from './Cli';
-import { getFileContent, FileContentType, safeWriteJsonFile } from './File';
+import { exec, info, success } from '../Cli';
+import { getFileContent, FileContentType, safeWriteJsonFile } from '../File';
 
 enum PackageManager {
     yarn,
     npm,
-}
+};
+
 export const getPackageManager = (dirPath: string): PackageManager => {
     if (!existsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
@@ -18,9 +19,7 @@ export const getPackageManager = (dirPath: string): PackageManager => {
         return PackageManager.yarn;
     }
     return PackageManager.npm;
-}
-
-
+};
 
 export const installPackages = async (
     dirPath: string,
@@ -60,7 +59,7 @@ export const installPackages = async (
 
     verbose && success(packages.length ? 'Package(s) "' + packages.join(', ') + '" have been installed' : 'no package has been installed');
     return packages;
-}
+};
 
 export const installDevPackages = (
     dirPath: string,
@@ -68,7 +67,7 @@ export const installDevPackages = (
     verbose: boolean = true,
 ): Promise<string[]> => {
     return installPackages(dirPath, devPackages, verbose, true);
-}
+};
 
 export const updatePackageJson = (dirPath: string, data: Object): Promise<void> => {
     const packageJsonPath = getPackageJsonPath(dirPath);
@@ -81,7 +80,6 @@ export const updatePackageJson = (dirPath: string, data: Object): Promise<void> 
 
     return safeWriteJsonFile(packageJsonPath, newPackageInfo);
 };
-
 
 export const getPackageJsonPath = (dirPath: string): string | null => {
     if (!existsSync(dirPath)) {
@@ -108,7 +106,7 @@ export const getPackageInfo = (dirPath: string, property?: string, encoding = 'u
 
     const data = getFileContent(packageJsonPath, encoding, FileContentType.data);
     return property ? data[property] : data;
-}
+};
 
 export const hasInstalledPackage = (
     dirPath: string,
@@ -123,4 +121,4 @@ export const hasInstalledPackage = (
     );
 
     return !!(installedPackages && installedPackages[packageName]);
-}
+};

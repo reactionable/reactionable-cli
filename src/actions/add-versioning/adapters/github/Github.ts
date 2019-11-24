@@ -1,13 +1,16 @@
 import { injectable } from 'inversify';
 import { getGitRemoteOriginUrl } from '../../../../plugins/Git';
-import { updatePackageJson } from '../../../../plugins/Package';
+import { updatePackageJson } from '../../../../plugins/package/Package';
 import AbstractVersioning from '../AbstractVersioning';
 import { Result } from 'parse-github-url';
 
 @injectable()
 export default class Git extends AbstractVersioning {
-    getName() {
-        return 'Github';
+    protected name = 'Github';
+
+    async isEnabled(realpath: string): Promise<boolean> {
+        const parsedGitRemote = getGitRemoteOriginUrl(realpath, false);
+        return !!(parsedGitRemote && this.validateGitRemote(parsedGitRemote));
     }
 
     async run({ realpath }) {
@@ -26,7 +29,6 @@ export default class Git extends AbstractVersioning {
             'bugs': {
                 'url': repositoryUrl + '/issues',
             },
-            'homepage': repositoryUrl + '#readme',
         });
     }
 

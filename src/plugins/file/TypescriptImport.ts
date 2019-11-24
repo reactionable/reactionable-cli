@@ -65,7 +65,12 @@ export class TypescriptImport {
         let defaultImport: string = '';
         const brakesImports: string[] = [];
 
-        for (const moduleName of Object.keys(this.modules)) {
+        const orderedModules: ITypescriptImportModules = {};
+        Object.keys(this.modules).sort().forEach(function (key) {
+            orderedModules[key] = orderedModules[key];
+        });
+
+        for (const moduleName of Object.keys(orderedModules)) {
             if (this.modules[moduleName] === TypescriptImport.defaultImport) {
                 if (defaultImport.length) {
                     throw new Error(`Unable to have many imports for package "${this.packageName}": "${defaultImport}, ${moduleName}"`);

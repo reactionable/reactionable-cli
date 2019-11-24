@@ -3,13 +3,12 @@ import { prompt } from 'inquirer';
 import { Result } from 'parse-github-url';
 import { success, info, error, exec } from '../../../plugins/Cli';
 import { getGitRemoteOriginUrl, initializedGit, getGitCmd, parseGitRemoteUrl } from '../../../plugins/Git';
-import { installPackages, updatePackageJson } from '../../../plugins/Package';
-import { renderTemplateTree } from '../../../plugins/Template';
-import { IAdapter } from '../../IAdapter';
+import { installPackages, updatePackageJson } from '../../../plugins/package/Package';
+import { renderTemplateTree } from '../../../plugins/template/Template';
+import { AbstractAdapter } from '../../AbstractAdapter';
 
 @injectable()
-export default abstract class AbstractVersioning implements IAdapter {
-    abstract getName();
+export default abstract class AbstractVersioning extends AbstractAdapter {
 
     async run({ realpath }) {
 

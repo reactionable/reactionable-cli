@@ -1,4 +1,4 @@
-export default `[build.environment]
+const template = `[build.environment]
   NODE_VERSION = "{{{nodeVersion}}}"
 
 # Build command
@@ -25,4 +25,5 @@ export default `[build.environment]
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200`
+  status = 200`;
+module.exports = template;

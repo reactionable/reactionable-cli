@@ -1,23 +1,21 @@
 import { injectable } from 'inversify';
+import { prompt } from 'inquirer';
 import { resolve } from 'path';
-import { IAdapter } from '../../../IAdapter';
 import { success, info, error, exec, getCmd } from '../../../../plugins/Cli';
-import { getPackageInfo, installPackages } from '../../../../plugins/Package';
+import { getPackageInfo } from '../../../../plugins/package/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
-import { renderTemplateTree } from '../../../../plugins/Template';
-import { setTypescriptImports } from '../../../../plugins/Typescript/Typescript';
+import { renderTemplateTree } from '../../../../plugins/template/Template';
+import { setTypescriptImports } from '../../../../plugins/file/Typescript';
 import { safeReplaceFile, safeAppendFile } from '../../../../plugins/File';
+import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
 
 @injectable()
-export default class Amplify implements IAdapter {
-    getName() {
-        return 'Amplify (https://aws-amplify.github.io/)';
-    }
+export default class Amplify extends AbstractAdapterWithPackage {
+    protected name = 'Amplify (https://aws-amplify.github.io/)';
+    protected packageName = '@reactionable/amplify';
 
     async run({ realpath }) {
-
-        // Installs packages        
-        await installPackages(realpath, ['@reactionable/amplify']);
+        await super.run({ realpath });
 
         // Add amplify config in App component
         info('Add amplify config in App component...');
@@ -60,11 +58,6 @@ export default class Amplify implements IAdapter {
             'Amplify.configure(awsconfig);',
             'import \'./App.scss\';'
         );
-        await safeReplaceFile(
-            appFile,
-            /identity: undefined,.*$/m,
-            'identity: useIdentityContextProviderProps(),'
-        );
 
         // Add amplify default configuration files
         info('Configure Amplify...');
@@ -90,22 +83,54 @@ export default class Amplify implements IAdapter {
         );
 
         // Configure amplify        
-        let amplifyCmd = getCmd('amplify');
+        const amplifyCmd = getCmd('amplify');
         if (!amplifyCmd) {
             return error('Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"');
         }
 
-        amplifyCmd += ' init'
         // Amplify config
-        amplifyCmd += ' --amplify ' + JSON.stringify(JSON.stringify({
+        let amplifyInitCmd = amplifyCmd + ' init --amplify ' + JSON.stringify(JSON.stringify({
             envName: getGitCurrentBranch(realpath, 'master'),
-        }));
-        amplifyCmd += ' --awscloudformation ' + JSON.stringify(JSON.stringify({
+        })) + ' --awscloudformation ' + JSON.stringify(JSON.stringify({
             useProfile: true,
             profileName: 'default',
         }));
+        await exec(amplifyInitCmd, realpath);
+        await exec(amplifyCmd + ' hosting add', realpath);
 
-        await exec(amplifyCmd + ' init', realpath);
+        const { addAuth } = await prompt([
+            {
+                type: 'confirm',
+                name: 'addAuth',
+                message: 'Do you want to add Authentication (https://aws-amplify.github.io/docs/js/authentication)',
+            },
+        ]);
+
+        if (addAuth) {
+            await exec(amplifyCmd + ' add auth', realpath);
+            await exec(amplifyCmd + ' push', realpath);
+
+            await safeReplaceFile(
+                appFile,
+                /identity: undefined,.*$/m,
+                'identity: useIdentityContextProviderProps(),'
+            );
+
+        }
+
+        const { addApi } = await prompt([
+            {
+                type: 'confirm',
+                name: 'addApi',
+                message: 'Do you want to add an API (https://aws-amplify.github.io/docs/js/api)',
+            },
+        ]);
+
+        if (addApi) {
+            await exec(amplifyCmd + ' add auth', realpath);
+            await exec(amplifyCmd + ' push', realpath);
+        }
+
         success('Amplify has been configured in "' + realpath + '"');
     }
 }

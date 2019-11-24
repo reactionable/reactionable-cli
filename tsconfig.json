@@ -13,6 +13,7 @@
     "outDir": "./dist",
   },
   "exclude": [
+    "__tests__",
     "node_modules",
     "dist",
     "**/*.spec.ts"

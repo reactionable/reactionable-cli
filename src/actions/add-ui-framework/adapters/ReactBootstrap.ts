@@ -2,22 +2,19 @@ import { injectable } from 'inversify';
 import { resolve } from 'path';
 import { IAdapter } from '../../IAdapter';
 import { info, success } from '../../../plugins/Cli';
-import { installPackages, getPackageInfo } from '../../../plugins/Package';
+import { installPackages, hasInstalledPackage } from '../../../plugins/package/Package';
 import { safeReplaceFile, safeAppendFile } from '../../../plugins/File';
-import { setTypescriptImports } from '../../../plugins/Typescript/Typescript';
+import { setTypescriptImports } from '../../../plugins/file/Typescript';
+import { AbstractAdapterWithPackage } from '../../AbstractAdapterWithPackage';
 
 @injectable()
-export default class ReactBootstrap implements IAdapter {
-    getName() {
-        return 'React Bootstrap (https://react-bootstrap.github.io)';
-    }
+export default class ReactBootstrap extends AbstractAdapterWithPackage {
+    protected name = 'React Bootstrap (https://react-bootstrap.github.io)';
+    protected packageName = '@reactionable/ui-bootstrap';
+
 
     async run({ realpath }) {
-
-        const packageName = '@reactionable/ui-bootstrap';
-
-        // Installs packages
-        await installPackages(realpath, [packageName]);
+        await super.run({ realpath });
 
         // Import style files
         info('Import style files...');
@@ -39,7 +36,7 @@ export default class ReactBootstrap implements IAdapter {
             appFile,
             [
                 {
-                    packageName,
+                    packageName: this.getPackageName(),
                     modules: {
                         'useUIContextProviderProps': '',
                         'IUIContextProviderProps': '',

@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { red, green, yellow } from 'chalk';
 import { existsSync } from 'fs';
 import { spawn } from 'child_process';
 import { which } from 'shelljs';
@@ -62,19 +62,19 @@ export const exec = (
 }
 
 export const info = (message: string) => {
-    process.stdout.write("\n" + chalk.yellow('→ ') + message + "\n");
+    process.stdout.write("\n" + yellow('→ ') + message + "\n");
 }
 
 export const success = (message: string) => {
-    process.stdout.write(chalk.green('✓ ') + message + "\n");
+    process.stdout.write(green('✓ ') + message + "\n");
 }
 
 export const error = (error: Error | string) => {
     if ('string' === typeof error) {
-        process.stderr.write("\n" + chalk.red(`⚠ ${error}`) + "\n");
+        process.stderr.write("\n" + red(`⚠ ${error}`) + "\n");
         return;
     }
-    process.stderr.write("\n" + chalk.red(`⚠ [${error.name}] ${error.message}`) + "\n" + error.stack + "\n");
+    process.stderr.write("\n" + red(`⚠ [${error.name}] ${error.message}`) + "\n" + error.stack + "\n");
 }
 
 export const pause = (message = `Press any key to continue...`) => {
