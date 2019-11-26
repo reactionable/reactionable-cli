@@ -2,7 +2,7 @@
   "name": "@reactionable/cli",
   "version": "0.0.1",
   "description": "Reactionable cli",
-  "main": "dist/index",
+  "main": "dist/index.js",
   "bin": "./bin/reactionable",
   "scripts": {
     "start": "npm link && tsc-watch --onSuccess \"npm run build:copy-templates\"",
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/reactionable/reactionable-cli/issues"
   },
-  "homepage": "https://github.com/reactionable/reactionable-cli#readme",
+  "homepage": "https://reactionable.github.io/reactionable-cli",
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",

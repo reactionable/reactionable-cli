@@ -5,7 +5,6 @@
         "**/node_modules/**",
         "**/*.spec.ts"
     ],
-    "name": "@reactionable/reactionable",
     "excludePrivate": true,
     "skipInternal": true
 }
