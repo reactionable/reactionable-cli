@@ -1,4 +1,4 @@
-const template = `{{#> component }}
+const template = `{{#> Component }}
 {{#*inline "imports-block"}}
 import { lazy } from 'react';
 import { Link, useRouteMatch, generatePath } from 'react-router-dom';
@@ -53,5 +53,5 @@ const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityNa
         </Create{{ entityName }}>
       </>}
     />{{/inline}}
-{{/component}}`;
+{{/Component}}`;
 module.exports = template;

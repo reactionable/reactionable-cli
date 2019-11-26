@@ -135,9 +135,12 @@ const createFileFromTemplate = async (filePath: string, namespace: string, conte
 const getTemplateFileContent = async (template: string): Promise<string> => {
     const templatePath = join('./../../templates', template + '.template');
 
-    const importContent = await import(templatePath);
-
-    const templateContent = importContent;
+    let templateContent: string;
+    try {
+        templateContent = await import(templatePath);
+    } catch (error) {
+        throw new Error(`An error occurred while importing template file "${templatePath}"`);
+    }
 
     // Register partials if any
     const regex = /\{\{#> ([a-zA-Z]+) \}\}/img;
