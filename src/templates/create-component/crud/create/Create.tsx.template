@@ -1,4 +1,4 @@
-const template = `{{#> component }}
+const template = `{{#> Component }}
 {{#*inline "imports-block"}}
 import { IOnSubmitForm } from '@reactionable/core';
 import { Create, ICreateProps } from '{{ uiPackage }}';
@@ -21,5 +21,5 @@ interface IProps extends Pick<ICreateProps<I{{ entityName }}Values, I{{ entityNa
       formSchema={ {{decapitalize entityName }}FormSchema(t)}
       formChildren={ {{decapitalize entityName }}FormChildren(t)}
     />{{/inline}}
-{{/component}}`;
+{{/Component}}`;
 module.exports = template;
