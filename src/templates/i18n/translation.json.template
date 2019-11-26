@@ -1,5 +1,0 @@
-const template = `{
-    {{{projectName}}}: {{{projectName}}},
-    "NotFound": "404 - Page not found"
-}`;
-module.exports = template;

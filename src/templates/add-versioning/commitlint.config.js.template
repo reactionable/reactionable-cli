@@ -1,2 +1,0 @@
-const template = `module.exports = {extends: ['@commitlint/config-conventional']}`;
-module.exports = template;
