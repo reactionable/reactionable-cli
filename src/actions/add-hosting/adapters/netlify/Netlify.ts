@@ -1,39 +1,74 @@
 import { injectable } from 'inversify';
-import { success, info, error, exec, getNodeVersion, getCmd } from '../../../../plugins/Cli';
+import { resolve } from 'path';
+import { success, info, error, exec, getNodeVersion, getNpmCmd } from '../../../../plugins/Cli';
 import { getPackageInfo } from '../../../../plugins/package/Package';
-import { getGitCurrentBranch } from '../../../../plugins/Git';
-import { renderTemplateTree } from '../../../../plugins/template/Template';
-import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
+import { getGitCurrentBranch, getGitRemoteOriginUrl } from '../../../../plugins/Git';
+import { renderTemplateTree, renderTemplateFile } from '../../../../plugins/template/Template';
+import { AbstractAdapter } from '../../../AbstractAdapter';
+import { fileExistsSync } from '../../../../plugins/File';
+import { FileFactory } from '../../../../plugins/file/FileFactory';
+import { TomlFile } from '../../../../plugins/file/TomlFile';
 
 @injectable()
-export default class Netlify extends AbstractAdapterWithPackage {
+export default class Netlify extends AbstractAdapter {
+
     protected name = 'Netlify (https://aws-amplify.github.io/)';
-    protected packageName = '@reactionable/netlify';
+
+    async isEnabled(realpath: string): Promise<boolean> {
+        return fileExistsSync(resolve(realpath, 'netlify.toml'));
+    }
 
     async run({ realpath }) {
-        await super.run({ realpath });
 
         // Add netlify default configuration files
         info('Configure Netlify...');
         const projectName = getPackageInfo(realpath, 'name');
 
-        await renderTemplateTree(
-            realpath,
-            'add-hosting/netlify',
-            ['netlify.toml'],
+        const netlifyFilePath = resolve(realpath, 'netlify.toml');
+
+        await FileFactory.fromFile<TomlFile>(netlifyFilePath).appendContent(await renderTemplateFile(
+            'add-hosting/netlify/netlify.toml',
             {
                 nodeVersion: getNodeVersion(),
                 projectBranch: getGitCurrentBranch(realpath, 'master'),
                 projectPath: realpath,
                 projectName,
-            }
-        );
+            })
+        ).saveFile();
 
-        // Configure amplify        
-        const cmd = getCmd('netlify');
+        // Configure    netlify    
+        const cmd = getNpmCmd('netlify');
         if (!cmd) {
             return error('Unable to configure Netlify, please install globally "@netlify/cli" or "npx"');
         }
+
+        // Check if netlify is configured
+        let netlifyConfig: { name: string } | undefined = undefined;
+        let gitRemoteUrl = getGitRemoteOriginUrl(realpath, false);
+        if (gitRemoteUrl) {
+            gitRemoteUrl = gitRemoteUrl.replace(/\.git$/, '');
+
+            const sitesListData = await exec(cmd + ' api listSites --data ' + JSON.stringify(JSON.stringify({ filter: "all" })), realpath, true);
+            const sitesList = JSON.parse(sitesListData);
+            for (const site of sitesList) {
+                let siteRepoUrl = site?.build_settings?.repo_url;
+                if (!siteRepoUrl) {
+                    continue;
+                }
+                siteRepoUrl = siteRepoUrl.replace(/\.git$/, '');
+                console.log(siteRepoUrl, gitRemoteUrl);
+                if (siteRepoUrl === gitRemoteUrl) {
+                    netlifyConfig = site;
+                    break;
+                }
+            }
+        }
+
+        if (netlifyConfig) {
+            success('Netlify is already configured for site "' + netlifyConfig.name + '"');
+            return;
+        }
+
         await exec(cmd + ' sites:create -n ' + projectName + ' --with-ci', realpath);
         success('Netlify has been configured in "' + realpath + '"');
     }

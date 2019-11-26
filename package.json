@@ -49,10 +49,10 @@
     "ts-jest": "^24.2.0",
     "tsc-watch": "^4.0.0",
     "typedoc": "^0.15.3",
-    "typedoc-plugin-nojekyll": "^1.0.1",
-    "typescript": "^3.7.2"
+    "typedoc-plugin-nojekyll": "^1.0.1"
   },
   "dependencies": {
+    "@iarna/toml": "^2.2.3",
     "@typescript-eslint/typescript-estree": "^2.8.0",
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",
@@ -61,13 +61,13 @@
     "figlet": "^1.2.4",
     "handlebars": "^4.5.3",
     "inquirer": "^7.0.0",
-    "inquirer-autocomplete-prompt": "^1.0.1",
     "inversify": "^5.0.1",
     "js-ini": "^1.1.2",
     "parse-github-url": "^1.0.2",
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "typescript": "^3.7.2"
   },
   "husky": {
     "hooks": {

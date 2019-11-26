@@ -1,44 +1,64 @@
-import { FileContentType, fixContentEOL } from '../File';
-import { existsSync, realpathSync, statSync, readFileSync } from 'fs';
+import { fileExistsSync } from '../File';
+import { realpathSync, statSync, readFileSync } from 'fs';
 import { extname } from 'path';
 import { ReactComponentFile } from './ReactComponentFile';
 import { TypescriptFile } from './TypescriptFile';
 import { StdFile } from './StdFile';
+import { TomlFile } from './TomlFile';
+import { JsonFile } from './JsonFile';
+
+export enum FileContentType {
+    mtime,
+    content,
+    lines,
+}
+
 export class FileFactory {
+
     private static fileContentCache: {
         [key: string]: {
             [FileContentType.mtime]: Date;
             [FileContentType.content]: string;
-            [FileContentType.lines]: string[] | undefined;
-            [FileContentType.data]: Object | undefined;
         };
     } = {};
-    static fromFile(file: string, encoding = 'utf8'): StdFile | TypescriptFile | ReactComponentFile {
-        if (!existsSync(file)) {
+
+    static fromFile<File extends StdFile = StdFile>(file: string, encoding = 'utf8'): File {
+        if (!fileExistsSync(file)) {
             throw new Error('File "' + file + '" does not exist');
         }
         file = realpathSync(file);
-        const mtime = statSync(file).mtime;
+
+        const stat = statSync(file);
+        const realMtime = new Date(Math.max.apply(null, [
+            stat.birthtime.getTime(),
+            stat.mtime.getTime(),
+        ]));
+
         if (!FileFactory.fileContentCache[file]
-            || !mtime
-            || FileFactory.fileContentCache[file][FileContentType.mtime] < mtime) {
+            || !realMtime
+            || FileFactory.fileContentCache[file][FileContentType.mtime] < realMtime) {
             let fileContent = readFileSync(file, encoding).toString();
-            fileContent = fixContentEOL(fileContent);
             FileFactory.fileContentCache[file] = {
-                [FileContentType.mtime]: mtime,
+                [FileContentType.mtime]: realMtime,
                 [FileContentType.content]: fileContent,
-                [FileContentType.lines]: undefined,
-                [FileContentType.data]: undefined,
             };
         }
         const content = FileFactory.fileContentCache[file][FileContentType.content];
-        return FileFactory.fromString(content, file, encoding);
+        try {
+            return FileFactory.fromString(content, file, encoding) as File;
+        } catch (error) {
+            throw new Error(`An error occurred while parsing file "${file}": ${JSON.stringify(error)}`);
+        }
     }
 
-    static fromString(content: string, file: string, encoding = 'utf8'): StdFile | TypescriptFile | ReactComponentFile {
+    static fromString(content: string, file: string, encoding = 'utf8'): StdFile {
         switch (extname(file)) {
+            case '.json':
+                return new JsonFile(file, encoding, content);
+            case '.toml':
+                return new TomlFile(file, encoding, content);
             case '.tsx':
-                // return new ReactComponentFile(file, encoding, content);
+            // return new ReactComponentFile(file, encoding, content);
             case '.ts':
                 return new TypescriptFile(file, encoding, content);
             default:

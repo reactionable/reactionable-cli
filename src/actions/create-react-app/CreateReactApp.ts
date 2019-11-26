@@ -1,11 +1,10 @@
 import { prompt } from 'inquirer';
-import { existsSync } from 'fs';
 import { basename, resolve, dirname } from 'path';
 import { red } from 'chalk';
 import { injectable, inject } from 'inversify';
 import { IAction } from '../IAction';
-import { error, success, info, exec, getCmd } from '../../plugins/Cli';
-import { replaceFileExtension, safeReplaceFile, safeAppendFile } from '../../plugins/File';
+import { error, success, info, exec, getNpmCmd } from '../../plugins/Cli';
+import { replaceFileExtension, fileExistsSync, dirExistsSync } from '../../plugins/File';
 import { installPackages, getPackageJsonPath, hasInstalledPackage, getPackageInfo } from '../../plugins/package/Package';
 import { renderTemplateTree } from '../../plugins/template/Template';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
@@ -13,6 +12,8 @@ import AddHosting from '../add-hosting/AddHosting';
 import AddVersioning from '../add-versioning/AddVersioning';
 import CreateComponent from '../create-component/CreateComponent';
 import GenerateReadme from '../generate-readme/GenerateReadme';
+import { mkdirSync } from 'fs';
+import { FileFactory } from '../../plugins/file/FileFactory';
 
 @injectable()
 export default class CreateReactApp implements IAction {
@@ -33,7 +34,7 @@ export default class CreateReactApp implements IAction {
         const projectName = basename(realpath);
 
         let reactAppExistsAlready = false;
-        if (existsSync(realpath)) {
+        if (dirExistsSync(realpath)) {
             const { override } = await prompt([
                 {
                     type: 'confirm',
@@ -48,20 +49,20 @@ export default class CreateReactApp implements IAction {
             if (
                 getPackageJsonPath(realpath)
                 && hasInstalledPackage(realpath, 'react')
-                && existsSync(resolve(realpath, 'src/react-app-env.d.ts'))) {
+                && fileExistsSync(resolve(realpath, 'src/react-app-env.d.ts'))) {
                 reactAppExistsAlready = true;
             }
         }
         else {
             const parentDir = dirname(realpath);
-            if (!existsSync(parentDir)) {
+            if (!dirExistsSync(parentDir)) {
                 error('Unable to create app "' + projectName + '", directory "' + parentDir + '" does not exist.');
                 return;
             }
         }
 
         if (!reactAppExistsAlready) {
-            const createReactAppCmd = getCmd('create-react-app');
+            const createReactAppCmd = getNpmCmd('create-react-app');
             if (!createReactAppCmd) {
                 return error('Unable to create app, install globally "create-react-app" or "npx"');
             }
@@ -85,10 +86,16 @@ export default class CreateReactApp implements IAction {
 
         // Replace css files
         replaceFileExtension(resolve(realpath, 'src/index.css'), 'scss');
-        await safeReplaceFile(resolve(realpath, 'src/index.tsx'), /import '\.\/index\.css';/, 'import \'./index.scss\';');
-
         replaceFileExtension(resolve(realpath, 'src/App.css'), 'scss');
-        await safeReplaceFile(resolve(realpath, 'src/App.tsx'), /import '\.\/App\.css';/, 'import \'./App.scss\';');
+
+        await FileFactory
+            .fromFile(resolve(realpath, 'src/index.tsx'))
+            .replaceContent(/import '\.\/index\.css';/, 'import \'./index.scss\';')
+            .saveFile();
+
+        await FileFactory.fromFile(resolve(realpath, 'src/App.tsx'))
+            .replaceContent(/import '\.\/App\.css';/, 'import \'./App.scss\';')
+            .saveFile();
 
         success('Saas has been added in "' + realpath + '"');
 
@@ -115,11 +122,11 @@ export default class CreateReactApp implements IAction {
                 projectName: JSON.stringify(getPackageInfo(realpath, 'name')),
             }
         );
-        await safeAppendFile(
-            resolve(realpath, 'src/index.tsx'),
-            'import \'./i18n/i18n.ts\';',
-            'import \'./index.scss\';',
-        );
+
+        await FileFactory.fromFile(resolve(realpath, 'src/index.tsx'))
+            .appendContent('import \'./i18n/i18n.ts\';', 'import \'./index.scss\';')
+            .saveFile();
+
         success('I18n configuration has been created in "' + resolve(realpath, i18nPath) + '"');
 
         // Add UI framework

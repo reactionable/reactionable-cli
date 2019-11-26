@@ -1,8 +1,9 @@
-import { existsSync, mkdirSync } from 'fs';
+import { mkdirSync } from 'fs';
 import { resolve, dirname, join, basename, extname, sep } from 'path';
 import { plural, singular } from 'pluralize';
 import { compile, registerHelper, SafeString, registerPartial, partials } from 'handlebars';
 import { FileFactory } from '../file/FileFactory';
+import { dirExistsSync } from '../File';
 
 // Compile template
 registerHelper({
@@ -84,17 +85,23 @@ export type TemplateConfig = string[] | {
 };
 
 export const renderTemplateTree = async (dirPath: string, namespace: string, config: TemplateConfig, context: Object = {}): Promise<void> => {
-    if (!existsSync(dirPath)) {
+    if (!dirExistsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
     }
 
     if (Array.isArray(config)) {
         for (const filePath of config) {
-            await createFileFromTemplate(
-                join(dirPath, filePath),
-                namespace,
-                context
+            const currentPath = resolve(
+                dirPath,
+                await renderTemplateString(filePath, context)
             );
+
+            const currentBaseDirPath = dirname(currentPath);
+            if (!dirExistsSync(currentBaseDirPath)) {
+                mkdirSync(currentBaseDirPath, { recursive: true });
+            }
+
+            await createFileFromTemplate(currentPath, namespace, context);
         }
         return;
     }
@@ -107,6 +114,11 @@ export const renderTemplateTree = async (dirPath: string, namespace: string, con
         );
 
         if ('string' === typeof templateConfig) {
+            const currentBaseDirPath = dirname(currentPath);
+            if (!dirExistsSync(currentBaseDirPath)) {
+                mkdirSync(currentBaseDirPath, { recursive: true });
+            }
+
             await createFileFromTemplate(
                 currentPath,
                 join(namespace, templateConfig),
@@ -122,14 +134,15 @@ export const renderTemplateTree = async (dirPath: string, namespace: string, con
 
 const createFileFromTemplate = async (filePath: string, namespace: string, context: Object, encoding = 'utf8'): Promise<void> => {
     const parentDir = dirname(filePath);
-    if (!existsSync(parentDir)) {
+    if (!dirExistsSync(parentDir)) {
         throw new Error('Unable to create file "' + filePath + '", directory "' + parentDir + '" does not exist');
     }
 
     const templateKey = extname(namespace) ? namespace : join(namespace, basename(filePath));
     const fileContent = await renderTemplateFile(templateKey, context);
 
-    return FileFactory.fromString(fileContent, filePath, encoding).saveFile();
+    await FileFactory.fromString(fileContent, filePath, encoding).saveFile();
+    return;
 };
 
 const getTemplateFileContent = async (template: string): Promise<string> => {
@@ -193,7 +206,7 @@ const getCompiledTemplateFile = async (templateKey: string): Promise<CompiledTem
     }
 }
 
-const renderTemplateFile = async (templateKey: string, context: Object): Promise<string> => {
+export const renderTemplateFile = async (templateKey: string, context: Object): Promise<string> => {
     const compiledTemplate = await getCompiledTemplateFile(templateKey);
     try {
         const content = compiledTemplate(context);

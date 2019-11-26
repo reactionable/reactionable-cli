@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
 import Git from './adapters/github/Github';
-import { IAdapter } from '../IAdapter';
+import { IVersioningAdapter } from './IVersioningAdapter';
 
 let container = new Container({ defaultScope: 'Singleton' });
 
-container.bind<IAdapter>('Adapter').to(Git);
+container.bind<IVersioningAdapter>('Adapter').to(Git);
 
 export default container;
