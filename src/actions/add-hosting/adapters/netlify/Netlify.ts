@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { success, info, error, exec, getNodeVersion, getNpmCmd } from '../../../../plugins/Cli';
 import { getPackageInfo } from '../../../../plugins/package/Package';
 import { getGitCurrentBranch, getGitRemoteOriginUrl } from '../../../../plugins/Git';
-import { renderTemplateTree, renderTemplateFile } from '../../../../plugins/template/Template';
+import { renderTemplateFile } from '../../../../plugins/template/Template';
 import { AbstractAdapter } from '../../../AbstractAdapter';
 import { fileExistsSync } from '../../../../plugins/File';
 import { FileFactory } from '../../../../plugins/file/FileFactory';
@@ -56,7 +56,6 @@ export default class Netlify extends AbstractAdapter {
                     continue;
                 }
                 siteRepoUrl = siteRepoUrl.replace(/\.git$/, '');
-                console.log(siteRepoUrl, gitRemoteUrl);
                 if (siteRepoUrl === gitRemoteUrl) {
                     netlifyConfig = site;
                     break;
