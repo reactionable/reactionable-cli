@@ -1,10 +1,10 @@
 import { injectable } from 'inversify'
 import container from './container';
 import { AbstractActionWithAdapters } from '../AbstractActionWithAdapters';
-import { IAdapter } from '../IAdapter';
+import { IVersioningAdapter } from './IVersioningAdapter';
 
 @injectable()
-export default class AddVersioning extends AbstractActionWithAdapters<IAdapter> {
+export default class AddVersioning extends AbstractActionWithAdapters<IVersioningAdapter> {
     protected name = 'Versioning';
     protected container = container;
 }

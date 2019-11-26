@@ -5,9 +5,9 @@ const template = `[build.environment]
 [build]
   publish = "./build"
 
-  command = """\
-  npm rebuild node-sass && \
-  npm run test --if-present
+  command = """\\
+  npm rebuild node-sass && \\
+  npm run test --if-present && \\
   npm run build
   """
 

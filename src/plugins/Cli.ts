@@ -1,13 +1,32 @@
-import { red, green, yellow } from 'chalk';
-import { existsSync } from 'fs';
+import { red, green, yellow, bgGreen, bgRed, grey } from 'chalk';
 import { spawn } from 'child_process';
 import { which } from 'shelljs';
+import { prompt } from 'inquirer';
+import { Change } from 'diff';
+import { dirExistsSync } from './File';
+
+
+let runStartDate: Date | undefined = undefined;
+export const getRunStartDate = (): Date | undefined => {
+    return runStartDate;
+}
+
+export const initRunStartDate = () => {
+    runStartDate = new Date();
+}
 
 export const getCmd = (cmd: string): string | null => {
     if (which(cmd)) {
         return cmd;
     }
-    if (which('npx')) {
+    return null;
+}
+
+export const getNpmCmd = (cmd: string): string | null => {
+    if (getCmd(cmd)) {
+        return cmd;
+    }
+    if (getCmd('npx')) {
         return 'npx ' + cmd;
     }
     return null;
@@ -27,7 +46,7 @@ export const exec = (
     cwd: string,
     silent: boolean = false,
 ): Promise<string> => {
-    if (cwd && !existsSync(cwd)) {
+    if (cwd && !dirExistsSync(cwd)) {
         throw new Error('Directory "' + cwd + '" does not exist');
     }
     return new Promise((resolve, reject) => {
@@ -76,6 +95,62 @@ export const error = (error: Error | string) => {
     }
     process.stderr.write("\n" + red(`⚠ [${error.name}] ${error.message}`) + "\n" + error.stack + "\n");
 }
+
+export const promptOverwriteFileDiff = async (file: string, diff: Change[]): Promise<boolean> => {
+    let hasDiff = diff.some(part => part.added || part.removed);
+    if (!hasDiff) {
+        return false;
+    }
+
+    while (true) {
+        const { action } = await prompt([
+            {
+                type: 'list',
+                name: 'action',
+                message: 'File "' + file + '" exists already, what do you want to do?',
+                choices: [
+                    { 'name': 'Show diff', 'value': 'diff' },
+                    { 'name': 'Overwrite file', 'value': 'overwrite' },
+                    { 'name': 'Keep original file', 'value': 'cancel' },
+
+                ]
+            },
+        ]);
+
+        if (action === 'cancel') {
+            return false;
+        }
+
+        if (action === 'overwrite') {
+            return true;
+        }
+
+        // Compare diff
+        process.stderr.write("\n\n");
+        info(`File ${file} diff:`);
+        process.stderr.write("\n-----------------------------------------------\n");
+        for (const part of diff) {
+            // green for additions, red for deletions
+            // grey for common parts
+            const isSpaces = part.value.match(/^[\r\n\s]+$/);
+            let data = part.value;
+            switch (true) {
+                case !!part.added:
+                    data = isSpaces ? bgGreen(data) : green(data);
+                    break;
+                case !!part.removed:
+                    data = isSpaces ? bgRed(data) : red(data);
+                    break;
+                default:
+                    data = grey(data);
+                    break;
+            }
+            process.stderr.write(data);
+        };
+        process.stderr.write("\n-----------------------------------------------\n\n");
+        await pause();
+    }
+};
 
 export const pause = (message = `Press any key to continue...`) => {
     return new Promise((resolve, reject) => {

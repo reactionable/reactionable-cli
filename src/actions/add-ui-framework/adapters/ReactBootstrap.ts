@@ -1,11 +1,9 @@
 import { injectable } from 'inversify';
 import { resolve } from 'path';
-import { IAdapter } from '../../IAdapter';
 import { info, success } from '../../../plugins/Cli';
-import { installPackages, hasInstalledPackage } from '../../../plugins/package/Package';
-import { safeReplaceFile, safeAppendFile } from '../../../plugins/File';
-import { setTypescriptImports } from '../../../plugins/file/Typescript';
 import { AbstractAdapterWithPackage } from '../../AbstractAdapterWithPackage';
+import { FileFactory } from '../../../plugins/file/FileFactory';
+import { TypescriptFile } from '../../../plugins/file/TypescriptFile';
 
 @injectable()
 export default class ReactBootstrap extends AbstractAdapterWithPackage {
@@ -20,45 +18,35 @@ export default class ReactBootstrap extends AbstractAdapterWithPackage {
         info('Import style files...');
         const mainStyleFile = resolve(realpath, 'src/index.scss');
 
-        await safeAppendFile(
-            mainStyleFile,
-            "\n" +
+        await FileFactory.fromFile(mainStyleFile).appendContent(
             '// Import Bootstrap and its default variables' + "\n" +
-            '@import \'~bootstrap/scss/bootstrap.scss\';' + "\n" +
-            "\n"
-        );
+            '@import \'~bootstrap/scss/bootstrap.scss\';' + "\n"
+        ).saveFile();
+
         success('Style files have been imported in "' + mainStyleFile + '"');
 
         // Add UI components to existing App components
         info('Add UI components to existing components...');
         const appFile = resolve(realpath, 'src/App.tsx');
-        await setTypescriptImports(
-            appFile,
-            [
-                {
-                    packageName: this.getPackageName(),
-                    modules: {
-                        'useUIContextProviderProps': '',
-                        'IUIContextProviderProps': '',
-                        'IUseLayoutProps': '',
-                    },
+        await FileFactory.fromFile<TypescriptFile>(appFile).setImports(
+            [{
+                packageName: this.getPackageName(),
+                modules: {
+                    'useUIContextProviderProps': '',
+                    'IUIContextProviderProps': '',
+                    'IUseLayoutProps': '',
                 },
-            ],
-            [
-                {
-                    packageName: '@reactionable/core',
-                    modules: {
-                        'IUIContextProviderProps': '',
-                        'IUseLayoutProps': '',
-                    },
+            }],
+            [{
+                packageName: '@reactionable/core',
+                modules: {
+                    'IUIContextProviderProps': '',
+                    'IUseLayoutProps': '',
                 },
-            ]
-        );
-        await safeReplaceFile(
-            appFile,
-            /ui: undefined,.*$/m,
-            'ui: useUIContextProviderProps(),'
-        );
+            }])
+            .replaceContent(/ui: undefined,.*$/m, 'ui: useUIContextProviderProps(),')
+            .saveFile();
+
         success('UI components have been added to existing components');
     }
 }

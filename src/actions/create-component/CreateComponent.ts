@@ -7,6 +7,8 @@ import { getPackageInfo } from '../../plugins/package/Package';
 import { info, success } from '../../plugins/Cli';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
 import AddHosting from '../add-hosting/AddHosting';
+import { dirExistsSync } from '../../plugins/File';
+import { mkdirSync } from 'fs';
 
 @injectable()
 export default class CreateComponent implements IAction<{
@@ -61,7 +63,11 @@ export default class CreateComponent implements IAction<{
 
         let componentDirPath: string;
         if (realpath.indexOf(CreateComponent.viewsPath) === -1) {
-            componentDirPath = resolve(realpath, CreateComponent.viewsPath, componentDirName);
+            const viewsRealpath = resolve(realpath, CreateComponent.viewsPath);
+            if (!dirExistsSync(viewsRealpath)) {
+                mkdirSync(viewsRealpath);
+            }
+            componentDirPath = resolve(viewsRealpath, componentDirName);
         }
         else {
             componentDirPath = resolve(realpath, componentDirName);
@@ -115,9 +121,9 @@ export default class CreateComponent implements IAction<{
     }
 
     async getHostingPackage(realpath: string): Promise<string> {
-        const hostingPackage = (await this.addHosting.detectAdapter(this.getProjectRootPath(realpath)))?.getPackageName();
-        if (hostingPackage) {
-            return hostingPackage;
+        const hostingAdapter = await this.addHosting.detectAdapter(this.getProjectRootPath(realpath));
+        if (hostingAdapter && 'getPackageName' in hostingAdapter) {
+            return hostingAdapter.getPackageName();
         }
         return CreateComponent.defaultPackage;
     }

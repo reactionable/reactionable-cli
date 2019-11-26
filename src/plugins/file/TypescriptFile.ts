@@ -1,29 +1,21 @@
 import { parse } from '@typescript-eslint/typescript-estree';
-import { TypescriptImport } from './TypescriptImport';
+import { TypescriptImport, ITypescriptImport } from './TypescriptImport';
 import { StdFile } from './StdFile';
 import { EOL } from 'os';
 
 export class TypescriptFile extends StdFile {
 
-    protected imports: Array<TypescriptImport>;
-    protected declarations: Array<string>;
-    protected defaultDeclaration: string | null;
+    protected imports?: Array<TypescriptImport>;
+    protected declarations?: Array<string>;
+    protected defaultDeclaration?: string | null;
 
-    constructor(
-        file: string | null = null,
-        encoding: string = 'utf8',
-        content: string = '',
-    ) {
-        super(file, encoding, content);
+    protected parseContent(content: string): string {
+        content = super.parseContent(content);
         this.imports = [];
         this.declarations = [];
         this.defaultDeclaration = null;
-        this.parseContent();
-    }
-
-    protected parseContent(): void {
         try {
-            const { body } = parse(this.content, {
+            const { body } = parse(content, {
                 jsx: true,
             });
             for (const bodyItem of body) {
@@ -39,36 +31,59 @@ export class TypescriptFile extends StdFile {
                         };
                         break;
                     default:
-                        this.declarations.push(this.content.substr(bodyItem.range[0], bodyItem.range[1] - bodyItem.range[0]));
+                        this.declarations.push(content.substr(bodyItem.range[0], bodyItem.range[1] - bodyItem.range[0]));
                 }
             }
         }
         catch (error) {
-
-            let content = this.content;
-            if(error.lineNumber){
-                content = content.split("\n")[error.lineNumber-1];
+            let contentError = content;
+            if (error.lineNumber) {
+                contentError = content.split("\n")[error.lineNumber - 1];
             }
-
-            throw new Error(`An error occurred while parsing file content "${this.file}": ${JSON.stringify(error)} => "${content.trim()}"`);
+            throw new Error(`An error occurred while parsing file content "${this.file}": ${JSON.stringify(error)} => "${contentError.trim()}"`);
         }
+        return content;
     }
 
     getContent(): string {
-        this.imports.sort((importA, importB) => {
-            if (/^\./.exec(importA.packageName)) {
-                return 1;
-            }
-            if (/^\./.exec(importB.packageName)) {
-                return -1;
-            }
-            return importA.packageName.localeCompare(importB.packageName);
-        });
-        const importLines = this.imports.map(importItem => importItem.toString()).filter(line => !!line.length);
-        return [...importLines, '', ...this.declarations].join(EOL);
+        let importLines: string[] = [];
+        if (this.imports) {
+            this.imports.sort((importA, importB) => {
+                if (/^\./.exec(importA.packageName)) {
+                    return 1;
+                }
+                if (/^\./.exec(importB.packageName)) {
+                    return -1;
+                }
+                return importA.packageName.localeCompare(importB.packageName);
+            });
+            importLines = this.imports.map(importItem => importItem.toString()).filter(line => !!line.length);
+        }
+        return [...importLines, '', ...(this.declarations || [])].join(EOL);
     }
 
-    addImports(imports: TypescriptImport[]) {
+    setImports(
+        importsToAdd: Array<ITypescriptImport> = [],
+        importsToRemove: Array<ITypescriptImport> = [],
+    ): this {
+        const importToAddItems = importsToAdd.map(importItem => new TypescriptImport(
+            importItem.packageName,
+            importItem.modules
+        ));
+        const importToRemoveItems = importsToRemove.map(importItem => new TypescriptImport(
+            importItem.packageName,
+            importItem.modules
+        ));
+
+        this.addImports(importToAddItems);
+        this.removeImports(importToRemoveItems);
+        return this;
+    }
+
+    protected addImports(imports: TypescriptImport[]) {
+        if (!this.imports) {
+            this.imports = [];
+        }
         for (const importItem of imports) {
             let importToAddFound = false;
             for (const typescriptImport of this.imports) {
@@ -84,7 +99,10 @@ export class TypescriptFile extends StdFile {
         }
     }
 
-    removeImports(imports: TypescriptImport[]) {
+    protected removeImports(imports: TypescriptImport[]) {
+        if (!this.imports) {
+            this.imports = [];
+        }
         // Remove imports    
         for (const importItem of imports) {
             for (const typescriptImport of this.imports) {

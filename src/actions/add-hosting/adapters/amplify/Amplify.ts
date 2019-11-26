@@ -1,13 +1,13 @@
 import { injectable } from 'inversify';
 import { prompt } from 'inquirer';
 import { resolve } from 'path';
-import { success, info, error, exec, getCmd } from '../../../../plugins/Cli';
+import { success, info, error, exec, getNpmCmd } from '../../../../plugins/Cli';
 import { getPackageInfo } from '../../../../plugins/package/Package';
 import { getGitCurrentBranch } from '../../../../plugins/Git';
 import { renderTemplateTree } from '../../../../plugins/template/Template';
-import { setTypescriptImports } from '../../../../plugins/file/Typescript';
-import { safeReplaceFile, safeAppendFile } from '../../../../plugins/File';
 import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
+import { FileFactory } from '../../../../plugins/file/FileFactory';
+import { TypescriptFile } from '../../../../plugins/file/TypescriptFile';
 
 @injectable()
 export default class Amplify extends AbstractAdapterWithPackage {
@@ -20,8 +20,7 @@ export default class Amplify extends AbstractAdapterWithPackage {
         // Add amplify config in App component
         info('Add amplify config in App component...');
         const appFile = resolve(realpath, 'src/App.tsx');
-        await setTypescriptImports(
-            appFile,
+        await FileFactory.fromFile<TypescriptFile>(appFile).setImports(
             [
                 {
                     packageName: '@reactionable/amplify',
@@ -51,13 +50,10 @@ export default class Amplify extends AbstractAdapterWithPackage {
                     },
                 },
             ]
-        );
-
-        await safeAppendFile(
-            appFile,
+        ).appendContent(
             'Amplify.configure(awsconfig);',
             'import \'./App.scss\';'
-        );
+        ).saveFile();
 
         // Add amplify default configuration files
         info('Configure Amplify...');
@@ -83,7 +79,7 @@ export default class Amplify extends AbstractAdapterWithPackage {
         );
 
         // Configure amplify        
-        const amplifyCmd = getCmd('amplify');
+        const amplifyCmd = getNpmCmd('amplify');
         if (!amplifyCmd) {
             return error('Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"');
         }
@@ -110,12 +106,10 @@ export default class Amplify extends AbstractAdapterWithPackage {
             await exec(amplifyCmd + ' add auth', realpath);
             await exec(amplifyCmd + ' push', realpath);
 
-            await safeReplaceFile(
-                appFile,
+            await FileFactory.fromFile(appFile).replaceContent(
                 /identity: undefined,.*$/m,
                 'identity: useIdentityContextProviderProps(),'
-            );
-
+            ).saveFile();
         }
 
         const { addApi } = await prompt([

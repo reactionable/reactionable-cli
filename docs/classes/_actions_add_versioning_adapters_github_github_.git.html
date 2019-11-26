@@ -94,31 +94,42 @@
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/_actions_irealpathrunnable_.irealpathrunnable.html" class="tsd-signature-type">IRealpathRunnable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/_actions_add_versioning_iversioningadapter_.iversioningadapter.html" class="tsd-signature-type">IVersioningAdapter</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-private-protected">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_versioning_adapters_github_github_.git.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_actions_add_versioning_adapters_github_github_.git.html#conventionalcommitspackages" class="tsd-kind-icon">conventional<wbr>Commits<wbr>Packages</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_actions_add_versioning_adapters_github_github_.git.html#commitfiles" class="tsd-kind-icon">commit<wbr>Files</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_actions_add_versioning_adapters_github_github_.git.html#getcommitmessage" class="tsd-kind-icon">get<wbr>Commit<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_actions_add_versioning_adapters_github_github_.git.html#getname" class="tsd-kind-icon">get<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_actions_add_versioning_adapters_github_github_.git.html#hasconventionalcommits" class="tsd-kind-icon">has<wbr>Conventional<wbr>Commits</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_actions_add_versioning_adapters_github_github_.git.html#isenabled" class="tsd-kind-icon">is<wbr>Enabled</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_actions_add_versioning_adapters_github_github_.git.html#run" class="tsd-kind-icon">run</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_actions_add_versioning_adapters_github_github_.git.html#validategitremote" class="tsd-kind-icon">validate<wbr>Git<wbr>Remote</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_actions_add_versioning_adapters_github_github_.git.html#conventionalcommitsconfig" class="tsd-kind-icon">conventional<wbr>Commits<wbr>Config</a></li>
+							</ul>
+						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 					<a name="name" class="tsd-anchor"></a>
@@ -127,13 +138,85 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_actions_abstractadapter_.abstractadapter.html">AbstractAdapter</a>.<a href="_actions_abstractadapter_.abstractadapter.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/neilime/reactionable-cli/blob/aee3ada/src/actions/add-versioning/adapters/github/Github.ts#L9">actions/add-versioning/adapters/github/Github.ts:9</a></li>
+							<li>Defined in actions/add-versioning/adapters/github/Github.ts:9</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="conventionalcommitspackages" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> conventional<wbr>Commits<wbr>Packages</h3>
+					<div class="tsd-signature tsd-kind-icon">conventional<wbr>Commits<wbr>Packages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;@commitlint/cli&#x27;,&#x27;@commitlint/config-conventional&#x27;,&#x27;cz-conventional-changelog&#x27;,&#x27;husky&#x27;,]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#conventionalcommitspackages">conventionalCommitsPackages</a></p>
+						<ul>
+							<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:14</li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="commitfiles" class="tsd-anchor"></a>
+					<h3>commit<wbr>Files</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">commit<wbr>Files<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, commitMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, commitMessageType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_actions_add_versioning_iversioningadapter_.iversioningadapter.html">IVersioningAdapter</a>.<a href="../interfaces/_actions_add_versioning_iversioningadapter_.iversioningadapter.html#commitfiles">commitFiles</a></p>
+								<p>Inherited from <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#commitfiles">commitFiles</a></p>
+								<ul>
+									<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:112</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>realpath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>commitMessage: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>commitMessageType: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getcommitmessage" class="tsd-anchor"></a>
+					<h3>get<wbr>Commit<wbr>Message</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Commit<wbr>Message<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, commitMessage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, commitMessageType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#getcommitmessage">getCommitMessage</a></p>
+								<ul>
+									<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:105</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>realpath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>commitMessage: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>commitMessageType: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="getname" class="tsd-anchor"></a>
 					<h3>get<wbr>Name</h3>
@@ -145,10 +228,34 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractadapter_.abstractadapter.html">AbstractAdapter</a>.<a href="_actions_abstractadapter_.abstractadapter.html#getname">getName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/neilime/reactionable-cli/blob/aee3ada/src/actions/AbstractAdapter.ts#L11">actions/AbstractAdapter.ts:11</a></li>
+									<li>Defined in actions/AbstractAdapter.ts:11</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="hasconventionalcommits" class="tsd-anchor"></a>
+					<h3>has<wbr>Conventional<wbr>Commits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">has<wbr>Conventional<wbr>Commits<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#hasconventionalcommits">hasConventionalCommits</a></p>
+								<ul>
+									<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:96</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>realpath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -161,9 +268,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_actions_add_versioning_iversioningadapter_.iversioningadapter.html">IVersioningAdapter</a>.<a href="../interfaces/_actions_add_versioning_iversioningadapter_.iversioningadapter.html#isenabled">isEnabled</a></p>
 								<p>Overrides <a href="_actions_abstractadapter_.abstractadapter.html">AbstractAdapter</a>.<a href="_actions_abstractadapter_.abstractadapter.html#isenabled">isEnabled</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/neilime/reactionable-cli/blob/aee3ada/src/actions/add-versioning/adapters/github/Github.ts#L11">actions/add-versioning/adapters/github/Github.ts:11</a></li>
+									<li>Defined in actions/add-versioning/adapters/github/Github.ts:11</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,7 +295,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#run">run</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/neilime/reactionable-cli/blob/aee3ada/src/actions/add-versioning/adapters/github/Github.ts#L16">actions/add-versioning/adapters/github/Github.ts:16</a></li>
+									<li>Defined in actions/add-versioning/adapters/github/Github.ts:16</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -216,7 +324,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#validategitremote">validateGitRemote</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/neilime/reactionable-cli/blob/aee3ada/src/actions/add-versioning/adapters/github/Github.ts#L35">actions/add-versioning/adapters/github/Github.ts:35</a></li>
+									<li>Defined in actions/add-versioning/adapters/github/Github.ts:35</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -231,6 +339,80 @@
 							</h4>
 						</li>
 					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="conventionalcommitsconfig" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> conventional<wbr>Commits<wbr>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">conventional<wbr>Commits<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html">AbstractVersioning</a>.<a href="_actions_add_versioning_adapters_abstractversioning_.abstractversioning.html#conventionalcommitsconfig">conventionalCommitsConfig</a></p>
+						<ul>
+							<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:21</li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="conventionalcommitsconfig.config" class="tsd-anchor"></a>
+						<h3>config</h3>
+						<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:27</li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+							<a name="conventionalcommitsconfig.config.commitizen" class="tsd-anchor"></a>
+							<h3>commitizen</h3>
+							<div class="tsd-signature tsd-kind-icon">commitizen<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:28</li>
+								</ul>
+							</aside>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="conventionalcommitsconfig.config.commitizen.path" class="tsd-anchor"></a>
+								<h3>path</h3>
+								<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;./node_modules/cz-conventional-changelog&quot;</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:29</li>
+									</ul>
+								</aside>
+							</section>
+						</section>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+						<a name="conventionalcommitsconfig.husky" class="tsd-anchor"></a>
+						<h3>husky</h3>
+						<div class="tsd-signature tsd-kind-icon">husky<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:22</li>
+							</ul>
+						</aside>
+						<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
+							<a name="conventionalcommitsconfig.husky.hooks" class="tsd-anchor"></a>
+							<h3>hooks</h3>
+							<div class="tsd-signature tsd-kind-icon">hooks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:23</li>
+								</ul>
+							</aside>
+							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+								<a name="conventionalcommitsconfig.husky.hooks.commit_msg" class="tsd-anchor"></a>
+								<h3>commit-<wbr>msg</h3>
+								<div class="tsd-signature tsd-kind-icon">commit-<wbr>msg<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;commitlint -E HUSKY_GIT_PARAMS&quot;</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in actions/add-versioning/adapters/AbstractVersioning.ts:24</li>
+									</ul>
+								</aside>
+							</section>
+						</section>
+					</section>
 				</section>
 			</section>
 		</div>
@@ -255,8 +437,20 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 								<a href="_actions_add_versioning_adapters_github_github_.git.html#name" class="tsd-kind-icon">name</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="_actions_add_versioning_adapters_github_github_.git.html#conventionalcommitspackages" class="tsd-kind-icon">conventional<wbr>Commits<wbr>Packages</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_actions_add_versioning_adapters_github_github_.git.html#commitfiles" class="tsd-kind-icon">commit<wbr>Files</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_actions_add_versioning_adapters_github_github_.git.html#getcommitmessage" class="tsd-kind-icon">get<wbr>Commit<wbr>Message</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_actions_add_versioning_adapters_github_github_.git.html#getname" class="tsd-kind-icon">get<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_actions_add_versioning_adapters_github_github_.git.html#hasconventionalcommits" class="tsd-kind-icon">has<wbr>Conventional<wbr>Commits</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_actions_add_versioning_adapters_github_github_.git.html#isenabled" class="tsd-kind-icon">is<wbr>Enabled</a>
@@ -266,6 +460,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_actions_add_versioning_adapters_github_github_.git.html#validategitremote" class="tsd-kind-icon">validate<wbr>Git<wbr>Remote</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="_actions_add_versioning_adapters_github_github_.git.html#conventionalcommitsconfig" class="tsd-kind-icon">conventional<wbr>Commits<wbr>Config</a>
 							</li>
 						</ul>
 					</li>

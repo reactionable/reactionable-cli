@@ -1,9 +1,10 @@
-import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { which } from 'shelljs';
 import { all } from 'deepmerge';
 import { exec, info, success } from '../Cli';
-import { getFileContent, FileContentType, safeWriteJsonFile } from '../File';
+import { fileExistsSync, dirExistsSync } from '../File';
+import { FileFactory } from '../file/FileFactory';
+import { JsonFile } from '../file/JsonFile';
 
 enum PackageManager {
     yarn,
@@ -11,11 +12,11 @@ enum PackageManager {
 };
 
 export const getPackageManager = (dirPath: string): PackageManager => {
-    if (!existsSync(dirPath)) {
+    if (!dirExistsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
     }
 
-    if (existsSync(resolve(dirPath, 'yarn.lock'))) {
+    if (fileExistsSync(resolve(dirPath, 'yarn.lock'))) {
         return PackageManager.yarn;
     }
     return PackageManager.npm;
@@ -27,14 +28,13 @@ export const installPackages = async (
     verbose: boolean = true,
     dev: boolean = false,
 ): Promise<string[]> => {
-    verbose && info('Installing packages...');
     // Remove already installed packges
     packages = packages.filter(packageName => !hasInstalledPackage(dirPath, packageName, dev));
-
     if (!packages.length) {
-        verbose && success('No package has been installed');
         return packages;
     }
+
+    verbose && info(`Installing ${packages.join(', ')}...`);
 
     // Retrieve package manager
     const packageManager = getPackageManager(dirPath);
@@ -69,43 +69,79 @@ export const installDevPackages = (
     return installPackages(dirPath, devPackages, verbose, true);
 };
 
-export const updatePackageJson = (dirPath: string, data: Object): Promise<void> => {
+export const updatePackageJson = async (dirPath: string, data: Object): Promise<void> => {
     const packageJsonPath = getPackageJsonPath(dirPath);
     if (!packageJsonPath) {
         throw new Error('package.json does not exist in directory "' + dirPath + '"');
     }
 
-    const packageInfo = getPackageInfo(dirPath);
-    const newPackageInfo = all([packageInfo, data]);
-
-    return safeWriteJsonFile(packageJsonPath, newPackageInfo);
+    await FileFactory.fromFile<JsonFile>(packageJsonPath).appendData(data).saveFile();
+    return;
 };
 
 export const getPackageJsonPath = (dirPath: string): string | null => {
-    if (!existsSync(dirPath)) {
+    if (!dirExistsSync(dirPath)) {
         throw new Error('Directory "' + dirPath + '" does not exist');
     }
     const packageJsonPath = resolve(dirPath, 'package.json');
 
-    if (existsSync(packageJsonPath)) {
+    if (fileExistsSync(packageJsonPath)) {
         return packageJsonPath;
     }
     return null;
+};
+
+export const hasPackageJsonConfig = (dirPath: string, data: Object): boolean => {
+    const compareObject = (data: Object, packageInfo: Object) => {
+        for (const key of Object.keys(data)) {
+            if (!packageInfo[key]) {
+                return false;
+            }
+            const typeofData = typeof data[key];
+            const typeofPackageInfo = typeof packageInfo[key];
+            if (typeofData !== typeofPackageInfo) {
+                return false;
+            }
+            switch (typeofData) {
+                case 'object':
+                    if (Array.isArray(data[key])) {
+                        if (!Array.isArray(packageInfo[key])) {
+                            return false;
+                        }
+
+                        if (!data[key].every(item => packageInfo[key].contains(item))) {
+                            return false;
+                        }
+
+                    } else {
+                        if (Array.isArray(packageInfo[key])) {
+                            return false;
+                        }
+                        if (!compareObject(data[key], packageInfo[key])) {
+                            return false;
+                        }
+                    }
+                    break;
+                default:
+                    if (data[key] !== packageInfo[key]) {
+                        return false;
+                    }
+            }
+        }
+        return true;
+    }
+
+    return compareObject(data, getPackageInfo(dirPath));
 }
 
 export const getPackageInfo = (dirPath: string, property?: string, encoding = 'utf8') => {
-    if (!existsSync(dirPath)) {
-        throw new Error('Directory "' + dirPath + '" does not exist');
-    }
-
     const packageJsonPath = getPackageJsonPath(dirPath);
 
     if (!packageJsonPath) {
         throw new Error('package.json does not exist in directory "' + dirPath + '"');
     }
 
-    const data = getFileContent(packageJsonPath, encoding, FileContentType.data);
-    return property ? data[property] : data;
+    return FileFactory.fromFile<JsonFile>(packageJsonPath).getData(property);
 };
 
 export const hasInstalledPackage = (

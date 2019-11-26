@@ -1,14 +1,15 @@
 import { resolve } from 'path';
-import { existsSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import * as parseGitRemote from 'parse-github-url';
 import { which } from 'shelljs';
 import { parse } from 'js-ini';
 import { exec, info, success } from './Cli';
 import { Result } from 'parse-github-url';
+import { fileExistsSync } from './File';
 
 export const initializedGit = async (dirPath: string) => {
     const filepath = resolve(dirPath, '.git/HEAD');
-    if (existsSync(filepath)) {
+    if (fileExistsSync(filepath)) {
         return;
     }
     info('Initilize Git...');
@@ -18,7 +19,7 @@ export const initializedGit = async (dirPath: string) => {
 
 export const getGitCurrentBranch = (dirPath: string, defaultBranch: string): string => {
     const filepath = resolve(dirPath, '.git/HEAD');
-    if (!existsSync(filepath)) {
+    if (!fileExistsSync(filepath)) {
         throw new Error('File "' + filepath + '" does not exist');
     }
     const match = /ref: refs\/heads\/([^\n]+)/.exec(readFileSync(filepath).toString());
@@ -27,7 +28,7 @@ export const getGitCurrentBranch = (dirPath: string, defaultBranch: string): str
 
 export const getGitConfig = (dirPath: string) => {
     const filepath = resolve(dirPath, '.git/config');
-    if (!existsSync(filepath)) {
+    if (!fileExistsSync(filepath)) {
         throw new Error('File "' + filepath + '" does not exist');
     }
     return parse(readFileSync(filepath, 'utf-8'));
