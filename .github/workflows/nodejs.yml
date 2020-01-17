@@ -13,6 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@master
       with:
@@ -25,7 +31,7 @@ jobs:
       env:
         CI: true    
     - name: Publish docs
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+      uses: JamesIves/github-pages-deploy-action@master
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: master # The branch the action should deploy from.
