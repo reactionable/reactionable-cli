@@ -4,11 +4,15 @@ import { Link, useParams } from 'react-router-dom';
 import { lazy } from 'react';
 import { Read } from '{{ uiPackage }}';
 const Update{{ entityName }} = lazy(() => import('../update-{{hyphenize entityName }}/Update{{ entityName }}'));
-import { I{{ entityName }}Data } from '../{{ entitiesName }}Config';
+import { I{{ entityName }}Data, IGet{{ entityName }}QueryVariables } from '../{{ entitiesName }}Config';
 {{/inline}}
 {{#*inline "helmet-block"}}{{/inline}}
 {{#*inline "pre-render-block"}}const matchParams = useParams<{ {{decapitalize entityName }}Id: string }>();
-  
+
+  const { data, refetch, ...readProps } = useQuery<I{{ entityName }}Data, IGet{{ entityName }}QueryVariables>({
+    variables: { id: matchParams.{{decapitalize entityName }}Id },
+  });
+
   const renderChildren = (data: I{{ entityName }}Data) => <>
     <Helmet>
       <title>{t('{{projectName}}')} - {t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)}</title>
@@ -27,8 +31,7 @@ import { I{{ entityName }}Data } from '../{{ entitiesName }}Config';
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
 {{#*inline "render-block"}}<Read<I{{ entityName }}Data>
-      isLoading={isLoading}
-      error={error}
+      {...readProps}
       data={data}
       children={renderChildren}
     />{{/inline}}
