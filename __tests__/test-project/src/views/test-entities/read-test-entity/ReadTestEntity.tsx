@@ -3,14 +3,18 @@ import React, { lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import { ITestEntityData } from '../TestEntitiesConfig';
+import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
 
 const UpdateTestEntity = lazy(() => import('../update-test-entity/UpdateTestEntity'));
 interface IProps { }
 const ReadTestEntity: React.FC<IProps> = (props) => {
   const { t } = useTranslation();
   const matchParams = useParams<{ testEntityId: string }>();
-  
+
+  const { data, refetch, ...readProps } = useQuery<ITestEntityData, IGetTestEntityQueryVariables>({
+    variables: { id: matchParams.testEntityId },
+  });
+
   const renderChildren = (data: ITestEntityData) => <>
     <Helmet>
       <title>{t('tests')} - {t('Read test entity - {{label}}', data)}</title>
@@ -30,8 +34,7 @@ const ReadTestEntity: React.FC<IProps> = (props) => {
   return <>
     
     <Read<ITestEntityData>
-      isLoading={isLoading}
-      error={error}
+      {...readProps}
       data={data}
       children={renderChildren}
     />

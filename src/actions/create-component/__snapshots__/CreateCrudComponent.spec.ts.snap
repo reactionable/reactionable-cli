@@ -1,0 +1,358 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateCrudComponent run 1`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import CreateTestEntity from './CreateTestEntity';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><CreateTestEntity /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateCrudComponent run 2`] = `
+"import { Create, IFormProps, IOnSubmitForm } from '@reactionable/ui-bootstrap';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, 'onSuccess'> { }
+const CreateTestEntity: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
+    return { id: '', label: '' };
+  };
+
+  const form = {
+    title: t('Create a new test entity'),
+    onSubmit,
+    formValues: testEntityFormValues,
+    formSchema: testEntityFormSchema(t),
+    chilren: testEntityFormChildren(t),
+    ...props,
+  };
+
+  return <>
+    
+    <Create<ITestEntityValues, ITestEntityData> form={form} />
+  </>;
+};
+export default CreateTestEntity;"
+`;
+
+exports[`CreateCrudComponent run 3`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import DeleteTestEntity from './DeleteTestEntity';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><DeleteTestEntity /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateCrudComponent run 4`] = `
+"import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { ITestEntityData } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IDeleteProps<ITestEntityData>, 'onSuccess'> {
+  id: string; 
+  label?: boolean;
+}
+const DeleteTestEntity: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  const { id, label, ...deleteProps} = props;
+  const onConfirm = async (): Promise<ITestEntityData> => {
+    return { id, label: '' };
+  };
+
+  return <>
+    
+    <Delete<ITestEntityData>
+      {...deleteProps}
+      title={t('Delete test entity')}
+      children={label ? t('Delete test entity') : undefined}
+      confirmationMessage={t('Are you sure you want to delete this test entity ?')}
+      successMessage={t('The test entity has been deleted')}
+      onConfirm={onConfirm}
+    />
+  </>;
+};
+export default DeleteTestEntity;"
+`;
+
+exports[`CreateCrudComponent run 5`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import ListTestEntities from './ListTestEntities';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><ListTestEntities /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateCrudComponent run 6`] = `
+"import { useQueryList } from '@reactionable/amplify';
+import { List } from '@reactionable/ui-bootstrap';
+import React, { lazy } from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { Link, generatePath, useRouteMatch } from 'react-router-dom';
+import { IListTestEntitiesQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
+
+const CreateTestEntity = lazy(() => import('../create-test-entity/CreateTestEntity'));
+const DeleteTestEntity = lazy(() => import('../delete-test-entity/DeleteTestEntity'));
+interface IProps { }
+const ListTestEntities: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  const match = useRouteMatch();
+
+  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
+  });
+
+  const renderChildren = (data: ITestEntityData) => <tr key={'TestEntity-' + data.id}>
+    <td>
+      <Link
+        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
+        title={t('Go to test entity \\"{{label}}\\"', data)}
+      >{data.label}</Link>
+    </td>
+    <td>
+      <Link
+        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
+        title={t('Go to test entity \\"{{label}}\\"', data)}
+      >{t('Go to test entity \\"{{label}}\\"', data)}</Link>
+      <DeleteTestEntity id={data.id} onSuccess={refetch}>
+        {t('Delete test entity \\"{{label}}\\"', data)}
+      </DeleteTestEntity>
+    </td>
+  </tr>;
+
+  return <>
+    <Helmet>
+      <title>{t('tests')} - {t('List test entities')}</title>
+      <meta name=\\"description\\" content={t('List test entities description')} />
+    </Helmet>
+    <h1>{t('List test entities')}</h1>
+    <Link disabled={!previous} title={t('Load the previous test entities')}>{t('Previous')}</Link>
+    <Link disabled={!next} title={t('Load the next test entities')}>{t('Next')}</Link>
+    <List<ITestEntityData>
+      {...listProps}
+      data={data}
+      head={[t('Label'), t('Actions')]}
+      children={renderChildren}
+      noData={<>
+        <br /> <br />
+        {t('You don\\\\'t have any test entities yet')}
+        <br />
+        {t('Click the button to create a new test entity')}
+        <br /><br />
+        <CreateTestEntity onSuccess={refetch}>
+          <Link>{t('Create a new test entity')}</Link>
+        </CreateTestEntity>
+      </>}
+    />
+  </>;
+};
+export default ListTestEntities;"
+`;
+
+exports[`CreateCrudComponent run 7`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import ReadTestEntity from './ReadTestEntity';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><ReadTestEntity /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateCrudComponent run 8`] = `
+"import { Read } from '@reactionable/ui-bootstrap';
+import React, { lazy } from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { Link, useParams } from 'react-router-dom';
+import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
+
+const UpdateTestEntity = lazy(() => import('../update-test-entity/UpdateTestEntity'));
+interface IProps { }
+const ReadTestEntity: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  const matchParams = useParams<{ testEntityId: string }>();
+
+  const { data, refetch, ...readProps } = useQuery<ITestEntityData, IGetTestEntityQueryVariables>({
+    variables: { id: matchParams.testEntityId },
+  });
+
+  const renderChildren = (data: ITestEntityData) => <>
+    <Helmet>
+      <title>{t('tests')} - {t('Read test entity - {{label}}', data)}</title>
+      <meta name=\\"description\\" content={t('Read test entity - {{label}}', data)} />
+    </Helmet>
+    <h1>{t('Read test entity - {{label}}', data)}</h1>
+    { data && <>
+      <UpdateTestEntity
+        onSuccess={refetch}
+        formValues={data}
+      >
+        <Link to=\\"#\\">{ t('Update test entity \\"{{label}}\\"', data) }</Link>
+      </UpdateTestEntity>
+    </>}
+  </>;
+
+  return <>
+    
+    <Read<ITestEntityData>
+      {...readProps}
+      data={data}
+      children={renderChildren}
+    />
+  </>;
+};
+export default ReadTestEntity;"
+`;
+
+exports[`CreateCrudComponent run 9`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import UpdateTestEntity from './UpdateTestEntity';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><UpdateTestEntity /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateCrudComponent run 10`] = `
+"import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IUpdateProps<ITestEntityValues, ITestEntityData>, 'onSuccess' | 'formValues'> { }
+const UpdateTestEntity: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  const matchParams = useParams<{ testEntityId: string }>();
+  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
+    return { id: '', label: '' };
+  };
+
+  const safeFormValues: any = { ...testEntityFormValues };
+  Object.keys(safeFormValues).forEach(value => {
+    const key = value as keyof ITestEntityValues;
+    if (props.formValues[key]) {
+      safeFormValues[key] = props.formValues[key] as ITestEntityValues[keyof ITestEntityValues];
+    }
+  });
+
+  const form = {
+    title: t('Update test entity \\"{{label}}\\"', safeFormValues),
+    onSubmit,
+    formValues: safeFormValues,
+    formSchema: testEntityFormSchema(t),
+    chilren: testEntityFormChildren(t),
+    ...props,
+  };
+
+  return <>
+    
+    <Update<ITestEntityValues, ITestEntityData> form={form} />
+  </>;
+};
+export default UpdateTestEntity;"
+`;
+
+exports[`CreateCrudComponent run 11`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import TestEntities from './TestEntities';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><TestEntities /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateCrudComponent run 12`] = `
+"import { Crud } from '@reactionable/core';
+import { IUseLayoutProps } from '@reactionable/ui-bootstrap';
+import React, { lazy } from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+import { ITestEntityData } from './TestEntitiesConfig';
+
+const ListTestEntities = lazy(() => import('./list-test-entities/ListTestEntities'));
+const ReadTestEntity = lazy(() => import('./read-test-entity/ReadTestEntity'));
+interface IProps { }
+const TestEntities: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  
+  return <>
+    
+    <Crud<ITestEntityData, IUseLayoutProps>
+      name=\\"TestEntity\\"
+      listComponent={ ListTestEntities }
+      readComponent={ ReadTestEntity }
+      {...props}
+    />
+  </>;
+};
+export default TestEntities;"
+`;
+
+exports[`CreateCrudComponent run 13`] = `
+"import { IFormChildrenProps } from '@reactionable/core';
+import { FormField } from '@reactionable/ui-bootstrap';
+import { TFunction } from 'i18next';
+import React from 'react';
+import { string } from 'yup';
+
+export type ITestEntityData = {
+  id: string;
+  label: string;
+};
+export type ITestEntityValues = Omit<ITestEntityData, 'id'>;
+export type IGetTestEntityQueryVariables = Pick<ITestEntityData, 'id'> & {
+
+};
+export type IListTestEntitiesQueryVariables = {
+  
+};
+export const testEntityFormValues: ITestEntityValues = {
+  label: '',
+};
+export const testEntityFormSchema = (t: TFunction) => ({
+   label: string()
+    .min(1, t('Test entity label must be at least 1 characters'))
+    .required(t('Test entity label is required')),
+});
+export const testEntityFormChildren = (t: TFunction) => (formikProps: IFormChildrenProps<ITestEntityValues>) => <>
+  <FormField
+    name=\\"label\\"
+    label={t('Label')}
+    autoFocus={true}
+  />
+</>;"
+`;

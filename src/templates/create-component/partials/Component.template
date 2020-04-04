@@ -12,13 +12,11 @@ interface IProps { }
 const {{componentName}}: React.FC<IProps> = (props) => {
   const { t } = useTranslation();
   {{#> pre-render-block}}{{!-- Custom pre render script could be added. --}}{{/pre-render-block}}
-  return <>
-    {{#> helmet-block}}
+  return <>{{#> helmet-block}}
     <Helmet>
       <title>{t('{{projectName}}')} - {t('{{capitalize (decamelize componentName)}}')}</title>
       <meta name="description" content={t('{{#> description-block}}{{capitalize (decamelize componentName)}} description{{/description-block}}')} />
-    </Helmet>
-    {{/helmet-block}} 
+    </Helmet>{{/helmet-block}}
     {{#> render-block-title}}<h1>{t('{{capitalize (decamelize componentName)}}')}</h1>{{/render-block-title}}
     {{#> render-block}}{{!-- Custom render content could be added. --}}{{/render-block}}
   </>;
