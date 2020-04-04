@@ -1,4 +1,4 @@
-name: Node CI
+name: Continuous Integration
 
 on: [push]
 
@@ -12,8 +12,8 @@ jobs:
         node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@latest
-    - uses: actions/cache@latest
+    - uses: actions/checkout@master
+    - uses: actions/cache@master
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -21,7 +21,7 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@latest
+      uses: actions/setup-node@master
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -34,7 +34,7 @@ jobs:
         CI: true
 
     - name: Publish docs
-      uses: JamesIves/github-pages-deploy-action@latest
+      uses: JamesIves/github-pages-deploy-action@master
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
         FOLDER: docs # The folder the action should deploy.
 
     - name: Publish release
-      uses: mikeal/merge-release@latest
+      uses: mikeal/merge-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
