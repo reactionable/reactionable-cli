@@ -1,3 +1,7 @@
+[@reactionable/cli](README.md) › [Globals](globals.md)
+
+# @reactionable/cli
+
 <p align="center">
   <a href="#" target="_blank">
     <img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/d9a05700-fbbf-11e9-96c7-c9230f407f12" width="600">
@@ -18,7 +22,6 @@
   <a href="CONTRIBUTING.md" target="_blank"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <a href="https://github.com/sponsors/neilime"><img src="https://img.shields.io/badge/%E2%9D%A4-Sponsor-ff69b4" alt="Sponsor"></a>
 </p>
-
 
 ## 🏠 [Homepage](https://reactionable.github.io/reactionable-cli)
 
