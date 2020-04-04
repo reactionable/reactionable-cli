@@ -43,7 +43,7 @@
     "commitizen": "^4.0.3",
     "copyfiles": "^2.1.1",
     "cz-conventional-changelog": "^3.0.2",
-    "husky": "^4.0.0",
+    "husky": "^4.2.3",
     "jest": "^25.2.7",
     "rimraf": "^3.0.0",
     "ts-jest": "^25.3.1",

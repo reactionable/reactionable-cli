@@ -3,6 +3,9 @@
     <img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/d9a05700-fbbf-11e9-96c7-c9230f407f12" width="600">
   </a>
   <br/><br/>
+  <a href="https://github.com/reactionable/reactionable-cli/actions?query=workflow%3A%22Continuous+Integration%22" target="_blank">
+    <img alt="Continuous integration" src="https://github.com/reactionable/reactionable-cli/workflows/Continuous%20Integration/badge.svg">
+  </a>
   <a href="https://www.npmjs.com/package/@reactionable/cli" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/@reactionable/cli.svg">
   </a>
