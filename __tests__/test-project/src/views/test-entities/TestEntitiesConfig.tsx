@@ -9,8 +9,11 @@ export type ITestEntityData = {
   label: string;
 };
 export type ITestEntityValues = Omit<ITestEntityData, 'id'>;
-export type IListTestEntityQueryVariables = {
+export type IGetTestEntityQueryVariables = Pick<ITestEntityData, 'id'> & {
 
+};
+export type IListTestEntitiesQueryVariables = {
+  
 };
 export const testEntityFormValues: ITestEntityValues = {
   label: '',

@@ -20,17 +20,17 @@ interface IProps extends Pick<IUpdateProps<I{{ entityName }}Values, I{{ entityNa
       safeFormValues[key] = props.formValues[key] as I{{ entityName }}Values[keyof I{{ entityName }}Values];
     }
   });
+
+  const form = {
+    title: t('Update {{decamelize entityName }} "\\{{label}}"', safeFormValues),
+    onSubmit,
+    formValues: safeFormValues,
+    formSchema: {{decapitalize entityName }}FormSchema(t),
+    chilren: {{decapitalize entityName }}FormChildren(t),
+    ...props,
+  };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Update<I{{ entityName }}Values, I{{ entityName }}Data>
-      form={{
-        title: t('Update {{decamelize entityName }} "\\{{label}}"', safeFormValues),
-        onSubmit,
-        formValues: safeFormValues,
-        formSchema: {{decapitalize entityName }}FormSchema(t),
-        chilren: {{decapitalize entityName }}FormChildren(t),
-        ...props,
-      }}
-    />{{/inline}}
+{{#*inline "render-block"}}<Update<I{{ entityName }}Values, I{{ entityName }}Data> form={form} />{{/inline}}
 {{/Component}}`;
 module.exports = template;

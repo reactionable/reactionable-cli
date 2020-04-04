@@ -10,17 +10,16 @@ interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName
 {{#*inline "pre-render-block"}}const onSubmit: IOnSubmitForm<I{{ entityName }}Values, I{{ entityName }}Data> = async (values, formikHelpers) => {
     return { id: '', label: '' };
   };
+
+  const form = {
+    title: t('Create a new {{decamelize entityName }}'),
+    onSubmit,
+    formValues: {{decapitalize entityName }}FormValues,
+    formSchema: {{decapitalize entityName }}FormSchema(t),
+    chilren: {{decapitalize entityName }}FormChildren(t),
+    ...props,
+  };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data>
-      form={{
-        title: t('Create a new {{decamelize entityName }}'),
-        onSubmit,
-        formValues: {{decapitalize entityName }}FormValues,
-        formSchema: {{decapitalize entityName }}FormSchema(t),
-        chilren: {{decapitalize entityName }}FormChildren(t),
-        ...props,
-      }}
-    />{{/inline}}
-{{/Component}}`;
+{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data> form={form} />{{/inline}}{{/Component}}`;
 module.exports = template;

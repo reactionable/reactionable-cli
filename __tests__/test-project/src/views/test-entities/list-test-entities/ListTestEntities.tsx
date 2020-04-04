@@ -4,7 +4,7 @@ import React, { lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link, generatePath, useRouteMatch } from 'react-router-dom';
-import { IListTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
+import { IListTestEntitiesQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
 
 const CreateTestEntity = lazy(() => import('../create-test-entity/CreateTestEntity'));
 const DeleteTestEntity = lazy(() => import('../delete-test-entity/DeleteTestEntity'));
@@ -12,11 +12,8 @@ interface IProps { }
 const ListTestEntities: React.FC<IProps> = (props) => {
   const { t } = useTranslation();
   const match = useRouteMatch();
-  if (!match) {
-    return null;
-  }
 
-  const { isLoading, error, data, refetch, next, previous } = useQueryList<ITestEntityData, IListTestEntityQueryVariables>({
+  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
   });
 
   const renderChildren = (data: ITestEntityData) => <tr key={'TestEntity-' + data.id}>
@@ -46,9 +43,8 @@ const ListTestEntities: React.FC<IProps> = (props) => {
     <Link disabled={!previous} title={t('Load the previous test entities')}>{t('Previous')}</Link>
     <Link disabled={!next} title={t('Load the next test entities')}>{t('Next')}</Link>
     <List<ITestEntityData>
-      error={error}
+      {...listProps}
       data={data}
-      isLoading={isLoading}
       head={[t('Label'), t('Actions')]}
       children={renderChildren}
       noData={<>

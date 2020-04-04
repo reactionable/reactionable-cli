@@ -1,5 +1,4 @@
-import { IOnSubmitForm } from '@reactionable/core';
-import { IUpdateProps, Update } from '@reactionable/ui-bootstrap';
+import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
@@ -22,17 +21,18 @@ const UpdateTestEntity: React.FC<IProps> = (props) => {
     }
   });
 
+  const form = {
+    title: t('Update test entity "{{label}}"', safeFormValues),
+    onSubmit,
+    formValues: safeFormValues,
+    formSchema: testEntityFormSchema(t),
+    chilren: testEntityFormChildren(t),
+    ...props,
+  };
+
   return <>
     
-    <Update<ITestEntityValues, ITestEntityData>
-      {...props}
-      title={t('Update test entity "{{label}}"', safeFormValues)}
-      onSubmit={onSubmit}
-      formValues={safeFormValues}
-      formSchema={ testEntityFormSchema(t)}
-      formChildren={ testEntityFormChildren(t)}
-      onSuccess={props.onSuccess}
-    />
+    <Update<ITestEntityValues, ITestEntityData> form={form} />
   </>;
 };
 export default UpdateTestEntity;

@@ -40,6 +40,7 @@ export class TypescriptFile extends StdFile {
             if (error.lineNumber) {
                 contentError = content.split("\n")[error.lineNumber - 1];
             }
+            console.error(content);
             throw new Error(`An error occurred while parsing file content "${this.file}": ${JSON.stringify(error)} => "${contentError.trim()}"`);
         }
         return content;
