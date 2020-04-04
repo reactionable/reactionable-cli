@@ -4,16 +4,13 @@ import { lazy } from 'react';
 import { Link, useRouteMatch, generatePath } from 'react-router-dom';
 import { List } from '{{ uiPackage }}';
 import { useQueryList } from '{{ hostingPackage }}';
-import { I{{ entityName }}Data, IList{{ entityName }}QueryVariables } from '../{{ entitiesName }}Config';
+import { I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables } from '../{{ entitiesName }}Config';
 const Create{{ entityName }} = lazy(() => import('../create-{{hyphenize entityName }}/Create{{ entityName }}'));
 const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityName }}/Delete{{ entityName }}'));
 {{/inline}}
 {{#*inline "pre-render-block"}}const match = useRouteMatch();
-  if (!match) {
-    return null;
-  }
 
-  const { isLoading, error, data, refetch, next, previous } = useQueryList<I{{ entityName }}Data, IList{{ entityName }}QueryVariables>({
+  const { data, refetch, next, previous, ...listProps } = useQueryList<I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables>({
   });
 
   const renderChildren = (data: I{{ entityName }}Data) => <tr key={'{{ entityName }}-' + data.id}>
@@ -37,9 +34,8 @@ const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityNa
 {{#*inline "render-block"}}<Link disabled={!previous} title={t('Load the previous {{decamelize entitiesName }}')}>{t('Previous')}</Link>
     <Link disabled={!next} title={t('Load the next {{decamelize entitiesName }}')}>{t('Next')}</Link>
     <List<I{{ entityName }}Data>
-      error={error}
+      {...listProps}
       data={data}
-      isLoading={isLoading}
       head={[t('Label'), t('Actions')]}
       children={renderChildren}
       noData={<>

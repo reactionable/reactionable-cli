@@ -10,8 +10,12 @@ export type I{{ entityName }}Data = {
 };
 export type I{{ entityName }}Values = Omit<I{{ entityName }}Data, 'id'>;
 
-export type IList{{ entityName }}QueryVariables = {
+export type IGet{{ entityName }}QueryVariables = Pick<I{{ entityName }}Data, 'id'> & {
 
+};
+
+export type IList{{ entitiesName }}QueryVariables = {
+  
 };
 
 export const {{decapitalize entityName }}FormValues: I{{ entityName }}Values = {
