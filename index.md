@@ -19,8 +19,6 @@
   <a href="https://github.com/sponsors/neilime"><img src="https://img.shields.io/badge/%E2%9D%A4-Sponsor-ff69b4" alt="Sponsor"></a>
 </p>
 
-> Reactionable cli
-
 ### 🏠 [Homepage](https://reactionable.github.io/reactionable-cli)
 
 ### 🧾 [Documentation](https://reactionable.github.io/reactionable-cli/docs)
