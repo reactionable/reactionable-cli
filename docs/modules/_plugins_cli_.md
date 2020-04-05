@@ -28,7 +28,7 @@
 
 • **runStartDate**: *Date | undefined* = undefined
 
-*Defined in [plugins/Cli.ts:9](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L9)*
+*Defined in [plugins/Cli.ts:9](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L9)*
 
 ## Functions
 
@@ -36,7 +36,7 @@
 
 ▸ **error**(`error`: Error | string): *void*
 
-*Defined in [plugins/Cli.ts:91](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L91)*
+*Defined in [plugins/Cli.ts:91](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L91)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 ▸ **exec**(`cmd`: string, `cwd`: string, `silent`: boolean): *Promise‹string›*
 
-*Defined in [plugins/Cli.ts:44](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L44)*
+*Defined in [plugins/Cli.ts:44](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L44)*
 
 **Parameters:**
 
@@ -70,7 +70,7 @@ ___
 
 ▸ **getCmd**(`cmd`: string): *string | null*
 
-*Defined in [plugins/Cli.ts:18](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L18)*
+*Defined in [plugins/Cli.ts:18](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L18)*
 
 **Parameters:**
 
@@ -86,7 +86,7 @@ ___
 
 ▸ **getNodeVersion**(): *string*
 
-*Defined in [plugins/Cli.ts:35](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L35)*
+*Defined in [plugins/Cli.ts:35](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L35)*
 
 **Returns:** *string*
 
@@ -96,7 +96,7 @@ ___
 
 ▸ **getNpmCmd**(`cmd`: string): *string | null*
 
-*Defined in [plugins/Cli.ts:25](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L25)*
+*Defined in [plugins/Cli.ts:25](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L25)*
 
 **Parameters:**
 
@@ -112,7 +112,7 @@ ___
 
 ▸ **getRunStartDate**(): *Date | undefined*
 
-*Defined in [plugins/Cli.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L10)*
+*Defined in [plugins/Cli.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L10)*
 
 **Returns:** *Date | undefined*
 
@@ -122,7 +122,7 @@ ___
 
 ▸ **info**(`message`: string): *void*
 
-*Defined in [plugins/Cli.ts:83](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L83)*
+*Defined in [plugins/Cli.ts:83](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L83)*
 
 **Parameters:**
 
@@ -138,7 +138,7 @@ ___
 
 ▸ **initRunStartDate**(): *void*
 
-*Defined in [plugins/Cli.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L14)*
+*Defined in [plugins/Cli.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L14)*
 
 **Returns:** *void*
 
@@ -148,7 +148,7 @@ ___
 
 ▸ **pause**(`message`: string): *Promise‹unknown›*
 
-*Defined in [plugins/Cli.ts:155](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L155)*
+*Defined in [plugins/Cli.ts:155](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L155)*
 
 **Parameters:**
 
@@ -164,7 +164,7 @@ ___
 
 ▸ **promptOverwriteFileDiff**(`file`: string, `diff`: Change[]): *Promise‹boolean›*
 
-*Defined in [plugins/Cli.ts:99](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L99)*
+*Defined in [plugins/Cli.ts:99](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L99)*
 
 **Parameters:**
 
@@ -181,7 +181,7 @@ ___
 
 ▸ **success**(`message`: string): *void*
 
-*Defined in [plugins/Cli.ts:87](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Cli.ts#L87)*
+*Defined in [plugins/Cli.ts:87](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Cli.ts#L87)*
 
 **Parameters:**
 

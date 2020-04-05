@@ -36,7 +36,7 @@
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[name](_actions_abstractadapter_.abstractadapter.md#protected-abstract-name)*
 
-*Defined in [actions/add-hosting/adapters/netlify/Netlify.ts:15](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-hosting/adapters/netlify/Netlify.ts#L15)*
+*Defined in [actions/add-hosting/adapters/netlify/Netlify.ts:15](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-hosting/adapters/netlify/Netlify.ts#L15)*
 
 ## Methods
 
@@ -46,7 +46,7 @@
 
 *Inherited from [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[getName](_actions_abstractadapter_.abstractadapter.md#getname)*
 
-*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L11)*
+*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L11)*
 
 **Returns:** *string*
 
@@ -58,7 +58,7 @@ ___
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[isEnabled](_actions_abstractadapter_.abstractadapter.md#abstract-isenabled)*
 
-*Defined in [actions/add-hosting/adapters/netlify/Netlify.ts:17](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-hosting/adapters/netlify/Netlify.ts#L17)*
+*Defined in [actions/add-hosting/adapters/netlify/Netlify.ts:17](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-hosting/adapters/netlify/Netlify.ts#L17)*
 
 **Parameters:**
 
@@ -76,7 +76,7 @@ ___
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[run](_actions_abstractadapter_.abstractadapter.md#abstract-run)*
 
-*Defined in [actions/add-hosting/adapters/netlify/Netlify.ts:21](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-hosting/adapters/netlify/Netlify.ts#L21)*
+*Defined in [actions/add-hosting/adapters/netlify/Netlify.ts:21](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-hosting/adapters/netlify/Netlify.ts#L21)*
 
 **Parameters:**
 

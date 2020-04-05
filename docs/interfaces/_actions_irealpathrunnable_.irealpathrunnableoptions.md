@@ -24,4 +24,4 @@
 
 • **realpath**: *string*
 
-*Defined in [actions/IRealpathRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IRealpathRunnable.ts#L4)*
+*Defined in [actions/IRealpathRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IRealpathRunnable.ts#L4)*

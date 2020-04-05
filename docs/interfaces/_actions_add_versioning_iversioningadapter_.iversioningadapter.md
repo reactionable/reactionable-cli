@@ -37,7 +37,7 @@
 
 *Inherited from [IAdapter](_actions_iadapter_.iadapter.md).[getName](_actions_iadapter_.iadapter.md#getname)*
 
-*Defined in [actions/IAdapter.ts:6](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IAdapter.ts#L6)*
+*Defined in [actions/IAdapter.ts:6](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IAdapter.ts#L6)*
 
 #### Type declaration:
 
@@ -51,7 +51,7 @@ ___
 
 *Inherited from [IRunnable](_actions_irunnable_.irunnable.md).[run](_actions_irunnable_.irunnable.md#run)*
 
-*Defined in [actions/IRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IRunnable.ts#L4)*
+*Defined in [actions/IRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IRunnable.ts#L4)*
 
 #### Type declaration:
 
@@ -69,7 +69,7 @@ Name | Type |
 
 ▸ **commitFiles**(`realpath`: string, `commitMessage`: string, `commitMessageType`: string): *Promise‹void›*
 
-*Defined in [actions/add-versioning/IVersioningAdapter.ts:5](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/IVersioningAdapter.ts#L5)*
+*Defined in [actions/add-versioning/IVersioningAdapter.ts:5](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/IVersioningAdapter.ts#L5)*
 
 **Parameters:**
 
@@ -89,7 +89,7 @@ ___
 
 *Inherited from [IAdapter](_actions_iadapter_.iadapter.md).[isEnabled](_actions_iadapter_.iadapter.md#isenabled)*
 
-*Defined in [actions/IAdapter.ts:5](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IAdapter.ts#L5)*
+*Defined in [actions/IAdapter.ts:5](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IAdapter.ts#L5)*
 
 **Parameters:**
 

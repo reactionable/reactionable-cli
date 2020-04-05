@@ -46,7 +46,7 @@
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[name](_actions_abstractadapter_.abstractadapter.md#protected-abstract-name)*
 
-*Defined in [actions/add-versioning/adapters/github/Github.ts:9](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/github/Github.ts#L9)*
+*Defined in [actions/add-versioning/adapters/github/Github.ts:9](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/github/Github.ts#L9)*
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 *Inherited from [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[conventionalCommitsPackages](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#static-conventionalcommitspackages)*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L14)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L14)*
 
 ## Methods
 
@@ -73,7 +73,7 @@ ___
 
 *Inherited from [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[commitFiles](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#commitfiles)*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:112](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L112)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:112](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L112)*
 
 **Parameters:**
 
@@ -93,7 +93,7 @@ ___
 
 *Inherited from [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[getCommitMessage](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#getcommitmessage)*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:105](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L105)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:105](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L105)*
 
 **Parameters:**
 
@@ -113,7 +113,7 @@ ___
 
 *Inherited from [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[getName](_actions_abstractadapter_.abstractadapter.md#getname)*
 
-*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L11)*
+*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L11)*
 
 **Returns:** *string*
 
@@ -125,7 +125,7 @@ ___
 
 *Inherited from [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[hasConventionalCommits](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#hasconventionalcommits)*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:96](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L96)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:96](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L96)*
 
 **Parameters:**
 
@@ -145,7 +145,7 @@ ___
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[isEnabled](_actions_abstractadapter_.abstractadapter.md#abstract-isenabled)*
 
-*Defined in [actions/add-versioning/adapters/github/Github.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/github/Github.ts#L11)*
+*Defined in [actions/add-versioning/adapters/github/Github.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/github/Github.ts#L11)*
 
 **Parameters:**
 
@@ -163,7 +163,7 @@ ___
 
 *Overrides [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[run](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#run)*
 
-*Defined in [actions/add-versioning/adapters/github/Github.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/github/Github.ts#L16)*
+*Defined in [actions/add-versioning/adapters/github/Github.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/github/Github.ts#L16)*
 
 **Parameters:**
 
@@ -183,7 +183,7 @@ ___
 
 *Overrides [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[validateGitRemote](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#validategitremote)*
 
-*Defined in [actions/add-versioning/adapters/github/Github.ts:35](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/github/Github.ts#L35)*
+*Defined in [actions/add-versioning/adapters/github/Github.ts:35](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/github/Github.ts#L35)*
 
 **Parameters:**
 
@@ -201,11 +201,11 @@ Name | Type |
 
 *Inherited from [AbstractVersioning](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md).[conventionalCommitsConfig](_actions_add_versioning_adapters_abstractversioning_.abstractversioning.md#static-conventionalcommitsconfig)*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:21](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L21)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:21](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L21)*
 
 ▪ **config**: *object*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:27](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L27)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:27](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L27)*
 
 * **commitizen**: *object*
 
@@ -213,7 +213,7 @@ Name | Type |
 
 ▪ **husky**: *object*
 
-*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:22](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-versioning/adapters/AbstractVersioning.ts#L22)*
+*Defined in [actions/add-versioning/adapters/AbstractVersioning.ts:22](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-versioning/adapters/AbstractVersioning.ts#L22)*
 
 * **hooks**: *object*
 

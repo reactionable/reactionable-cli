@@ -14,4 +14,4 @@
 
 • **container**: *Container‹›* = new Container({ defaultScope: 'Singleton' })
 
-*Defined in [container.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/container.ts#L12)*
+*Defined in [container.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/container.ts#L12)*

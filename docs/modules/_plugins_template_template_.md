@@ -29,7 +29,7 @@
 
 Ƭ **CompiledTemplate**: *function*
 
-*Defined in [plugins/template/Template.ts:183](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L183)*
+*Defined in [plugins/template/Template.ts:183](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L183)*
 
 #### Type declaration:
 
@@ -47,7 +47,7 @@ ___
 
 Ƭ **TemplateConfig**: *string[] | object*
 
-*Defined in [plugins/template/Template.ts:83](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L83)*
+*Defined in [plugins/template/Template.ts:83](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L83)*
 
 ## Variables
 
@@ -55,7 +55,7 @@ ___
 
 • **compiledTemplates**: *object*
 
-*Defined in [plugins/template/Template.ts:184](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L184)*
+*Defined in [plugins/template/Template.ts:184](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L184)*
 
 #### Type declaration:
 
@@ -67,7 +67,7 @@ ___
 
 ▸ **createFileFromTemplate**(`filePath`: string, `namespace`: string, `context`: Object, `encoding`: string): *Promise‹void›*
 
-*Defined in [plugins/template/Template.ts:135](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L135)*
+*Defined in [plugins/template/Template.ts:135](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L135)*
 
 **Parameters:**
 
@@ -86,7 +86,7 @@ ___
 
 ▸ **getCompiledTemplateFile**(`templateKey`: string): *Promise‹[CompiledTemplate](_plugins_template_template_.md#compiledtemplate)›*
 
-*Defined in [plugins/template/Template.ts:198](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L198)*
+*Defined in [plugins/template/Template.ts:198](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L198)*
 
 **Parameters:**
 
@@ -102,7 +102,7 @@ ___
 
 ▸ **getCompiledTemplateString**(`templateKey`: string, `templateContent`: string): *Promise‹[CompiledTemplate](_plugins_template_template_.md#compiledtemplate)›*
 
-*Defined in [plugins/template/Template.ts:186](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L186)*
+*Defined in [plugins/template/Template.ts:186](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L186)*
 
 **Parameters:**
 
@@ -119,7 +119,7 @@ ___
 
 ▸ **getTemplateFileContent**(`template`: string): *Promise‹string›*
 
-*Defined in [plugins/template/Template.ts:148](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L148)*
+*Defined in [plugins/template/Template.ts:148](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L148)*
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 
 ▸ **renderTemplateFile**(`templateKey`: string, `context`: Object): *Promise‹string›*
 
-*Defined in [plugins/template/Template.ts:209](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L209)*
+*Defined in [plugins/template/Template.ts:209](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L209)*
 
 **Parameters:**
 
@@ -152,7 +152,7 @@ ___
 
 ▸ **renderTemplateString**(`template`: string, `context`: Object): *Promise‹string›*
 
-*Defined in [plugins/template/Template.ts:193](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L193)*
+*Defined in [plugins/template/Template.ts:193](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L193)*
 
 **Parameters:**
 
@@ -169,7 +169,7 @@ ___
 
 ▸ **renderTemplateTree**(`dirPath`: string, `namespace`: string, `config`: [TemplateConfig](_plugins_template_template_.md#templateconfig), `context`: Object): *Promise‹void›*
 
-*Defined in [plugins/template/Template.ts:87](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/template/Template.ts#L87)*
+*Defined in [plugins/template/Template.ts:87](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/template/Template.ts#L87)*
 
 **Parameters:**
 

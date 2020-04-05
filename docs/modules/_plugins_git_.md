@@ -23,7 +23,7 @@
 
 • **parsedGitRemoteUrlCache**: *object*
 
-*Defined in [plugins/Git.ts:51](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L51)*
+*Defined in [plugins/Git.ts:51](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L51)*
 
 #### Type declaration:
 
@@ -35,7 +35,7 @@
 
 ▸ **getGitCmd**(): *string | null*
 
-*Defined in [plugins/Git.ts:59](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L59)*
+*Defined in [plugins/Git.ts:59](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L59)*
 
 **Returns:** *string | null*
 
@@ -45,7 +45,7 @@ ___
 
 ▸ **getGitConfig**(`dirPath`: string): *IIniObject*
 
-*Defined in [plugins/Git.ts:29](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L29)*
+*Defined in [plugins/Git.ts:29](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L29)*
 
 **Parameters:**
 
@@ -61,7 +61,7 @@ ___
 
 ▸ **getGitCurrentBranch**(`dirPath`: string, `defaultBranch`: string): *string*
 
-*Defined in [plugins/Git.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L20)*
+*Defined in [plugins/Git.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L20)*
 
 **Parameters:**
 
@@ -78,7 +78,7 @@ ___
 
 ▸ **getGitRemoteOriginUrl**(`dirPath`: string, `parsed`: true): *Result | null*
 
-*Defined in [plugins/Git.ts:37](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L37)*
+*Defined in [plugins/Git.ts:37](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L37)*
 
 **Parameters:**
 
@@ -91,7 +91,7 @@ Name | Type |
 
 ▸ **getGitRemoteOriginUrl**(`dirPath`: string, `parsed`: false): *string | null*
 
-*Defined in [plugins/Git.ts:38](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L38)*
+*Defined in [plugins/Git.ts:38](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L38)*
 
 **Parameters:**
 
@@ -108,7 +108,7 @@ ___
 
 ▸ **initializedGit**(`dirPath`: string): *Promise‹void›*
 
-*Defined in [plugins/Git.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L10)*
+*Defined in [plugins/Git.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L10)*
 
 **Parameters:**
 
@@ -124,7 +124,7 @@ ___
 
 ▸ **parseGitRemoteUrl**(`remoteUrl`: string): *Result | null*
 
-*Defined in [plugins/Git.ts:52](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/Git.ts#L52)*
+*Defined in [plugins/Git.ts:52](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/Git.ts#L52)*
 
 **Parameters:**
 

@@ -42,7 +42,7 @@
 
 *Inherited from [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[name](_actions_abstractadapter_.abstractadapter.md#protected-abstract-name)*
 
-*Defined in [actions/AbstractAdapter.ts:9](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L9)*
+*Defined in [actions/AbstractAdapter.ts:9](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L9)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 • **packageName**: *string*
 
-*Defined in [actions/AbstractAdapterWithPackage.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapterWithPackage.ts#L10)*
+*Defined in [actions/AbstractAdapterWithPackage.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapterWithPackage.ts#L10)*
 
 ## Methods
 
@@ -60,7 +60,7 @@ ___
 
 *Inherited from [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[getName](_actions_abstractadapter_.abstractadapter.md#getname)*
 
-*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L11)*
+*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L11)*
 
 **Returns:** *string*
 
@@ -70,7 +70,7 @@ ___
 
 ▸ **getPackageName**(): *string*
 
-*Defined in [actions/AbstractAdapterWithPackage.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapterWithPackage.ts#L12)*
+*Defined in [actions/AbstractAdapterWithPackage.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapterWithPackage.ts#L12)*
 
 **Returns:** *string*
 
@@ -82,7 +82,7 @@ ___
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[isEnabled](_actions_abstractadapter_.abstractadapter.md#abstract-isenabled)*
 
-*Defined in [actions/AbstractAdapterWithPackage.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapterWithPackage.ts#L16)*
+*Defined in [actions/AbstractAdapterWithPackage.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapterWithPackage.ts#L16)*
 
 **Parameters:**
 
@@ -100,7 +100,7 @@ ___
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[run](_actions_abstractadapter_.abstractadapter.md#abstract-run)*
 
-*Defined in [actions/AbstractAdapterWithPackage.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapterWithPackage.ts#L20)*
+*Defined in [actions/AbstractAdapterWithPackage.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapterWithPackage.ts#L20)*
 
 **Parameters:**
 

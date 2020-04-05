@@ -41,7 +41,7 @@
 
 \+ **new StdFile**(`file`: string | null, `encoding`: string, `content`: string): *[StdFile](_plugins_file_stdfile_.stdfile.md)*
 
-*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L10)*
+*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L10)*
 
 **Parameters:**
 
@@ -59,7 +59,7 @@ Name | Type | Default |
 
 • **content**: *string* = ""
 
-*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L10)*
+*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L10)*
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 • **encoding**: *string*
 
-*Defined in [plugins/file/StdFile.ts:13](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L13)*
+*Defined in [plugins/file/StdFile.ts:13](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L13)*
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 • **file**: *string | null*
 
-*Defined in [plugins/file/StdFile.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L12)*
+*Defined in [plugins/file/StdFile.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L12)*
 
 ## Methods
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **appendContent**(`content`: string, `after?`: undefined | string, `onlyIfNotExists`: boolean): *this*
 
-*Defined in [plugins/file/StdFile.ts:46](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L46)*
+*Defined in [plugins/file/StdFile.ts:46](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L46)*
 
 **Parameters:**
 
@@ -101,7 +101,7 @@ ___
 
 ▸ **fixContentEOL**(`content`: string): *string*
 
-*Defined in [plugins/file/StdFile.ts:28](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L28)*
+*Defined in [plugins/file/StdFile.ts:28](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L28)*
 
 **Parameters:**
 
@@ -117,7 +117,7 @@ ___
 
 ▸ **getContent**(): *string*
 
-*Defined in [plugins/file/StdFile.ts:36](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L36)*
+*Defined in [plugins/file/StdFile.ts:36](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L36)*
 
 **Returns:** *string*
 
@@ -127,7 +127,7 @@ ___
 
 ▸ **getContentDiff**(`content`: any): *Change[]*
 
-*Defined in [plugins/file/StdFile.ts:32](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L32)*
+*Defined in [plugins/file/StdFile.ts:32](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L32)*
 
 **Parameters:**
 
@@ -143,7 +143,7 @@ ___
 
 ▸ **parseContent**(`content`: string): *string*
 
-*Defined in [plugins/file/StdFile.ts:24](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L24)*
+*Defined in [plugins/file/StdFile.ts:24](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L24)*
 
 **Parameters:**
 
@@ -159,7 +159,7 @@ ___
 
 ▸ **replaceContent**(`search`: RegExp, `replacement`: string): *this*
 
-*Defined in [plugins/file/StdFile.ts:40](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L40)*
+*Defined in [plugins/file/StdFile.ts:40](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L40)*
 
 **Parameters:**
 
@@ -176,7 +176,7 @@ ___
 
 ▸ **saveFile**(`file`: string | null, `encoding`: string | null): *Promise‹this›*
 
-*Defined in [plugins/file/StdFile.ts:77](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L77)*
+*Defined in [plugins/file/StdFile.ts:77](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L77)*
 
 **Parameters:**
 
@@ -193,7 +193,7 @@ ___
 
 ▸ **setContent**(`content`: string): *this*
 
-*Defined in [plugins/file/StdFile.ts:19](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L19)*
+*Defined in [plugins/file/StdFile.ts:19](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L19)*
 
 **Parameters:**
 

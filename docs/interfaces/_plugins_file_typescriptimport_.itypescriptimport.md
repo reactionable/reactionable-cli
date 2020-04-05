@@ -19,7 +19,7 @@
 
 • **modules**: *[ITypescriptImportModules](../modules/_plugins_file_typescriptimport_.md#itypescriptimportmodules)*
 
-*Defined in [plugins/file/TypescriptImport.ts:3](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptImport.ts#L3)*
+*Defined in [plugins/file/TypescriptImport.ts:3](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptImport.ts#L3)*
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 • **packageName**: *string*
 
-*Defined in [plugins/file/TypescriptImport.ts:2](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptImport.ts#L2)*
+*Defined in [plugins/file/TypescriptImport.ts:2](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptImport.ts#L2)*

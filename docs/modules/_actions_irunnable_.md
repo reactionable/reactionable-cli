@@ -18,7 +18,7 @@
 
 Ƭ **IOptions**: *object*
 
-*Defined in [actions/IRunnable.ts:1](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IRunnable.ts#L1)*
+*Defined in [actions/IRunnable.ts:1](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IRunnable.ts#L1)*
 
 #### Type declaration:
 

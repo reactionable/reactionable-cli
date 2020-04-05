@@ -16,7 +16,7 @@
 
 • **content**:
 
-*Defined in [plugins/file/FileFactory.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/FileFactory.ts#L12)*
+*Defined in [plugins/file/FileFactory.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/FileFactory.ts#L12)*
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 • **lines**:
 
-*Defined in [plugins/file/FileFactory.ts:13](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/FileFactory.ts#L13)*
+*Defined in [plugins/file/FileFactory.ts:13](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/FileFactory.ts#L13)*
 
 ___
 
@@ -32,4 +32,4 @@ ___
 
 • **mtime**:
 
-*Defined in [plugins/file/FileFactory.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/FileFactory.ts#L11)*
+*Defined in [plugins/file/FileFactory.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/FileFactory.ts#L11)*
