@@ -1,9 +1,10 @@
 {
     "mode": "modules",
-    "out": "docs",
+    "out": "build/docs",
     "exclude": [
         "**/node_modules/**",
         "**/*.spec.ts"
     ],
+    "readme": "",
     "excludePrivate": true
 }
