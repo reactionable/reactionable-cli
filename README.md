@@ -1,7 +1,3 @@
-[@reactionable/cli](README.md) › [Globals](globals.md)
-
-# @reactionable/cli
-
 <p align="center">
   <a href="#" target="_blank">
     <img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/d9a05700-fbbf-11e9-96c7-c9230f407f12" width="600">

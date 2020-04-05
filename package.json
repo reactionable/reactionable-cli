@@ -8,7 +8,7 @@
     "start": "npm link && tsc-watch --onSuccess \"npm run build:copy-templates\"",
     "build": "rimraf ./dist && tsc && npm run build:copy-templates && npm run build:doc",
     "build:copy-templates": "rimraf ./dist/**/*.template && cd src && copyfiles ./**/*.template ../dist/ && cd ..",
-    "build:doc": "rimraf -rf docs && typedoc --plugin typedoc-plugin-markdown",
+    "build:doc": "rimraf -rf docs && typedoc",
     "test": "jest"
   },
   "repository": {
@@ -49,7 +49,6 @@
     "ts-jest": "^25.3.1",
     "tsc-watch": "^4.0.0",
     "typedoc": "^0.17.3",
-    "typedoc-plugin-markdown": "^2.2.17",
     "typedoc-plugin-nojekyll": "^1.0.1"
   },
   "dependencies": {
