@@ -44,7 +44,7 @@
 
 \+ **new AbstractCommitableActionWithAdapters**(`addVersioning`: [AddVersioning](_actions_add_versioning_addversioning_.addversioning.md)): *[AbstractCommitableActionWithAdapters](_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.md)*
 
-*Defined in [actions/AbstractCommitableActionWithAdapters.ts:9](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractCommitableActionWithAdapters.ts#L9)*
+*Defined in [actions/AbstractCommitableActionWithAdapters.ts:9](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractCommitableActionWithAdapters.ts#L9)*
 
 **Parameters:**
 
@@ -62,7 +62,7 @@ Name | Type |
 
 *Inherited from [AbstractActionWithAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md).[container](_actions_abstractactionwithadapters_.abstractactionwithadapters.md#protected-abstract-container)*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L14)*
+*Defined in [actions/AbstractActionWithAdapters.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L14)*
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 *Inherited from [AbstractActionWithAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md).[name](_actions_abstractactionwithadapters_.abstractactionwithadapters.md#protected-abstract-name)*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:13](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L13)*
+*Defined in [actions/AbstractActionWithAdapters.ts:13](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L13)*
 
 ## Methods
 
@@ -82,7 +82,7 @@ ___
 
 *Inherited from [AbstractActionWithAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md).[detectAdapter](_actions_abstractactionwithadapters_.abstractactionwithadapters.md#detectadapter)*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:24](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L24)*
+*Defined in [actions/AbstractActionWithAdapters.ts:24](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L24)*
 
 **Parameters:**
 
@@ -100,7 +100,7 @@ ___
 
 *Inherited from [AbstractActionWithAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md).[getAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md#protected-getadapters)*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L20)*
+*Defined in [actions/AbstractActionWithAdapters.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L20)*
 
 **Returns:** *A[]*
 
@@ -112,7 +112,7 @@ ___
 
 *Inherited from [AbstractActionWithAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md).[getName](_actions_abstractactionwithadapters_.abstractactionwithadapters.md#getname)*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L16)*
+*Defined in [actions/AbstractActionWithAdapters.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L16)*
 
 **Returns:** *string*
 
@@ -124,7 +124,7 @@ ___
 
 *Overrides [AbstractActionWithAdapters](_actions_abstractactionwithadapters_.abstractactionwithadapters.md).[run](_actions_abstractactionwithadapters_.abstractactionwithadapters.md#run)*
 
-*Defined in [actions/AbstractCommitableActionWithAdapters.ts:17](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractCommitableActionWithAdapters.ts#L17)*
+*Defined in [actions/AbstractCommitableActionWithAdapters.ts:17](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractCommitableActionWithAdapters.ts#L17)*
 
 **Parameters:**
 

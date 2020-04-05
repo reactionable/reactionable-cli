@@ -40,7 +40,7 @@
 
 \+ **new CreateComponent**(`addUIFramework`: [AddUIFramework](_actions_add_ui_framework_adduiframework_.adduiframework.md), `addHosting`: [AddHosting](_actions_add_hosting_addhosting_.addhosting.md)): *[CreateComponent](_actions_create_component_createcomponent_.createcomponent.md)*
 
-*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L20)*
+*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L20)*
 
 **Parameters:**
 
@@ -57,7 +57,7 @@ Name | Type |
 
 ▪ **defaultPackage**: *string* = "@reactionable/core"
 
-*Defined in [actions/create-component/CreateComponent.ts:18](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L18)*
+*Defined in [actions/create-component/CreateComponent.ts:18](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L18)*
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 ▪ **templateNamespace**: *string* = "create-component"
 
-*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L20)*
+*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L20)*
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 ▪ **viewsPath**: *string* = join('', 'src', 'views')
 
-*Defined in [actions/create-component/CreateComponent.ts:19](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L19)*
+*Defined in [actions/create-component/CreateComponent.ts:19](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L19)*
 
 ## Methods
 
@@ -81,7 +81,7 @@ ___
 
 ▸ **createComponent**(`__namedParameters`: object): *Promise‹string›*
 
-*Defined in [actions/create-component/CreateComponent.ts:54](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L54)*
+*Defined in [actions/create-component/CreateComponent.ts:54](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L54)*
 
 **Parameters:**
 
@@ -103,7 +103,7 @@ ___
 
 ▸ **formatName**(`name`: string): *string*
 
-*Defined in [actions/create-component/CreateComponent.ts:110](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L110)*
+*Defined in [actions/create-component/CreateComponent.ts:110](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L110)*
 
 **Parameters:**
 
@@ -119,7 +119,7 @@ ___
 
 ▸ **getHostingPackage**(`realpath`: string): *Promise‹string›*
 
-*Defined in [actions/create-component/CreateComponent.ts:123](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L123)*
+*Defined in [actions/create-component/CreateComponent.ts:123](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L123)*
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 
 ▸ **getName**(): *string*
 
-*Defined in [actions/create-component/CreateComponent.ts:27](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L27)*
+*Defined in [actions/create-component/CreateComponent.ts:27](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L27)*
 
 **Returns:** *string*
 
@@ -145,7 +145,7 @@ ___
 
 ▸ **getProjectRootPath**(`realpath`: string): *string*
 
-*Defined in [actions/create-component/CreateComponent.ts:131](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L131)*
+*Defined in [actions/create-component/CreateComponent.ts:131](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L131)*
 
 **Parameters:**
 
@@ -161,7 +161,7 @@ ___
 
 ▸ **getUIPackage**(`realpath`: string): *Promise‹string›*
 
-*Defined in [actions/create-component/CreateComponent.ts:115](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L115)*
+*Defined in [actions/create-component/CreateComponent.ts:115](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L115)*
 
 **Parameters:**
 
@@ -177,7 +177,7 @@ ___
 
 ▸ **run**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [actions/create-component/CreateComponent.ts:31](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L31)*
+*Defined in [actions/create-component/CreateComponent.ts:31](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L31)*
 
 **Parameters:**
 

@@ -24,7 +24,7 @@
 
 ▸ **executeFavicon**(): *Promise‹void›*
 
-*Defined in [actions/generate-favicons/GenerateFavicons.ts:35](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/generate-favicons/GenerateFavicons.ts#L35)*
+*Defined in [actions/generate-favicons/GenerateFavicons.ts:35](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/generate-favicons/GenerateFavicons.ts#L35)*
 
 **Returns:** *Promise‹void›*
 
@@ -34,7 +34,7 @@ ___
 
 ▸ **getName**(): *string*
 
-*Defined in [actions/generate-favicons/GenerateFavicons.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/generate-favicons/GenerateFavicons.ts#L10)*
+*Defined in [actions/generate-favicons/GenerateFavicons.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/generate-favicons/GenerateFavicons.ts#L10)*
 
 **Returns:** *string*
 
@@ -44,7 +44,7 @@ ___
 
 ▸ **run**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [actions/generate-favicons/GenerateFavicons.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/generate-favicons/GenerateFavicons.ts#L14)*
+*Defined in [actions/generate-favicons/GenerateFavicons.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/generate-favicons/GenerateFavicons.ts#L14)*
 
 **Parameters:**
 

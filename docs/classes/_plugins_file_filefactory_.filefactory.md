@@ -19,7 +19,7 @@
 
 ▸ **fromFile**<**File**>(`file`: string, `encoding`: string): *File*
 
-*Defined in [plugins/file/FileFactory.ts:25](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/FileFactory.ts#L25)*
+*Defined in [plugins/file/FileFactory.ts:25](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/FileFactory.ts#L25)*
 
 **Type parameters:**
 
@@ -40,7 +40,7 @@ ___
 
 ▸ **fromString**(`content`: string, `file`: string, `encoding`: string): *[StdFile](_plugins_file_stdfile_.stdfile.md)*
 
-*Defined in [plugins/file/FileFactory.ts:54](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/FileFactory.ts#L54)*
+*Defined in [plugins/file/FileFactory.ts:54](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/FileFactory.ts#L54)*
 
 **Parameters:**
 

@@ -38,7 +38,7 @@
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[name](_actions_abstractadapter_.abstractadapter.md#protected-abstract-name)*
 
-*Defined in [actions/add-ui-framework/adapters/ReactBootstrap.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-ui-framework/adapters/ReactBootstrap.ts#L10)*
+*Defined in [actions/add-ui-framework/adapters/ReactBootstrap.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-ui-framework/adapters/ReactBootstrap.ts#L10)*
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 *Overrides [AbstractAdapterWithPackage](_actions_abstractadapterwithpackage_.abstractadapterwithpackage.md).[packageName](_actions_abstractadapterwithpackage_.abstractadapterwithpackage.md#protected-abstract-packagename)*
 
-*Defined in [actions/add-ui-framework/adapters/ReactBootstrap.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-ui-framework/adapters/ReactBootstrap.ts#L11)*
+*Defined in [actions/add-ui-framework/adapters/ReactBootstrap.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-ui-framework/adapters/ReactBootstrap.ts#L11)*
 
 ## Methods
 
@@ -58,7 +58,7 @@ ___
 
 *Inherited from [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[getName](_actions_abstractadapter_.abstractadapter.md#getname)*
 
-*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L11)*
+*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L11)*
 
 **Returns:** *string*
 
@@ -70,7 +70,7 @@ ___
 
 *Inherited from [AbstractAdapterWithPackage](_actions_abstractadapterwithpackage_.abstractadapterwithpackage.md).[getPackageName](_actions_abstractadapterwithpackage_.abstractadapterwithpackage.md#getpackagename)*
 
-*Defined in [actions/AbstractAdapterWithPackage.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapterWithPackage.ts#L12)*
+*Defined in [actions/AbstractAdapterWithPackage.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapterWithPackage.ts#L12)*
 
 **Returns:** *string*
 
@@ -84,7 +84,7 @@ ___
 
 *Overrides [AbstractAdapter](_actions_abstractadapter_.abstractadapter.md).[isEnabled](_actions_abstractadapter_.abstractadapter.md#abstract-isenabled)*
 
-*Defined in [actions/AbstractAdapterWithPackage.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapterWithPackage.ts#L16)*
+*Defined in [actions/AbstractAdapterWithPackage.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapterWithPackage.ts#L16)*
 
 **Parameters:**
 
@@ -102,7 +102,7 @@ ___
 
 *Overrides [AbstractAdapterWithPackage](_actions_abstractadapterwithpackage_.abstractadapterwithpackage.md).[run](_actions_abstractadapterwithpackage_.abstractadapterwithpackage.md#run)*
 
-*Defined in [actions/add-ui-framework/adapters/ReactBootstrap.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/add-ui-framework/adapters/ReactBootstrap.ts#L14)*
+*Defined in [actions/add-ui-framework/adapters/ReactBootstrap.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/add-ui-framework/adapters/ReactBootstrap.ts#L14)*
 
 **Parameters:**
 

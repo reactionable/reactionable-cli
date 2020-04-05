@@ -38,7 +38,7 @@
 
 • **name**: *string*
 
-*Defined in [actions/AbstractAdapter.ts:9](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L9)*
+*Defined in [actions/AbstractAdapter.ts:9](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L9)*
 
 ## Methods
 
@@ -46,7 +46,7 @@
 
 ▸ **getName**(): *string*
 
-*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L11)*
+*Defined in [actions/AbstractAdapter.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L11)*
 
 **Returns:** *string*
 
@@ -56,7 +56,7 @@ ___
 
 ▸ **isEnabled**(`realpath`: string): *Promise‹boolean›*
 
-*Defined in [actions/AbstractAdapter.ts:15](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L15)*
+*Defined in [actions/AbstractAdapter.ts:15](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L15)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ ___
 
 ▸ **run**(`options`: any): *Promise‹void›*
 
-*Defined in [actions/AbstractAdapter.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractAdapter.ts#L16)*
+*Defined in [actions/AbstractAdapter.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractAdapter.ts#L16)*
 
 **Parameters:**
 

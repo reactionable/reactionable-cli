@@ -16,7 +16,7 @@
 
 ▸ **dirExistsSync**(`path`: string): *boolean*
 
-*Defined in [plugins/File.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/File.ts#L12)*
+*Defined in [plugins/File.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/File.ts#L12)*
 
 **Parameters:**
 
@@ -32,7 +32,7 @@ ___
 
 ▸ **fileExistsSync**(`path`: string): *boolean*
 
-*Defined in [plugins/File.ts:5](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/File.ts#L5)*
+*Defined in [plugins/File.ts:5](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/File.ts#L5)*
 
 **Parameters:**
 
@@ -48,7 +48,7 @@ ___
 
 ▸ **replaceFileExtension**(`filePath`: string, `newExtension`: string, `mustExist`: boolean): *void*
 
-*Defined in [plugins/File.ts:19](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/File.ts#L19)*
+*Defined in [plugins/File.ts:19](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/File.ts#L19)*
 
 **Parameters:**
 

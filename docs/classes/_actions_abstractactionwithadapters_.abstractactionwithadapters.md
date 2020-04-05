@@ -42,7 +42,7 @@
 
 • **container**: *Container*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L14)*
+*Defined in [actions/AbstractActionWithAdapters.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L14)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 • **name**: *string*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:13](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L13)*
+*Defined in [actions/AbstractActionWithAdapters.ts:13](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L13)*
 
 ## Methods
 
@@ -58,7 +58,7 @@ ___
 
 ▸ **detectAdapter**(`realpath`: string): *Promise‹A | null›*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:24](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L24)*
+*Defined in [actions/AbstractActionWithAdapters.ts:24](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L24)*
 
 **Parameters:**
 
@@ -74,7 +74,7 @@ ___
 
 ▸ **getAdapters**(): *A[]*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L20)*
+*Defined in [actions/AbstractActionWithAdapters.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L20)*
 
 **Returns:** *A[]*
 
@@ -84,7 +84,7 @@ ___
 
 ▸ **getName**(): *string*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L16)*
+*Defined in [actions/AbstractActionWithAdapters.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L16)*
 
 **Returns:** *string*
 
@@ -94,7 +94,7 @@ ___
 
 ▸ **run**(`options`: any): *Promise‹void›*
 
-*Defined in [actions/AbstractActionWithAdapters.ts:34](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/AbstractActionWithAdapters.ts#L34)*
+*Defined in [actions/AbstractActionWithAdapters.ts:34](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/AbstractActionWithAdapters.ts#L34)*
 
 **Parameters:**
 

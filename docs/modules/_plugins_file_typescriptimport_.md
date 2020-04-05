@@ -22,7 +22,7 @@
 
 Ƭ **ITypescriptImportModules**: *object*
 
-*Defined in [plugins/file/TypescriptImport.ts:6](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptImport.ts#L6)*
+*Defined in [plugins/file/TypescriptImport.ts:6](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptImport.ts#L6)*
 
 #### Type declaration:
 

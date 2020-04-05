@@ -47,7 +47,7 @@
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[constructor](_plugins_file_stdfile_.stdfile.md#constructor)*
 
-*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L10)*
+*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L10)*
 
 **Parameters:**
 
@@ -67,7 +67,7 @@ Name | Type | Default |
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[content](_plugins_file_stdfile_.stdfile.md#protected-content)*
 
-*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L10)*
+*Defined in [plugins/file/StdFile.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L10)*
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 • **declarations**? : *Array‹string›*
 
-*Defined in [plugins/file/TypescriptFile.ts:9](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L9)*
+*Defined in [plugins/file/TypescriptFile.ts:9](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L9)*
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 • **defaultDeclaration**? : *string | null*
 
-*Defined in [plugins/file/TypescriptFile.ts:10](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L10)*
+*Defined in [plugins/file/TypescriptFile.ts:10](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L10)*
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[encoding](_plugins_file_stdfile_.stdfile.md#protected-encoding)*
 
-*Defined in [plugins/file/StdFile.ts:13](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L13)*
+*Defined in [plugins/file/StdFile.ts:13](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L13)*
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[file](_plugins_file_stdfile_.stdfile.md#protected-file)*
 
-*Defined in [plugins/file/StdFile.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L12)*
+*Defined in [plugins/file/StdFile.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L12)*
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 • **imports**? : *Array‹[TypescriptImport](_plugins_file_typescriptimport_.typescriptimport.md)›*
 
-*Defined in [plugins/file/TypescriptFile.ts:8](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L8)*
+*Defined in [plugins/file/TypescriptFile.ts:8](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L8)*
 
 ## Methods
 
@@ -119,7 +119,7 @@ ___
 
 ▸ **addImports**(`imports`: [TypescriptImport](_plugins_file_typescriptimport_.typescriptimport.md)[]): *void*
 
-*Defined in [plugins/file/TypescriptFile.ts:84](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L84)*
+*Defined in [plugins/file/TypescriptFile.ts:84](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L84)*
 
 **Parameters:**
 
@@ -137,7 +137,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[appendContent](_plugins_file_stdfile_.stdfile.md#appendcontent)*
 
-*Defined in [plugins/file/StdFile.ts:46](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L46)*
+*Defined in [plugins/file/StdFile.ts:46](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L46)*
 
 **Parameters:**
 
@@ -157,7 +157,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[fixContentEOL](_plugins_file_stdfile_.stdfile.md#protected-fixcontenteol)*
 
-*Defined in [plugins/file/StdFile.ts:28](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L28)*
+*Defined in [plugins/file/StdFile.ts:28](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L28)*
 
 **Parameters:**
 
@@ -175,7 +175,7 @@ ___
 
 *Overrides [StdFile](_plugins_file_stdfile_.stdfile.md).[getContent](_plugins_file_stdfile_.stdfile.md#getcontent)*
 
-*Defined in [plugins/file/TypescriptFile.ts:49](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L49)*
+*Defined in [plugins/file/TypescriptFile.ts:49](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L49)*
 
 **Returns:** *string*
 
@@ -187,7 +187,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[getContentDiff](_plugins_file_stdfile_.stdfile.md#protected-getcontentdiff)*
 
-*Defined in [plugins/file/StdFile.ts:32](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L32)*
+*Defined in [plugins/file/StdFile.ts:32](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L32)*
 
 **Parameters:**
 
@@ -205,7 +205,7 @@ ___
 
 *Overrides [StdFile](_plugins_file_stdfile_.stdfile.md).[parseContent](_plugins_file_stdfile_.stdfile.md#protected-parsecontent)*
 
-*Defined in [plugins/file/TypescriptFile.ts:12](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L12)*
+*Defined in [plugins/file/TypescriptFile.ts:12](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L12)*
 
 **Parameters:**
 
@@ -221,7 +221,7 @@ ___
 
 ▸ **removeImports**(`imports`: [TypescriptImport](_plugins_file_typescriptimport_.typescriptimport.md)[]): *void*
 
-*Defined in [plugins/file/TypescriptFile.ts:103](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L103)*
+*Defined in [plugins/file/TypescriptFile.ts:103](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L103)*
 
 **Parameters:**
 
@@ -239,7 +239,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[replaceContent](_plugins_file_stdfile_.stdfile.md#replacecontent)*
 
-*Defined in [plugins/file/StdFile.ts:40](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L40)*
+*Defined in [plugins/file/StdFile.ts:40](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L40)*
 
 **Parameters:**
 
@@ -258,7 +258,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[saveFile](_plugins_file_stdfile_.stdfile.md#savefile)*
 
-*Defined in [plugins/file/StdFile.ts:77](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L77)*
+*Defined in [plugins/file/StdFile.ts:77](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L77)*
 
 **Parameters:**
 
@@ -277,7 +277,7 @@ ___
 
 *Inherited from [StdFile](_plugins_file_stdfile_.stdfile.md).[setContent](_plugins_file_stdfile_.stdfile.md#protected-setcontent)*
 
-*Defined in [plugins/file/StdFile.ts:19](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/StdFile.ts#L19)*
+*Defined in [plugins/file/StdFile.ts:19](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/StdFile.ts#L19)*
 
 **Parameters:**
 
@@ -293,7 +293,7 @@ ___
 
 ▸ **setImports**(`importsToAdd`: Array‹[ITypescriptImport](../interfaces/_plugins_file_typescriptimport_.itypescriptimport.md)›, `importsToRemove`: Array‹[ITypescriptImport](../interfaces/_plugins_file_typescriptimport_.itypescriptimport.md)›): *this*
 
-*Defined in [plugins/file/TypescriptFile.ts:66](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/file/TypescriptFile.ts#L66)*
+*Defined in [plugins/file/TypescriptFile.ts:66](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/file/TypescriptFile.ts#L66)*
 
 **Parameters:**
 

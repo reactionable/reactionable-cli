@@ -45,7 +45,7 @@
 
 *Inherited from [IRunnable](_actions_irunnable_.irunnable.md).[run](_actions_irunnable_.irunnable.md#run)*
 
-*Defined in [actions/IRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IRunnable.ts#L4)*
+*Defined in [actions/IRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IRunnable.ts#L4)*
 
 #### Type declaration:
 

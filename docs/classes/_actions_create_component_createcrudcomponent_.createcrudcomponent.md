@@ -42,7 +42,7 @@
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[constructor](_actions_create_component_createcomponent_.createcomponent.md#constructor)*
 
-*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L20)*
+*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L20)*
 
 **Parameters:**
 
@@ -61,7 +61,7 @@ Name | Type |
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[defaultPackage](_actions_create_component_createcomponent_.createcomponent.md#static-protected-defaultpackage)*
 
-*Defined in [actions/create-component/CreateComponent.ts:18](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L18)*
+*Defined in [actions/create-component/CreateComponent.ts:18](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L18)*
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[templateNamespace](_actions_create_component_createcomponent_.createcomponent.md#static-protected-templatenamespace)*
 
-*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L20)*
+*Defined in [actions/create-component/CreateComponent.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L20)*
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[viewsPath](_actions_create_component_createcomponent_.createcomponent.md#static-protected-viewspath)*
 
-*Defined in [actions/create-component/CreateComponent.ts:19](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L19)*
+*Defined in [actions/create-component/CreateComponent.ts:19](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L19)*
 
 ## Methods
 
@@ -91,7 +91,7 @@ ___
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[createComponent](_actions_create_component_createcomponent_.createcomponent.md#createcomponent)*
 
-*Defined in [actions/create-component/CreateComponent.ts:54](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L54)*
+*Defined in [actions/create-component/CreateComponent.ts:54](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L54)*
 
 **Parameters:**
 
@@ -115,7 +115,7 @@ ___
 
 *Overrides [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[formatName](_actions_create_component_createcomponent_.createcomponent.md#formatname)*
 
-*Defined in [actions/create-component/CreateCrudComponent.ts:70](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateCrudComponent.ts#L70)*
+*Defined in [actions/create-component/CreateCrudComponent.ts:70](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateCrudComponent.ts#L70)*
 
 **Parameters:**
 
@@ -133,7 +133,7 @@ ___
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[getHostingPackage](_actions_create_component_createcomponent_.createcomponent.md#gethostingpackage)*
 
-*Defined in [actions/create-component/CreateComponent.ts:123](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L123)*
+*Defined in [actions/create-component/CreateComponent.ts:123](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L123)*
 
 **Parameters:**
 
@@ -151,7 +151,7 @@ ___
 
 *Overrides [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[getName](_actions_create_component_createcomponent_.createcomponent.md#getname)*
 
-*Defined in [actions/create-component/CreateCrudComponent.ts:11](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateCrudComponent.ts#L11)*
+*Defined in [actions/create-component/CreateCrudComponent.ts:11](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateCrudComponent.ts#L11)*
 
 **Returns:** *string*
 
@@ -163,7 +163,7 @@ ___
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[getProjectRootPath](_actions_create_component_createcomponent_.createcomponent.md#getprojectrootpath)*
 
-*Defined in [actions/create-component/CreateComponent.ts:131](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L131)*
+*Defined in [actions/create-component/CreateComponent.ts:131](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L131)*
 
 **Parameters:**
 
@@ -181,7 +181,7 @@ ___
 
 *Inherited from [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[getUIPackage](_actions_create_component_createcomponent_.createcomponent.md#getuipackage)*
 
-*Defined in [actions/create-component/CreateComponent.ts:115](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateComponent.ts#L115)*
+*Defined in [actions/create-component/CreateComponent.ts:115](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateComponent.ts#L115)*
 
 **Parameters:**
 
@@ -199,7 +199,7 @@ ___
 
 *Overrides [CreateComponent](_actions_create_component_createcomponent_.createcomponent.md).[run](_actions_create_component_createcomponent_.createcomponent.md#run)*
 
-*Defined in [actions/create-component/CreateCrudComponent.ts:15](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/create-component/CreateCrudComponent.ts#L15)*
+*Defined in [actions/create-component/CreateCrudComponent.ts:15](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/create-component/CreateCrudComponent.ts#L15)*
 
 **Parameters:**
 

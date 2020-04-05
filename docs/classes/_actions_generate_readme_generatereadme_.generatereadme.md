@@ -27,7 +27,7 @@
 
 \+ **new GenerateReadme**(`addVersioning`: [AddVersioning](_actions_add_versioning_addversioning_.addversioning.md)): *[GenerateReadme](_actions_generate_readme_generatereadme_.generatereadme.md)*
 
-*Defined in [actions/generate-readme/GenerateReadme.ts:8](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/generate-readme/GenerateReadme.ts#L8)*
+*Defined in [actions/generate-readme/GenerateReadme.ts:8](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/generate-readme/GenerateReadme.ts#L8)*
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ Name | Type |
 
 ▸ **getName**(): *string*
 
-*Defined in [actions/generate-readme/GenerateReadme.ts:16](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/generate-readme/GenerateReadme.ts#L16)*
+*Defined in [actions/generate-readme/GenerateReadme.ts:16](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/generate-readme/GenerateReadme.ts#L16)*
 
 **Returns:** *string*
 
@@ -53,7 +53,7 @@ ___
 
 ▸ **run**(`__namedParameters`: object): *Promise‹void›*
 
-*Defined in [actions/generate-readme/GenerateReadme.ts:20](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/generate-readme/GenerateReadme.ts#L20)*
+*Defined in [actions/generate-readme/GenerateReadme.ts:20](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/generate-readme/GenerateReadme.ts#L20)*
 
 **Parameters:**
 

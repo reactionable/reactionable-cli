@@ -25,7 +25,7 @@
 
 ▸ **getPackageInfo**(`dirPath`: string, `property?`: undefined | string, `encoding`: string): *any*
 
-*Defined in [plugins/package/Package.ts:137](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L137)*
+*Defined in [plugins/package/Package.ts:137](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L137)*
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ ___
 
 ▸ **getPackageJsonPath**(`dirPath`: string): *string | null*
 
-*Defined in [plugins/package/Package.ts:82](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L82)*
+*Defined in [plugins/package/Package.ts:82](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L82)*
 
 **Parameters:**
 
@@ -59,7 +59,7 @@ ___
 
 ▸ **getPackageManager**(`dirPath`: string): *[PackageManager](../enums/_plugins_package_package_.packagemanager.md)*
 
-*Defined in [plugins/package/Package.ts:14](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L14)*
+*Defined in [plugins/package/Package.ts:14](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L14)*
 
 **Parameters:**
 
@@ -75,7 +75,7 @@ ___
 
 ▸ **hasInstalledPackage**(`dirPath`: string, `packageName`: string, `dev`: boolean, `encoding`: string): *boolean*
 
-*Defined in [plugins/package/Package.ts:147](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L147)*
+*Defined in [plugins/package/Package.ts:147](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L147)*
 
 **Parameters:**
 
@@ -94,7 +94,7 @@ ___
 
 ▸ **hasPackageJsonConfig**(`dirPath`: string, `data`: Object): *boolean*
 
-*Defined in [plugins/package/Package.ts:94](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L94)*
+*Defined in [plugins/package/Package.ts:94](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L94)*
 
 **Parameters:**
 
@@ -111,7 +111,7 @@ ___
 
 ▸ **installDevPackages**(`dirPath`: string, `devPackages`: string[], `verbose`: boolean): *Promise‹string[]›*
 
-*Defined in [plugins/package/Package.ts:64](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L64)*
+*Defined in [plugins/package/Package.ts:64](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L64)*
 
 **Parameters:**
 
@@ -129,7 +129,7 @@ ___
 
 ▸ **installPackages**(`dirPath`: string, `packages`: string[], `verbose`: boolean, `dev`: boolean): *Promise‹string[]›*
 
-*Defined in [plugins/package/Package.ts:25](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L25)*
+*Defined in [plugins/package/Package.ts:25](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L25)*
 
 **Parameters:**
 
@@ -148,7 +148,7 @@ ___
 
 ▸ **updatePackageJson**(`dirPath`: string, `data`: Object): *Promise‹void›*
 
-*Defined in [plugins/package/Package.ts:72](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/plugins/package/Package.ts#L72)*
+*Defined in [plugins/package/Package.ts:72](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/plugins/package/Package.ts#L72)*
 
 **Parameters:**
 

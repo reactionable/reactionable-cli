@@ -15,7 +15,7 @@
 
 ▸ **displayBanner**(): *Promise‹void›*
 
-*Defined in [index.ts:8](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/index.ts#L8)*
+*Defined in [index.ts:8](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/index.ts#L8)*
 
 **Returns:** *Promise‹void›*
 
@@ -25,6 +25,6 @@ ___
 
 ▸ **run**(): *Promise‹boolean›*
 
-*Defined in [index.ts:24](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/index.ts#L24)*
+*Defined in [index.ts:24](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/index.ts#L24)*
 
 **Returns:** *Promise‹boolean›*

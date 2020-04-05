@@ -31,7 +31,7 @@
 
 • **getName**: *function*
 
-*Defined in [actions/IAdapter.ts:6](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IAdapter.ts#L6)*
+*Defined in [actions/IAdapter.ts:6](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IAdapter.ts#L6)*
 
 #### Type declaration:
 
@@ -45,7 +45,7 @@ ___
 
 *Inherited from [IRunnable](_actions_irunnable_.irunnable.md).[run](_actions_irunnable_.irunnable.md#run)*
 
-*Defined in [actions/IRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IRunnable.ts#L4)*
+*Defined in [actions/IRunnable.ts:4](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IRunnable.ts#L4)*
 
 #### Type declaration:
 
@@ -63,7 +63,7 @@ Name | Type |
 
 ▸ **isEnabled**(`realpath`: string): *Promise‹boolean›*
 
-*Defined in [actions/IAdapter.ts:5](https://github.com/neilime/reactionable-cli/blob/d0401b5/src/actions/IAdapter.ts#L5)*
+*Defined in [actions/IAdapter.ts:5](https://github.com/neilime/reactionable-cli/blob/86c13e3/src/actions/IAdapter.ts#L5)*
 
 **Parameters:**
 
