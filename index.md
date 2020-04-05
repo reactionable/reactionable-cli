@@ -19,7 +19,11 @@
   <a href="https://github.com/sponsors/neilime"><img src="https://img.shields.io/badge/%E2%9D%A4-Sponsor-ff69b4" alt="Sponsor"></a>
 </p>
 
-## 🏠 [Homepage](https://reactionable.github.io/reactionable-cli)
+> Reactionable cli
+
+### 🏠 [Homepage](https://reactionable.github.io/reactionable-cli)
+
+### 🧾 [Documentation](https://reactionable.github.io/reactionable-cli/docs)
 
 ## Helping Project
 
@@ -47,9 +51,11 @@ reactionable
 
 👤 **ESCEMI <developer@escemi.com>**
 
+* Website: https://github.com/reactionable
 * Github: [@reactionable](https://github.com/reactionable)
+* LinkedIn: [@https:\/\/www.linkedin.com\/company\/escemi](https://linkedin.com/in/https:\/\/www.linkedin.com\/company\/escemi)
 
 ## 📝 License
 
-Copyright © 2019 [ESCEMI <developer@escemi.com>](https://github.com/reactionable).<br />
+Copyright © 2020 [ESCEMI <developer@escemi.com>](https://github.com/reactionable).<br />
 This project is [MIT](https://github.com/reactionable/reactionable-cli/blob/master/LICENSE) licensed.
