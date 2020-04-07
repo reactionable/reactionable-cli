@@ -9,7 +9,7 @@ on:
       - '**.md'
 
 jobs:
-  build:
+  continuous-integration:
 
     runs-on: ubuntu-latest
 
