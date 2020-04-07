@@ -5,26 +5,53 @@ on:
     branches: [ master ]
 
 jobs:
-  - name: Prepare gh-pages
-    run: |
-      mkdir build
-      cp README.md build/index.md
-      npm run build:doc
+  publish:
 
-  - name: Publish gh-pages
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    uses: JamesIves/github-pages-deploy-action@3.4.6
-    with:
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      BASE_BRANCH: master # The branch the action should deploy from.
-      BRANCH: gh-pages # The branch the action should deploy to.
-      FOLDER: build # The folder the action should deploy.
+    runs-on: ubuntu-latest
 
-  - name: Publish release
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    uses: mikeal/merge-release@v4.0.7
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          
+    strategy:
+      matrix:
+        node-version: [12.x]
 
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+      
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm build
+
+    - name: Prepare gh-pages
+      run: |
+        mkdir build
+        cp README.md build/index.md
+        npm run build:doc
+
+    - name: Publish gh-pages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: JamesIves/github-pages-deploy-action@3.4.6
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: master # The branch the action should deploy from.
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: build # The folder the action should deploy.
+
+    - name: Publish release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: mikeal/merge-release@v4.0.7
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
