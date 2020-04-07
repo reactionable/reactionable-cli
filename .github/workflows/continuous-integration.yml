@@ -42,3 +42,25 @@ jobs:
       run: npm test
       env:
         CI: true
+
+    - name: Prepare gh-pages
+      run: |
+        mkdir build
+        cp README.md build/index.md
+        npm run build:doc
+
+    - name: Publish gh-pages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: JamesIves/github-pages-deploy-action@3.4.6
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: master # The branch the action should deploy from.
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: build # The folder the action should deploy.
+
+    - name: Publish release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: mikeal/merge-release@v4.0.7
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
