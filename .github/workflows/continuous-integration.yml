@@ -34,9 +34,9 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
       
     - name: Install Dependencies
-      run: 
+      run:
         npm ci
-        npm i -g standard-version
+        npm install -g standard-version
 
     - name: Build
       run: npm build
