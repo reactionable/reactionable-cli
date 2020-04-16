@@ -69,7 +69,7 @@ export default class CreateReactApp implements IAction {
 
             // Create app
             info('Creating app...');
-            await exec(createReactAppCmd + ' ' + realpath + ' --typescript', dirname(realpath));
+            await exec(createReactAppCmd + ' ' + realpath + ' --template typescript', dirname(realpath));
             success('App has been created in "' + realpath + '"');
         }
 
