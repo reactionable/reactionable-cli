@@ -43,6 +43,20 @@ jobs:
       run: npm test
       env:
         CI: true
+     
+    - name: Prepare release
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"        
+        npx standard-version
+        echo `git add -A && git commit -m "chore: prepare release"`
+
+    - name: Publish release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: pascalgn/npm-publish-action@1.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare gh-pages
       run: |
@@ -58,17 +72,3 @@ jobs:
         BASE_BRANCH: master # The branch the action should deploy from.
         BRANCH: gh-pages # The branch the action should deploy to.
         FOLDER: build # The folder the action should deploy.
-        
-    - name: Prepare release
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"        
-        npx standard-version
-        echo `git add -A && git commit -m "chore: prepare release"`
-
-    - name: Publish release
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-      uses: pascalgn/npm-publish-action@1.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
