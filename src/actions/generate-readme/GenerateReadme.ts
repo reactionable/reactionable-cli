@@ -1,55 +1,60 @@
 import { prompt } from 'inquirer';
 import { injectable, inject } from 'inversify';
 import { IAction } from '../IAction';
-import { error, success, info, exec, getNpmCmd } from '../../plugins/Cli';
 import AddVersioning from '../add-versioning/AddVersioning';
+import { ConsoleService } from '../../services/ConsoleService';
+import { CliService } from '../../services/CliService';
+import { GitService } from '../../services/git/GitService';
 
 @injectable()
-export default class GenerateReadme implements IAction<{ mustPrompt: boolean }> {
+export default class GenerateReadme
+  implements IAction<{ mustPrompt: boolean }> {
+  constructor(
+    @inject(CliService) private readonly cliService: CliService,
+    @inject(ConsoleService) private readonly consoleService: ConsoleService,
+    @inject(GitService) private readonly gitService: GitService
+  ) {}
 
+  getName() {
+    return 'Generate README.md file';
+  }
 
-    constructor(
-        @inject(AddVersioning) private addVersioning: AddVersioning,
-    ) { }
+  async run({ realpath, mustPrompt = false }) {
+    this.consoleService.info('Generating README.md file...');
+    if (mustPrompt) {
+      const { override } = await prompt([
+        {
+          type: 'confirm',
+          name: 'override',
+          message: 'Do you want to generate the README file?',
+        },
+      ]);
 
+      if (!override) {
+        return;
+      }
+    }
+    const readmeMdGeneratorCmd = this.cliService.getGlobalCmd(
+      'readme-md-generator'
+    );
+    if (!readmeMdGeneratorCmd) {
+      return this.consoleService.error(
+        'Unable to generate README.md file, install globally "readme-md-generator" or "npx"'
+      );
+    }
+    await this.cliService.execCmd([readmeMdGeneratorCmd, '-y'], realpath);
+    this.consoleService.success(
+      'README.md file has been generated in "' + realpath + '"'
+    );
 
-    getName() {
-        return 'Generate README.md file';
+    if (!(await this.gitService.isAGitRepository(realpath))) {
+      return;
     }
 
-    async run({ realpath, mustPrompt = false }) {
-        info('Generating README.md file...');
-        if (mustPrompt) {
-            const { override } = await prompt([
-                {
-                    type: 'confirm',
-                    name: 'override',
-                    message: 'Do you want to generate the README file?',
-                },
-            ]);
-
-            if (!override) {
-                return;
-            }
-        }
-        const readmeMdGeneratorCmd = getNpmCmd('readme-md-generator');
-        if (!readmeMdGeneratorCmd) {
-            return error('Unable to generate README.md file, install globally "readme-md-generator" or "npx"');
-        }
-        await exec(readmeMdGeneratorCmd + ' -y', realpath);
-        success('README.md file has been generated in "' + realpath + '"');
-
-        const versioningAdapter = await this.addVersioning.detectAdapter(realpath);
-        if (!versioningAdapter) {
-            return;
-        }
-
-        await versioningAdapter.commitFiles(
-            realpath,
-            `Generate README.md file`,
-            'chore'
-        );
-
-    }
-
+    await this.gitService.commitFiles(
+      realpath,
+      'Generate README.md file',
+      'chore'
+    );
+  }
 }

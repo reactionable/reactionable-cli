@@ -1,2 +1,2 @@
-const template = `{{#> Component }}{{/Component}}`;
+const template = '{{#> Component }}{{/Component}}';
 module.exports = template;

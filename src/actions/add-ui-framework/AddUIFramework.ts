@@ -1,10 +1,12 @@
-import { injectable } from 'inversify'
-import container from './container';
+import { injectable } from 'inversify';
 import { AbstractActionWithAdapters } from '../AbstractActionWithAdapters';
-import { AbstractAdapterWithPackage } from '../AbstractAdapterWithPackage';
+import { IUIFrameworkAdapter } from './adapters/IUIFrameworkAdapter';
+import { AdapterKey } from './container';
 
 @injectable()
-export default class AddUIFramework extends AbstractActionWithAdapters<AbstractAdapterWithPackage> {
-    protected name = 'UI Framework';
-    protected container = container;
+export default class AddUIFramework extends AbstractActionWithAdapters<
+  IUIFrameworkAdapter
+> {
+  protected name = 'UI Framework';
+  protected adapterKey = AdapterKey;
 }

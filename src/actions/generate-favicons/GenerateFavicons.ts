@@ -1,46 +1,49 @@
 import { prompt } from 'inquirer';
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { basename } from 'path';
 import { IAction } from '../IAction';
-import { success, info } from '../../plugins/Cli';
+import { ConsoleService } from '../../services/ConsoleService';
 
 @injectable()
-export default class GenerateFavicons implements IAction<{ mustPrompt: boolean }> {
+export default class GenerateFavicons
+  implements IAction<{ mustPrompt: boolean }> {
+  constructor(
+    @inject(ConsoleService) private readonly consoleService: ConsoleService
+  ) {}
 
-    getName() {
-        return 'Generate favicons';
+  getName() {
+    return 'Generate favicons';
+  }
+
+  async run({ realpath, mustPrompt = false }) {
+    this.consoleService.info('Generating favicons...');
+    if (mustPrompt) {
+      const { confirm } = await prompt([
+        {
+          type: 'confirm',
+          name: 'confirm',
+          message: 'Do you want to generate favicons?',
+        },
+      ]);
+
+      if (!confirm) {
+        return;
+      }
     }
 
-    async run({ realpath, mustPrompt = false }) {
-        info('Generating favicons...');
-        if (mustPrompt) {
-            const { confirm } = await prompt([
-                {
-                    type: 'confirm',
-                    name: 'confirm',
-                    message: 'Do you want to generate favicons?',
-                },
-            ]);
+    await this.executeFavicon();
+    this.consoleService.success(
+      'Favicons have been generated in "' + realpath + '"'
+    );
+  }
 
-            if (!confirm) {
-                return;
-            }
-        }
-
-        const isPublicDir = basename(realpath) === 'public';
-        await this.executeFavicon();
-        success('README.md file has been generated in "' + realpath + '"');
-    }
-
-    async executeFavicon(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            try {
-                resolve();
-            }
-            catch (error) {
-                reject(error);
-            }
-        });
-    }
-
+  private async executeFavicon(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }

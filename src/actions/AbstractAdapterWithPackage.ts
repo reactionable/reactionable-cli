@@ -1,24 +1,37 @@
+import { injectable, inject } from 'inversify';
 
-import { hasInstalledPackage, installPackages } from '../plugins/package/Package';
+import { PackageManagerService } from '../services/package-manager/PackageManagerService';
 import { AbstractAdapter } from './AbstractAdapter';
 import { IOptions } from './IRunnable';
-import { injectable } from 'inversify';
 
 @injectable()
-export abstract class AbstractAdapterWithPackage<O extends IOptions = {}> extends AbstractAdapter<O> {
+export abstract class AbstractAdapterWithPackage<
+  O extends IOptions = {}
+> extends AbstractAdapter<O> {
+  protected abstract packageName: string;
 
-    protected abstract packageName: string;
+  constructor(
+    @inject(PackageManagerService)
+    protected readonly packageManagerService: PackageManagerService
+  ) {
+    super();
+  }
 
-    getPackageName(): string {
-        return this.packageName;
-    }
+  getPackageName(): string {
+    return this.packageName;
+  }
 
-    async isEnabled(realpath: string): Promise<boolean> {
-        return hasInstalledPackage(realpath, this.getPackageName());
-    }
+  async isEnabled(realpath: string): Promise<boolean> {
+    return this.packageManagerService.hasInstalledPackage(
+      realpath,
+      this.getPackageName()
+    );
+  }
 
-    async run({ realpath }) {
-        // Installs package      
-        await installPackages(realpath, [this.getPackageName()]);
-    }
+  async run({ realpath }) {
+    // Installs package
+    await this.packageManagerService.installPackages(realpath, [
+      this.getPackageName(),
+    ]);
+  }
 }
