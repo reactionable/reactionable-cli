@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
+
 import ReactBootstrap from './adapters/ReactBootstrap';
-import { AbstractAdapterWithPackage } from '../AbstractAdapterWithPackage';
+import { IUIFrameworkAdapter } from './adapters/IUIFrameworkAdapter';
 
-let container = new Container({ defaultScope: 'Singleton' });
+export const AdapterKey = 'UIFrameworkAdapter';
 
-container.bind<AbstractAdapterWithPackage>('Adapter').to(ReactBootstrap);
-
-export default container;
+export function bindUIFrameworkAdapters(container: Container) {
+  container.bind<IUIFrameworkAdapter>(AdapterKey).to(ReactBootstrap);
+}

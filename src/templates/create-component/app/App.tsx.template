@@ -34,5 +34,5 @@ const {{componentName}}: React.FC = () => {
 
   return <CoreApp {...appConfig} />;
 };
-export default {{componentName}};`
+export default {{componentName}};`;
 module.exports = template;

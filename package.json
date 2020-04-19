@@ -3,12 +3,15 @@
   "version": "1.1.80",
   "description": "Reactionable cli",
   "main": "dist/index.js",
-  "bin": "./bin/reactionable",
+  "bin": {
+    "reactionable": "./bin/reactionable"
+  },
   "scripts": {
-    "start": "npm link && tsc-watch --onSuccess \"npm run build:copy-templates\"",
-    "build": "rimraf ./dist && tsc && npm run build:copy-templates",
+    "start": "yarn link && tsc-watch",
+    "build": "rimraf ./dist && yarn lint && tsc && yarn build:copy-templates",
     "build:copy-templates": "rimraf ./dist/**/*.template && cd src && copyfiles ./**/*.template ../dist/ && cd ..",
     "build:doc": "rimraf -rf docs && typedoc",
+    "lint": "eslint \"src/**/*.ts\"",
     "test": "jest"
   },
   "repository": {
@@ -35,16 +38,24 @@
     "@types/inquirer": "^6.5.0",
     "@types/inversify": "^2.0.33",
     "@types/jest": "^25.2.1",
+    "@types/mock-fs": "^4.10.0",
     "@types/mustache": "^4.0.0",
-    "@types/node": "^13.1.0",
+    "@types/node": "^13.13.0",
     "@types/parse-github-url": "^1.0.0",
     "@types/reflect-metadata": "^0.1.0",
     "@types/shelljs": "^0.8.6",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
     "commitizen": "^4.0.3",
     "copyfiles": "^2.1.1",
     "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
     "husky": "^4.2.3",
     "jest": "^25.2.7",
+    "mock-fs": "^4.11.0",
+    "prettier": "^2.0.4",
     "rimraf": "^3.0.0",
     "ts-jest": "^25.3.1",
     "tsc-watch": "^4.0.0",
@@ -71,7 +82,6 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "prepare-commit-msg",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },

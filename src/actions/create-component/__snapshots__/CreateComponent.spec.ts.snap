@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateComponent run should create expected components files 1`] = `
+"import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router';
+import TestComponent from './TestComponent';
+
+it('renders without crashing', () => {  
+    const div = document.createElement('div');
+    ReactDOM.render(<MemoryRouter><TestComponent /></MemoryRouter>, div);
+    ReactDOM.unmountComponentAtNode(div);
+});"
+`;
+
+exports[`CreateComponent run should create expected components files 2`] = `
+"import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+
+interface IProps { }
+const TestComponent: React.FC<IProps> = (props) => {
+  const { t } = useTranslation();
+  
+  return <>
+    <Helmet>
+      <title>{t('tests')} - {t('Test component')}</title>
+      <meta name=\\"description\\" content={t('Test component description')} />
+    </Helmet>
+    <h1>{t('Test component')}</h1>
+    
+  </>;
+};
+export default TestComponent;"
+`;

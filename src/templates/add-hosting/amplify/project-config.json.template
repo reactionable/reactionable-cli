@@ -1,6 +1,5 @@
 const template = `{
     "projectName": {{{projectName}}},
-    "version": {{{projectVersion}}},
     "frontend": "javascript",
     "javascript": {
         "framework": "react",
