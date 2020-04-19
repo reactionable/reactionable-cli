@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.2.0 (2020-04-19)
+
+
+### Features
+
+* add support for monorepo ([20c68a3](https://github.com/reactionable/reactionable-cli/commit/20c68a3a1fd796e6695c200fa74c1a0e90ec55cc))
+
 ### 1.1.80 (2020-04-17)
 
 ### 1.1.79 (2020-04-16)
