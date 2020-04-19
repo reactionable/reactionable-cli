@@ -1,4 +1,4 @@
-import { parse } from '@typescript-eslint/typescript-estree';
+import { parse, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import { TypescriptImport, ITypescriptImport } from './TypescriptImport';
 import { StdFile } from './StdFile';
 import { EOL } from 'os';
@@ -21,12 +21,25 @@ export class TypescriptFile extends StdFile {
         switch (bodyItem.type) {
           case 'ImportDeclaration':
             for (const specifier of bodyItem.specifiers) {
+              let importType: string;
+              let moduleName: string;
+              switch (specifier.type) {
+                case AST_NODE_TYPES.ImportDefaultSpecifier:
+                  importType = TypescriptImport.defaultImport;
+                  moduleName = specifier.local.name;
+                  break;
+                case AST_NODE_TYPES.ImportNamespaceSpecifier:
+                  importType = specifier.local.name;
+                  moduleName = TypescriptImport.globImport;
+                  break;
+                default:
+                  importType = '';
+                  moduleName = specifier.local.name;
+              }
+
               this.addImports([
                 new TypescriptImport(bodyItem.source.value as string, {
-                  [specifier.local.name]:
-                    specifier.type === 'ImportDefaultSpecifier'
-                      ? 'default'
-                      : '',
+                  [moduleName]: importType,
                 }),
               ]);
             }
