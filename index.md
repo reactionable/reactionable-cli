@@ -29,11 +29,12 @@
 
 ## Contributing
 
-👍 If you wish to contribute to __Reactionable__, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file, PRs are Welcome !
+👍 If you wish to contribute to **Reactionable**, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file, PRs are Welcome !
 
 ## Usage
 
 ### With npx
+
 ```sh
 npx @reactionable/cli
 ```
@@ -45,13 +46,27 @@ npm install -g @reactionable/reactionable-cli
 reactionable
 ```
 
+## Development
+
+### Use local version of cli
+
+In `reactionable-cli` directory:
+
+```sh
+npm link
+
+# or
+
+yarn link
+```
+
 ## Author
 
 👤 **ESCEMI <developer@escemi.com>**
 
-* Website: https://github.com/reactionable
-* Github: [@reactionable](https://github.com/reactionable)
-* LinkedIn: [@https:\/\/www.linkedin.com\/company\/escemi](https://linkedin.com/in/https:\/\/www.linkedin.com\/company\/escemi)
+- Website: https://github.com/reactionable
+- Github: [@reactionable](https://github.com/reactionable)
+- LinkedIn: [@https:\/\/www.linkedin.com\/company\/escemi](https://linkedin.com/in/https://www.linkedin.com/company/escemi)
 
 ## 📝 License
 

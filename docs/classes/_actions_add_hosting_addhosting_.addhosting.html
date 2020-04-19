@@ -81,7 +81,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.html" class="tsd-signature-type">AbstractCommitableActionWithAdapters</a><span class="tsd-signature-symbol">&lt;</span><a href="_actions_abstractadapterwithpackage_.abstractadapterwithpackage.html" class="tsd-signature-type">AbstractAdapterWithPackage</a><span class="tsd-signature-symbol"> | </span><a href="_actions_abstractadapter_.abstractadapter.html" class="tsd-signature-type">AbstractAdapter</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.html" class="tsd-signature-type">AbstractCommitableActionWithAdapters</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_actions_add_hosting_adapters_ihostingadapter_.ihostingadapter.html" class="tsd-signature-type">IHostingAdapter</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">AddHosting</span>
@@ -103,13 +103,13 @@
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="_actions_add_hosting_addhosting_.addhosting.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_actions_add_hosting_addhosting_.addhosting.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_hosting_addhosting_.addhosting.html#container" class="tsd-kind-icon">container</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_hosting_addhosting_.addhosting.html#adapterkey" class="tsd-kind-icon">adapter<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_hosting_addhosting_.addhosting.html#name" class="tsd-kind-icon">name</a></li>
 							</ul>
 						</section>
@@ -127,24 +127,28 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Add<wbr>Hosting<span class="tsd-signature-symbol">(</span>addVersioning<span class="tsd-signature-symbol">: </span><a href="_actions_add_versioning_addversioning_.addversioning.html" class="tsd-signature-type">AddVersioning</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_actions_add_hosting_addhosting_.addhosting.html" class="tsd-signature-type">AddHosting</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Add<wbr>Hosting<span class="tsd-signature-symbol">(</span>gitService<span class="tsd-signature-symbol">: </span><a href="_services_git_gitservice_.gitservice.html" class="tsd-signature-type">GitService</a>, consoleService<span class="tsd-signature-symbol">: </span><a href="_services_consoleservice_.consoleservice.html" class="tsd-signature-type">ConsoleService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_actions_add_hosting_addhosting_.addhosting.html" class="tsd-signature-type">AddHosting</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.html">AbstractCommitableActionWithAdapters</a>.<a href="_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.html#constructor">constructor</a></p>
+								<p>Overrides <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/AbstractCommitableActionWithAdapters.ts#L9">actions/AbstractCommitableActionWithAdapters.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/AbstractCommitableActionWithAdapters.ts#L13">actions/AbstractCommitableActionWithAdapters.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>addVersioning: <a href="_actions_add_versioning_addversioning_.addversioning.html" class="tsd-signature-type">AddVersioning</a></h5>
+									<h5>gitService: <a href="_services_git_gitservice_.gitservice.html" class="tsd-signature-type">GitService</a></h5>
+								</li>
+								<li>
+									<h5>consoleService: <a href="_services_consoleservice_.consoleservice.html" class="tsd-signature-type">ConsoleService</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_actions_add_hosting_addhosting_.addhosting.html" class="tsd-signature-type">AddHosting</a></h4>
@@ -155,13 +159,13 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-					<a name="container" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> container</h3>
-					<div class="tsd-signature tsd-kind-icon">container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Container</span><span class="tsd-signature-symbol"> = container</span></div>
+					<a name="adapterkey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> adapter<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">adapter<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = AdapterKey</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#container">container</a></p>
+						<p>Overrides <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#adapterkey">adapterKey</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/add-hosting/AddHosting.ts#L10">actions/add-hosting/AddHosting.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/add-hosting/AddHosting.ts#L11">actions/add-hosting/AddHosting.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +176,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/add-hosting/AddHosting.ts#L9">actions/add-hosting/AddHosting.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/add-hosting/AddHosting.ts#L10">actions/add-hosting/AddHosting.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,14 +187,14 @@
 					<a name="detectadapter" class="tsd-anchor"></a>
 					<h3>detect<wbr>Adapter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">detect<wbr>Adapter<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><a href="_actions_abstractadapterwithpackage_.abstractadapterwithpackage.html" class="tsd-signature-type">AbstractAdapterWithPackage</a><span class="tsd-signature-symbol"> | </span><a href="_actions_abstractadapter_.abstractadapter.html" class="tsd-signature-type">AbstractAdapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">detect<wbr>Adapter<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_actions_add_hosting_adapters_ihostingadapter_.ihostingadapter.html" class="tsd-signature-type">IHostingAdapter</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#detectadapter">detectAdapter</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/AbstractActionWithAdapters.ts#L24">actions/AbstractActionWithAdapters.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/AbstractActionWithAdapters.ts#L31">actions/AbstractActionWithAdapters.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -199,7 +203,7 @@
 									<h5>realpath: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span><a href="_actions_abstractadapterwithpackage_.abstractadapterwithpackage.html" class="tsd-signature-type">AbstractAdapterWithPackage</a><span class="tsd-signature-symbol"> | </span><a href="_actions_abstractadapter_.abstractadapter.html" class="tsd-signature-type">AbstractAdapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_actions_add_hosting_adapters_ihostingadapter_.ihostingadapter.html" class="tsd-signature-type">IHostingAdapter</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -207,17 +211,17 @@
 					<a name="getadapters" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Adapters</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Adapters<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="_actions_abstractadapterwithpackage_.abstractadapterwithpackage.html" class="tsd-signature-type">AbstractAdapterWithPackage</a><span class="tsd-signature-symbol"> | </span><a href="_actions_abstractadapter_.abstractadapter.html" class="tsd-signature-type">AbstractAdapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Adapters<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_actions_add_hosting_adapters_ihostingadapter_.ihostingadapter.html" class="tsd-signature-type">IHostingAdapter</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#getadapters">getAdapters</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/AbstractActionWithAdapters.ts#L20">actions/AbstractActionWithAdapters.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/AbstractActionWithAdapters.ts#L27">actions/AbstractActionWithAdapters.ts:27</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="_actions_abstractadapterwithpackage_.abstractadapterwithpackage.html" class="tsd-signature-type">AbstractAdapterWithPackage</a><span class="tsd-signature-symbol"> | </span><a href="_actions_abstractadapter_.abstractadapter.html" class="tsd-signature-type">AbstractAdapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_actions_add_hosting_adapters_ihostingadapter_.ihostingadapter.html" class="tsd-signature-type">IHostingAdapter</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -232,7 +236,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#getname">getName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/AbstractActionWithAdapters.ts#L16">actions/AbstractActionWithAdapters.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/AbstractActionWithAdapters.ts#L23">actions/AbstractActionWithAdapters.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -251,7 +255,7 @@
 								<p>Inherited from <a href="_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.html">AbstractCommitableActionWithAdapters</a>.<a href="_actions_abstractcommitableactionwithadapters_.abstractcommitableactionwithadapters.html#run">run</a></p>
 								<p>Overrides <a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html">AbstractActionWithAdapters</a>.<a href="_actions_abstractactionwithadapters_.abstractactionwithadapters.html#run">run</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/45a4b13/src/actions/AbstractCommitableActionWithAdapters.ts#L17">actions/AbstractCommitableActionWithAdapters.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/b6afdd3/src/actions/AbstractCommitableActionWithAdapters.ts#L21">actions/AbstractCommitableActionWithAdapters.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -284,11 +288,11 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="_actions_add_hosting_addhosting_.addhosting.html" class="tsd-kind-icon">Add<wbr>Hosting</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_actions_add_hosting_addhosting_.addhosting.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-								<a href="_actions_add_hosting_addhosting_.addhosting.html#container" class="tsd-kind-icon">container</a>
+								<a href="_actions_add_hosting_addhosting_.addhosting.html#adapterkey" class="tsd-kind-icon">adapter<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 								<a href="_actions_add_hosting_addhosting_.addhosting.html#name" class="tsd-kind-icon">name</a>
