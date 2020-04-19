@@ -6,6 +6,7 @@ export interface ITypescriptImport {
 export type ITypescriptImportModules = { [key: string]: string };
 
 export class TypescriptImport {
+  static readonly globImport = '*';
   static readonly defaultImport = 'default';
 
   constructor(
@@ -77,6 +78,7 @@ export class TypescriptImport {
 
   toString() {
     let defaultImport: string = '';
+    let globImport: string = '';
     const brakesImports: string[] = [];
 
     const orderedModules: ITypescriptImportModules = {};
@@ -96,6 +98,16 @@ export class TypescriptImport {
         defaultImport = moduleName;
         continue;
       }
+      if (moduleName === TypescriptImport.globImport) {
+        if (globImport.length) {
+          throw new Error(
+            `Unable to have many glob imports for package "${this.packageName}": "${globImport}, ${moduleName}"`
+          );
+        }
+        globImport = this.modules[moduleName];
+        continue;
+      }
+
       let brakesImport = moduleName;
       if (this.modules[moduleName].length) {
         brakesImport += ' as ' + this.modules[moduleName];
@@ -104,9 +116,15 @@ export class TypescriptImport {
     }
 
     let imports = defaultImport;
+    if (globImport) {
+      imports += `${imports.length > 0 ? ', ' : ''}${
+        TypescriptImport.globImport
+      } as ${globImport}`;
+    }
     if (brakesImports.length) {
-      imports +=
-        (imports.length ? ', ' : '') + '{ ' + brakesImports.join(', ') + ' }';
+      imports += `${imports.length > 0 ? ', ' : ''}{ ${brakesImports.join(
+        ', '
+      )} }`;
     }
     return imports.length
       ? `import ${imports} from '${this.packageName}';`
