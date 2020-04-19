@@ -15,7 +15,7 @@ export abstract class AbstractPackageManager implements IPackageManager {
 
   async getNodeModulesDirPath(): Promise<string> {
     const result = await this.execCmd('bin', true);
-    return resolve(result, '..');
+    return resolve(result.trim(), '..');
   }
 
   abstract installPackages(packages: string[], dev: boolean): Promise<string[]>;

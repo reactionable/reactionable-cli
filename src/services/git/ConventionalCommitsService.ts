@@ -1,6 +1,5 @@
-import { realpathSync } from 'fs';
 import { injectable, inject } from 'inversify';
-import { relative } from 'path';
+import { relative, resolve } from 'path';
 
 import { PackageManagerService } from '../package-manager/PackageManagerService';
 import { TemplateService } from '../TemplateService';
@@ -24,7 +23,11 @@ export class ConventionalCommitsService {
   async hasConventionalCommits(realpath: string): Promise<boolean> {
     for (const packageName of ConventionalCommitsService.conventionalCommitsPackages) {
       if (
-        !this.packageManagerService.hasInstalledPackage(realpath, packageName)
+        !this.packageManagerService.hasInstalledPackage(
+          realpath,
+          packageName,
+          true
+        )
       ) {
         return false;
       }
@@ -66,20 +69,22 @@ export class ConventionalCommitsService {
       },
       config: {
         commitizen: {
-          path: relative(
-            realpathSync(
-              nodeModulesDirPath,
-              'cz-conventional-changelog'
-            ).toString(),
-            realpath
-          ),
+          path:
+            './' +
+            relative(
+              realpath,
+              resolve(
+                nodeModulesDirPath,
+                'cz-conventional-changelog'
+              ).toString()
+            ),
         },
       },
     };
   }
 
   async initializeConventionalCommits(realpath: any): Promise<void> {
-    this.packageManagerService.installPackages(
+    await this.packageManagerService.installPackages(
       realpath,
       ConventionalCommitsService.conventionalCommitsPackages,
       false,

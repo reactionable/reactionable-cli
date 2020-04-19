@@ -20,7 +20,7 @@ export class GitService {
   constructor(
     @inject(CliService) private readonly cliService: CliService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(ConsoleService)
+    @inject(ConventionalCommitsService)
     private readonly conventionalCommitsService: ConventionalCommitsService
   ) {}
 
@@ -144,7 +144,7 @@ export class GitService {
       {
         type: 'input',
         name: 'commitMessage',
-        default: defaultCommitMessage,
+        default: '`' + defaultCommitMessage + '`',
         message: 'Commit message',
       },
     ]);
@@ -168,7 +168,11 @@ export class GitService {
     commitMessage =
       commitMessage.charAt(0).toUpperCase() + commitMessage.slice(1);
 
-    if (!this.conventionalCommitsService.hasConventionalCommits(realpath)) {
+    const hasConventionalCommits = await this.conventionalCommitsService.hasConventionalCommits(
+      realpath
+    );
+
+    if (!hasConventionalCommits) {
       return commitMessage;
     }
 

@@ -8,6 +8,8 @@ import { NpmPackageManager } from './adapters/NpmPackageManager';
 import { IPackageManager } from './adapters/IPackageManager';
 import { FileFactory } from '../file/FileFactory';
 import { JsonFile } from '../file/JsonFile';
+import { CliService } from '../CliService';
+import { AbstractPackageManager } from './adapters/AbstractPackageManager';
 
 export enum PackageManagerType {
   yarn = 'yarn',
@@ -45,6 +47,14 @@ export type PackageJson = {
   };
 };
 
+type AbstractConstructorHelper<T> = (new (...args: any) => {
+  [x: string]: any;
+}) &
+  T;
+type AbstractContructorParameters<T> = ConstructorParameters<
+  AbstractConstructorHelper<T>
+>;
+
 @injectable()
 export class PackageManagerService {
   private readonly packageManagers: Map<string, IPackageManager> = new Map();
@@ -52,7 +62,8 @@ export class PackageManagerService {
   constructor(
     @inject(FileService) private readonly fileService: FileService,
     @inject(FileFactory) private readonly fileFactory: FileFactory,
-    @inject(ConsoleService) private readonly consoleService: ConsoleService
+    @inject(ConsoleService) private readonly consoleService: ConsoleService,
+    @inject(CliService) private readonly cliService: CliService
   ) {}
 
   isMonorepo(realpath: string): Promise<boolean> {
@@ -88,21 +99,22 @@ export class PackageManagerService {
       return packageManager;
     }
 
-    const args = [this.fileService, this.fileFactory, realpath];
+    const args: AbstractContructorParameters<typeof AbstractPackageManager> = [
+      this.cliService,
+      realpath,
+    ];
 
     switch (true) {
       case this.fileService.fileExistsSync(resolve(dirPath, 'yarn.lock')):
-        packageManager = new YarnPackageManager(
-          ...(args as ConstructorParameters<typeof YarnPackageManager>)
-        );
+        packageManager = new YarnPackageManager(...args);
         break;
+
       case this.fileService.fileExistsSync(
         resolve(dirPath, 'package-lock.json')
       ):
-        packageManager = new NpmPackageManager(
-          ...(args as ConstructorParameters<typeof NpmPackageManager>)
-        );
+        packageManager = new NpmPackageManager(...args);
         break;
+
       default:
         throw new Error(`No package manager found for directory ${realpath}`);
     }
