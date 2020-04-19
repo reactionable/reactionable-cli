@@ -7,7 +7,6 @@ import { GitService } from '../../../services/git/GitService';
 import { AbstractAdapter } from '../../AbstractAdapter';
 import { IVersioningAdapter } from '../IVersioningAdapter';
 import { ConsoleService } from '../../../services/ConsoleService';
-import { TemplateService } from '../../../services/TemplateService';
 import { ConventionalCommitsService } from '../../../services/git/ConventionalCommitsService';
 
 @injectable()
@@ -64,7 +63,11 @@ export default abstract class AbstractVersioning extends AbstractAdapter
       },
     });
 
-    if (!this.conventionalCommitsService.hasConventionalCommits(realpath)) {
+    const hasConventionalCommits = await this.conventionalCommitsService.hasConventionalCommits(
+      realpath
+    );
+
+    if (!hasConventionalCommits) {
       const { conventionalCommits } = await prompt([
         {
           type: 'confirm',

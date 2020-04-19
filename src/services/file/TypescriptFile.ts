@@ -28,13 +28,18 @@ export class TypescriptFile extends StdFile {
                   importType = TypescriptImport.defaultImport;
                   moduleName = specifier.local.name;
                   break;
+
                 case AST_NODE_TYPES.ImportNamespaceSpecifier:
                   importType = specifier.local.name;
                   moduleName = TypescriptImport.globImport;
                   break;
+
                 default:
-                  importType = '';
-                  moduleName = specifier.local.name;
+                  importType =
+                    specifier.local.name !== specifier.imported.name
+                      ? specifier.local.name
+                      : '';
+                  moduleName = specifier.imported.name;
               }
 
               this.addImports([

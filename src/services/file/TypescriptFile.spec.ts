@@ -1,17 +1,16 @@
-import mock from 'mock-fs';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
 import container from '../../container';
+import { restoreMockFs, mockDir, mockDirPath } from '../../tests/mock-fs';
 import { CliService } from '../CliService';
 import { FileService } from './FileService';
 import { FileFactory } from './FileFactory';
 import { TypescriptFile } from './TypescriptFile';
 
 describe('Services - File - TypescriptFile', () => {
-  const dirPath = 'test/dir/path';
   const fileName = 'test.ts';
-  const filePath = join(dirPath, fileName);
+  const filePath = join(mockDirPath, fileName);
 
   let cliService: CliService;
   let fileService: FileService;
@@ -25,14 +24,15 @@ describe('Services - File - TypescriptFile', () => {
     fileFactory = container.get(FileFactory);
   });
 
-  afterEach(mock.restore);
+  afterEach(restoreMockFs);
   afterAll(jest.resetAllMocks);
 
   describe('getContent', () => {
-    it('should retrieve file content', async () => {
-      mock({ [dirPath]: {} });
+    it.only('should retrieve file content', async () => {
+      mockDir();
 
-      const fileContent = `import * as serviceWorker from './serviceWorker';
+      const fileContent = `import { App as CoreApp, IAppProps } from '@reactionable/core';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>

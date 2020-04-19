@@ -1,18 +1,17 @@
-import mock from 'mock-fs';
 import { StdFile } from './StdFile';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import inquirer from 'inquirer';
 
 import container from '../../container';
+import { restoreMockFs, mockDir, mockDirPath } from '../../tests/mock-fs';
 import { CliService } from '../CliService';
 import { FileService } from './FileService';
 import { FileFactory } from './FileFactory';
 
 describe('Services - File - StdFile', () => {
-  const dirPath = 'test/dir/path';
   const fileName = 'test.txt';
-  const filePath = join(dirPath, fileName);
+  const filePath = join(mockDirPath, fileName);
 
   let cliService: CliService;
   let fileService: FileService;
@@ -26,12 +25,12 @@ describe('Services - File - StdFile', () => {
     fileFactory = container.get(FileFactory);
   });
 
-  afterEach(mock.restore);
+  afterEach(restoreMockFs);
   afterAll(jest.resetAllMocks);
 
   describe('saveFile', () => {
     it('should save a new file', async () => {
-      mock({ [dirPath]: {} });
+      mockDir();
 
       const fileContent = 'test content';
       const file = new StdFile(
@@ -51,7 +50,7 @@ describe('Services - File - StdFile', () => {
     });
 
     it('should override an existing file', async () => {
-      mock({ [dirPath]: { [fileName]: 'test original content' } });
+      mockDir({ [fileName]: 'test original content' });
 
       (inquirer.prompt as any) = jest
         .fn()
@@ -76,7 +75,7 @@ describe('Services - File - StdFile', () => {
     it('should not override an existing file', async () => {
       const originalContent = 'test original content';
 
-      mock({ [dirPath]: { [fileName]: originalContent } });
+      mockDir({ [fileName]: originalContent });
 
       (inquirer.prompt as any) = jest
         .fn()
@@ -105,7 +104,7 @@ describe('Services - File - StdFile', () => {
         line 3 content
         line 4 content
       `;
-      mock({ [dirPath]: { [fileName]: originalContent } });
+      mockDir({ [fileName]: originalContent });
 
       (inquirer.prompt as any) = jest
         .fn()

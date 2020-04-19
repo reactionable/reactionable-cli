@@ -1,56 +1,94 @@
-import { tmpdir } from 'os';
+import { resolve } from 'path';
+import { cwd } from 'process';
 
 import container from '../../container';
+import {
+  restoreMockFs,
+  mockDir,
+  mockDirPath,
+  mockYarnDir,
+} from '../../tests/mock-fs';
 import { ConventionalCommitsService } from './ConventionalCommitsService';
-import mock from 'mock-fs';
+import { mockYarnCmd, restoreMockCmd } from '../../tests/mock-cmd';
 
 describe('ConventionalCommitsService', () => {
   let service: ConventionalCommitsService;
-
-  const dirPath = 'test/dir/path';
 
   beforeAll(() => {
     service = container.get(ConventionalCommitsService);
   });
 
-  afterEach(mock.restore);
+  afterEach(() => {
+    restoreMockFs();
+    restoreMockCmd();
+  });
 
   describe('hasConventionalCommits', () => {
     it('should return false when conventional commit is not enabled', async () => {
-      mock({
-        [dirPath]: {
-          'package.json': JSON.stringify({}),
-        },
+      mockDir({
+        'package.json': JSON.stringify({}),
       });
-      const result = await service.hasConventionalCommits(dirPath);
+      const result = await service.hasConventionalCommits(mockDirPath);
       expect(result).toEqual(false);
     });
 
     it('should return true when conventional commit is enabled', async () => {
-      mock({
-        [dirPath]: {
-          'package.json': JSON.stringify({
-            devDependencies: {
-              '@commitlint/cli': '1.0.0',
-              '@commitlint/config-conventional': '1.0.0',
-              'cz-conventional-changelog': '1.0.0',
-              husky: '1.0.0',
+      mockYarnDir({
+        'package.json': JSON.stringify({
+          devDependencies: {
+            '@commitlint/cli': '1.0.0',
+            '@commitlint/config-conventional': '1.0.0',
+            'cz-conventional-changelog': '1.0.0',
+            husky: '1.0.0',
+          },
+          husky: {
+            hooks: {
+              'commit-msg': 'commitlint -E HUSKY_GIT_PARAMS',
             },
-            husky: {
-              hooks: {
-                'commit-msg': 'test',
-              },
+          },
+          config: {
+            commitizen: {
+              path: './node_modules/cz-conventional-changelog',
             },
-            config: {
-              commitizen: {
-                path: 'test',
-              },
-            },
-          }),
+          },
+        }),
+      });
+      const yarnCmdMock = mockYarnCmd();
+
+      const nodeModulesRealpath = resolve(cwd(), mockDirPath, 'node_modules');
+      const binRealpath = resolve(nodeModulesRealpath, './bin');
+      yarnCmdMock.mockResult(binRealpath);
+
+      const result = await service.hasConventionalCommits(mockDirPath);
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getConventionalCommitsConfig', () => {
+    it('should retrieve conventional commits config for a given directory path', async () => {
+      mockYarnDir();
+      const yarnCmdMock = mockYarnCmd();
+
+      const nodeModulesRealpath = resolve(cwd(), mockDirPath, 'node_modules');
+      const binRealpath = resolve(nodeModulesRealpath, './bin');
+      yarnCmdMock.mockResult(binRealpath);
+
+      const expectedCommitizenPath = './node_modules/cz-conventional-changelog';
+
+      const result = await service.getConventionalCommitsConfig(mockDirPath);
+
+      expect(result).toEqual({
+        config: {
+          commitizen: {
+            path: expectedCommitizenPath,
+          },
+        },
+        husky: {
+          hooks: {
+            'commit-msg': 'commitlint -E HUSKY_GIT_PARAMS',
+          },
         },
       });
-      const result = await service.hasConventionalCommits(dirPath);
-      expect(result).toEqual(false);
     });
   });
 });

@@ -15,7 +15,7 @@ export class YarnPackageManager extends AbstractPackageManager {
 
   async isMonorepo(): Promise<boolean> {
     try {
-      await this.execCmd(['workspaces', 'info']);
+      await this.execCmd(['workspaces', 'info'], true);
       return true;
     } catch (error) {
       if (
