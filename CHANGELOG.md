@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.2 (2020-04-20)
+
+
+### Bug Fixes
+
+* **service:** supports glob import in typescript files ([f4251b4](https://github.com/reactionable/reactionable-cli/commit/f4251b4f8114e238f47e74ec94a354ff09601bee))
+
 ### 1.2.1 (2020-04-19)
 
 
