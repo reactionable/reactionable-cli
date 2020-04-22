@@ -1,4 +1,5 @@
 import { parse, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
+import { ImportDeclaration } from '@typescript-eslint/typescript-estree/dist/ts-estree/ts-estree';
 import { TypescriptImport, ITypescriptImport } from './TypescriptImport';
 import { StdFile } from './StdFile';
 import { EOL } from 'os';
@@ -20,34 +21,7 @@ export class TypescriptFile extends StdFile {
       for (const bodyItem of body) {
         switch (bodyItem.type) {
           case 'ImportDeclaration':
-            for (const specifier of bodyItem.specifiers) {
-              let importType: string;
-              let moduleName: string;
-              switch (specifier.type) {
-                case AST_NODE_TYPES.ImportDefaultSpecifier:
-                  importType = TypescriptImport.defaultImport;
-                  moduleName = specifier.local.name;
-                  break;
-
-                case AST_NODE_TYPES.ImportNamespaceSpecifier:
-                  importType = specifier.local.name;
-                  moduleName = TypescriptImport.globImport;
-                  break;
-
-                default:
-                  importType =
-                    specifier.local.name !== specifier.imported.name
-                      ? specifier.local.name
-                      : '';
-                  moduleName = specifier.imported.name;
-              }
-
-              this.addImports([
-                new TypescriptImport(bodyItem.source.value as string, {
-                  [moduleName]: importType,
-                }),
-              ]);
-            }
+            this.parseImportDeclaration(bodyItem);
             break;
           default:
             this.declarations.push(
@@ -70,6 +44,46 @@ export class TypescriptFile extends StdFile {
       );
     }
     return content;
+  }
+
+  protected parseImportDeclaration(bodyItem: ImportDeclaration) {
+    if (!bodyItem.specifiers.length) {
+      this.addImports([
+        new TypescriptImport(bodyItem.source.value as string, {
+          [TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
+        }),
+      ]);
+      return;
+    }
+
+    for (const specifier of bodyItem.specifiers) {
+      let importType: string;
+      let moduleName: string;
+      switch (specifier.type) {
+        case AST_NODE_TYPES.ImportDefaultSpecifier:
+          importType = TypescriptImport.defaultImport;
+          moduleName = specifier.local.name;
+          break;
+
+        case AST_NODE_TYPES.ImportNamespaceSpecifier:
+          importType = specifier.local.name;
+          moduleName = TypescriptImport.globImport;
+          break;
+
+        default:
+          importType =
+            specifier.local.name !== specifier.imported.name
+              ? specifier.local.name
+              : '';
+          moduleName = specifier.imported.name;
+      }
+
+      this.addImports([
+        new TypescriptImport(bodyItem.source.value as string, {
+          [moduleName]: importType,
+        }),
+      ]);
+    }
   }
 
   getContent(): string {
