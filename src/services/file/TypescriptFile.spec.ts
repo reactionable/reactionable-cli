@@ -28,11 +28,12 @@ describe('Services - File - TypescriptFile', () => {
   afterAll(jest.resetAllMocks);
 
   describe('getContent', () => {
-    it.only('should retrieve file content', async () => {
+    it('should retrieve file content', async () => {
       mockDir();
 
       const fileContent = `import { App as CoreApp, IAppProps } from '@reactionable/core';
 import * as serviceWorker from './serviceWorker';
+import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -41,6 +42,27 @@ ReactDOM.render(
   document.getElementById('root')
 );
 serviceWorker.unregister();`;
+
+      const file = new TypescriptFile(
+        cliService,
+        fileService,
+        fileFactory,
+        filePath,
+        undefined,
+        fileContent
+      );
+
+      const result = await file.saveFile();
+
+      expect(result.getContent()).toEqual(fileContent);
+      expect(fileService.fileExistsSync(filePath)).toEqual(true);
+      expect(readFileSync(filePath).toString()).toEqual(fileContent);
+    });
+
+    it('should retrieve file content having import file string', async () => {
+      mockDir();
+
+      const fileContent = `import './index.scss';\n`;
 
       const file = new TypescriptFile(
         cliService,

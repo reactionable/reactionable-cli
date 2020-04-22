@@ -21,6 +21,18 @@ describe('Services - File - TypescriptImport', () => {
       expect(typescriptImport.modules).toEqual({ App: 'CoreApp' });
       expect(typescriptImport.toString()).toEqual(importString);
     });
+
+    it('should retrieve an instance of TypescriptImport from given import file string', async () => {
+      const importString = `import './index.scss';`;
+
+      const typescriptImport = TypescriptImport.fromString(importString)!;
+
+      expect(typescriptImport.packageName).toEqual('./index.scss');
+      expect(typescriptImport.modules).toEqual({
+        [TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
+      });
+      expect(typescriptImport.toString()).toEqual(importString);
+    });
   });
 
   describe('toString', () => {

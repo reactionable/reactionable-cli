@@ -15,14 +15,17 @@ export class TypescriptImport {
   ) {}
 
   static fromString(line: string): TypescriptImport | null {
-    const importRegex = /^\s*import\s(.+)\sfrom\s+['"](.+)['"]\s*;?$/;
+    const importRegex = /^\s*import\s((.+)\sfrom\s+)?['"](.+)['"]\s*;?$/;
     const matches = importRegex.exec(line.trim());
     if (!matches) {
       return null;
     }
+
     return new TypescriptImport(
-      matches[2],
-      TypescriptImport.parseImportModules(matches[1])
+      matches[3].trim(),
+      TypescriptImport.parseImportModules(
+        matches[2]?.trim() || TypescriptImport.defaultImport
+      )
     );
   }
 
@@ -116,6 +119,7 @@ export class TypescriptImport {
     }
 
     let imports = defaultImport;
+
     if (globImport) {
       imports += `${imports.length > 0 ? ', ' : ''}${
         TypescriptImport.globImport
@@ -126,8 +130,18 @@ export class TypescriptImport {
         ', '
       )} }`;
     }
-    return imports.length
-      ? `import ${imports} from '${this.packageName}';`
-      : '';
+
+    if (!imports.length) {
+      return '';
+    }
+
+    if (
+      imports === defaultImport &&
+      defaultImport === TypescriptImport.defaultImport
+    ) {
+      return `import '${this.packageName}';`;
+    }
+
+    return `import ${imports} from '${this.packageName}';`;
   }
 }
