@@ -30,7 +30,9 @@ export function mockDir(
 function mockPackageDir(config?: FileSystem.DirectoryItems, dirPath?: string) {
   return mockDir(
     {
-      'package.json': JSON.stringify({}),
+      'package.json': JSON.stringify({
+        name: 'test-project',
+      }),
       node_modules: {
         '.bin': {},
       },

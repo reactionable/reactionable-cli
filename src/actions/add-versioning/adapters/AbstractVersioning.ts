@@ -84,7 +84,7 @@ export default abstract class AbstractVersioning extends AbstractAdapter
       }
     }
 
-    return this.gitService.commitFiles(realpath, 'Initial commit', 'feat');
+    return this.gitService.commitFiles(realpath, 'initial commit', 'feat');
   }
 
   validateGitRemote(input: string): string | Result {
