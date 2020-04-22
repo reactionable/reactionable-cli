@@ -144,7 +144,7 @@ export class GitService {
       {
         type: 'input',
         name: 'commitMessage',
-        default: '`' + defaultCommitMessage + '`',
+        default: defaultCommitMessage,
         message: 'Commit message',
       },
     ]);
@@ -165,15 +165,12 @@ export class GitService {
     commitMessage: string,
     commitMessageType: string
   ): Promise<string> {
-    commitMessage =
-      commitMessage.charAt(0).toUpperCase() + commitMessage.slice(1);
-
     const hasConventionalCommits = await this.conventionalCommitsService.hasConventionalCommits(
       realpath
     );
 
     if (!hasConventionalCommits) {
-      return commitMessage;
+      return commitMessage.charAt(0).toUpperCase() + commitMessage.slice(1);
     }
 
     return this.conventionalCommitsService.formatCommitMessage(

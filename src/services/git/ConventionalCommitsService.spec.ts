@@ -91,4 +91,40 @@ describe('ConventionalCommitsService', () => {
       });
     });
   });
+
+  describe('formatCommitMessage', () => {
+    it('should retrieve format given commit message for a simple repo', async () => {
+      mockYarnDir();
+      const yarnCmdMock = mockYarnCmd();
+      yarnCmdMock.mockError('Cannot find the root of your workspace');
+
+      const commitMessageType = 'feat';
+      const commitMessage = 'test commit message';
+
+      const result = await service.formatCommitMessage(
+        mockDirPath,
+        commitMessageType,
+        commitMessage
+      );
+
+      expect(result).toEqual('feat: test commit message');
+    });
+
+    it('should retrieve format given commit message for a monorepo', async () => {
+      mockYarnDir();
+      const yarnCmdMock = mockYarnCmd();
+      yarnCmdMock.mockResult('{}');
+
+      const commitMessageType = 'feat';
+      const commitMessage = 'test commit message';
+
+      const result = await service.formatCommitMessage(
+        mockDirPath,
+        commitMessageType,
+        commitMessage
+      );
+
+      expect(result).toEqual('feat(test-project): test commit message');
+    });
+  });
 });

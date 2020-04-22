@@ -47,4 +47,22 @@ describe('YarnPackageManager', () => {
       expect(result).toEqual(nodeModulesRealpath);
     });
   });
+
+  describe('isMonorepo', () => {
+    it('should retrieve true if given directory patrh is a monorepo', async () => {
+      yarnCmdMock.mockResult('{}');
+
+      const result = await adapter.isMonorepo();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should retrieve false if given directory patrh is a not monorepo', async () => {
+      yarnCmdMock.mockError('Cannot find the root of your workspace');
+
+      const result = await adapter.isMonorepo();
+
+      expect(result).toEqual(false);
+    });
+  });
 });

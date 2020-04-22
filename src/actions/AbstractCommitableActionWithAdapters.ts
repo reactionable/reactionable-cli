@@ -32,7 +32,7 @@ export abstract class AbstractCommitableActionWithAdapters<
 
     await this.gitService.commitFiles(
       options.realpath,
-      `Adding ${this.getName()} "${adapter.getName()}"`,
+      `adding ${this.getName()} "${adapter.getName()}"`,
       'feat'
     );
   }

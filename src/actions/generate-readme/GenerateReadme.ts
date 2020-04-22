@@ -53,7 +53,7 @@ export default class GenerateReadme
 
     await this.gitService.commitFiles(
       realpath,
-      'Generate README.md file',
+      'generate README.md file',
       'chore'
     );
   }
