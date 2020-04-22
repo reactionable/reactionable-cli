@@ -1,6 +1,6 @@
 {
   "name": "@reactionable/cli",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Reactionable cli",
   "main": "dist/index.js",
   "bin": {
