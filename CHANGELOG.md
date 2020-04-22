@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.5 (2020-04-22)
+
+
+### Bug Fixes
+
+* **file:** handle simple file import in typescript ([8091ca6](https://github.com/reactionable/reactionable-cli/commit/8091ca6d38637adc895b179768551a0e0dee9138))
+
 ### 1.2.4 (2020-04-22)
 
 
