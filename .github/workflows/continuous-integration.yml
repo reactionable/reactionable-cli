@@ -47,35 +47,3 @@ jobs:
         run: yarn test
         env:
           CI: true
-
-      - name: Prepare release
-        run: |
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git config user.name "${{ github.actor }}"   
-          npx standard-version
-          echo `git add -A && git commit -m "chore: prepare release"`
-          git push --follow-tags origin master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npm publish --access public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-
-      - name: Prepare gh-pages
-        run: |
-          mkdir build
-          cp README.md build/index.md
-          npm run build:doc
-
-      - name: Publish gh-pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: JamesIves/github-pages-deploy-action@3.4.6
-        with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: master # The branch the action should deploy from.
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
