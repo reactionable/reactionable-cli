@@ -1,51 +1,25 @@
 import { which } from 'shelljs';
-import { resolve } from 'path';
+import { resolve, basename } from 'path';
 import { injectable, inject } from 'inversify';
 import { FileService } from '../file/FileService';
 import { ConsoleService } from '../ConsoleService';
 import { YarnPackageManager } from './adapters/YarnPackageManager';
 import { NpmPackageManager } from './adapters/NpmPackageManager';
-import { IPackageManager } from './adapters/IPackageManager';
+import { IPackageManager, PackageJson } from './adapters/IPackageManager';
 import { FileFactory } from '../file/FileFactory';
 import { JsonFile } from '../file/JsonFile';
 import { CliService } from '../CliService';
 import { AbstractPackageManager } from './adapters/AbstractPackageManager';
+import {
+  StringUtils,
+  StringUtilsMethods,
+  StringUtilsMethod,
+} from '../StringUtils';
 
 export enum PackageManagerType {
   yarn = 'yarn',
   npm = 'npm',
 }
-
-export type PackageJsonDependencies = {
-  [key: string]: string;
-};
-
-export type PackageJson = {
-  name?: string;
-  version?: string;
-  author?: {
-    name?: string;
-  };
-  bugs?: {
-    url?: string;
-  };
-  repository?: {
-    type?: string;
-    url?: string;
-  };
-  devDependencies?: PackageJsonDependencies;
-  dependencies?: PackageJsonDependencies;
-  husky?: {
-    hooks?: {
-      'commit-msg'?: string;
-    };
-  };
-  config?: {
-    commitizen?: {
-      path?: string;
-    };
-  };
-};
 
 type AbstractConstructorHelper<T> = (new (...args: any) => {
   [x: string]: any;
@@ -66,14 +40,6 @@ export class PackageManagerService {
     @inject(CliService) private readonly cliService: CliService
   ) {}
 
-  isMonorepo(realpath: string): Promise<boolean> {
-    return this.getPackageManager(realpath).isMonorepo();
-  }
-
-  getNodeModulesDirPath(realpath: string): Promise<string> {
-    return this.getPackageManager(realpath).getNodeModulesDirPath();
-  }
-
   /**
    * Retrieve all package manager types available for this runtime
    */
@@ -87,40 +53,16 @@ export class PackageManagerService {
     return packageManagers;
   };
 
-  getPackageManager(dirPath: string): IPackageManager {
-    let packageManager = this.packageManagers.get(dirPath);
-    if (packageManager) {
-      return packageManager;
-    }
+  getPackageManagerCmd(realpath: any) {
+    return this.getPackageManager(realpath).getCmd();
+  }
 
-    let realpath = this.fileService.assertDirExists(dirPath);
-    packageManager = this.packageManagers.get(dirPath);
-    if (packageManager) {
-      return packageManager;
-    }
+  isMonorepoPackage(realpath: string): Promise<boolean> {
+    return this.getPackageManager(realpath).isMonorepoPackage();
+  }
 
-    const args: AbstractContructorParameters<typeof AbstractPackageManager> = [
-      this.cliService,
-      realpath,
-    ];
-
-    switch (true) {
-      case this.fileService.fileExistsSync(resolve(dirPath, 'yarn.lock')):
-        packageManager = new YarnPackageManager(...args);
-        break;
-
-      case this.fileService.fileExistsSync(
-        resolve(dirPath, 'package-lock.json')
-      ):
-        packageManager = new NpmPackageManager(...args);
-        break;
-
-      default:
-        throw new Error(`No package manager found for directory ${realpath}`);
-    }
-
-    this.packageManagers.set(dirPath, packageManager);
-    return packageManager;
+  getNodeModulesDirPath(realpath: string): Promise<string> {
+    return this.getPackageManager(realpath).getNodeModulesDirPath();
   }
 
   async installPackages(
@@ -150,9 +92,7 @@ export class PackageManagerService {
     verbose &&
       this.consoleService.success(
         installedPackages.length
-          ? 'Package(s) "' +
-              installedPackages.join(', ') +
-              '" have been installed'
+          ? `Package(s) "${installedPackages.join(', ')}" have been installed`
           : 'no package has been installed'
       );
     return packages;
@@ -162,13 +102,11 @@ export class PackageManagerService {
     dirPath: string,
     packageName: string,
     dev: boolean = false,
-    encoding = 'utf8'
+    encoding: BufferEncoding = 'utf8'
   ): boolean {
-    const installedPackages = this.getPackageJsonData(
-      dirPath,
-      dev ? 'devDependencies' : 'dependencies',
-      encoding
-    );
+    const installedPackages = this.getPackageManager(
+      dirPath
+    ).getPackageJsonData(dev ? 'devDependencies' : 'dependencies', encoding);
 
     return !!(installedPackages && installedPackages[packageName]);
   }
@@ -177,38 +115,32 @@ export class PackageManagerService {
     return !!this.getPackageJsonPath(dirPath);
   }
 
-  getPackageJsonData(dirPath: string): PackageJson;
-  getPackageJsonData<P extends keyof PackageJson = keyof PackageJson>(
+  async getPackageName(
     dirPath: string,
-    property: P,
-    encoding?: string
-  ): PackageJson[P] | undefined;
-  getPackageJsonData<P extends keyof PackageJson = keyof PackageJson>(
-    dirPath: string,
-    property: P | undefined = undefined,
-    encoding: string = 'utf8'
-  ): PackageJson | PackageJson[P] | undefined {
-    const packageJsonPath = this.assertPackageJsonExists(dirPath);
+    format?: StringUtilsMethods,
+    fullName: boolean = true
+  ): Promise<string> {
+    const packageManager = this.getPackageManager(dirPath);
 
-    const file = this.fileFactory.fromFile<JsonFile>(packageJsonPath, encoding);
+    let packageName =
+      packageManager.getPackageJsonData('name') || basename(dirPath);
 
-    if (property) {
-      return file.getData<PackageJson>(property) as PackageJson[P] | undefined;
+    if (fullName) {
+      const monorepoRootPath = await packageManager.getMonorepoRootPath();
+      if (monorepoRootPath) {
+        const rootPackageManager = this.getPackageManager(monorepoRootPath);
+
+        let rootPackageName =
+          rootPackageManager.getPackageJsonData('name') ||
+          basename(monorepoRootPath);
+
+        packageName = `${rootPackageName} - ${packageName}`;
+      }
     }
 
-    return file.getData<PackageJson>()!;
-  }
-
-  async updatePackageJson(
-    dirPath: string,
-    data: Partial<PackageJson>
-  ): Promise<void> {
-    const packageJsonPath = this.assertPackageJsonExists(dirPath);
-
-    await this.fileFactory
-      .fromFile<JsonFile>(packageJsonPath)
-      .appendData(data)
-      .saveFile();
+    return format
+      ? (StringUtils[format] as StringUtilsMethod)(packageName)
+      : packageName;
   }
 
   hasPackageJsonConfig(dirPath: string, data: Partial<PackageJson>): boolean {
@@ -253,10 +185,62 @@ export class PackageManagerService {
       return true;
     };
 
-    return compareObject(data, this.getPackageJsonData(dirPath));
+    return compareObject(
+      data,
+      this.getPackageManager(dirPath).getPackageJsonData()
+    );
   }
 
-  protected getPackageJsonPath(dirPath: string): string | null {
+  async updatePackageJson(
+    dirPath: string,
+    data: Partial<PackageJson>
+  ): Promise<void> {
+    const packageJsonPath = this.assertPackageJsonExists(dirPath);
+
+    await this.fileFactory
+      .fromFile<JsonFile>(packageJsonPath)
+      .appendData(data)
+      .saveFile();
+  }
+
+  private getPackageManager(dirPath: string): IPackageManager {
+    let packageManager = this.packageManagers.get(dirPath);
+    if (packageManager) {
+      return packageManager;
+    }
+
+    let realpath = this.fileService.assertDirExists(dirPath);
+    packageManager = this.packageManagers.get(dirPath);
+    if (packageManager) {
+      return packageManager;
+    }
+
+    const args: AbstractContructorParameters<typeof AbstractPackageManager> = [
+      this.cliService,
+      this.fileFactory,
+      realpath,
+    ];
+
+    switch (true) {
+      case this.fileService.fileExistsSync(resolve(dirPath, 'yarn.lock')):
+        packageManager = new YarnPackageManager(...args);
+        break;
+
+      case this.fileService.fileExistsSync(
+        resolve(dirPath, 'package-lock.json')
+      ):
+        packageManager = new NpmPackageManager(...args);
+        break;
+
+      default:
+        throw new Error(`No package manager found for directory ${realpath}`);
+    }
+
+    this.packageManagers.set(dirPath, packageManager);
+    return packageManager;
+  }
+
+  private getPackageJsonPath(dirPath: string): string | null {
     const packageJsonPath = resolve(dirPath, 'package.json');
 
     if (this.fileService.fileExistsSync(packageJsonPath)) {
@@ -265,7 +249,7 @@ export class PackageManagerService {
     return null;
   }
 
-  protected assertPackageJsonExists(dirPath: string): string {
+  private assertPackageJsonExists(dirPath: string): string {
     const packageJsonPath = this.getPackageJsonPath(dirPath);
     if (!packageJsonPath) {
       throw new Error(`package.json does not exist in directory "${dirPath}"`);

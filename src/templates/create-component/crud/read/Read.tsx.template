@@ -3,8 +3,11 @@ const template = `{{#> Component }}
 import { Link, useParams } from 'react-router-dom';
 import { lazy } from 'react';
 import { Read } from '{{ uiPackage }}';
-const Update{{ entityName }} = lazy(() => import('../update-{{hyphenize entityName }}/Update{{ entityName }}'));
+import { useQueryList } from '{{ hostingPackage }}';
+
 import { I{{ entityName }}Data, IGet{{ entityName }}QueryVariables } from '../{{ entitiesName }}Config';
+
+const Update{{ entityName }} = lazy(() => import('../update-{{hyphenize entityName }}/Update{{ entityName }}'));
 {{/inline}}
 {{#*inline "helmet-block"}}{{/inline}}
 {{#*inline "pre-render-block"}}const matchParams = useParams<{ {{decapitalize entityName }}Id: string }>();

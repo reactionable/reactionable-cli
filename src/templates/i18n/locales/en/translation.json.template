@@ -1,0 +1,21 @@
+const template = `{
+    {{{projectName}}}: {{{projectName}}},
+    "Not found": "404 - Page not found",
+    "The page you are looking for might have been removed, or had its name changed, or is temporarily unavailable": "The page you are looking for might have been removed, or had its name changed, or is temporarily unavailable",
+    "Go To Homepage": "Go To Homepage",
+    "An error has occured": "An error has occured",
+    "Sign In / Sign Up": "Sign In / Sign Up",
+    "User does not exist": "User does not exist",
+    "Incorrect username or password": "Incorrect username or password",
+    "Invalid verification code provided, please try again": "Invalid verification code provided, please try again",
+    "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6": "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6",
+    "Password does not conform to policy: Password not long enough": "Password does not conform to policy: Password not long enough",
+    "Loading": "Loading",
+    "Copyright": "Copyright",
+    "Powered by": "Powered by",
+    "Sign Up / Sign In": "Sign Up / Sign In",
+    "My account": "My account",
+    "Log out": "Log out",
+    "Home": "Home",
+}`;
+module.exports = template;

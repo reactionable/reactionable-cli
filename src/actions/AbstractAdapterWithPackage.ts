@@ -8,7 +8,7 @@ import { IOptions } from './IRunnable';
 export abstract class AbstractAdapterWithPackage<
   O extends IOptions = {}
 > extends AbstractAdapter<O> {
-  protected abstract packageName: string;
+  protected abstract adapterPackageName: string;
 
   constructor(
     @inject(PackageManagerService)
@@ -17,21 +17,21 @@ export abstract class AbstractAdapterWithPackage<
     super();
   }
 
-  getPackageName(): string {
-    return this.packageName;
+  getAdapterPackageName(): string {
+    return this.adapterPackageName;
   }
 
   async isEnabled(realpath: string): Promise<boolean> {
     return this.packageManagerService.hasInstalledPackage(
       realpath,
-      this.getPackageName()
+      this.getAdapterPackageName()
     );
   }
 
   async run({ realpath }) {
     // Installs package
     await this.packageManagerService.installPackages(realpath, [
-      this.getPackageName(),
+      this.getAdapterPackageName(),
     ]);
   }
 }

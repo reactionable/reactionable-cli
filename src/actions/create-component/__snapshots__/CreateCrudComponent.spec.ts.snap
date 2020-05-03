@@ -15,13 +15,13 @@ it('renders without crashing', () => {
 
 exports[`CreateCrudComponent run should create all crud components files 2`] = `
 "import { Create, IFormProps, IOnSubmitForm } from '@reactionable/ui-bootstrap';
-import React from 'react';
+import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
 
 interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, 'onSuccess'> { }
-const CreateTestEntity: React.FC<IProps> = (props) => {
+const CreateTestEntity: FC<IProps> = (props) => {
   const { t } = useTranslation();
   const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
     return { id: '', label: '' };
@@ -32,13 +32,13 @@ const CreateTestEntity: React.FC<IProps> = (props) => {
     onSubmit,
     formValues: testEntityFormValues,
     formSchema: testEntityFormSchema(t),
-    chilren: testEntityFormChildren(t),
-    ...props,
+    children: testEntityFormChildren(t),
+    onSuccess: props.onSuccess,
   };
 
   return <>
     
-    <Create<ITestEntityValues, ITestEntityData> form={form} />
+    <Create<ITestEntityValues, ITestEntityData> form={form} children={props.children}/>
   </>;
 };
 export default CreateTestEntity;"
@@ -59,7 +59,7 @@ it('renders without crashing', () => {
 
 exports[`CreateCrudComponent run should create all crud components files 4`] = `
 "import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
-import React from 'react';
+import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { ITestEntityData } from '../TestEntitiesConfig';
@@ -68,7 +68,7 @@ interface IProps extends Pick<IDeleteProps<ITestEntityData>, 'onSuccess'> {
   id: string; 
   label?: boolean;
 }
-const DeleteTestEntity: React.FC<IProps> = (props) => {
+const DeleteTestEntity: FC<IProps> = (props) => {
   const { t } = useTranslation();
   const { id, label, ...deleteProps} = props;
   const onConfirm = async (): Promise<ITestEntityData> => {
@@ -105,17 +105,18 @@ it('renders without crashing', () => {
 
 exports[`CreateCrudComponent run should create all crud components files 6`] = `
 "import { useQueryList } from '@reactionable/amplify';
+import { generatePath } from '@reactionable/core';
 import { List } from '@reactionable/ui-bootstrap';
-import React, { lazy } from 'react';
+import React, { FC, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { Link, generatePath, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { IListTestEntitiesQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
 
 const CreateTestEntity = lazy(() => import('../create-test-entity/CreateTestEntity'));
 const DeleteTestEntity = lazy(() => import('../delete-test-entity/DeleteTestEntity'));
 interface IProps { }
-const ListTestEntities: React.FC<IProps> = (props) => {
+const ListTestEntities: FC<IProps> = (props) => {
   const { t } = useTranslation();
   const match = useRouteMatch();
 
@@ -142,7 +143,7 @@ const ListTestEntities: React.FC<IProps> = (props) => {
 
   return <>
     <Helmet>
-      <title>{t('tests')} - {t('List test entities')}</title>
+      <title>{t('Tests')} - {t('List test entities')}</title>
       <meta name=\\"description\\" content={t('List test entities description')} />
     </Helmet>
     <h1>{t('List test entities')}</h1>
@@ -183,8 +184,9 @@ it('renders without crashing', () => {
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 8`] = `
-"import { Read } from '@reactionable/ui-bootstrap';
-import React, { lazy } from 'react';
+"import { useQueryList } from '@reactionable/amplify';
+import { Read } from '@reactionable/ui-bootstrap';
+import React, { FC, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -192,7 +194,7 @@ import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesCo
 
 const UpdateTestEntity = lazy(() => import('../update-test-entity/UpdateTestEntity'));
 interface IProps { }
-const ReadTestEntity: React.FC<IProps> = (props) => {
+const ReadTestEntity: FC<IProps> = (props) => {
   const { t } = useTranslation();
   const matchParams = useParams<{ testEntityId: string }>();
 
@@ -202,7 +204,7 @@ const ReadTestEntity: React.FC<IProps> = (props) => {
 
   const renderChildren = (data: ITestEntityData) => <>
     <Helmet>
-      <title>{t('tests')} - {t('Read test entity - {{label}}', data)}</title>
+      <title>{t('Tests')} - {t('Read test entity - {{label}}', data)}</title>
       <meta name=\\"description\\" content={t('Read test entity - {{label}}', data)} />
     </Helmet>
     <h1>{t('Read test entity - {{label}}', data)}</h1>
@@ -243,18 +245,18 @@ it('renders without crashing', () => {
 
 exports[`CreateCrudComponent run should create all crud components files 10`] = `
 "import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
-import React from 'react';
+import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
 
-interface IProps extends Pick<IUpdateProps<ITestEntityValues, ITestEntityData>, 'onSuccess' | 'formValues'> { }
-const UpdateTestEntity: React.FC<IProps> = (props) => {
+interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, 'onSuccess' | 'formValues'> { }
+const UpdateTestEntity: FC<IProps> = (props) => {
   const { t } = useTranslation();
   const matchParams = useParams<{ testEntityId: string }>();
   const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
-    return { id: '', label: '' };
+    return { ...values, id: matchParams.testEntityId };
   };
 
   const safeFormValues: any = { ...testEntityFormValues };
@@ -270,13 +272,13 @@ const UpdateTestEntity: React.FC<IProps> = (props) => {
     onSubmit,
     formValues: safeFormValues,
     formSchema: testEntityFormSchema(t),
-    chilren: testEntityFormChildren(t),
-    ...props,
+    children: testEntityFormChildren(t),
+    onSuccess: props.onSuccess,
   };
 
   return <>
     
-    <Update<ITestEntityValues, ITestEntityData> form={form} />
+    <Update<ITestEntityValues, ITestEntityData> form={form} children={props.children}/>
   </>;
 };
 export default UpdateTestEntity;"
@@ -298,7 +300,7 @@ it('renders without crashing', () => {
 exports[`CreateCrudComponent run should create all crud components files 12`] = `
 "import { Crud } from '@reactionable/core';
 import { IUseLayoutProps } from '@reactionable/ui-bootstrap';
-import React, { lazy } from 'react';
+import React, { FC, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { ITestEntityData } from './TestEntitiesConfig';
@@ -306,7 +308,7 @@ import { ITestEntityData } from './TestEntitiesConfig';
 const ListTestEntities = lazy(() => import('./list-test-entities/ListTestEntities'));
 const ReadTestEntity = lazy(() => import('./read-test-entity/ReadTestEntity'));
 interface IProps { }
-const TestEntities: React.FC<IProps> = (props) => {
+const TestEntities: FC<IProps> = (props) => {
   const { t } = useTranslation();
   
   return <>

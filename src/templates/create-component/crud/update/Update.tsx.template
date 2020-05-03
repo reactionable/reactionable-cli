@@ -5,12 +5,12 @@ import { Update, IFormProps, IOnSubmitForm } from '{{ uiPackage }}';
 import { I{{ entityName }}Values, I{{ entityName }}Data, {{decapitalize entityName }}FormSchema, {{decapitalize entityName }}FormValues, {{decapitalize entityName }}FormChildren } from '../{{ entitiesName }}Config';
 {{/inline}}
 {{#*inline "props-block"}}
-interface IProps extends Pick<IUpdateProps<I{{ entityName }}Values, I{{ entityName }}Data>, 'onSuccess' | 'formValues'> { }
+interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName }}Data>, 'onSuccess' | 'formValues'> { }
 {{/inline}}
 {{#*inline "helmet-block"}}{{/inline}}
 {{#*inline "pre-render-block"}}const matchParams = useParams<{ {{decapitalize entityName }}Id: string }>();
   const onSubmit: IOnSubmitForm<I{{ entityName }}Values, I{{ entityName }}Data> = async (values, formikHelpers) => {
-    return { id: '', label: '' };
+    return { ...values, id: matchParams.{{decapitalize entityName }}Id };
   };
 
   const safeFormValues: any = { ...{{decapitalize entityName }}FormValues };
@@ -26,11 +26,11 @@ interface IProps extends Pick<IUpdateProps<I{{ entityName }}Values, I{{ entityNa
     onSubmit,
     formValues: safeFormValues,
     formSchema: {{decapitalize entityName }}FormSchema(t),
-    chilren: {{decapitalize entityName }}FormChildren(t),
-    ...props,
+    children: {{decapitalize entityName }}FormChildren(t),
+    onSuccess: props.onSuccess,
   };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Update<I{{ entityName }}Values, I{{ entityName }}Data> form={form} />{{/inline}}
+{{#*inline "render-block"}}<Update<I{{ entityName }}Values, I{{ entityName }}Data> form={form} children={props.children}/>{{/inline}}
 {{/Component}}`;
 module.exports = template;

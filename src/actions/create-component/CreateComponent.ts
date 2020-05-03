@@ -11,6 +11,7 @@ import { IAction } from '../IAction';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
 import AddHosting from '../add-hosting/AddHosting';
 import { AbstractAdapterWithPackage } from '../AbstractAdapterWithPackage';
+import { StringUtils } from '../../services/StringUtils';
 
 @injectable()
 export default class CreateComponent
@@ -40,7 +41,8 @@ export default class CreateComponent
           name: 'name',
           message: "What's the component name?",
           validate: (input) =>
-            input.length ? true : 'Component name is required',
+            input.trim().length ? true : 'Component name is required',
+          transformer: (input) => this.formatName(input),
         },
       ]);
       name = answer.name;
@@ -72,13 +74,12 @@ export default class CreateComponent
     templateContext?: Object;
   }): Promise<string> {
     // Define component path
-    const componentDirName = name
-      .replace(/([a-z])([A-Z])/g, '$1-$2')
-      .toLowerCase();
+    const componentDirName = StringUtils.hyphenize(name);
 
     if (!componentDirPath) {
       componentDirPath = realpath;
     }
+
     if (componentDirPath.indexOf(CreateComponent.viewsPath) === -1) {
       const viewsRealpath = resolve(
         componentDirPath,
@@ -94,7 +95,7 @@ export default class CreateComponent
 
     switch (name) {
       case 'App':
-        componentDirPath = 'src';
+        componentDirPath = resolve(realpath, 'src');
         componentTemplate = 'app/App.tsx';
         break;
       case 'NotFound':
@@ -106,9 +107,9 @@ export default class CreateComponent
     const context = {
       ...templateContext,
       componentName: name,
-      projectName: this.packageManagerService.getPackageJsonData(
+      projectName: await this.packageManagerService.getPackageName(
         realpath,
-        'name'
+        'capitalizeWords'
       ),
       uiPackage: await this.getUIPackage(realpath),
       hostingPackage: await this.getHostingPackage(realpath),
@@ -130,14 +131,13 @@ export default class CreateComponent
   }
 
   protected formatName(name: string): string {
-    name = name.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase());
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return StringUtils.capitalize(StringUtils.camelize(name.trim()));
   }
 
   protected async getUIPackage(realpath: string): Promise<string> {
     const uiPackage = (
       await this.addUIFramework.detectAdapter(this.getProjectRootPath(realpath))
-    )?.getPackageName();
+    )?.getAdapterPackageName();
     if (uiPackage) {
       return uiPackage;
     }
@@ -153,7 +153,7 @@ export default class CreateComponent
       hostingAdapter &&
       hostingAdapter instanceof AbstractAdapterWithPackage
     ) {
-      return hostingAdapter.getPackageName();
+      return hostingAdapter.getAdapterPackageName();
     }
 
     return CreateComponent.defaultPackage;

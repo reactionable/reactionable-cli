@@ -62,9 +62,7 @@ export class GitService {
     }
     this.consoleService.info('Initilize Git...');
     await this.execGitCmd('init', dirPath);
-    this.consoleService.success(
-      'Git has been initialized in "' + dirPath + '"'
-    );
+    this.consoleService.success(`Git has been initialized in "${dirPath}"`);
   }
 
   async getGitCurrentBranch(
@@ -152,12 +150,16 @@ export class GitService {
     commitMessage = answer.commitMessage;
     await this.execGitCmd(['fetch', '--all'], realpath);
     await this.execGitCmd(['add', '.'], realpath);
-    await this.execGitCmd(
-      ['commit', '-am', '"' + commitMessage + '"'],
-      realpath
-    );
-    await this.execGitCmd(['push', '--all'], realpath);
-    this.consoleService.success('Files have been commited and pushed');
+    await this.execGitCmd(['commit', '-am', `"${commitMessage}"`], realpath);
+    this.consoleService.success('Files have been commited');
+  }
+
+  async pushCommits(realpath: string) {
+    if (!(await this.isAGitRepository(realpath))) {
+      return;
+    }
+    this.consoleService.info('Push commits...');
+    return this.execGitCmd(['push', '--all'], realpath);
   }
 
   private async getCommitMessage(

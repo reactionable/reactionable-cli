@@ -1,5 +1,6 @@
 import { injectable, inject } from 'inversify';
-import { resolve, basename } from 'path';
+import { prompt } from 'inquirer';
+import { resolve } from 'path';
 
 import { AbstractAdapter } from '../../../AbstractAdapter';
 import { FileFactory } from '../../../../services/file/FileFactory';
@@ -12,6 +13,7 @@ import { TemplateService } from '../../../../services/TemplateService';
 import { CliService } from '../../../../services/CliService';
 import { GitService } from '../../../../services/git/GitService';
 import { IHostingAdapter } from '../IHostingAdapter';
+import { StringUtils } from '../../../../services/StringUtils';
 
 @injectable()
 export default class Netlify extends AbstractAdapter
@@ -45,9 +47,18 @@ export default class Netlify extends AbstractAdapter
       );
     }
 
-    const projectName =
-      this.packageManagerService.getPackageJsonData(realpath, 'name') ||
-      basename(realpath);
+    const { projectName } = await prompt([
+      {
+        type: 'input',
+        name: 'projectName',
+        default: await this.packageManagerService.getPackageName(
+          realpath,
+          'hyphenize'
+        ),
+        message: 'Enter a name for the netlify application',
+        transformer: (value) => StringUtils.hyphenize(value),
+      },
+    ]);
 
     const netlifyFilePath = resolve(realpath, 'netlify.toml');
 
@@ -106,7 +117,7 @@ export default class Netlify extends AbstractAdapter
 
     if (netlifyConfig) {
       this.consoleService.success(
-        'Netlify is already configured for site "' + netlifyConfig.name + '"'
+        `Netlify is already configured for site \"${netlifyConfig.name}\"`
       );
       return;
     }
@@ -117,7 +128,7 @@ export default class Netlify extends AbstractAdapter
     );
 
     this.consoleService.success(
-      'Netlify has been configured in "' + realpath + '"'
+      `Netlify has been configured in \"${realpath}\"`
     );
   }
 

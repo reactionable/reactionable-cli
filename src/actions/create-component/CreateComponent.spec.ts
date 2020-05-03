@@ -49,5 +49,20 @@ describe('CreateComponent', () => {
         expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot();
       }
     });
+
+    it('should create expected App component files', async () => {
+      await createComponent.run({
+        realpath: testDirPath,
+        name: 'App',
+      });
+
+      const expectedFiles = ['App.test.tsx', 'App.tsx'];
+
+      for (const expectedFile of expectedFiles) {
+        const filePath = resolve(testDirPath, 'src', expectedFile);
+        expect(existsSync(filePath)).toBe(true);
+        expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot();
+      }
+    });
   });
 });

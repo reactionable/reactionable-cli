@@ -33,7 +33,7 @@ export default class GenerateFavicons
 
     await this.executeFavicon();
     this.consoleService.success(
-      'Favicons have been generated in "' + realpath + '"'
+      `Favicons have been generated in "${realpath}"`
     );
   }
 

@@ -1,5 +1,7 @@
 import shelljs from 'shelljs';
 import mockSpawn from 'mock-spawn';
+import { cwd } from 'process';
+import { resolve } from 'path';
 
 let spawnMock;
 let originalSpawn;
@@ -30,6 +32,35 @@ function mockCmd(cmd: string): MockedCmd {
 
 export function mockYarnCmd(): MockedCmd {
   return mockCmd('yarn');
+}
+
+export function mockYarnBinCmd(mockDirPath: string): MockedCmd {
+  const yarnCmdMock = mockYarnCmd();
+
+  const nodeModulesRealpath = resolve(cwd(), mockDirPath, 'node_modules');
+  const binRealpath = resolve(nodeModulesRealpath, './bin');
+  yarnCmdMock.mockResult(binRealpath);
+
+  return yarnCmdMock;
+}
+
+export function mockYarnWorkspacesInfoCmd(
+  mockPackageName?: string,
+  mockMonorepoPackageDirName?: string
+): MockedCmd {
+  const yarnCmdMock = mockYarnCmd();
+
+  const data: any = {};
+  if (mockPackageName) {
+    data[mockPackageName] = {};
+    if (mockMonorepoPackageDirName) {
+      data[mockPackageName].location = `packages/${mockMonorepoPackageDirName}`;
+    }
+  }
+
+  yarnCmdMock.mockResult(JSON.stringify({ data: JSON.stringify(data) }));
+
+  return yarnCmdMock;
 }
 
 export function restoreMockCmd() {

@@ -44,7 +44,7 @@ export default class GenerateReadme
     }
     await this.cliService.execCmd([readmeMdGeneratorCmd, '-y'], realpath);
     this.consoleService.success(
-      'README.md file has been generated in "' + realpath + '"'
+      `README.md file has been generated in "${realpath}"`
     );
 
     if (!(await this.gitService.isAGitRepository(realpath))) {

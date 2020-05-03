@@ -1,15 +1,20 @@
-import { resolve } from 'path';
-import { cwd } from 'process';
-
 import container from '../../container';
 import {
   restoreMockFs,
-  mockDir,
   mockDirPath,
   mockYarnDir,
+  mockYarnMonorepoDir,
+  mockPackageName,
+  mockMonorepoPackageDirName,
+  mockMonorepoPackageDirPath,
 } from '../../tests/mock-fs';
 import { ConventionalCommitsService } from './ConventionalCommitsService';
-import { mockYarnCmd, restoreMockCmd } from '../../tests/mock-cmd';
+import {
+  mockYarnCmd,
+  restoreMockCmd,
+  mockYarnBinCmd,
+  mockYarnWorkspacesInfoCmd,
+} from '../../tests/mock-cmd';
 
 describe('ConventionalCommitsService', () => {
   let service: ConventionalCommitsService;
@@ -25,10 +30,10 @@ describe('ConventionalCommitsService', () => {
 
   describe('hasConventionalCommits', () => {
     it('should return false when conventional commit is not enabled', async () => {
-      mockDir({
-        'package.json': JSON.stringify({}),
-      });
+      mockYarnDir();
+
       const result = await service.hasConventionalCommits(mockDirPath);
+
       expect(result).toEqual(false);
     });
 
@@ -53,13 +58,10 @@ describe('ConventionalCommitsService', () => {
           },
         }),
       });
-      const yarnCmdMock = mockYarnCmd();
-
-      const nodeModulesRealpath = resolve(cwd(), mockDirPath, 'node_modules');
-      const binRealpath = resolve(nodeModulesRealpath, './bin');
-      yarnCmdMock.mockResult(binRealpath);
+      mockYarnBinCmd(mockDirPath);
 
       const result = await service.hasConventionalCommits(mockDirPath);
+
       expect(result).toEqual(true);
     });
   });
@@ -67,11 +69,7 @@ describe('ConventionalCommitsService', () => {
   describe('getConventionalCommitsConfig', () => {
     it('should retrieve conventional commits config for a given directory path', async () => {
       mockYarnDir();
-      const yarnCmdMock = mockYarnCmd();
-
-      const nodeModulesRealpath = resolve(cwd(), mockDirPath, 'node_modules');
-      const binRealpath = resolve(nodeModulesRealpath, './bin');
-      yarnCmdMock.mockResult(binRealpath);
+      mockYarnBinCmd(mockDirPath);
 
       const expectedCommitizenPath = './node_modules/cz-conventional-changelog';
 
@@ -95,8 +93,7 @@ describe('ConventionalCommitsService', () => {
   describe('formatCommitMessage', () => {
     it('should retrieve format given commit message for a simple repo', async () => {
       mockYarnDir();
-      const yarnCmdMock = mockYarnCmd();
-      yarnCmdMock.mockError('Cannot find the root of your workspace');
+      mockYarnCmd().mockError('Cannot find the root of your workspace');
 
       const commitMessageType = 'feat';
       const commitMessage = 'test commit message';
@@ -110,16 +107,31 @@ describe('ConventionalCommitsService', () => {
       expect(result).toEqual('feat: test commit message');
     });
 
-    it('should retrieve format given commit message for a monorepo', async () => {
-      mockYarnDir();
-      const yarnCmdMock = mockYarnCmd();
-      yarnCmdMock.mockResult('{}');
+    it('should retrieve format given commit message for a root monorepo', async () => {
+      mockYarnMonorepoDir();
+      mockYarnWorkspacesInfoCmd(mockPackageName, mockMonorepoPackageDirName);
 
       const commitMessageType = 'feat';
       const commitMessage = 'test commit message';
 
       const result = await service.formatCommitMessage(
         mockDirPath,
+        commitMessageType,
+        commitMessage
+      );
+
+      expect(result).toEqual('feat: test commit message');
+    });
+
+    it('should retrieve format given commit message for a monorepo package', async () => {
+      mockYarnMonorepoDir();
+      mockYarnWorkspacesInfoCmd(mockPackageName, mockMonorepoPackageDirName);
+
+      const commitMessageType = 'feat';
+      const commitMessage = 'test commit message';
+
+      const result = await service.formatCommitMessage(
+        mockMonorepoPackageDirPath,
         commitMessageType,
         commitMessage
       );

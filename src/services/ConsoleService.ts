@@ -4,24 +4,20 @@ import { yellow, green, red } from 'chalk';
 @injectable()
 export class ConsoleService {
   info(message: string) {
-    process.stdout.write('\n' + yellow('→ ') + message + '\n');
+    process.stdout.write(`\n${yellow('→ ')}${message}\n`);
   }
 
   success(message: string) {
-    process.stdout.write(green('✓ ') + message + '\n');
+    process.stdout.write(`${green('✓ ') + message}\n`);
   }
 
   error(error: Error | string) {
     if (typeof error === 'string') {
-      process.stderr.write('\n' + red(`⚠ ${error}`) + '\n');
+      process.stderr.write(`\n${red(`⚠ ${error}`)}\n`);
       return;
     }
     process.stderr.write(
-      '\n' +
-        red(`⚠ [${error.name}] ${error.message}`) +
-        '\n' +
-        error.stack +
-        '\n'
+      `\n${red(`⚠ [${error.name}] ${error.message}`)}\n${error.stack}\n`
     );
   }
 }

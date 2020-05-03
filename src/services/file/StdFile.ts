@@ -16,7 +16,7 @@ export class StdFile {
     protected readonly fileService: FileService,
     protected readonly fileFactory: FileFactory,
     protected readonly file: string | null = null,
-    protected readonly encoding: string = 'utf8',
+    protected readonly encoding: BufferEncoding = 'utf8',
     content: string = ''
   ) {
     this.setContent(content);
@@ -41,7 +41,7 @@ export class StdFile {
 
   protected checkSafeOverwriteChanges(
     file: string,
-    encoding: string
+    encoding: BufferEncoding
   ): Change[] {
     if (!this.fileService.fileExistsSync(file)) {
       return [];
@@ -120,7 +120,7 @@ export class StdFile {
 
   async saveFile(
     file: string | null = null,
-    encoding: string | null = null
+    encoding: BufferEncoding | null = null
   ): Promise<this> {
     if (file === null) {
       if (this.file === null) {

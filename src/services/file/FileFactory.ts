@@ -30,7 +30,7 @@ export class FileFactory {
 
   fromFile<File extends StdFile = StdFile>(
     file: string,
-    encoding = 'utf8'
+    encoding: BufferEncoding = 'utf8'
   ): File {
     const realpath = this.fileService.assertFileExists(file);
 
@@ -48,7 +48,7 @@ export class FileFactory {
     }
 
     if (!content) {
-      content = readFileSync(file, encoding).toString();
+      content = readFileSync(file, { encoding }).toString();
 
       this.cachedFileContents.set(realpath, {
         [FileContentType.mtime]: realMtime,
@@ -67,7 +67,11 @@ export class FileFactory {
     }
   }
 
-  fromString(content: string, file: string, encoding = 'utf8'): StdFile {
+  fromString(
+    content: string,
+    file: string,
+    encoding: BufferEncoding = 'utf8'
+  ): StdFile {
     const args = [
       this.cliService,
       this.fileService,

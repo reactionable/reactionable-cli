@@ -2,7 +2,12 @@ import { join } from 'path';
 import inquirer from 'inquirer';
 
 import container from '../../container';
-import { restoreMockFs, mockDir, mockDirPath } from '../../tests/mock-fs';
+import {
+  restoreMockFs,
+  mockDir,
+  mockDirPath,
+  mockYarnDir,
+} from '../../tests/mock-fs';
 import CreateReactApp from './CreateReactApp';
 
 describe('CreateReactApp', () => {
@@ -60,7 +65,7 @@ describe('CreateReactApp', () => {
     });
 
     it('should return true if directory exists and have expected files', async () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
             react: '1.0.0',
