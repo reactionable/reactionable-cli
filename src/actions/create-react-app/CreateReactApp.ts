@@ -70,7 +70,7 @@ export default class CreateReactApp implements IAction {
         cmdArgs.push('--use-npm');
       }
       await this.cliService.execCmd(cmdArgs, dirname(realpath));
-      this.consoleService.success('App has been created in "' + realpath + '"');
+      this.consoleService.success(`App has been created in "${realpath}"`);
     }
 
     await this.packageManagerService.installPackages(realpath, [
@@ -80,13 +80,17 @@ export default class CreateReactApp implements IAction {
       '@types/yup',
     ]);
 
+    await this.packageManagerService.updatePackageJson(realpath, {
+      scripts: { lint: 'eslint "src/**/*.{js,ts,tsx}"' },
+    });
+
     // Create app components
     this.consoleService.info('Create base components...');
     await this.createComponent.run({ realpath, name: 'App' });
     await this.createComponent.run({ realpath, name: 'NotFound' });
     await this.createComponent.run({ realpath, name: 'Home' });
     this.consoleService.success(
-      'Base components have been created in "' + realpath + '"'
+      `Base components have been created in "${realpath}"`
     );
 
     // Add Sass
@@ -174,7 +178,7 @@ export default class CreateReactApp implements IAction {
       .replaceContent(/import '\.\/App\.css';/, "import './App.scss';")
       .saveFile();
 
-    this.consoleService.success('Sass has been added in "' + realpath + '"');
+    this.consoleService.success(`Sass has been added in "${realpath}"`);
   }
 
   async addI18n(realpath: string) {
@@ -185,11 +189,18 @@ export default class CreateReactApp implements IAction {
       realpath,
       'i18n',
       {
-        [i18nPath]: ['i18n.ts', 'locales/en/translation.json'],
+        [i18nPath]: [
+          'i18n.ts',
+          'locales/en/translation.json',
+          'locales/fr/translation.json',
+        ],
       },
       {
         projectName: JSON.stringify(
-          this.packageManagerService.getPackageJsonData(realpath, 'name')
+          await this.packageManagerService.getPackageName(
+            realpath,
+            'capitalizeWords'
+          )
         ),
       }
     );
@@ -200,9 +211,7 @@ export default class CreateReactApp implements IAction {
       .saveFile();
 
     this.consoleService.success(
-      'I18n configuration has been created in "' +
-        resolve(realpath, i18nPath) +
-        '"'
+      `I18n configuration has been created in "${resolve(realpath, i18nPath)}"`
     );
   }
 
@@ -212,10 +221,9 @@ export default class CreateReactApp implements IAction {
     switch (availablePackageManagers.length) {
       case 0:
         this.consoleService.error(
-          'Unable to create app, install a package manager like ' +
-            this.packageManagerService
-              .getAvailablePackageManagers()
-              .join(' or ')
+          `Unable to create app, install a package manager like ${this.packageManagerService
+            .getAvailablePackageManagers()
+            .join(' or ')}`
         );
         return;
       case 1:

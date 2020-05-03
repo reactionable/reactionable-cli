@@ -6,8 +6,8 @@ const template = `{
         "config": {
             "SourceDir": "src",
             "DistributionDir": "build",
-            "BuildCommand": "npm run build",
-            "StartCommand": "npm start"
+            "BuildCommand": "{{packageManager}} build",
+            "StartCommand": "{{packageManager}} start"
         }
     },
     "providers": [

@@ -4,9 +4,12 @@ import { cwd } from 'process';
 import container from '../../container';
 import {
   restoreMockFs,
-  mockDir,
   mockDirPath,
   mockYarnDir,
+  mockYarnMonorepoDir,
+  mockPackageName,
+  mockMonorepoPackageDirName,
+  mockMonorepoPackageDirPath,
 } from '../../tests/mock-fs';
 import { ConventionalCommitsService } from './ConventionalCommitsService';
 import { mockYarnCmd, restoreMockCmd } from '../../tests/mock-cmd';
@@ -25,9 +28,7 @@ describe('ConventionalCommitsService', () => {
 
   describe('hasConventionalCommits', () => {
     it('should return false when conventional commit is not enabled', async () => {
-      mockDir({
-        'package.json': JSON.stringify({}),
-      });
+      mockYarnDir();
       const result = await service.hasConventionalCommits(mockDirPath);
       expect(result).toEqual(false);
     });
@@ -110,16 +111,45 @@ describe('ConventionalCommitsService', () => {
       expect(result).toEqual('feat: test commit message');
     });
 
-    it('should retrieve format given commit message for a monorepo', async () => {
-      mockYarnDir();
+    it('should retrieve format given commit message for a root monorepo', async () => {
+      mockYarnMonorepoDir();
       const yarnCmdMock = mockYarnCmd();
-      yarnCmdMock.mockResult('{}');
+      yarnCmdMock.mockResult(
+        JSON.stringify({
+          [mockPackageName]: {
+            location: `packages/${mockMonorepoPackageDirName}`,
+          },
+        })
+      );
 
       const commitMessageType = 'feat';
       const commitMessage = 'test commit message';
 
       const result = await service.formatCommitMessage(
         mockDirPath,
+        commitMessageType,
+        commitMessage
+      );
+
+      expect(result).toEqual('feat: test commit message');
+    });
+
+    it('should retrieve format given commit message for a monorepo package', async () => {
+      mockYarnMonorepoDir();
+      const yarnCmdMock = mockYarnCmd();
+      yarnCmdMock.mockResult(
+        JSON.stringify({
+          [mockPackageName]: {
+            location: `packages/${mockMonorepoPackageDirName}`,
+          },
+        })
+      );
+
+      const commitMessageType = 'feat';
+      const commitMessage = 'test commit message';
+
+      const result = await service.formatCommitMessage(
+        mockMonorepoPackageDirPath,
         commitMessageType,
         commitMessage
       );

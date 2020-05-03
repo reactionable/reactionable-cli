@@ -1,4 +1,4 @@
-import { AbstractPackageManager } from './AbstractPackageManager';
+import { AbstractPackageManager, MonorepoInfo } from './AbstractPackageManager';
 import { PackageManagerType } from '../PackageManagerService';
 
 export class NpmPackageManager extends AbstractPackageManager {
@@ -13,7 +13,7 @@ export class NpmPackageManager extends AbstractPackageManager {
     return packages;
   }
 
-  isMonorepo(): Promise<boolean> {
+  protected getMonorepoInfos(): Promise<MonorepoInfo | undefined> {
     throw new Error('Method not implemented.');
   }
 }

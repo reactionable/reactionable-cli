@@ -12,7 +12,7 @@ import { IUIFrameworkAdapter } from './IUIFrameworkAdapter';
 export default class ReactBootstrap extends AbstractAdapterWithPackage
   implements IUIFrameworkAdapter {
   protected name = 'React Bootstrap (https://react-bootstrap.github.io)';
-  protected packageName = '@reactionable/ui-bootstrap';
+  protected adapterPackageName = '@reactionable/ui-bootstrap';
 
   constructor(
     @inject(PackageManagerService)
@@ -33,15 +33,14 @@ export default class ReactBootstrap extends AbstractAdapterWithPackage
     await this.fileFactory
       .fromFile(mainStyleFile)
       .appendContent(
-        '// Import Bootstrap and its default variables' +
-          '\n' +
-          "@import '~bootstrap/scss/bootstrap.scss';" +
-          '\n'
+        `// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+`
       )
       .saveFile();
 
     this.consoleService.success(
-      'Style files have been imported in "' + mainStyleFile + '"'
+      `Style files have been imported in "${mainStyleFile}"`
     );
 
     // Add UI components to existing App components
@@ -52,11 +51,10 @@ export default class ReactBootstrap extends AbstractAdapterWithPackage
       .setImports(
         [
           {
-            packageName: this.getPackageName(),
+            packageName: this.getAdapterPackageName(),
             modules: {
+              IAppProps: '',
               useUIContextProviderProps: '',
-              IUIContextProviderProps: '',
-              IUseLayoutProps: '',
             },
           },
         ],
@@ -66,6 +64,7 @@ export default class ReactBootstrap extends AbstractAdapterWithPackage
             modules: {
               IUIContextProviderProps: '',
               IUseLayoutProps: '',
+              IAppProps: '',
             },
           },
         ]

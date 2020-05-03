@@ -5,16 +5,22 @@ import {
   mockDirPath,
   mockYarnDir,
   mockNpmDir,
+  mockPackageName,
+  mockYarnMonorepoDir,
+  mockMonorepoPackageDirName,
+  mockMonorepoRootName,
+  mockMonorepoPackageDirPath,
 } from '../../tests/mock-fs';
 import {
   PackageManagerService,
   PackageManagerType,
-  PackageJson,
 } from './PackageManagerService';
 import { YarnPackageManager } from './adapters/YarnPackageManager';
 import { NpmPackageManager } from './adapters/NpmPackageManager';
+import { MockedCmd, mockYarnCmd, restoreMockCmd } from '../../tests/mock-cmd';
 
 describe('PackageManagerService', () => {
+  let yarnCmdMock: MockedCmd;
   let service: PackageManagerService;
 
   beforeAll(() => {
@@ -25,10 +31,12 @@ describe('PackageManagerService', () => {
     // Initialize service before each test to not be confused by cache
     container.snapshot();
     service = container.get(PackageManagerService);
+    yarnCmdMock = mockYarnCmd();
   });
 
   afterEach(() => {
     restoreMockFs();
+    restoreMockCmd();
     container.restore();
   });
 
@@ -39,76 +47,73 @@ describe('PackageManagerService', () => {
     });
   });
 
-  describe('getPackageManager', () => {
-    it('should throw an error if given dir path does not exist', () => {
-      const getPackageManagerOperation = () =>
-        service.getPackageManager(mockDirPath);
+  describe('getPackageName', () => {
+    it('should return package name', async () => {
+      const packageName = 'test-package';
+      mockYarnDir({
+        'package.json': JSON.stringify({
+          name: packageName,
+        }),
+      });
 
-      expect(getPackageManagerOperation).toThrowError(
-        'Directory "test/dir/path" does not exist'
+      const result = await service.getPackageName(mockDirPath);
+
+      expect(result).toEqual(packageName);
+    });
+
+    it('should return package name for a monorepo package', async () => {
+      mockYarnMonorepoDir();
+      const yarnCmdMock = mockYarnCmd();
+      yarnCmdMock.mockResult(
+        JSON.stringify({
+          [mockPackageName]: {
+            location: `packages/${mockMonorepoPackageDirName}`,
+          },
+        })
       );
+
+      const result = await service.getPackageName(mockMonorepoPackageDirPath);
+
+      expect(result).toEqual(`${mockMonorepoRootName} - ${mockPackageName}`);
     });
 
-    it('should retrieve yarn when yarn.lock file exist', () => {
-      mockYarnDir();
-
-      const packageManager = service.getPackageManager(mockDirPath);
-      expect(packageManager).toBeInstanceOf(YarnPackageManager);
-    });
-
-    it('should retrieve yarn when package-lock.json file exist', () => {
-      mockNpmDir();
-
-      const packageManager = service.getPackageManager(mockDirPath);
-      expect(packageManager).toBeInstanceOf(NpmPackageManager);
-    });
-
-    it('should use existing package manager instance for same given dir path', () => {
-      const newDirPath = 'test/new/dir/path';
-      mockYarnDir({}, newDirPath);
-
-      const packageManager = service.getPackageManager(newDirPath);
-
-      const samePackageManager = service.getPackageManager(newDirPath);
-
-      expect(samePackageManager).toBe(packageManager);
-    });
-  });
-
-  describe('getPackageJsonData', () => {
-    const packageJson: PackageJson = {
-      name: 'test-package',
-      version: '0.0.1',
-      devDependencies: {
-        'test-dependency': '1.0.0',
-      },
-      dependencies: {
-        'test-dev-dependency': '1.0.0',
-      },
-    };
-    it('should return all package.json data', () => {
-      mockDir({
-        'package.json': JSON.stringify(packageJson),
+    it('should return formated package name', async () => {
+      const packageName = 'test-package';
+      mockYarnDir({
+        'package.json': JSON.stringify({ name: packageName }),
       });
+      yarnCmdMock.mockResult('{}');
 
-      const result = service.getPackageJsonData(mockDirPath);
-      expect(result).toEqual(packageJson);
+      const result = await service.getPackageName(mockDirPath, 'camelize');
+
+      expect(result).toEqual('testPackage');
     });
 
-    it('should return expected package.json data property', () => {
-      mockDir({
-        'package.json': JSON.stringify(packageJson),
-      });
+    it('should return "not full" package name', async () => {
+      mockYarnMonorepoDir();
+      const yarnCmdMock = mockYarnCmd();
+      yarnCmdMock.mockResult(
+        JSON.stringify({
+          [mockPackageName]: {
+            location: `packages/${mockMonorepoPackageDirName}`,
+          },
+        })
+      );
 
-      const result = service.getPackageJsonData(mockDirPath, 'name');
-      expect(result).toEqual(packageJson.name);
+      const result = await service.getPackageName(
+        mockMonorepoPackageDirPath,
+        undefined,
+        false
+      );
+
+      expect(result).toEqual(mockPackageName);
     });
   });
 
   describe('hasInstalledPackage', () => {
     const packageName = 'test-package';
     it('should return false if given package is not installed', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({}),
       });
 
@@ -118,7 +123,7 @@ describe('PackageManagerService', () => {
     });
 
     it('should return true if given package is installed', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
             [packageName]: '1.0.0',
@@ -132,7 +137,7 @@ describe('PackageManagerService', () => {
     });
 
     it('should return true if given package is installed for dev', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           devDependencies: {
             [packageName]: '1.0.0',
@@ -150,7 +155,7 @@ describe('PackageManagerService', () => {
     });
 
     it('should return false if given package is not installed for dev', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
             [packageName]: '1.0.0',
@@ -172,7 +177,7 @@ describe('PackageManagerService', () => {
   describe('hasPackageJsonConfig', () => {
     const packageName = 'test-package';
     it('should return false if given package is not installed', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({}),
       });
 
@@ -182,7 +187,7 @@ describe('PackageManagerService', () => {
     });
 
     it('should return true if given package is installed', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
             [packageName]: '1.0.0',
@@ -196,7 +201,7 @@ describe('PackageManagerService', () => {
     });
 
     it('should return true if given package is installed for dev', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           devDependencies: {
             [packageName]: '1.0.0',
@@ -214,7 +219,7 @@ describe('PackageManagerService', () => {
     });
 
     it('should return false if given package is not installed for dev', () => {
-      mockDir({
+      mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
             [packageName]: '1.0.0',

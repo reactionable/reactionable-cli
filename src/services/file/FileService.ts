@@ -21,14 +21,14 @@ export class FileService {
 
   assertDirExists(path: string): string {
     if (!this.dirExistsSync(path)) {
-      throw new Error('Directory "' + path + '" does not exist');
+      throw new Error(`Directory "${path}" does not exist`);
     }
     return realpathSync(path);
   }
 
   assertFileExists(path: string): string {
     if (!this.fileExistsSync(path)) {
-      throw new Error('File "' + path + '" does not exist');
+      throw new Error(`File "${path}" does not exist`);
     }
     return realpathSync(path);
   }
@@ -40,16 +40,17 @@ export class FileService {
   ) {
     if (!this.fileExistsSync(filePath)) {
       if (mustExist) {
-        throw new Error('File "' + filePath + '" does not exist');
+        throw new Error(`File "${filePath}" does not exist`);
       }
       return;
     }
 
     const newFilePath = resolve(
       dirname(filePath),
-      basename(filePath, extname(filePath)) +
-        '.' +
-        newExtension.replace(/^[\s\.]+/, '')
+      `${basename(filePath, extname(filePath))}.${newExtension.replace(
+        /^[\s\.]+/,
+        ''
+      )}`
     );
     mv(filePath, newFilePath);
   }

@@ -4,7 +4,6 @@ import { Result } from 'parse-github-url';
 import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { GitService } from '../../../../services/git/GitService';
 import { ConsoleService } from '../../../../services/ConsoleService';
-import { TemplateService } from '../../../../services/TemplateService';
 import { ConventionalCommitsService } from '../../../../services/git/ConventionalCommitsService';
 
 @injectable()
@@ -28,6 +27,11 @@ export default class Github extends AbstractVersioning {
   }
 
   async isEnabled(realpath: string): Promise<boolean> {
+    const isEnabled = await super.isEnabled(realpath);
+    if (!isEnabled) {
+      return isEnabled;
+    }
+
     const parsedGitRemote = await this.gitService.getGitRemoteOriginUrl(
       realpath,
       false

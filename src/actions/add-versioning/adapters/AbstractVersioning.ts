@@ -23,6 +23,10 @@ export default abstract class AbstractVersioning extends AbstractAdapter
     super();
   }
 
+  async isEnabled(realpath: string): Promise<boolean> {
+    return this.gitService.isAGitRepository(realpath);
+  }
+
   async run({ realpath }) {
     await this.gitService.initializeGit(realpath);
 
@@ -50,16 +54,15 @@ export default abstract class AbstractVersioning extends AbstractAdapter
         ['remote', 'add', 'origin', remoteOriginUrl],
         realpath
       );
-      await this.gitService.execGitCmd(['push', '--all'], realpath);
       this.consoleService.info(
-        'Git remote url as been set to "' + remoteOriginUrl + '"'
+        `Git remote url as been set to "${remoteOriginUrl}"`
       );
     }
 
     await this.packageManagerService.updatePackageJson(realpath, {
       repository: {
         type: 'git',
-        url: 'git+' + gitRemoteOriginUrl,
+        url: `git+${gitRemoteOriginUrl}`,
       },
     });
 

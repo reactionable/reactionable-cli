@@ -69,15 +69,10 @@ export class ConventionalCommitsService {
       },
       config: {
         commitizen: {
-          path:
-            './' +
-            relative(
-              realpath,
-              resolve(
-                nodeModulesDirPath,
-                'cz-conventional-changelog'
-              ).toString()
-            ),
+          path: `./${relative(
+            realpath,
+            resolve(nodeModulesDirPath, 'cz-conventional-changelog').toString()
+          )}`,
         },
       },
     };
@@ -112,12 +107,15 @@ export class ConventionalCommitsService {
   ): Promise<string> {
     let commitPrefix = commitMessageType.toLowerCase();
 
-    const isMonorepo = await this.packageManagerService.isMonorepo(realpath);
+    const isMonorepoPackage = await this.packageManagerService.isMonorepoPackage(
+      realpath
+    );
 
-    if (isMonorepo) {
-      const projectName = this.packageManagerService.getPackageJsonData(
+    if (isMonorepoPackage) {
+      const projectName = await this.packageManagerService.getPackageName(
         realpath,
-        'name'
+        'hyphenize',
+        false
       );
       commitPrefix += `(${projectName})`;
     }

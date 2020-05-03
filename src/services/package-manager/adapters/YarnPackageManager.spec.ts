@@ -8,25 +8,28 @@ import {
   mockYarnDir,
   mockDirPath,
   restoreMockFs,
+  mockYarnMonorepoDir,
+  mockMonorepoPackageDirPath,
+  mockPackageName,
+  mockMonorepoPackageDirName,
 } from '../../../tests/mock-fs';
 import {
   restoreMockCmd,
   mockYarnCmd,
   MockedCmd,
 } from '../../../tests/mock-cmd';
+import { FileFactory } from '../../file/FileFactory';
 
 describe('YarnPackageManager', () => {
-  let cliService: CliService;
+  const cliService = container.get(CliService);
+  const fileFactory = container.get(FileFactory);
+
   let yarnCmdMock: MockedCmd;
 
   let adapter: YarnPackageManager;
 
-  beforeAll(() => {
-    cliService = container.get(CliService);
-  });
-
   beforeEach(() => {
-    adapter = new YarnPackageManager(cliService, mockDirPath);
+    adapter = new YarnPackageManager(cliService, fileFactory, mockDirPath);
     mockYarnDir();
     yarnCmdMock = mockYarnCmd();
   });
@@ -48,19 +51,62 @@ describe('YarnPackageManager', () => {
     });
   });
 
-  describe('isMonorepo', () => {
-    it('should retrieve true if given directory patrh is a monorepo', async () => {
-      yarnCmdMock.mockResult('{}');
+  describe('getMonorepoRootPath', () => {
+    it('should retrieve monorepo root path for given directory path', async () => {
+      mockYarnMonorepoDir();
 
-      const result = await adapter.isMonorepo();
+      const result = await adapter.getMonorepoRootPath();
+
+      expect(result).toEqual(mockDirPath);
+    });
+
+    it('should retrieve undefined if given directory path is not a monorepo', async () => {
+      const result = await adapter.getMonorepoRootPath();
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('isMonorepoPackage', () => {
+    it('should retrieve true if given directory path is a monorepo package', async () => {
+      mockYarnMonorepoDir();
+      adapter = new YarnPackageManager(
+        cliService,
+        fileFactory,
+        mockMonorepoPackageDirPath
+      );
+      yarnCmdMock.mockResult(
+        JSON.stringify({
+          [mockPackageName]: {
+            location: `packages/${mockMonorepoPackageDirName}`,
+          },
+        })
+      );
+
+      const result = await adapter.isMonorepoPackage();
 
       expect(result).toEqual(true);
     });
 
-    it('should retrieve false if given directory patrh is a not monorepo', async () => {
+    it('should retrieve false if given directory path is a monorepo root package', async () => {
+      mockYarnMonorepoDir();
+      yarnCmdMock.mockResult(
+        JSON.stringify({
+          [mockPackageName]: {
+            location: `packages/${mockMonorepoPackageDirName}`,
+          },
+        })
+      );
+
+      const result = await adapter.isMonorepoPackage();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should retrieve false if given directory path is a not a monorepo', async () => {
       yarnCmdMock.mockError('Cannot find the root of your workspace');
 
-      const result = await adapter.isMonorepo();
+      const result = await adapter.isMonorepoPackage();
 
       expect(result).toEqual(false);
     });

@@ -11,6 +11,7 @@ import {
 import { inject, injectable } from 'inversify';
 import { FileService } from './file/FileService';
 import { FileFactory } from './file/FileFactory';
+import { StringUtils } from './StringUtils';
 
 // Compile template
 registerHelper({
@@ -35,7 +36,7 @@ registerHelper({
     if (typeof str !== 'string') {
       return str;
     }
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return StringUtils.capitalize(str);
   },
   decapitalize: (str) => {
     if (typeof str !== 'string') {
@@ -59,13 +60,19 @@ registerHelper({
     if (typeof str !== 'string') {
       return str;
     }
-    return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    return StringUtils.hyphenize(str);
+  },
+  camelize: (str) => {
+    if (typeof str !== 'string') {
+      return str;
+    }
+    return StringUtils.camelize(str);
   },
   decamelize: (str) => {
     if (typeof str !== 'string') {
       return str;
     }
-    return str.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+    return StringUtils.decamelize(str);
   },
   halfSplit: (array) => {
     if (!Array.isArray(array)) {
@@ -81,10 +88,7 @@ registerHelper({
   },
   inline(options) {
     const inline = compile(options.fn(this))(options.data.root);
-    const nl2br = inline.replace(
-      /([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,
-      '$1' + '<br>' + '$2'
-    );
+    const nl2br = inline.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
     return new SafeString(nl2br);
   },
   with(context, options) {
@@ -173,11 +177,7 @@ export class TemplateService {
     const parentDir = dirname(filePath);
     if (!this.fileService.dirExistsSync(parentDir)) {
       throw new Error(
-        'Unable to create file "' +
-          filePath +
-          '", directory "' +
-          parentDir +
-          '" does not exist'
+        `Unable to create file "${filePath}", directory "${parentDir}" does not exist`
       );
     }
 
@@ -228,8 +228,9 @@ export class TemplateService {
         continue;
       }
 
-      const partialTemplateKey =
-        template.split(sep)[0] + '/partials/' + partialName;
+      const partialTemplateKey = `${
+        template.split(sep)[0]
+      }/partials/${partialName}`;
       const partialTmplateContent = await this.getTemplateFileContent(
         partialTemplateKey
       );

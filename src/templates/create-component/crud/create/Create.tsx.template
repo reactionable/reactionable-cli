@@ -16,10 +16,10 @@ interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName
     onSubmit,
     formValues: {{decapitalize entityName }}FormValues,
     formSchema: {{decapitalize entityName }}FormSchema(t),
-    chilren: {{decapitalize entityName }}FormChildren(t),
-    ...props,
+    children: {{decapitalize entityName }}FormChildren(t),
+    onSuccess: props.onSuccess,
   };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data> form={form} />{{/inline}}{{/Component}}`;
+{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data> form={form} children={props.children}/>{{/inline}}{{/Component}}`;
 module.exports = template;

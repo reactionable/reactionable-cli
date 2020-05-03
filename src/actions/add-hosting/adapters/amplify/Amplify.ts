@@ -11,14 +11,44 @@ import { GitService } from '../../../../services/git/GitService';
 import { ConsoleService } from '../../../../services/ConsoleService';
 import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { IHostingAdapter } from '../IHostingAdapter';
+import { StringUtils } from '../../../../services/StringUtils';
+import { JsonFile } from '../../../../services/file/JsonFile';
+import { FileService } from '../../../../services/file/FileService';
+
+type ProjectConfig = {
+  projectName: string;
+};
+
+type BackendConfig = {
+  auth?: {
+    [key: string]: {
+      service: string;
+      providerPlugin: string;
+    };
+  };
+  api?: {
+    [key: string]: {
+      service: string;
+      providerPlugin: string;
+    };
+  };
+  hosting: {
+    amplifyhosting: {
+      service: string;
+      providerPlugin: string;
+      type: string;
+    };
+  };
+};
 
 @injectable()
 export default class Amplify extends AbstractAdapterWithPackage
   implements IHostingAdapter {
   protected name = 'Amplify';
-  protected packageName = '@reactionable/amplify';
+  protected adapterPackageName = '@reactionable/amplify';
 
   constructor(
+    @inject(FileService) private readonly fileService: FileService,
     @inject(FileFactory) private readonly fileFactory: FileFactory,
     @inject(TemplateService) private readonly templateService: TemplateService,
     @inject(CliService) private readonly cliService: CliService,
@@ -35,53 +65,30 @@ export default class Amplify extends AbstractAdapterWithPackage
 
     // Add amplify config in App component
     this.consoleService.info('Add amplify config in App component...');
-    const appFile = resolve(realpath, 'src/App.tsx');
-    await this.fileFactory
-      .fromFile<TypescriptFile>(appFile)
-      .setImports(
-        [
-          {
-            packageName: '@reactionable/amplify',
-            modules: {
-              useIdentityContextProviderProps: '',
-              IIdentityContextProviderProps: '',
-            },
-          },
-          {
-            packageName: 'aws-amplify',
-            modules: {
-              Amplify: 'default',
-            },
-          },
-          {
-            packageName: './aws-exports',
-            modules: {
-              awsconfig: 'default',
-            },
-          },
-        ],
-        [
-          {
-            packageName: '@reactionable/core',
-            modules: {
-              IIdentityContextProviderProps: '',
-            },
-          },
-        ]
-      )
-      .appendContent('Amplify.configure(awsconfig);', "import './App.scss';")
-      .saveFile();
 
     // Add amplify default configuration files
-    this.consoleService.info('Configure Amplify...');
+    this.consoleService.info('Prepare Amplify configuration...');
     const projectBranch = await this.gitService.getGitCurrentBranch(
       realpath,
       'master'
     );
-    const projectName = this.packageManagerService.getPackageJsonData(
-      realpath,
-      'name'
-    );
+
+    let projectName = this.getProjectName(realpath);
+    if (!projectName) {
+      const response = await prompt([
+        {
+          type: 'input',
+          name: 'projectName',
+          default: await this.packageManagerService.getPackageName(
+            realpath,
+            'camelize'
+          ),
+          message: 'Enter a name for the amplify project',
+          transformer: (value) => StringUtils.camelize(value),
+        },
+      ]);
+      projectName = response.projectName;
+    }
 
     await this.templateService.renderTemplateTree(
       realpath,
@@ -89,13 +96,18 @@ export default class Amplify extends AbstractAdapterWithPackage
       {
         amplify: {
           '.config': ['project-config.json'],
-          backend: ['backend-config.json'],
+          ...(!this.getBackendConfig(realpath) && {
+            backend: ['backend-config.json'],
+          }),
         },
       },
       {
         projectBranch: JSON.stringify(projectBranch),
         projectPath: JSON.stringify(realpath),
         projectName: JSON.stringify(projectName),
+        packageManager: this.packageManagerService.getPackageManagerCmd(
+          realpath
+        ),
       }
     );
 
@@ -105,6 +117,8 @@ export default class Amplify extends AbstractAdapterWithPackage
         'Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"'
       );
     }
+
+    this.consoleService.info('Configure Amplify...');
 
     // Amplify config
     const amplifyConfig = {
@@ -124,48 +138,66 @@ export default class Amplify extends AbstractAdapterWithPackage
       ],
       realpath
     );
-    await this.execAmplifyCmd(['hosting', 'add'], realpath);
 
-    const { addAuth } = await prompt([
-      {
-        type: 'confirm',
-        name: 'addAuth',
-        message:
-          'Do you want to add Authentication (https://aws-amplify.github.io/docs/js/authentication)',
+    await this.addAuth(realpath);
+    await this.addApi(realpath);
+    await this.addHosting(realpath);
+
+    await this.fileFactory
+      .fromFile<TypescriptFile>(resolve(realpath, 'src/App.tsx'))
+      .setImports(
+        [
+          {
+            packageName: '@reactionable/amplify',
+            modules: { IIdentityContextProviderProps: '' },
+          },
+          { packageName: 'aws-amplify', modules: { Amplify: 'default' } },
+          { packageName: './aws-exports', modules: { awsconfig: 'default' } },
+        ],
+        [
+          {
+            packageName: '@reactionable/core',
+            modules: { IIdentityContextProviderProps: '' },
+          },
+        ]
+      )
+      .appendContent('Amplify.configure(awsconfig);', "import './App.scss';")
+      .saveFile();
+
+    await this.fileFactory
+      .fromFile<TypescriptFile>(resolve(realpath, 'src/i18n/i18n.ts'))
+      .setImports(
+        [
+          {
+            packageName: '@reactionable/amplify',
+            modules: { initializeI18n: '' },
+          },
+        ],
+        [
+          {
+            packageName: '@reactionable/core',
+            modules: { initializeI18n: '' },
+          },
+        ]
+      )
+      .saveFile();
+
+    await this.packageManagerService.installPackages(
+      realpath,
+      ['concurrently'],
+      false,
+      true
+    );
+    await this.packageManagerService.updatePackageJson(realpath, {
+      scripts: {
+        start: 'concurrently "amplify mock" "yarn react-scripts start"',
       },
-    ]);
-
-    if (addAuth) {
-      await this.execAmplifyCmd(['add', 'auth'], realpath);
-      await this.execAmplifyCmd(['push'], realpath);
-
-      await this.fileFactory
-        .fromFile(appFile)
-        .replaceContent(
-          /identity: undefined,.*$/m,
-          'identity: useIdentityContextProviderProps(),'
-        )
-        .saveFile();
-    }
-
-    const { addApi } = await prompt([
-      {
-        type: 'confirm',
-        name: 'addApi',
-        message:
-          'Do you want to add an API (https://aws-amplify.github.io/docs/js/api)',
-      },
-    ]);
-
-    if (addApi) {
-      await this.execAmplifyCmd(['add', 'api'], realpath);
-      await this.execAmplifyCmd(['push'], realpath);
-    }
+    });
 
     this.consoleService.success(`Amplify has been configured in "${realpath}"`);
   }
 
-  protected getAmplifyCmd(): string | null {
+  private getAmplifyCmd(): string | null {
     const localAmplifyCmd = this.cliService.getCmd('amplify');
     if (localAmplifyCmd) {
       return localAmplifyCmd;
@@ -174,13 +206,133 @@ export default class Amplify extends AbstractAdapterWithPackage
     return this.cliService.getGlobalCmd('amplify-app');
   }
 
-  private execAmplifyCmd(args: string[], realpath: string, silent?: boolean) {
+  private async execAmplifyCmd(
+    args: string[],
+    realpath: string,
+    silent?: boolean
+  ) {
     const cmd = this.getAmplifyCmd();
     if (!cmd) {
       throw new Error(
         'Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"'
       );
     }
+    if (cmd === 'amplify') {
+      await this.cliService.upgradeGlobalPackage('@aws-amplify/cli');
+    }
     return this.cliService.execCmd([cmd, ...args], realpath, silent);
+  }
+
+  private getProjectName(realpath: string): string | undefined {
+    const projectConfigFilePath = resolve(
+      realpath,
+      'amplify/.config/project-config.json'
+    );
+
+    if (!this.fileService.fileExistsSync(projectConfigFilePath)) {
+      return undefined;
+    }
+
+    return this.fileFactory
+      .fromFile<JsonFile>(projectConfigFilePath)
+      .getData<ProjectConfig>()?.projectName;
+  }
+
+  private getBackendConfig(realpath: string): BackendConfig | undefined {
+    const backendConfigFilePath = resolve(
+      realpath,
+      'amplify/backend/backend-config.json'
+    );
+    if (!this.fileService.fileExistsSync(backendConfigFilePath)) {
+      return undefined;
+    }
+
+    return this.fileFactory
+      .fromFile<JsonFile>(backendConfigFilePath)
+      .getData<BackendConfig>();
+  }
+
+  private async addAuth(realpath: string) {
+    const backendConfig = this.getBackendConfig(realpath);
+    let isAuthAdded = !!backendConfig?.auth;
+
+    if (!isAuthAdded) {
+      const { addAuth } = await prompt([
+        {
+          type: 'confirm',
+          name: 'addAuth',
+          message:
+            'Do you want to add Authentication (https://docs.amplify.aws/cli/auth/overview)?',
+        },
+      ]);
+
+      if (!addAuth) {
+        return;
+      }
+
+      this.consoleService.info('Add Amplify authentication...');
+      await this.execAmplifyCmd(['add', 'auth'], realpath);
+    }
+
+    await this.fileFactory
+      .fromFile<TypescriptFile>(resolve(realpath, 'src/App.tsx'))
+      .setImports([
+        {
+          packageName: '@reactionable/amplify',
+          modules: {
+            useIdentityContextProviderProps: '',
+            IIdentityContextProviderProps: '',
+          },
+        },
+      ])
+      .replaceContent(
+        /identity: undefined,.*$/m,
+        'identity: useIdentityContextProviderProps(),'
+      )
+      .saveFile();
+
+    await this.fileFactory
+      .fromFile(resolve(realpath, 'src/index.tsx'))
+      .appendContent(
+        "import '@aws-amplify/ui/dist/style.css';",
+        "import './index.scss';"
+      )
+      .saveFile();
+  }
+
+  private async addApi(realpath: string) {
+    const backendConfig = this.getBackendConfig(realpath);
+    let isApiAdded = !!backendConfig?.api;
+
+    if (isApiAdded) {
+      return;
+    }
+
+    const { addApi } = await prompt([
+      {
+        type: 'confirm',
+        name: 'addApi',
+        message: 'Do you want to add an API?',
+      },
+    ]);
+
+    if (!addApi) {
+      return;
+    }
+
+    this.consoleService.info('Add Amplify Api...');
+    await this.execAmplifyCmd(['add', 'api'], realpath);
+  }
+
+  private async addHosting(realpath: string) {
+    const backendConfig = this.getBackendConfig(realpath);
+    let isHostingAdded = !!backendConfig?.hosting?.amplifyhosting;
+
+    if (isHostingAdded) {
+      return;
+    }
+
+    this.consoleService.info('Add Amplify hosting...');
+    await this.execAmplifyCmd(['hosting', 'add'], realpath);
   }
 }

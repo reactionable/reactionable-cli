@@ -33,7 +33,7 @@ export class CliService {
 
   execCmd(
     args: string | string[],
-    cwd: string,
+    cwd?: string,
     silent: boolean = false
   ): Promise<string> {
     if (!args.length) {
@@ -41,7 +41,7 @@ export class CliService {
     }
 
     if (cwd && !this.fileService.dirExistsSync(cwd)) {
-      throw new Error('Directory "' + cwd + '" does not exist');
+      throw new Error(`Directory "${cwd}" does not exist`);
     }
 
     let cmd: string;
@@ -97,8 +97,7 @@ export class CliService {
         {
           type: 'list',
           name: 'action',
-          message:
-            'File "' + file + '" exists already, what do you want to do?',
+          message: `File "${file}" exists already, what do you want to do?`,
           choices: [
             { name: 'Show diff', value: 'diff' },
             { name: 'Overwrite file', value: 'overwrite' },
@@ -158,9 +157,27 @@ export class CliService {
       return cmd;
     }
     if (this.getCmd('npx')) {
-      return 'npx ' + cmd;
+      return `npx ${cmd}`;
     }
     return null;
+  }
+
+  async upgradeGlobalPackage(packageName: string) {
+    const outdatedInfo = await this.execCmd(
+      ['npm', 'outdated', '-g', packageName, '--json', '||', 'true'],
+      undefined,
+      true
+    );
+
+    if (outdatedInfo) {
+      const outdatedData = JSON.parse(outdatedInfo);
+      if (
+        outdatedData[packageName]?.current &&
+        outdatedData[packageName].current !== outdatedData[packageName].latest
+      ) {
+        return this.execCmd(['npm', 'install', '-g', packageName], undefined);
+      }
+    }
   }
 
   private pause(message = 'Press any key to continue...') {
