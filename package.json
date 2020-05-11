@@ -45,7 +45,7 @@
     "@types/reflect-metadata": "^0.1.0",
     "@types/shelljs": "^0.8.6",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
-    "@typescript-eslint/parser": "^2.30.0",
+    "@typescript-eslint/parser": "^2.31.0",
     "commitizen": "^4.0.5",
     "copyfiles": "^2.1.1",
     "cz-conventional-changelog": "^3.0.2",
