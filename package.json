@@ -58,7 +58,7 @@
     "mock-spawn": "^0.2.6",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.0",
-    "ts-jest": "^25.3.1",
+    "ts-jest": "^25.5.1",
     "tsc-watch": "^4.0.0",
     "typedoc": "^0.17.6",
     "typedoc-plugin-nojekyll": "^1.0.1"
