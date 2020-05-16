@@ -90,17 +90,15 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#assertpackagejsonexists" class="tsd-kind-icon">assert<wbr>Package<wbr>Json<wbr>Exists</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getavailablepackagemanagers" class="tsd-kind-icon">get<wbr>Available<wbr>Package<wbr>Managers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getnodemodulesdirpath" class="tsd-kind-icon">get<wbr>Node<wbr>Modules<wbr>Dir<wbr>Path</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagejsondata" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagejsonpath" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Path</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagemanager" class="tsd-kind-icon">get<wbr>Package<wbr>Manager</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagemanagercmd" class="tsd-kind-icon">get<wbr>Package<wbr>Manager<wbr>Cmd</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagename" class="tsd-kind-icon">get<wbr>Package<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#hasinstalledpackage" class="tsd-kind-icon">has<wbr>Installed<wbr>Package</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#haspackagejson" class="tsd-kind-icon">has<wbr>Package<wbr>Json</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#haspackagejsonconfig" class="tsd-kind-icon">has<wbr>Package<wbr>Json<wbr>Config</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#installpackages" class="tsd-kind-icon">install<wbr>Packages</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#ismonorepo" class="tsd-kind-icon">is<wbr>Monorepo</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#ismonorepopackage" class="tsd-kind-icon">is<wbr>Monorepo<wbr>Package</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#updatepackagejson" class="tsd-kind-icon">update<wbr>Package<wbr>Json</a></li>
 							</ul>
 						</section>
@@ -119,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L60">services/package-manager/PackageManagerService.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L34">services/package-manager/PackageManagerService.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -144,29 +142,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="assertpackagejsonexists" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> assert<wbr>Package<wbr>Json<wbr>Exists</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">assert<wbr>Package<wbr>Json<wbr>Exists<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L268">services/package-manager/PackageManagerService.ts:268</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getavailablepackagemanagers" class="tsd-anchor"></a>
 					<h3>get<wbr>Available<wbr>Package<wbr>Managers</h3>
@@ -177,7 +152,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L80">services/package-manager/PackageManagerService.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L46">services/package-manager/PackageManagerService.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -199,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L73">services/package-manager/PackageManagerService.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L64">services/package-manager/PackageManagerService.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,90 +187,40 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-					<a name="getpackagejsondata" class="tsd-anchor"></a>
-					<h3>get<wbr>Package<wbr>Json<wbr>Data</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a></li>
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data&lt;P&gt;<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, property<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PackageJson</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpackagemanagercmd" class="tsd-anchor"></a>
+					<h3>get<wbr>Package<wbr>Manager<wbr>Cmd</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Manager<wbr>Cmd<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L180">services/package-manager/PackageManagerService.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L56">services/package-manager/PackageManagerService.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
+									<h5>realpath: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L181">services/package-manager/PackageManagerService.ts:181</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>P<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a></h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>property: <span class="tsd-signature-type">P</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> encoding: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PackageJson</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="getpackagejsonpath" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Package<wbr>Json<wbr>Path</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Path<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L259">services/package-manager/PackageManagerService.ts:259</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getpackagemanager" class="tsd-anchor"></a>
-					<h3>get<wbr>Package<wbr>Manager</h3>
+					<a name="getpackagename" class="tsd-anchor"></a>
+					<h3>get<wbr>Package<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Manager<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html" class="tsd-signature-type">IPackageManager</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Name<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, format<span class="tsd-signature-symbol">?: </span><a href="../modules/_services_stringutils_.html#stringutilsmethods" class="tsd-signature-type">StringUtilsMethods</a>, fullName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L90">services/package-manager/PackageManagerService.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L118">services/package-manager/PackageManagerService.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,8 +228,14 @@
 								<li>
 									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> format: <a href="../modules/_services_stringutils_.html#stringutilsmethods" class="tsd-signature-type">StringUtilsMethods</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> fullName: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html" class="tsd-signature-type">IPackageManager</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -312,13 +243,13 @@
 					<a name="hasinstalledpackage" class="tsd-anchor"></a>
 					<h3>has<wbr>Installed<wbr>Package</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">has<wbr>Installed<wbr>Package<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, packageName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dev<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">has<wbr>Installed<wbr>Package<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, packageName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dev<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BufferEncoding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L161">services/package-manager/PackageManagerService.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L101">services/package-manager/PackageManagerService.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -333,7 +264,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> dev: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> encoding: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;utf8&quot;</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> encoding: <span class="tsd-signature-type">BufferEncoding</span><span class="tsd-signature-symbol"> = &quot;utf8&quot;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -350,7 +281,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L176">services/package-manager/PackageManagerService.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L114">services/package-manager/PackageManagerService.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -367,13 +298,13 @@
 					<a name="haspackagejsonconfig" class="tsd-anchor"></a>
 					<h3>has<wbr>Package<wbr>Json<wbr>Config</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">has<wbr>Package<wbr>Json<wbr>Config<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">has<wbr>Package<wbr>Json<wbr>Config<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.packagejson.html" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L214">services/package-manager/PackageManagerService.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L146">services/package-manager/PackageManagerService.ts:146</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -382,7 +313,7 @@
 									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>data: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>data: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.packagejson.html" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -399,7 +330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L126">services/package-manager/PackageManagerService.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L68">services/package-manager/PackageManagerService.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -422,16 +353,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ismonorepo" class="tsd-anchor"></a>
-					<h3>is<wbr>Monorepo</h3>
+					<a name="ismonorepopackage" class="tsd-anchor"></a>
+					<h3>is<wbr>Monorepo<wbr>Package</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Monorepo<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Monorepo<wbr>Package<span class="tsd-signature-symbol">(</span>realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L69">services/package-manager/PackageManagerService.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L60">services/package-manager/PackageManagerService.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -448,13 +379,13 @@
 					<a name="updatepackagejson" class="tsd-anchor"></a>
 					<h3>update<wbr>Package<wbr>Json</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Package<wbr>Json<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Package<wbr>Json<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.packagejson.html" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/PackageManagerService.ts#L202">services/package-manager/PackageManagerService.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/PackageManagerService.ts#L194">services/package-manager/PackageManagerService.ts:194</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -463,7 +394,7 @@
 									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>data: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>data: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.packagejson.html" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -496,23 +427,17 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#assertpackagejsonexists" class="tsd-kind-icon">assert<wbr>Package<wbr>Json<wbr>Exists</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getavailablepackagemanagers" class="tsd-kind-icon">get<wbr>Available<wbr>Package<wbr>Managers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getnodemodulesdirpath" class="tsd-kind-icon">get<wbr>Node<wbr>Modules<wbr>Dir<wbr>Path</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagejsondata" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagejsonpath" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Path</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagemanagercmd" class="tsd-kind-icon">get<wbr>Package<wbr>Manager<wbr>Cmd</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagemanager" class="tsd-kind-icon">get<wbr>Package<wbr>Manager</a>
+								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#getpackagename" class="tsd-kind-icon">get<wbr>Package<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#hasinstalledpackage" class="tsd-kind-icon">has<wbr>Installed<wbr>Package</a>
@@ -527,7 +452,7 @@
 								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#installpackages" class="tsd-kind-icon">install<wbr>Packages</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#ismonorepo" class="tsd-kind-icon">is<wbr>Monorepo</a>
+								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#ismonorepopackage" class="tsd-kind-icon">is<wbr>Monorepo<wbr>Package</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html#updatepackagejson" class="tsd-kind-icon">update<wbr>Package<wbr>Json</a>
@@ -541,12 +466,6 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="../modules/_services_package_manager_packagemanagerservice_.html#abstractcontructorparameters" class="tsd-kind-icon">Abstract<wbr>Contructor<wbr>Parameters</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejson" class="tsd-kind-icon">Package<wbr>Json</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_services_package_manager_packagemanagerservice_.html#packagejsondependencies" class="tsd-kind-icon">Package<wbr>Json<wbr>Dependencies</a>
 					</li>
 				</ul>
 			</nav>
@@ -575,9 +494,6 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
 			</ul>
 		</div>
 	</div>

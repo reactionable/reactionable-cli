@@ -62,13 +62,21 @@
 					<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html">NpmPackageManager</a>
 				</li>
 			</ul>
-			<h1>Class NpmPackageManager</h1>
+			<h1>Class NpmPackageManager&lt;PJ&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>PJ<span class="tsd-signature-symbol">: </span><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.packagejson.html" class="tsd-signature-type">PackageJson</a></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -85,7 +93,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html" class="tsd-signature-type">IPackageManager</a></li>
+					<li><a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html" class="tsd-signature-type">IPackageManager</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PJ</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -110,10 +118,14 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#execcmd" class="tsd-kind-icon">exec<wbr>Cmd</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getcmd" class="tsd-kind-icon">get<wbr>Cmd</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getmonorepoinfos" class="tsd-kind-icon">get<wbr>Monorepo<wbr>Infos</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getmonoreporootpath" class="tsd-kind-icon">get<wbr>Monorepo<wbr>Root<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getnodemodulesdirpath" class="tsd-kind-icon">get<wbr>Node<wbr>Modules<wbr>Dir<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getpackagejsondata" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#installdevpackages" class="tsd-kind-icon">install<wbr>Dev<wbr>Packages</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#installpackages" class="tsd-kind-icon">install<wbr>Packages</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#ismonorepo" class="tsd-kind-icon">is<wbr>Monorepo</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#ismonorepopackage" class="tsd-kind-icon">is<wbr>Monorepo<wbr>Package</a></li>
 							</ul>
 						</section>
 					</div>
@@ -125,20 +137,23 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Npm<wbr>Package<wbr>Manager<span class="tsd-signature-symbol">(</span>cliService<span class="tsd-signature-symbol">: </span><a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a>, realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html" class="tsd-signature-type">NpmPackageManager</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Npm<wbr>Package<wbr>Manager<span class="tsd-signature-symbol">(</span>cliService<span class="tsd-signature-symbol">: </span><a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a>, fileFactory<span class="tsd-signature-symbol">: </span><a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a>, realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html" class="tsd-signature-type">NpmPackageManager</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/AbstractPackageManager.ts#L9">services/package-manager/adapters/AbstractPackageManager.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L17">services/package-manager/adapters/AbstractPackageManager.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>cliService: <a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a></h5>
+								</li>
+								<li>
+									<h5>fileFactory: <a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a></h5>
 								</li>
 								<li>
 									<h5>realpath: <span class="tsd-signature-type">string</span></h5>
@@ -153,12 +168,12 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="cliservice" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> cli<wbr>Service</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> cli<wbr>Service</h3>
 					<div class="tsd-signature tsd-kind-icon">cli<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#cliservice">cliService</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/AbstractPackageManager.ts#L12">services/package-manager/adapters/AbstractPackageManager.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L20">services/package-manager/adapters/AbstractPackageManager.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -169,7 +184,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#realpath">realpath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/AbstractPackageManager.ts#L13">services/package-manager/adapters/AbstractPackageManager.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L22">services/package-manager/adapters/AbstractPackageManager.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +195,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/NpmPackageManager.ts#L5">services/package-manager/adapters/NpmPackageManager.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/NpmPackageManager.ts#L5">services/package-manager/adapters/NpmPackageManager.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -198,7 +213,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#execcmd">execCmd</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/AbstractPackageManager.ts#L29">services/package-manager/adapters/AbstractPackageManager.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L75">services/package-manager/adapters/AbstractPackageManager.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,6 +230,62 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getcmd" class="tsd-anchor"></a>
+					<h3>get<wbr>Cmd</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cmd<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getcmd">getCmd</a></p>
+								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getcmd">getCmd</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L25">services/package-manager/adapters/AbstractPackageManager.ts:25</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<a name="getmonorepoinfos" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Monorepo<wbr>Infos</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Monorepo<wbr>Infos<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_abstractpackagemanager_.monorepoinfo.html" class="tsd-signature-type">MonorepoInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getmonorepoinfos">getMonorepoInfos</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/NpmPackageManager.ts#L16">services/package-manager/adapters/NpmPackageManager.ts:16</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_abstractpackagemanager_.monorepoinfo.html" class="tsd-signature-type">MonorepoInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="getmonoreporootpath" class="tsd-anchor"></a>
+					<h3>get<wbr>Monorepo<wbr>Root<wbr>Path</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Monorepo<wbr>Root<wbr>Path<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getmonoreporootpath">getMonorepoRootPath</a></p>
+								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getmonoreporootpath">getMonorepoRootPath</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L64">services/package-manager/adapters/AbstractPackageManager.ts:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="getnodemodulesdirpath" class="tsd-anchor"></a>
 					<h3>get<wbr>Node<wbr>Modules<wbr>Dir<wbr>Path</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -226,10 +297,55 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getnodemodulesdirpath">getNodeModulesDirPath</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getnodemodulesdirpath">getNodeModulesDirPath</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/AbstractPackageManager.ts#L16">services/package-manager/adapters/AbstractPackageManager.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L49">services/package-manager/adapters/AbstractPackageManager.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="getpackagejsondata" class="tsd-anchor"></a>
+					<h3>get<wbr>Package<wbr>Json<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PJ</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data&lt;P&gt;<span class="tsd-signature-symbol">(</span>property<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BufferEncoding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PJ</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
+								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L29">services/package-manager/adapters/AbstractPackageManager.ts:29</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PJ</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
+								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L30">services/package-manager/adapters/AbstractPackageManager.ts:30</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>P<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">PJ</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>property: <span class="tsd-signature-type">P</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> encoding: <span class="tsd-signature-type">BufferEncoding</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PJ</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -244,7 +360,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#installdevpackages">installDevPackages</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/AbstractPackageManager.ts#L25">services/package-manager/adapters/AbstractPackageManager.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L71">services/package-manager/adapters/AbstractPackageManager.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -268,7 +384,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#installpackages">installPackages</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/NpmPackageManager.ts#L7">services/package-manager/adapters/NpmPackageManager.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/NpmPackageManager.ts#L7">services/package-manager/adapters/NpmPackageManager.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -284,19 +400,19 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<a name="ismonorepo" class="tsd-anchor"></a>
-					<h3>is<wbr>Monorepo</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Monorepo<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="ismonorepopackage" class="tsd-anchor"></a>
+					<h3>is<wbr>Monorepo<wbr>Package</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Monorepo<wbr>Package<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#ismonorepo">isMonorepo</a></p>
-								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#ismonorepo">isMonorepo</a></p>
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#ismonorepopackage">isMonorepoPackage</a></p>
+								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#ismonorepopackage">isMonorepoPackage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/services/package-manager/adapters/NpmPackageManager.ts#L16">services/package-manager/adapters/NpmPackageManager.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/package-manager/adapters/AbstractPackageManager.ts#L56">services/package-manager/adapters/AbstractPackageManager.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -320,7 +436,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module">
+					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html" class="tsd-kind-icon">Npm<wbr>Package<wbr>Manager</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
@@ -339,7 +455,19 @@
 								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#execcmd" class="tsd-kind-icon">exec<wbr>Cmd</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getcmd" class="tsd-kind-icon">get<wbr>Cmd</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getmonorepoinfos" class="tsd-kind-icon">get<wbr>Monorepo<wbr>Infos</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getmonoreporootpath" class="tsd-kind-icon">get<wbr>Monorepo<wbr>Root<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getnodemodulesdirpath" class="tsd-kind-icon">get<wbr>Node<wbr>Modules<wbr>Dir<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#getpackagejsondata" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#installdevpackages" class="tsd-kind-icon">install<wbr>Dev<wbr>Packages</a>
@@ -347,8 +475,8 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#installpackages" class="tsd-kind-icon">install<wbr>Packages</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#ismonorepo" class="tsd-kind-icon">is<wbr>Monorepo</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_services_package_manager_adapters_npmpackagemanager_.npmpackagemanager.html#ismonorepopackage" class="tsd-kind-icon">is<wbr>Monorepo<wbr>Package</a>
 							</li>
 						</ul>
 					</li>
@@ -383,10 +511,11 @@
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 		</div>
 	</div>

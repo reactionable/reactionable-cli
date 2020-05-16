@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;services/file/FileFactory&quot; | @reactionable/cli</title>
+	<title>&quot;services/StringUtils&quot; | @reactionable/cli</title>
 	<meta name="description" content="Documentation for @reactionable/cli">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_services_file_filefactory_.html">&quot;services/file/FileFactory&quot;</a>
+					<a href="_services_stringutils_.html">&quot;services/StringUtils&quot;</a>
 				</li>
 			</ul>
-			<h1>Module &quot;services/file/FileFactory&quot;</h1>
+			<h1>Module &quot;services/StringUtils&quot;</h1>
 		</div>
 	</div>
 </header>
@@ -71,21 +71,16 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumerations</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/_services_file_filefactory_.filecontenttype.html" class="tsd-kind-icon">File<wbr>Content<wbr>Type</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_services_file_filefactory_.filefactory.html" class="tsd-kind-icon">File<wbr>Factory</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_services_stringutils_.stringutils.html" class="tsd-kind-icon">String<wbr>Utils</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_services_file_filefactory_.html#cachedfilecontent" class="tsd-kind-icon">Cached<wbr>File<wbr>Content</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_services_stringutils_.html#stringutilsmethod" class="tsd-kind-icon">String<wbr>Utils<wbr>Method</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_services_stringutils_.html#stringutilsmethods" class="tsd-kind-icon">String<wbr>Utils<wbr>Methods</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,25 +89,45 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="cachedfilecontent" class="tsd-anchor"></a>
-					<h3>Cached<wbr>File<wbr>Content</h3>
-					<div class="tsd-signature tsd-kind-icon">Cached<wbr>File<wbr>Content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>[FileContentType.content]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>[FileContentType.mtime]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> }</span></div>
+					<a name="stringutilsmethod" class="tsd-anchor"></a>
+					<h3>String<wbr>Utils<wbr>Method</h3>
+					<div class="tsd-signature tsd-kind-icon">String<wbr>Utils<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/file/FileFactory.ts#L17">services/file/FileFactory.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/StringUtils.ts#L1">services/StringUtils.ts:1</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>[<wbr>File<wbr>Content<wbr>Type.content]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>[<wbr>File<wbr>Content<wbr>Type.mtime]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></h5>
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>value: <span class="tsd-signature-type">string</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="stringutilsmethods" class="tsd-anchor"></a>
+					<h3>String<wbr>Utils<wbr>Methods</h3>
+					<div class="tsd-signature tsd-kind-icon">String<wbr>Utils<wbr>Methods<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="../classes/_services_stringutils_.stringutils.html" class="tsd-signature-type">StringUtils</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/services/StringUtils.ts#L3">services/StringUtils.ts:3</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -123,20 +138,20 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="_services_file_filefactory_.html">&quot;services/file/<wbr>File<wbr>Factory&quot;</a>
+						<a href="_services_stringutils_.html">&quot;services/<wbr>String<wbr>Utils&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/_services_file_filefactory_.filecontenttype.html" class="tsd-kind-icon">File<wbr>Content<wbr>Type</a>
-					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_services_file_filefactory_.filefactory.html" class="tsd-kind-icon">File<wbr>Factory</a>
+						<a href="../classes/_services_stringutils_.stringutils.html" class="tsd-kind-icon">String<wbr>Utils</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="_services_file_filefactory_.html#cachedfilecontent" class="tsd-kind-icon">Cached<wbr>File<wbr>Content</a>
+						<a href="_services_stringutils_.html#stringutilsmethod" class="tsd-kind-icon">String<wbr>Utils<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_services_stringutils_.html#stringutilsmethods" class="tsd-kind-icon">String<wbr>Utils<wbr>Methods</a>
 					</li>
 				</ul>
 			</nav>

@@ -87,7 +87,9 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_tests_mock_cmd_.html#mockcmd" class="tsd-kind-icon">mock<wbr>Cmd</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_tests_mock_cmd_.html#mockyarnbincmd" class="tsd-kind-icon">mock<wbr>Yarn<wbr>Bin<wbr>Cmd</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_tests_mock_cmd_.html#mockyarncmd" class="tsd-kind-icon">mock<wbr>Yarn<wbr>Cmd</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_tests_mock_cmd_.html#mockyarnworkspacesinfocmd" class="tsd-kind-icon">mock<wbr>Yarn<wbr>Workspaces<wbr>Info<wbr>Cmd</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_tests_mock_cmd_.html#restoremockcmd" class="tsd-kind-icon">restore<wbr>Mock<wbr>Cmd</a></li>
 							</ul>
 						</section>
@@ -102,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">Mocked<wbr>Cmd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>mockError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>stderr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>mockResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>stdin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/tests/mock-cmd.ts#L7">tests/mock-cmd.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L9">tests/mock-cmd.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -162,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">original<wbr>Spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/tests/mock-cmd.ts#L5">tests/mock-cmd.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L7">tests/mock-cmd.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">spawn<wbr>Mock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/tests/mock-cmd.ts#L4">tests/mock-cmd.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L6">tests/mock-cmd.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,13 +191,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/tests/mock-cmd.ts#L12">tests/mock-cmd.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L14">tests/mock-cmd.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>cmd: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_tests_mock_cmd_.html#mockedcmd" class="tsd-signature-type">MockedCmd</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="mockyarnbincmd" class="tsd-anchor"></a>
+					<h3>mock<wbr>Yarn<wbr>Bin<wbr>Cmd</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">mock<wbr>Yarn<wbr>Bin<wbr>Cmd<span class="tsd-signature-symbol">(</span>mockDirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_tests_mock_cmd_.html#mockedcmd" class="tsd-signature-type">MockedCmd</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L37">tests/mock-cmd.ts:37</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>mockDirPath: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_tests_mock_cmd_.html#mockedcmd" class="tsd-signature-type">MockedCmd</a></h4>
@@ -212,9 +237,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/tests/mock-cmd.ts#L31">tests/mock-cmd.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L33">tests/mock-cmd.ts:33</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_tests_mock_cmd_.html#mockedcmd" class="tsd-signature-type">MockedCmd</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="mockyarnworkspacesinfocmd" class="tsd-anchor"></a>
+					<h3>mock<wbr>Yarn<wbr>Workspaces<wbr>Info<wbr>Cmd</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">mock<wbr>Yarn<wbr>Workspaces<wbr>Info<wbr>Cmd<span class="tsd-signature-symbol">(</span>mockPackageName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, mockMonorepoPackageDirName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_tests_mock_cmd_.html#mockedcmd" class="tsd-signature-type">MockedCmd</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L47">tests/mock-cmd.ts:47</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> mockPackageName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> mockMonorepoPackageDirName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_tests_mock_cmd_.html#mockedcmd" class="tsd-signature-type">MockedCmd</a></h4>
 						</li>
 					</ul>
@@ -229,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3f1eff4/src/tests/mock-cmd.ts#L35">tests/mock-cmd.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/1f5b430/src/tests/mock-cmd.ts#L66">tests/mock-cmd.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -264,7 +315,13 @@
 						<a href="_tests_mock_cmd_.html#mockcmd" class="tsd-kind-icon">mock<wbr>Cmd</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_tests_mock_cmd_.html#mockyarnbincmd" class="tsd-kind-icon">mock<wbr>Yarn<wbr>Bin<wbr>Cmd</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_tests_mock_cmd_.html#mockyarncmd" class="tsd-kind-icon">mock<wbr>Yarn<wbr>Cmd</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_tests_mock_cmd_.html#mockyarnworkspacesinfocmd" class="tsd-kind-icon">mock<wbr>Yarn<wbr>Workspaces<wbr>Info<wbr>Cmd</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_tests_mock_cmd_.html#restoremockcmd" class="tsd-kind-icon">restore<wbr>Mock<wbr>Cmd</a>
