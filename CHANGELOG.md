@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.7 (2020-05-16)
+
+
+### Bug Fixes
+
+* components creation ([cec2a12](https://github.com/reactionable/reactionable-cli/commit/cec2a12713224c6a76d393457d23020c388574b2))
+
 ### 1.2.6 (2020-04-25)
 
 ### 1.2.5 (2020-04-22)
