@@ -59,7 +59,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.0",
     "ts-jest": "^26.0.0",
-    "tsc-watch": "^4.2.5",
+    "tsc-watch": "^4.2.6",
     "typedoc": "^0.17.6",
     "typedoc-plugin-nojekyll": "^1.0.1"
   },
