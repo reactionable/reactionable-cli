@@ -32,6 +32,7 @@ export const {{decapitalize entityName }}FormChildren = (t: TFunction) => (formi
   <FormField
     name="label"
     label={t('Label')}
+    placeholder={t('Label')}
     autoFocus={true}
   />
 </>;

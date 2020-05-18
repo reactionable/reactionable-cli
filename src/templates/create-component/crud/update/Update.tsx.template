@@ -31,6 +31,6 @@ interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName
   };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Update<I{{ entityName }}Values, I{{ entityName }}Data> form={form} children={props.children}/>{{/inline}}
+{{#*inline "render-block"}}<Update<I{{ entityName }}Values, I{{ entityName }}Data> modal form={form} children={props.children}/>{{/inline}}
 {{/Component}}`;
 module.exports = template;

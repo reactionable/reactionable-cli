@@ -278,7 +278,7 @@ const UpdateTestEntity: FC<IProps> = (props) => {
 
   return <>
     
-    <Update<ITestEntityValues, ITestEntityData> form={form} children={props.children}/>
+    <Update<ITestEntityValues, ITestEntityData> modal form={form} children={props.children}/>
   </>;
 };
 export default UpdateTestEntity;"
@@ -354,6 +354,7 @@ export const testEntityFormChildren = (t: TFunction) => (formikProps: IFormChild
   <FormField
     name=\\"label\\"
     label={t('Label')}
+    placeholder={t('Label')}
     autoFocus={true}
   />
 </>;"

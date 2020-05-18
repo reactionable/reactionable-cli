@@ -10,40 +10,51 @@ export class TypescriptFile extends StdFile {
   protected defaultDeclaration?: string | null;
 
   protected parseContent(content: string): string {
-    content = super.parseContent(content);
     this.imports = [];
     this.declarations = [];
     this.defaultDeclaration = null;
+
+    content = super.parseContent(content);
+    const body = this.parseTypescriptContent(content);
+
+    for (const bodyItem of body) {
+      switch (bodyItem.type) {
+        case 'ImportDeclaration':
+          this.parseImportDeclaration(bodyItem);
+          break;
+        default:
+          this.declarations.push(
+            content.substr(
+              bodyItem.range[0],
+              bodyItem.range[1] - bodyItem.range[0]
+            )
+          );
+      }
+    }
+
+    return content;
+  }
+
+  protected parseTypescriptContent(content: string) {
     try {
       const { body } = parse(content, {
         jsx: true,
+        range: true,
       });
-      for (const bodyItem of body) {
-        switch (bodyItem.type) {
-          case 'ImportDeclaration':
-            this.parseImportDeclaration(bodyItem);
-            break;
-          default:
-            this.declarations.push(
-              content.substr(
-                bodyItem.range[0],
-                bodyItem.range[1] - bodyItem.range[0]
-              )
-            );
-        }
-      }
+      return body;
     } catch (error) {
       let contentError = content;
+
       if (error.lineNumber) {
         contentError = content.split('\n')[error.lineNumber - 1];
       }
+
       throw new Error(
         `An error occurred while parsing file content "${
           this.file
         }": ${JSON.stringify(error)} => "${contentError.trim()}"`
       );
     }
-    return content;
   }
 
   protected parseImportDeclaration(bodyItem: ImportDeclaration) {
