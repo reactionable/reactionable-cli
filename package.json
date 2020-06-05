@@ -79,7 +79,7 @@
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.4",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5"
   },
   "husky": {
     "hooks": {
