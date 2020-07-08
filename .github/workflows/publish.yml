@@ -75,7 +75,7 @@ jobs:
           npm run build:doc
 
       - name: Publish gh-pages
-        uses: JamesIves/github-pages-deploy-action@3.4.6
+        uses: JamesIves/github-pages-deploy-action@3.5.7
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BASE_BRANCH: master # The branch the action should deploy from.
