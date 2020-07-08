@@ -12,5 +12,6 @@
   "dependencies": {
     "@reactionable/ui-bootstrap": "*",
     "@reactionable/amplify": "*"
-  }
+  },
+  "workspaces": {}
 }

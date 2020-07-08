@@ -104,15 +104,19 @@ export default class CreateComponent
     }
 
     // Get enabled UI framework
+    const projectName = await this.packageManagerService.getPackageName(
+      realpath,
+      'capitalizeWords'
+    );
+    const uiPackage = await this.getUIPackage(realpath);
+    const hostingPackage = await this.getHostingPackage(realpath);
+
     const context = {
       ...templateContext,
       componentName: name,
-      projectName: await this.packageManagerService.getPackageName(
-        realpath,
-        'capitalizeWords'
-      ),
-      uiPackage: await this.getUIPackage(realpath),
-      hostingPackage: await this.getHostingPackage(realpath),
+      projectName,
+      uiPackage,
+      hostingPackage,
     };
 
     // Create component from template

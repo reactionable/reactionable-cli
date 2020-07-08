@@ -14,6 +14,17 @@ export class TypescriptImport {
     public modules: ITypescriptImportModules
   ) {}
 
+  isLocal(): boolean {
+    return !!/^\./.exec(this.packageName);
+  }
+
+  isDefaultImport(): boolean {
+    return (
+      this.modules[TypescriptImport.defaultImport] ===
+      TypescriptImport.defaultImport
+    );
+  }
+
   static fromString(line: string): TypescriptImport | null {
     const importRegex = /^\s*import\s((.+)\sfrom\s+)?['"](.+)['"]\s*;?$/;
     const matches = importRegex.exec(line.trim());

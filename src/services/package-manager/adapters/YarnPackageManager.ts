@@ -1,6 +1,5 @@
 import { AbstractPackageManager } from './AbstractPackageManager';
 import { PackageManagerType } from '../PackageManagerService';
-import { basename } from 'path';
 import { PackageJson } from './IPackageManager';
 import { realpathSync } from 'fs';
 
