@@ -126,15 +126,18 @@ export class PackageManagerService {
       packageManager.getPackageJsonData('name') || basename(dirPath);
 
     if (fullName) {
-      const monorepoRootPath = await packageManager.getMonorepoRootPath();
-      if (monorepoRootPath) {
-        const rootPackageManager = this.getPackageManager(monorepoRootPath);
+      const isMonorepoPackage = await packageManager.isMonorepoPackage();
+      if (isMonorepoPackage) {
+        const monorepoRootPath = await packageManager.getMonorepoRootPath();
+        if (monorepoRootPath) {
+          const rootPackageManager = this.getPackageManager(monorepoRootPath);
 
-        let rootPackageName =
-          rootPackageManager.getPackageJsonData('name') ||
-          basename(monorepoRootPath);
+          let rootPackageName =
+            rootPackageManager.getPackageJsonData('name') ||
+            basename(monorepoRootPath);
 
-        packageName = `${rootPackageName} - ${packageName}`;
+          packageName = `${rootPackageName} - ${packageName}`;
+        }
       }
     }
 
@@ -210,7 +213,7 @@ export class PackageManagerService {
     }
 
     let realpath = this.fileService.assertDirExists(dirPath);
-    packageManager = this.packageManagers.get(dirPath);
+    packageManager = this.packageManagers.get(realpath);
     if (packageManager) {
       return packageManager;
     }
@@ -237,6 +240,7 @@ export class PackageManagerService {
     }
 
     this.packageManagers.set(dirPath, packageManager);
+    this.packageManagers.set(realpath, packageManager);
     return packageManager;
   }
 

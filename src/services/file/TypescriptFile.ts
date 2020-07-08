@@ -19,8 +19,8 @@ export class TypescriptFile extends StdFile {
 
     for (const bodyItem of body) {
       switch (bodyItem.type) {
-        case 'ImportDeclaration':
-          this.parseImportDeclaration(bodyItem);
+        case AST_NODE_TYPES.ImportDeclaration:
+          this.parseImportDeclaration(bodyItem as ImportDeclaration);
           break;
         default:
           this.declarations.push(
@@ -81,12 +81,17 @@ export class TypescriptFile extends StdFile {
           moduleName = TypescriptImport.globImport;
           break;
 
-        default:
+        case AST_NODE_TYPES.ImportSpecifier:
           importType =
             specifier.local.name !== specifier.imported.name
               ? specifier.local.name
               : '';
           moduleName = specifier.imported.name;
+          break;
+        default:
+          throw new Error(
+            `Import specifier "${specifier.type}" is not supported`
+          );
       }
 
       this.addImports([
@@ -100,15 +105,7 @@ export class TypescriptFile extends StdFile {
   getContent(): string {
     let importLines: string[] = [];
     if (this.imports) {
-      this.imports.sort((importA, importB) => {
-        if (/^\./.exec(importA.packageName)) {
-          return 1;
-        }
-        if (/^\./.exec(importB.packageName)) {
-          return -1;
-        }
-        return importA.packageName.localeCompare(importB.packageName);
-      });
+      this.imports.sort(this.sortImports);
       importLines = this.imports
         .map((importItem) => importItem.toString())
         .filter((line) => !!line.length);
@@ -166,5 +163,27 @@ export class TypescriptFile extends StdFile {
         typescriptImport.removeModules(importItem.modules);
       }
     }
+  }
+
+  protected sortImports(importA: TypescriptImport, importB: TypescriptImport) {
+    // Put local import after
+    const importAIsLocal = importA.isLocal();
+    const importBIsLocal = importB.isLocal();
+    if (importAIsLocal && !importBIsLocal) {
+      return 1;
+    } else if (!importAIsLocal && importBIsLocal) {
+      return -1;
+    }
+
+    // Put default import after
+    const importAIsDefault = importA.isDefaultImport();
+    const importBIsDefault = importB.isDefaultImport();
+    if (importAIsDefault && !importBIsDefault) {
+      return 1;
+    } else if (!importAIsDefault && importBIsDefault) {
+      return -1;
+    }
+
+    return importA.packageName.localeCompare(importB.packageName);
   }
 }

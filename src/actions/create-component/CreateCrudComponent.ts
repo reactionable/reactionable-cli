@@ -60,13 +60,15 @@ export default class CreateCrudComponent extends CreateComponent {
     });
 
     // Create config
+    const configTemplateContext = {
+      ...templateContext,
+      uiPackage: await this.getUIPackage(realpath),
+    };
     await this.templateService.renderTemplateTree(
       componentDirPath,
       CreateComponent.templateNamespace + '/crud',
-      {
-        [entitiesName + 'Config.tsx']: 'Config.tsx',
-      },
-      { ...templateContext, uiPackage: await this.getUIPackage(realpath) }
+      { [entitiesName + 'Config.tsx']: 'Config.tsx' },
+      configTemplateContext
     );
 
     // Create child components
