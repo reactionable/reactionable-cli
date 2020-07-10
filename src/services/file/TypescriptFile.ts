@@ -1,5 +1,8 @@
 import { parse, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
-import { ImportDeclaration } from '@typescript-eslint/typescript-estree/dist/ts-estree/ts-estree';
+import {
+  ImportDeclaration,
+  Statement,
+} from '@typescript-eslint/types/dist/ts-estree';
 import { TypescriptImport, ITypescriptImport } from './TypescriptImport';
 import { StdFile } from './StdFile';
 import { EOL } from 'os';
@@ -35,13 +38,13 @@ export class TypescriptFile extends StdFile {
     return content;
   }
 
-  protected parseTypescriptContent(content: string) {
+  protected parseTypescriptContent(content: string): Statement[] {
     try {
       const { body } = parse(content, {
         jsx: true,
         range: true,
       });
-      return body;
+      return body as Statement[];
     } catch (error) {
       let contentError = content;
 
