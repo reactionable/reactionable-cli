@@ -91,10 +91,6 @@ export class TypescriptFile extends StdFile {
               : '';
           moduleName = specifier.imported.name;
           break;
-        default:
-          throw new Error(
-            `Import specifier "${specifier.type}" is not supported`
-          );
       }
 
       this.addImports([
