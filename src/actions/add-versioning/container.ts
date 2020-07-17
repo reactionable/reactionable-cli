@@ -8,4 +8,5 @@ export const AdapterKey = 'VersioningAdapter';
 
 export function bindVersioningAdapters(container: Container) {
   container.bind<IVersioningAdapter>(AdapterKey).to(Github);
+  container.bind<Github>(Github).toSelf();
 }

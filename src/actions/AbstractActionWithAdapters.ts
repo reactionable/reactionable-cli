@@ -1,5 +1,5 @@
 import { red } from 'chalk';
-import { Container, injectable, inject } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { prompt } from 'inquirer';
 
 import { IAdapter } from './IAdapter';
