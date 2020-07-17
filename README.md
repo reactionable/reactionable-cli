@@ -42,7 +42,7 @@ npx @reactionable/cli
 ### As global package
 
 ```sh
-npm install -g @reactionable/reactionable-cli
+npm install -g @reactionable/cli
 reactionable
 ```
 
@@ -50,7 +50,7 @@ reactionable
 
 ### Use local version of cli
 
-In `reactionable-cli` directory:
+In `cli` directory:
 
 ```sh
 npm link
