@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: octokit/request-action@v2.0.7
+      - uses: octokit/request-action@v2.0.8
         id: get_latest_release
         with:
           route: GET /repos/:repository/collaborators/${{ github.actor }}
@@ -75,7 +75,7 @@ jobs:
           npm run build:doc
 
       - name: Publish gh-pages
-        uses: JamesIves/github-pages-deploy-action@3.5.7
+        uses: JamesIves/github-pages-deploy-action@3.5.8
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BASE_BRANCH: master # The branch the action should deploy from.
