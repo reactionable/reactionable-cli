@@ -30,7 +30,7 @@
   },
   "homepage": "https://reactionable.github.io/reactionable-cli",
   "devDependencies": {
-    "@commitlint/cli": "^9.0.1",
+    "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
     "@types/chalk": "^2.2.0",
     "@types/diff": "^4.0.2",
