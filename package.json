@@ -56,7 +56,7 @@
     "jest": "^26.4.2",
     "mock-fs": "^4.13.0",
     "mock-spawn": "^0.2.6",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.1",
     "rimraf": "^3.0.0",
     "ts-jest": "^26.3.0",
     "tsc-watch": "^4.2.9",

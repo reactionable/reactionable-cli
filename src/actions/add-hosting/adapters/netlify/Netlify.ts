@@ -16,7 +16,8 @@ import { IHostingAdapter } from '../IHostingAdapter';
 import { StringUtils } from '../../../../services/StringUtils';
 
 @injectable()
-export default class Netlify extends AbstractAdapter
+export default class Netlify
+  extends AbstractAdapter
   implements IHostingAdapter {
   protected name = 'Netlify (https://docs.netlify.com)';
 

@@ -9,7 +9,8 @@ import { PackageManagerService } from '../../../services/package-manager/Package
 import { IUIFrameworkAdapter } from './IUIFrameworkAdapter';
 
 @injectable()
-export default class ReactBootstrap extends AbstractAdapterWithPackage
+export default class ReactBootstrap
+  extends AbstractAdapterWithPackage
   implements IUIFrameworkAdapter {
   protected name = 'React Bootstrap (https://react-bootstrap.github.io)';
   protected adapterPackageName = '@reactionable/ui-bootstrap';
