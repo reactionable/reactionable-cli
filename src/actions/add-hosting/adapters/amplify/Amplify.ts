@@ -42,7 +42,8 @@ type BackendConfig = {
 };
 
 @injectable()
-export default class Amplify extends AbstractAdapterWithPackage
+export default class Amplify
+  extends AbstractAdapterWithPackage
   implements IHostingAdapter {
   protected name = 'Amplify';
   protected adapterPackageName = '@reactionable/amplify';

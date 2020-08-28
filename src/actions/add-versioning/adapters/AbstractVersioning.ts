@@ -10,7 +10,8 @@ import { ConsoleService } from '../../../services/ConsoleService';
 import { ConventionalCommitsService } from '../../../services/git/ConventionalCommitsService';
 
 @injectable()
-export default abstract class AbstractVersioning extends AbstractAdapter
+export default abstract class AbstractVersioning
+  extends AbstractAdapter
   implements IVersioningAdapter {
   constructor(
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
