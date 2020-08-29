@@ -1,8 +1,17 @@
 const template = `import React, { FC, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
-import { App as CoreApp, IAppProps, IIdentityContextProviderProps, IUIContextProviderProps, IUseLayoutProps } from '@reactionable/core';
-import './i18n/i18n';
+import { App as CoreApp, IAppProps } from '@reactionable/core';
+import {
+  useIdentityContextProviderProps,
+  IIdentityContextProviderProps,
+} from '{{ hostingPackage }}';
+import {
+  useUIContextProviderProps,
+  IUIContextProviderProps,
+  IUseLayoutProps,
+} from '{{ uiPackage }}';
 import './App.scss';
+import './i18n/i18n';
 
 // Lazy load these components
 const HomeComponent = lazy(() => import('./views/home/Home'));
@@ -20,7 +29,6 @@ const {{componentName}}: FC = () => {
     routes: [],
     HomeComponent,
     NotFoundComponent,
-    ui: undefined, // You must provide UI context providers properties
     layout: {
       header: {
         brand: t('{{projectName}}'),
@@ -29,7 +37,8 @@ const {{componentName}}: FC = () => {
         brand: t('{{projectName}}'),
       },
     },
-    identity: undefined, // You must provide identity config to use private routes,
+    ui: useUIContextProviderProps(),
+    identity: useIdentityContextProviderProps(),
   };
 
   return <CoreApp {...appConfig} />;

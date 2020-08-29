@@ -1,24 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CreateComponent run should create expected App component files 1`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import App from './App';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><App /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('App', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <App />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
 exports[`CreateComponent run should create expected App component files 2`] = `
-"import { App as CoreApp, IAppProps, IIdentityContextProviderProps, IUIContextProviderProps, IUseLayoutProps } from '@reactionable/core';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { App as CoreApp, IAppProps } from '@reactionable/core';
+import { IUIContextProviderProps, IUseLayoutProps, useUIContextProviderProps } from '@reactionable/ui-bootstrap';
 import React, { FC, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
-import './i18n/i18n';
 import './App.scss';
+import './i18n/i18n';
 
 const HomeComponent = lazy(() => import('./views/home/Home'));
 const NotFoundComponent = lazy(() => import('./views/not-found/NotFound'));
@@ -34,7 +49,6 @@ const App: FC = () => {
     routes: [],
     HomeComponent,
     NotFoundComponent,
-    ui: undefined, // You must provide UI context providers properties
     layout: {
       header: {
         brand: t('Tests'),
@@ -43,7 +57,8 @@ const App: FC = () => {
         brand: t('Tests'),
       },
     },
-    identity: undefined, // You must provide identity config to use private routes,
+    ui: useUIContextProviderProps(),
+    identity: useIdentityContextProviderProps(),
   };
 
   return <CoreApp {...appConfig} />;
@@ -52,15 +67,28 @@ export default App;"
 `;
 
 exports[`CreateComponent run should create expected components files 1`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import TestComponent from './TestComponent';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><TestComponent /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('TestComponent', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <TestComponent />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
@@ -69,8 +97,8 @@ exports[`CreateComponent run should create expected components files 2`] = `
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
-interface IProps { }
-const TestComponent: FC<IProps> = (props) => {
+interface ITestComponentProps { }
+const TestComponent: FC<ITestComponentProps> = (props) => {
   const { t } = useTranslation();
   
   return <>

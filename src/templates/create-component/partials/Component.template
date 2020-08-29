@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 {{/imports-block}}
 
 {{#> props-block}}
-interface IProps { }
+interface I{{componentName}}Props { }
 {{/props-block}}
 
-const {{componentName}}: FC<IProps> = (props) => {
+const {{componentName}}: FC<I{{componentName}}Props> = (props) => {
   const { t } = useTranslation();
   {{#> pre-render-block}}{{!-- Custom pre render script could be added. --}}{{/pre-render-block}}
   return <>{{#> helmet-block}}

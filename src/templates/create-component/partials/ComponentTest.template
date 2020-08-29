@@ -1,14 +1,27 @@
 const template = `import React from 'react';
-import ReactDOM from 'react-dom';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from "react-router";
+import { render } from '@testing-library/react';
+import { TestWrapper } from '{{ uiPackage }}';
+import { useIdentityContextProviderProps, IIdentityContextProviderProps } from '{{ hostingPackage }}';
 {{#> imports-block}}
 {{!-- Custom imports could be added. --}}
 {{/imports-block}}
-import {{componentName}} from './{{componentName}}';
+import {{ componentName }} from './{{ componentName }}';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><{{componentName}} {{#> props-block}}{{/props-block}}/></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('{{ componentName }}', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <{{ componentName }} />
+            </TestWrapper>
+        );
+    });
 });`;
 module.exports = template;

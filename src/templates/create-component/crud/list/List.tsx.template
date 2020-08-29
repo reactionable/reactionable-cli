@@ -2,19 +2,24 @@ const template = `{{#> Component }}
 {{#*inline "imports-block"}}
 import { lazy } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { generatePath } from '@reactionable/core';
+import { generatePath, Suspense } from '@reactionable/core';
 import { List } from '{{ uiPackage }}';
 import { useQueryList } from '{{ hostingPackage }}';
 import { I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables } from '../{{ entitiesName }}Config';
+
 const Create{{ entityName }} = lazy(() => import('../create-{{hyphenize entityName }}/Create{{ entityName }}'));
 const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityName }}/Delete{{ entityName }}'));
-{{/inline}}
-{{#*inline "pre-render-block"}}const match = useRouteMatch();
 
-  const { data, refetch, next, previous, ...listProps } = useQueryList<I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables>({
-  });
+interface I{{entityName}}ItemProps { 
+  data: I{{ entityName }}Data;
+  refetch: () => void;
+}
 
-  const renderChildren = (data: I{{ entityName }}Data) => <tr key={'{{ entityName }}-' + data.id}>
+const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) => {
+  const { t } = useTranslation();
+  const match = useRouteMatch();
+
+  return <tr key={'{{ entityName }}-' + data.id}>
     <td>
       <Link
         to={generatePath(\`\${match.path}/:{{decapitalize entitiesName }}Id\`, { ...match.params, {{decapitalize entitiesName }}Id: data.id })}
@@ -26,11 +31,20 @@ const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityNa
         to={generatePath(\`\${match.path}/:{{decapitalize entitiesName }}Id\`, { ...match.params, {{decapitalize entitiesName }}Id: data.id })}
         title={t('Go to {{decamelize entityName }} "\\{{label}}"', data)}
       >{t('Go to {{decamelize entityName }} "\\{{label}}"', data)}</Link>
-      <Delete{{ entityName }} id={data.id} onSuccess={refetch}>
-        {t('Delete {{decamelize entityName }} "\\{{label}}"', data)}
-      </Delete{{ entityName }}>
+      <Suspense>
+        <Delete{{ entityName }} id={data.id} onSuccess={refetch}>
+          {t('Delete {{decamelize entityName }} "\\{{label}}"', data)}
+        </Delete{{ entityName }}>
+      </Suspense>
     </td>
   </tr>;
+};
+
+{{/inline}}
+{{#*inline "pre-render-block"}}const { data, refetch, next, previous, ...listProps } = useQueryList<I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables>({
+  });
+
+  const renderChildren = (data: I{{ entityName }}Data) => <{{componentName}}Item data={data} refetch={refetch}/>;
 {{/inline}}
 {{#*inline "render-block"}}<Link disabled={!previous} title={t('Load the previous {{decamelize entitiesName }}')}>{t('Previous')}</Link>
     <Link disabled={!next} title={t('Load the next {{decamelize entitiesName }}')}>{t('Next')}</Link>
@@ -45,9 +59,11 @@ const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityNa
         <br />
         {t('Click the button to create a new {{decamelize entityName }}')}
         <br /><br />
-        <Create{{ entityName }} onSuccess={refetch}>
-          <Link>{t('Create a new {{decamelize entityName }}')}</Link>
-        </Create{{ entityName }}>
+        <Suspense>
+          <Create{{ entityName }} onSuccess={refetch}>
+            <Link>{t('Create a new {{decamelize entityName }}')}</Link>
+          </Create{{ entityName }}>
+        </Suspense>
       </>}
     />{{/inline}}
 {{/Component}}`;

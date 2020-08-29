@@ -1,26 +1,27 @@
-import CreateCrudComponent from './CreateCrudComponent';
+import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { join, resolve } from 'path';
+
+import { sync } from 'rimraf';
+
 import container from '../../container';
-import { resolve } from 'path';
-import { promisify } from 'util';
-import { existsSync, readFileSync } from 'fs';
+import CreateCrudComponent from './CreateCrudComponent';
 
 describe('CreateCrudComponent', () => {
   let createCrudComponent: CreateCrudComponent;
 
   const testDirPath = '__tests__/test-project';
 
-  const cleanTesttDir = async () => {
-    const testEntityDirPath = resolve(testDirPath, 'src/views/test-entities');
-    const rimraf = promisify(require('rimraf'));
-    await rimraf(testEntityDirPath);
+  const cleanTestDir = async () => {
+    const testComponentDirPath = resolve(testDirPath, 'src');
+    await sync(testComponentDirPath);
   };
 
   beforeAll(() => {
     createCrudComponent = container.get(CreateCrudComponent);
   });
 
-  beforeEach(cleanTesttDir);
-  afterAll(cleanTesttDir);
+  beforeEach(cleanTestDir);
+  afterEach(cleanTestDir);
 
   describe('construct', () => {
     it('should be initialized ', () => {
@@ -30,6 +31,10 @@ describe('CreateCrudComponent', () => {
 
   describe('run', () => {
     it('should create all crud components files', async () => {
+      mkdirSync(join(testDirPath, 'src/views/test-entities'), {
+        recursive: true,
+      });
+
       await createCrudComponent.run({
         realpath: testDirPath,
         name: 'test entity',

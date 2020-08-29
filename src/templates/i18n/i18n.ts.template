@@ -1,7 +1,4 @@
-const template = `import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { initializeI18n } from '@reactionable/core';
+const template = `import { initializeI18n } from '{{ hostingPackage }}';
 
 // Import locales
 import en from "./locales/en/translation.json";

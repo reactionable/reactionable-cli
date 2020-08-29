@@ -1,29 +1,27 @@
-import CreateComponent from './CreateComponent';
+import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { join, resolve } from 'path';
+
+import { sync } from 'rimraf';
+
 import container from '../../container';
-import { resolve } from 'path';
-import { promisify } from 'util';
-import { existsSync, readFileSync } from 'fs';
+import CreateComponent from './CreateComponent';
 
 describe('CreateComponent', () => {
   let createComponent: CreateComponent;
 
   const testDirPath = '__tests__/test-project';
 
-  const cleanTesttDir = async () => {
-    const testComponentDirPath = resolve(
-      testDirPath,
-      'src/views/test-component'
-    );
-    const rimraf = promisify(require('rimraf'));
-    await rimraf(testComponentDirPath);
+  const cleanTestDir = async () => {
+    const testComponentDirPath = resolve(testDirPath, 'src');
+    await sync(testComponentDirPath);
   };
 
   beforeAll(() => {
     createComponent = container.get(CreateComponent);
   });
 
-  beforeEach(cleanTesttDir);
-  afterAll(cleanTesttDir);
+  beforeEach(cleanTestDir);
+  afterAll(cleanTestDir);
 
   describe('construct', () => {
     it('should be initialized ', () => {
@@ -33,6 +31,10 @@ describe('CreateComponent', () => {
 
   describe('run', () => {
     it('should create expected components files', async () => {
+      mkdirSync(join(testDirPath, 'src/views/test-component'), {
+        recursive: true,
+      });
+
       await createComponent.run({
         realpath: testDirPath,
         name: 'test component',
@@ -51,6 +53,8 @@ describe('CreateComponent', () => {
     });
 
     it('should create expected App component files', async () => {
+      mkdirSync(join(testDirPath, 'src'), { recursive: true });
+
       await createComponent.run({
         realpath: testDirPath,
         name: 'App',

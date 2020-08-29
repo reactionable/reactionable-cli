@@ -1,15 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CreateCrudComponent run should create all crud components files 1`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import CreateTestEntity from './CreateTestEntity';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><CreateTestEntity /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('CreateTestEntity', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <CreateTestEntity />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
@@ -21,7 +34,7 @@ import { useTranslation } from 'react-i18next';
 import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
 
 interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, 'onSuccess'> { }
-const CreateTestEntity: FC<IProps> = (props) => {
+const CreateTestEntity: FC<ICreateTestEntityProps> = (props) => {
   const { t } = useTranslation();
   const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
     return { id: '', label: '' };
@@ -45,15 +58,28 @@ export default CreateTestEntity;"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 3`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import DeleteTestEntity from './DeleteTestEntity';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><DeleteTestEntity /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('DeleteTestEntity', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <DeleteTestEntity />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
@@ -68,7 +94,7 @@ interface IProps extends Pick<IDeleteProps<ITestEntityData>, 'onSuccess'> {
   id: string; 
   label?: boolean;
 }
-const DeleteTestEntity: FC<IProps> = (props) => {
+const DeleteTestEntity: FC<IDeleteTestEntityProps> = (props) => {
   const { t } = useTranslation();
   const { id, label, ...deleteProps} = props;
   const onConfirm = async (): Promise<ITestEntityData> => {
@@ -91,21 +117,34 @@ export default DeleteTestEntity;"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 5`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import ListTestEntities from './ListTestEntities';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><ListTestEntities /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('ListTestEntities', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <ListTestEntities />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 6`] = `
 "import { useQueryList } from '@reactionable/amplify';
-import { generatePath } from '@reactionable/core';
+import { Suspense, generatePath } from '@reactionable/core';
 import { List } from '@reactionable/ui-bootstrap';
 import React, { FC, lazy } from 'react';
 import { Helmet } from 'react-helmet';
@@ -115,15 +154,15 @@ import { IListTestEntitiesQueryVariables, ITestEntityData } from '../TestEntitie
 
 const CreateTestEntity = lazy(() => import('../create-test-entity/CreateTestEntity'));
 const DeleteTestEntity = lazy(() => import('../delete-test-entity/DeleteTestEntity'));
-interface IProps { }
-const ListTestEntities: FC<IProps> = (props) => {
+interface ITestEntityItemProps { 
+  data: ITestEntityData;
+  refetch: () => void;
+}
+const ListTestEntitiesItem: FC<ITestEntityItemProps> = ({ data, refetch }) => {
   const { t } = useTranslation();
   const match = useRouteMatch();
 
-  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
-  });
-
-  const renderChildren = (data: ITestEntityData) => <tr key={'TestEntity-' + data.id}>
+  return <tr key={'TestEntity-' + data.id}>
     <td>
       <Link
         to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
@@ -135,11 +174,21 @@ const ListTestEntities: FC<IProps> = (props) => {
         to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
         title={t('Go to test entity \\"{{label}}\\"', data)}
       >{t('Go to test entity \\"{{label}}\\"', data)}</Link>
-      <DeleteTestEntity id={data.id} onSuccess={refetch}>
-        {t('Delete test entity \\"{{label}}\\"', data)}
-      </DeleteTestEntity>
+      <Suspense>
+        <DeleteTestEntity id={data.id} onSuccess={refetch}>
+          {t('Delete test entity \\"{{label}}\\"', data)}
+        </DeleteTestEntity>
+      </Suspense>
     </td>
   </tr>;
+};
+interface IListTestEntitiesProps { }
+const ListTestEntities: FC<IListTestEntitiesProps> = (props) => {
+  const { t } = useTranslation();
+  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
+  });
+
+  const renderChildren = (data: ITestEntityData) => <ListTestEntitiesItem data={data} refetch={refetch}/>;
 
   return <>
     <Helmet>
@@ -160,9 +209,11 @@ const ListTestEntities: FC<IProps> = (props) => {
         <br />
         {t('Click the button to create a new test entity')}
         <br /><br />
-        <CreateTestEntity onSuccess={refetch}>
-          <Link>{t('Create a new test entity')}</Link>
-        </CreateTestEntity>
+        <Suspense>
+          <CreateTestEntity onSuccess={refetch}>
+            <Link>{t('Create a new test entity')}</Link>
+          </CreateTestEntity>
+        </Suspense>
       </>}
     />
   </>;
@@ -171,20 +222,34 @@ export default ListTestEntities;"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 7`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import ReadTestEntity from './ReadTestEntity';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><ReadTestEntity /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('ReadTestEntity', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <ReadTestEntity />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 8`] = `
 "import { useQueryList } from '@reactionable/amplify';
+import { Suspense } from '@reactionable/core';
 import { Read } from '@reactionable/ui-bootstrap';
 import React, { FC, lazy } from 'react';
 import { Helmet } from 'react-helmet';
@@ -193,8 +258,32 @@ import { Link, useParams } from 'react-router-dom';
 import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
 
 const UpdateTestEntity = lazy(() => import('../update-test-entity/UpdateTestEntity'));
-interface IProps { }
-const ReadTestEntity: FC<IProps> = (props) => {
+interface ITestEntityItemProps { 
+  data: ITestEntityData;
+  refetch: () => void;
+}
+const ReadTestEntityItem: FC<ITestEntityItemProps> = ({ data, refetch }) => {
+  const { t } = useTranslation();
+  const match = useRouteMatch();
+
+  return <>
+    <Helmet>
+      <title>{t('Tests')} - {t('Read test entity - {{label}}', data)}</title>
+      <meta name=\\"description\\" content={t('Read test entity - {{label}}', data)} />
+    </Helmet>
+    <h1>{t('Read test entity - {{label}}', data)}</h1>
+    { data && <Suspense>
+      <UpdateTestEntity
+        onSuccess={refetch}
+        formValues={data}
+      >
+        <Link to=\\"#\\">{ t('Update test entity \\"{{label}}\\"', data) }</Link>
+      </UpdateTestEntity>
+    </Suspense>}
+  </>;
+};
+interface IReadTestEntityProps { }
+const ReadTestEntity: FC<IReadTestEntityProps> = (props) => {
   const { t } = useTranslation();
   const matchParams = useParams<{ testEntityId: string }>();
 
@@ -202,21 +291,7 @@ const ReadTestEntity: FC<IProps> = (props) => {
     variables: { id: matchParams.testEntityId },
   });
 
-  const renderChildren = (data: ITestEntityData) => <>
-    <Helmet>
-      <title>{t('Tests')} - {t('Read test entity - {{label}}', data)}</title>
-      <meta name=\\"description\\" content={t('Read test entity - {{label}}', data)} />
-    </Helmet>
-    <h1>{t('Read test entity - {{label}}', data)}</h1>
-    { data && <>
-      <UpdateTestEntity
-        onSuccess={refetch}
-        formValues={data}
-      >
-        <Link to=\\"#\\">{ t('Update test entity \\"{{label}}\\"', data) }</Link>
-      </UpdateTestEntity>
-    </>}
-  </>;
+  const renderChildren = (data: ITestEntityData) => <ReadTestEntityItem data={data} refetch={refetch}/>;
 
   return <>
     
@@ -231,15 +306,28 @@ export default ReadTestEntity;"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 9`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import UpdateTestEntity from './UpdateTestEntity';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><UpdateTestEntity /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('UpdateTestEntity', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <UpdateTestEntity />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
@@ -252,7 +340,7 @@ import { useParams } from 'react-router-dom';
 import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
 
 interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, 'onSuccess' | 'formValues'> { }
-const UpdateTestEntity: FC<IProps> = (props) => {
+const UpdateTestEntity: FC<IUpdateTestEntityProps> = (props) => {
   const { t } = useTranslation();
   const matchParams = useParams<{ testEntityId: string }>();
   const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
@@ -285,15 +373,28 @@ export default UpdateTestEntity;"
 `;
 
 exports[`CreateCrudComponent run should create all crud components files 11`] = `
-"import React from 'react';
-import ReactDOM from 'react-dom';
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import TestEntities from './TestEntities';
 
-it('renders without crashing', () => {  
-    const div = document.createElement('div');
-    ReactDOM.render(<MemoryRouter><TestEntities /></MemoryRouter>, div);
-    ReactDOM.unmountComponentAtNode(div);
+describe('TestEntities', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <TestEntities />
+            </TestWrapper>
+        );
+    });
 });"
 `;
 
@@ -307,8 +408,8 @@ import { ITestEntityData } from './TestEntitiesConfig';
 
 const ListTestEntities = lazy(() => import('./list-test-entities/ListTestEntities'));
 const ReadTestEntity = lazy(() => import('./read-test-entity/ReadTestEntity'));
-interface IProps { }
-const TestEntities: FC<IProps> = (props) => {
+interface ITestEntitiesProps { }
+const TestEntities: FC<ITestEntitiesProps> = (props) => {
   const { t } = useTranslation();
   
   return <>
