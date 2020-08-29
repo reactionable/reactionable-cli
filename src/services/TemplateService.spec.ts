@@ -1,5 +1,4 @@
 import container from '../container';
-
 import { TemplateService } from './TemplateService';
 
 describe('TemplateService', () => {

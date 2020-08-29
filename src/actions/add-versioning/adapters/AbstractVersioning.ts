@@ -1,13 +1,13 @@
 import { prompt } from 'inquirer';
-import { injectable, inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { Result } from 'parse-github-url';
 
-import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
-import { GitService } from '../../../services/git/GitService';
-import { AbstractAdapter } from '../../AbstractAdapter';
-import { IVersioningAdapter } from '../IVersioningAdapter';
 import { ConsoleService } from '../../../services/ConsoleService';
 import { ConventionalCommitsService } from '../../../services/git/ConventionalCommitsService';
+import { GitService } from '../../../services/git/GitService';
+import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
+import { AbstractAdapter } from '../../AbstractAdapter';
+import { IVersioningAdapter } from '../IVersioningAdapter';
 
 @injectable()
 export default abstract class AbstractVersioning
@@ -31,10 +31,7 @@ export default abstract class AbstractVersioning
   async run({ realpath }) {
     await this.gitService.initializeGit(realpath);
 
-    const gitRemoteOriginUrl = await this.gitService.getGitRemoteOriginUrl(
-      realpath,
-      false
-    );
+    const gitRemoteOriginUrl = await this.gitService.getGitRemoteOriginUrl(realpath, false);
 
     if (!gitRemoteOriginUrl) {
       this.consoleService.info('Define git remote url...');
@@ -51,13 +48,8 @@ export default abstract class AbstractVersioning
         },
       ]);
 
-      await this.gitService.execGitCmd(
-        ['remote', 'add', 'origin', remoteOriginUrl],
-        realpath
-      );
-      this.consoleService.info(
-        `Git remote url as been set to "${remoteOriginUrl}"`
-      );
+      await this.gitService.execGitCmd(['remote', 'add', 'origin', remoteOriginUrl], realpath);
+      this.consoleService.info(`Git remote url as been set to "${remoteOriginUrl}"`);
     }
 
     await this.packageManagerService.updatePackageJson(realpath, {
@@ -76,15 +68,12 @@ export default abstract class AbstractVersioning
         {
           type: 'confirm',
           name: 'conventionalCommits',
-          message:
-            'Do you want to use Conventional Commits (https://www.conventionalcommits.org)',
+          message: 'Do you want to use Conventional Commits (https://www.conventionalcommits.org)',
         },
       ]);
 
       if (conventionalCommits) {
-        await this.conventionalCommitsService.initializeConventionalCommits(
-          realpath
-        );
+        await this.conventionalCommitsService.initializeConventionalCommits(realpath);
       }
     }
 

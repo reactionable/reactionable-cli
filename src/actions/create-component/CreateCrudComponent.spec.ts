@@ -57,11 +57,7 @@ describe('CreateCrudComponent', () => {
       ];
 
       for (const expectedFile of expectedFiles) {
-        const filePath = resolve(
-          testDirPath,
-          'src/views/test-entities',
-          expectedFile
-        );
+        const filePath = resolve(testDirPath, 'src/views/test-entities', expectedFile);
         expect(existsSync(filePath)).toBe(true);
         expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot();
       }

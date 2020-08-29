@@ -1,6 +1,7 @@
-import { parse, stringify, JsonMap, AnyJson } from '@iarna/toml';
-import { StdFile } from './StdFile';
+import { AnyJson, JsonMap, parse, stringify } from '@iarna/toml';
 import { all } from 'deepmerge';
+
+import { StdFile } from './StdFile';
 
 export class TomlFile extends StdFile {
   protected data?: JsonMap;
@@ -20,8 +21,7 @@ export class TomlFile extends StdFile {
   }
 
   appendData(data: JsonMap) {
-    const overwriteMerge = (destinationArray, sourceArray, options) =>
-      sourceArray;
+    const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 
     const newData = all([(this.data || {}) as object, data as object], {
       arrayMerge: overwriteMerge,

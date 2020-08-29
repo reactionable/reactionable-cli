@@ -43,9 +43,7 @@ describe('Services - File - TypescriptImport', () => {
 
       const importString = typescriptImport.toString();
 
-      expect(importString).toEqual(
-        `import * as serviceWorker from './serviceWorker';`
-      );
+      expect(importString).toEqual(`import * as serviceWorker from './serviceWorker';`);
     });
 
     it('should retrieve an "aliased" import string', async () => {
@@ -55,9 +53,7 @@ describe('Services - File - TypescriptImport', () => {
 
       const importString = typescriptImport.toString();
 
-      expect(importString).toEqual(
-        `import { App as CoreApp } from '@reactionable/core';`
-      );
+      expect(importString).toEqual(`import { App as CoreApp } from '@reactionable/core';`);
     });
   });
 });

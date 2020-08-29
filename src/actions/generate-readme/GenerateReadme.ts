@@ -1,14 +1,14 @@
 import { prompt } from 'inquirer';
-import { injectable, inject } from 'inversify';
-import { IAction } from '../IAction';
-import AddVersioning from '../add-versioning/AddVersioning';
-import { ConsoleService } from '../../services/ConsoleService';
+import { inject, injectable } from 'inversify';
+
 import { CliService } from '../../services/CliService';
+import { ConsoleService } from '../../services/ConsoleService';
 import { GitService } from '../../services/git/GitService';
+import AddVersioning from '../add-versioning/AddVersioning';
+import { IAction } from '../IAction';
 
 @injectable()
-export default class GenerateReadme
-  implements IAction<{ mustPrompt: boolean }> {
+export default class GenerateReadme implements IAction<{ mustPrompt: boolean }> {
   constructor(
     @inject(CliService) private readonly cliService: CliService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
@@ -34,27 +34,19 @@ export default class GenerateReadme
         return;
       }
     }
-    const readmeMdGeneratorCmd = this.cliService.getGlobalCmd(
-      'readme-md-generator'
-    );
+    const readmeMdGeneratorCmd = this.cliService.getGlobalCmd('readme-md-generator');
     if (!readmeMdGeneratorCmd) {
       return this.consoleService.error(
         'Unable to generate README.md file, install globally "readme-md-generator" or "npx"'
       );
     }
     await this.cliService.execCmd([readmeMdGeneratorCmd, '-y'], realpath);
-    this.consoleService.success(
-      `README.md file has been generated in "${realpath}"`
-    );
+    this.consoleService.success(`README.md file has been generated in "${realpath}"`);
 
     if (!(await this.gitService.isAGitRepository(realpath))) {
       return;
     }
 
-    await this.gitService.commitFiles(
-      realpath,
-      'generate README.md file',
-      'chore'
-    );
+    await this.gitService.commitFiles(realpath, 'generate README.md file', 'chore');
   }
 }

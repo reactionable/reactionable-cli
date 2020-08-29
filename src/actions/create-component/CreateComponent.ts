@@ -1,21 +1,21 @@
-import { join, resolve, dirname, basename } from 'path';
-import { injectable, inject } from 'inversify';
-import { prompt } from 'inquirer';
 import { mkdirSync } from 'fs';
+import { basename, dirname, join, resolve } from 'path';
+
+import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
 
 import { ConsoleService } from '../../services/ConsoleService';
 import { FileService } from '../../services/file/FileService';
 import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
-import { TemplateService } from '../../services/TemplateService';
-import { IAction } from '../IAction';
-import AddUIFramework from '../add-ui-framework/AddUIFramework';
-import AddHosting from '../add-hosting/AddHosting';
-import { AbstractAdapterWithPackage } from '../AbstractAdapterWithPackage';
 import { StringUtils } from '../../services/StringUtils';
+import { TemplateService } from '../../services/TemplateService';
+import { AbstractAdapterWithPackage } from '../AbstractAdapterWithPackage';
+import AddHosting from '../add-hosting/AddHosting';
+import AddUIFramework from '../add-ui-framework/AddUIFramework';
+import { IAction } from '../IAction';
 
 @injectable()
-export default class CreateComponent
-  implements IAction<{ name: string | undefined }> {
+export default class CreateComponent implements IAction<{ name: string | undefined }> {
   protected static defaultPackage = '@reactionable/core';
   protected static viewsPath = join('', 'src', 'views');
   protected static templateNamespace = 'create-component';
@@ -40,8 +40,7 @@ export default class CreateComponent
         {
           name: 'name',
           message: "What's the component name?",
-          validate: (input) =>
-            input.trim().length ? true : 'Component name is required',
+          validate: (input) => (input.trim().length ? true : 'Component name is required'),
           transformer: (input) => this.formatName(input),
         },
       ]);
@@ -53,9 +52,7 @@ export default class CreateComponent
 
     const componentDirPath = await this.createComponent({ realpath, name });
 
-    this.consoleService.success(
-      `Component "${name}" has been created in "${componentDirPath}"`
-    );
+    this.consoleService.success(`Component "${name}" has been created in "${componentDirPath}"`);
   }
 
   protected async createComponent({
@@ -81,10 +78,7 @@ export default class CreateComponent
     }
 
     if (componentDirPath.indexOf(CreateComponent.viewsPath) === -1) {
-      const viewsRealpath = resolve(
-        componentDirPath,
-        CreateComponent.viewsPath
-      );
+      const viewsRealpath = resolve(componentDirPath, CreateComponent.viewsPath);
       if (!this.fileService.dirExistsSync(viewsRealpath)) {
         mkdirSync(viewsRealpath);
       }
@@ -149,14 +143,9 @@ export default class CreateComponent
   }
 
   private async getHostingPackage(realpath: string): Promise<string> {
-    const hostingAdapter = await this.addHosting.detectAdapter(
-      this.getProjectRootPath(realpath)
-    );
+    const hostingAdapter = await this.addHosting.detectAdapter(this.getProjectRootPath(realpath));
 
-    if (
-      hostingAdapter &&
-      hostingAdapter instanceof AbstractAdapterWithPackage
-    ) {
+    if (hostingAdapter && hostingAdapter instanceof AbstractAdapterWithPackage) {
       return hostingAdapter.getAdapterPackageName();
     }
 

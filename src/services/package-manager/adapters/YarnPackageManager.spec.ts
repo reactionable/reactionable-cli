@@ -2,24 +2,24 @@ import { resolve } from 'path';
 import { cwd } from 'process';
 
 import container from '../../../container';
-import { YarnPackageManager } from '../adapters/YarnPackageManager';
-import { CliService } from '../../CliService';
 import {
-  mockYarnDir,
+  mockYarnBinCmd,
+  mockYarnCmd,
+  mockYarnWorkspacesInfoCmd,
+  restoreMockCmd,
+} from '../../../tests/mock-cmd';
+import {
   mockDirPath,
-  restoreMockFs,
-  mockYarnMonorepoDir,
+  mockMonorepoPackageDirName,
   mockMonorepoPackageDirPath,
   mockPackageName,
-  mockMonorepoPackageDirName,
+  mockYarnDir,
+  mockYarnMonorepoDir,
+  restoreMockFs,
 } from '../../../tests/mock-fs';
-import {
-  restoreMockCmd,
-  mockYarnCmd,
-  mockYarnBinCmd,
-  mockYarnWorkspacesInfoCmd,
-} from '../../../tests/mock-cmd';
+import { CliService } from '../../CliService';
 import { FileFactory } from '../../file/FileFactory';
+import { YarnPackageManager } from '../adapters/YarnPackageManager';
 
 describe('YarnPackageManager', () => {
   const cliService = container.get(CliService);
@@ -70,11 +70,7 @@ describe('YarnPackageManager', () => {
       mockYarnMonorepoDir();
       mockYarnWorkspacesInfoCmd(mockPackageName, mockMonorepoPackageDirName);
 
-      adapter = new YarnPackageManager(
-        cliService,
-        fileFactory,
-        mockMonorepoPackageDirPath
-      );
+      adapter = new YarnPackageManager(cliService, fileFactory, mockMonorepoPackageDirPath);
 
       const result = await adapter.isMonorepoPackage();
 

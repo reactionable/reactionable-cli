@@ -1,15 +1,14 @@
-import { AbstractPackageManager } from './AbstractPackageManager';
-import { PackageManagerType } from '../PackageManagerService';
-import { PackageJson } from './IPackageManager';
 import { realpathSync } from 'fs';
+
+import { PackageManagerType } from '../PackageManagerService';
+import { AbstractPackageManager } from './AbstractPackageManager';
+import { PackageJson } from './IPackageManager';
 
 export interface YarnPackageJson extends PackageJson {
   workspaces?: string[];
 }
 
-export class YarnPackageManager extends AbstractPackageManager<
-  YarnPackageJson
-> {
+export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> {
   protected type = PackageManagerType.yarn;
 
   async installPackages(packages: string[], dev: boolean): Promise<string[]> {
@@ -47,10 +46,7 @@ export class YarnPackageManager extends AbstractPackageManager<
 
       return undefined;
     } catch (error) {
-      if (
-        error.toString().indexOf('Cannot find the root of your workspace') !==
-        -1
-      ) {
+      if (error.toString().indexOf('Cannot find the root of your workspace') !== -1) {
         return undefined;
       }
       throw error;

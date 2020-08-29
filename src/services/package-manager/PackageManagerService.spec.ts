@@ -1,23 +1,16 @@
 import container from '../../container';
+import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from '../../tests/mock-cmd';
 import {
-  restoreMockFs,
   mockDirPath,
-  mockYarnDir,
-  mockPackageName,
-  mockYarnMonorepoDir,
   mockMonorepoPackageDirName,
-  mockMonorepoRootName,
   mockMonorepoPackageDirPath,
+  mockMonorepoRootName,
+  mockPackageName,
+  mockYarnDir,
+  mockYarnMonorepoDir,
+  restoreMockFs,
 } from '../../tests/mock-fs';
-import {
-  PackageManagerService,
-  PackageManagerType,
-} from './PackageManagerService';
-import {
-  mockYarnCmd,
-  restoreMockCmd,
-  mockYarnWorkspacesInfoCmd,
-} from '../../tests/mock-cmd';
+import { PackageManagerService, PackageManagerType } from './PackageManagerService';
 
 describe('PackageManagerService', () => {
   let service: PackageManagerService;
@@ -81,11 +74,7 @@ describe('PackageManagerService', () => {
       mockYarnMonorepoDir();
       mockYarnWorkspacesInfoCmd(mockPackageName, mockMonorepoPackageDirName);
 
-      const result = await service.getPackageName(
-        mockMonorepoPackageDirPath,
-        undefined,
-        false
-      );
+      const result = await service.getPackageName(mockMonorepoPackageDirPath, undefined, false);
 
       expect(result).toEqual(mockPackageName);
     });
@@ -126,11 +115,7 @@ describe('PackageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(
-        mockDirPath,
-        packageName,
-        true
-      );
+      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(true);
     });
@@ -145,11 +130,7 @@ describe('PackageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(
-        mockDirPath,
-        packageName,
-        true
-      );
+      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(false);
     });
@@ -190,11 +171,7 @@ describe('PackageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(
-        mockDirPath,
-        packageName,
-        true
-      );
+      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(true);
     });
@@ -209,11 +186,7 @@ describe('PackageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(
-        mockDirPath,
-        packageName,
-        true
-      );
+      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(false);
     });

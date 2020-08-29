@@ -1,12 +1,14 @@
-import { statSync, readFileSync } from 'fs';
+import { readFileSync, statSync } from 'fs';
 import { extname } from 'path';
-import { injectable, inject } from 'inversify';
-import { TypescriptFile } from './TypescriptFile';
+
+import { inject, injectable } from 'inversify';
+
+import { CliService } from '../CliService';
+import { FileService } from './FileService';
+import { JsonFile } from './JsonFile';
 import { StdFile } from './StdFile';
 import { TomlFile } from './TomlFile';
-import { JsonFile } from './JsonFile';
-import { FileService } from './FileService';
-import { CliService } from '../CliService';
+import { TypescriptFile } from './TypescriptFile';
 
 export enum FileContentType {
   mtime,
@@ -28,10 +30,7 @@ export class FileFactory {
     @inject(CliService) private readonly cliService: CliService
   ) {}
 
-  fromFile<File extends StdFile = StdFile>(
-    file: string,
-    encoding: BufferEncoding = 'utf8'
-  ): File {
+  fromFile<File extends StdFile = StdFile>(file: string, encoding: BufferEncoding = 'utf8'): File {
     const realpath = this.fileService.assertFileExists(file);
 
     const stat = statSync(file);
@@ -59,19 +58,11 @@ export class FileFactory {
     try {
       return this.fromString(content, file, encoding) as File;
     } catch (error) {
-      throw new Error(
-        `An error occurred while parsing file "${file}": ${JSON.stringify(
-          error
-        )}`
-      );
+      throw new Error(`An error occurred while parsing file "${file}": ${JSON.stringify(error)}`);
     }
   }
 
-  fromString(
-    content: string,
-    file: string,
-    encoding: BufferEncoding = 'utf8'
-  ): StdFile {
+  fromString(content: string, file: string, encoding: BufferEncoding = 'utf8'): StdFile {
     const args = [
       this.cliService,
       this.fileService,

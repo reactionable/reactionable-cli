@@ -1,13 +1,14 @@
-import { StdFile } from './StdFile';
-import { join } from 'path';
 import { readFileSync } from 'fs';
+import { join } from 'path';
+
 import inquirer from 'inquirer';
 
 import container from '../../container';
-import { restoreMockFs, mockDir, mockDirPath } from '../../tests/mock-fs';
+import { mockDir, mockDirPath, restoreMockFs } from '../../tests/mock-fs';
 import { CliService } from '../CliService';
-import { FileService } from './FileService';
 import { FileFactory } from './FileFactory';
+import { FileService } from './FileService';
+import { StdFile } from './StdFile';
 
 describe('Services - File - StdFile', () => {
   const fileName = 'test.txt';
@@ -52,9 +53,7 @@ describe('Services - File - StdFile', () => {
     it('should override an existing file', async () => {
       mockDir({ [fileName]: 'test original content' });
 
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ action: 'overwrite' });
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ action: 'overwrite' });
 
       const fileContent = 'test new content';
       const file = new StdFile(
@@ -77,9 +76,7 @@ describe('Services - File - StdFile', () => {
 
       mockDir({ [fileName]: originalContent });
 
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ action: 'cancel' });
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ action: 'cancel' });
 
       const file = new StdFile(
         cliService,
@@ -106,9 +103,7 @@ describe('Services - File - StdFile', () => {
       `;
       mockDir({ [fileName]: originalContent });
 
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ action: 'overwrite' });
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ action: 'overwrite' });
 
       let file = new StdFile(
         cliService,
@@ -126,9 +121,7 @@ describe('Services - File - StdFile', () => {
       await file.saveFile();
 
       // Mock prompt in case of test failure
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ action: 'cancel' });
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ action: 'cancel' });
 
       const newContent = `
         line 1 content
@@ -137,14 +130,7 @@ describe('Services - File - StdFile', () => {
         line 4 content
       `;
 
-      file = new StdFile(
-        cliService,
-        fileService,
-        fileFactory,
-        filePath,
-        undefined,
-        newContent
-      );
+      file = new StdFile(cliService, fileService, fileFactory, filePath, undefined, newContent);
 
       const result = await file.saveFile();
 

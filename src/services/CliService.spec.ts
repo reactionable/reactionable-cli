@@ -1,5 +1,4 @@
 import container from '../container';
-
 import { CliService } from './CliService';
 
 describe('CliService', () => {

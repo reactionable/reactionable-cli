@@ -1,13 +1,14 @@
-import { plural, singular } from 'pluralize';
-import { injectable, inject } from 'inversify';
 import { prompt } from 'inquirer';
-import CreateComponent from './CreateComponent';
+import { inject, injectable } from 'inversify';
+import { plural, singular } from 'pluralize';
+
 import { ConsoleService } from '../../services/ConsoleService';
-import { TemplateService } from '../../services/TemplateService';
-import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
-import AddUIFramework from '../add-ui-framework/AddUIFramework';
-import AddHosting from '../add-hosting/AddHosting';
 import { FileService } from '../../services/file/FileService';
+import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
+import { TemplateService } from '../../services/TemplateService';
+import AddHosting from '../add-hosting/AddHosting';
+import AddUIFramework from '../add-ui-framework/AddUIFramework';
+import CreateComponent from './CreateComponent';
 
 @injectable()
 export default class CreateCrudComponent extends CreateComponent {
@@ -40,8 +41,7 @@ export default class CreateCrudComponent extends CreateComponent {
         {
           name: 'name',
           message: "What's the component entity name?",
-          validate: (input) =>
-            input.length ? true : 'Component entity name is required',
+          validate: (input) => (input.length ? true : 'Component entity name is required'),
         },
       ]);
       name = answer.name;
@@ -90,9 +90,7 @@ export default class CreateCrudComponent extends CreateComponent {
       });
     }
 
-    this.consoleService.success(
-      `CRUD component for "${entityName}" has been created`
-    );
+    this.consoleService.success(`CRUD component for "${entityName}" has been created`);
   }
 
   protected formatName(name: string): string {

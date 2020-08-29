@@ -1,7 +1,8 @@
 import { existsSync, lstatSync, realpathSync } from 'fs';
-import { mv } from 'shelljs';
-import { extname, basename, dirname, resolve } from 'path';
+import { basename, dirname, extname, resolve } from 'path';
+
 import { injectable } from 'inversify';
+import { mv } from 'shelljs';
 
 @injectable()
 export class FileService {
@@ -33,11 +34,7 @@ export class FileService {
     return realpathSync(path);
   }
 
-  replaceFileExtension(
-    filePath: string,
-    newExtension: string,
-    mustExist = false
-  ) {
+  replaceFileExtension(filePath: string, newExtension: string, mustExist = false) {
     if (!this.fileExistsSync(filePath)) {
       if (mustExist) {
         throw new Error(`File "${filePath}" does not exist`);
@@ -47,10 +44,7 @@ export class FileService {
 
     const newFilePath = resolve(
       dirname(filePath),
-      `${basename(filePath, extname(filePath))}.${newExtension.replace(
-        /^[\s\.]+/,
-        ''
-      )}`
+      `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s\.]+/, '')}`
     );
     mv(filePath, newFilePath);
   }

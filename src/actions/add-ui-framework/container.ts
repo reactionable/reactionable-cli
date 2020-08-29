@@ -1,8 +1,9 @@
 import 'reflect-metadata';
+
 import { Container } from 'inversify';
 
-import ReactBootstrap from './adapters/ReactBootstrap';
 import { IUIFrameworkAdapter } from './adapters/IUIFrameworkAdapter';
+import ReactBootstrap from './adapters/ReactBootstrap';
 
 export const AdapterKey = 'UIFrameworkAdapter';
 

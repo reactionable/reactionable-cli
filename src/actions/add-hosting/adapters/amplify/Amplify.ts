@@ -1,19 +1,20 @@
-import { injectable, inject } from 'inversify';
-import { prompt } from 'inquirer';
 import { resolve } from 'path';
 
-import { FileFactory } from '../../../../services/file/FileFactory';
-import { TypescriptFile } from '../../../../services/file/TypescriptFile';
-import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
-import { TemplateService } from '../../../../services/TemplateService';
+import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
+
 import { CliService } from '../../../../services/CliService';
-import { GitService } from '../../../../services/git/GitService';
 import { ConsoleService } from '../../../../services/ConsoleService';
-import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
-import { IHostingAdapter } from '../IHostingAdapter';
-import { StringUtils } from '../../../../services/StringUtils';
-import { JsonFile } from '../../../../services/file/JsonFile';
+import { FileFactory } from '../../../../services/file/FileFactory';
 import { FileService } from '../../../../services/file/FileService';
+import { JsonFile } from '../../../../services/file/JsonFile';
+import { TypescriptFile } from '../../../../services/file/TypescriptFile';
+import { GitService } from '../../../../services/git/GitService';
+import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
+import { StringUtils } from '../../../../services/StringUtils';
+import { TemplateService } from '../../../../services/TemplateService';
+import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
+import { IHostingAdapter } from '../IHostingAdapter';
 
 type ProjectConfig = {
   projectName: string;
@@ -42,9 +43,7 @@ type BackendConfig = {
 };
 
 @injectable()
-export default class Amplify
-  extends AbstractAdapterWithPackage
-  implements IHostingAdapter {
+export default class Amplify extends AbstractAdapterWithPackage implements IHostingAdapter {
   protected name = 'Amplify';
   protected adapterPackageName = '@reactionable/amplify';
 
@@ -69,10 +68,7 @@ export default class Amplify
 
     // Add amplify default configuration files
     this.consoleService.info('Prepare Amplify configuration...');
-    const projectBranch = await this.gitService.getGitCurrentBranch(
-      realpath,
-      'master'
-    );
+    const projectBranch = await this.gitService.getGitCurrentBranch(realpath, 'master');
 
     let projectName = this.getProjectName(realpath);
     if (!projectName) {
@@ -80,10 +76,7 @@ export default class Amplify
         {
           type: 'input',
           name: 'projectName',
-          default: await this.packageManagerService.getPackageName(
-            realpath,
-            'camelize'
-          ),
+          default: await this.packageManagerService.getPackageName(realpath, 'camelize'),
           message: 'Enter a name for the amplify project',
           transformer: (value) => StringUtils.camelize(value),
         },
@@ -106,9 +99,7 @@ export default class Amplify
         projectBranch: JSON.stringify(projectBranch),
         projectPath: JSON.stringify(realpath),
         projectName: JSON.stringify(projectName),
-        packageManager: this.packageManagerService.getPackageManagerCmd(
-          realpath
-        ),
+        packageManager: this.packageManagerService.getPackageManagerCmd(realpath),
       }
     );
 
@@ -183,12 +174,7 @@ export default class Amplify
       )
       .saveFile();
 
-    await this.packageManagerService.installPackages(
-      realpath,
-      ['concurrently'],
-      false,
-      true
-    );
+    await this.packageManagerService.installPackages(realpath, ['concurrently'], false, true);
     await this.packageManagerService.updatePackageJson(realpath, {
       scripts: {
         start: 'concurrently "amplify mock" "yarn react-scripts start"',
@@ -207,11 +193,7 @@ export default class Amplify
     return this.cliService.getGlobalCmd('amplify-app');
   }
 
-  private async execAmplifyCmd(
-    args: string[],
-    realpath: string,
-    silent?: boolean
-  ) {
+  private async execAmplifyCmd(args: string[], realpath: string, silent?: boolean) {
     const cmd = this.getAmplifyCmd();
     if (!cmd) {
       throw new Error(
@@ -225,32 +207,23 @@ export default class Amplify
   }
 
   private getProjectName(realpath: string): string | undefined {
-    const projectConfigFilePath = resolve(
-      realpath,
-      'amplify/.config/project-config.json'
-    );
+    const projectConfigFilePath = resolve(realpath, 'amplify/.config/project-config.json');
 
     if (!this.fileService.fileExistsSync(projectConfigFilePath)) {
       return undefined;
     }
 
-    return this.fileFactory
-      .fromFile<JsonFile>(projectConfigFilePath)
-      .getData<ProjectConfig>()?.projectName;
+    return this.fileFactory.fromFile<JsonFile>(projectConfigFilePath).getData<ProjectConfig>()
+      ?.projectName;
   }
 
   private getBackendConfig(realpath: string): BackendConfig | undefined {
-    const backendConfigFilePath = resolve(
-      realpath,
-      'amplify/backend/backend-config.json'
-    );
+    const backendConfigFilePath = resolve(realpath, 'amplify/backend/backend-config.json');
     if (!this.fileService.fileExistsSync(backendConfigFilePath)) {
       return undefined;
     }
 
-    return this.fileFactory
-      .fromFile<JsonFile>(backendConfigFilePath)
-      .getData<BackendConfig>();
+    return this.fileFactory.fromFile<JsonFile>(backendConfigFilePath).getData<BackendConfig>();
   }
 
   private async addAuth(realpath: string) {
@@ -286,18 +259,12 @@ export default class Amplify
           },
         },
       ])
-      .replaceContent(
-        /identity: undefined,.*$/m,
-        'identity: useIdentityContextProviderProps(),'
-      )
+      .replaceContent(/identity: undefined,.*$/m, 'identity: useIdentityContextProviderProps(),')
       .saveFile();
 
     await this.fileFactory
       .fromFile(resolve(realpath, 'src/index.tsx'))
-      .appendContent(
-        "import '@aws-amplify/ui/dist/style.css';",
-        "import './index.scss';"
-      )
+      .appendContent("import '@aws-amplify/ui/dist/style.css';", "import './index.scss';")
       .saveFile();
   }
 

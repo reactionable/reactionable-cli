@@ -1,20 +1,18 @@
+import { basename, resolve } from 'path';
+
+import { inject, injectable } from 'inversify';
 import { which } from 'shelljs';
-import { resolve, basename } from 'path';
-import { injectable, inject } from 'inversify';
-import { FileService } from '../file/FileService';
-import { ConsoleService } from '../ConsoleService';
-import { YarnPackageManager } from './adapters/YarnPackageManager';
-import { NpmPackageManager } from './adapters/NpmPackageManager';
-import { IPackageManager, PackageJson } from './adapters/IPackageManager';
-import { FileFactory } from '../file/FileFactory';
-import { JsonFile } from '../file/JsonFile';
+
 import { CliService } from '../CliService';
+import { ConsoleService } from '../ConsoleService';
+import { FileFactory } from '../file/FileFactory';
+import { FileService } from '../file/FileService';
+import { JsonFile } from '../file/JsonFile';
+import { StringUtils, StringUtilsMethod, StringUtilsMethods } from '../StringUtils';
 import { AbstractPackageManager } from './adapters/AbstractPackageManager';
-import {
-  StringUtils,
-  StringUtilsMethods,
-  StringUtilsMethod,
-} from '../StringUtils';
+import { IPackageManager, PackageJson } from './adapters/IPackageManager';
+import { NpmPackageManager } from './adapters/NpmPackageManager';
+import { YarnPackageManager } from './adapters/YarnPackageManager';
 
 export enum PackageManagerType {
   yarn = 'yarn',
@@ -25,9 +23,7 @@ type AbstractConstructorHelper<T> = (new (...args: any) => {
   [x: string]: any;
 }) &
   T;
-type AbstractContructorParameters<T> = ConstructorParameters<
-  AbstractConstructorHelper<T>
->;
+type AbstractContructorParameters<T> = ConstructorParameters<AbstractConstructorHelper<T>>;
 
 @injectable()
 export class PackageManagerService {
@@ -84,10 +80,7 @@ export class PackageManagerService {
 
     verbose && this.consoleService.info(`Installing ${packages.join(', ')}...`);
 
-    const installedPackages = await packageManager.installPackages(
-      packages,
-      dev
-    );
+    const installedPackages = await packageManager.installPackages(packages, dev);
 
     verbose &&
       this.consoleService.success(
@@ -104,9 +97,10 @@ export class PackageManagerService {
     dev: boolean = false,
     encoding: BufferEncoding = 'utf8'
   ): boolean {
-    const installedPackages = this.getPackageManager(
-      dirPath
-    ).getPackageJsonData(dev ? 'devDependencies' : 'dependencies', encoding);
+    const installedPackages = this.getPackageManager(dirPath).getPackageJsonData(
+      dev ? 'devDependencies' : 'dependencies',
+      encoding
+    );
 
     return !!(installedPackages && installedPackages[packageName]);
   }
@@ -122,8 +116,7 @@ export class PackageManagerService {
   ): Promise<string> {
     const packageManager = this.getPackageManager(dirPath);
 
-    let packageName =
-      packageManager.getPackageJsonData('name') || basename(dirPath);
+    let packageName = packageManager.getPackageJsonData('name') || basename(dirPath);
 
     if (fullName) {
       const isMonorepoPackage = await packageManager.isMonorepoPackage();
@@ -133,24 +126,18 @@ export class PackageManagerService {
           const rootPackageManager = this.getPackageManager(monorepoRootPath);
 
           let rootPackageName =
-            rootPackageManager.getPackageJsonData('name') ||
-            basename(monorepoRootPath);
+            rootPackageManager.getPackageJsonData('name') || basename(monorepoRootPath);
 
           packageName = `${rootPackageName} - ${packageName}`;
         }
       }
     }
 
-    return format
-      ? (StringUtils[format] as StringUtilsMethod)(packageName)
-      : packageName;
+    return format ? (StringUtils[format] as StringUtilsMethod)(packageName) : packageName;
   }
 
   hasPackageJsonConfig(dirPath: string, data: Partial<PackageJson>): boolean {
-    const compareObject = (
-      data: Partial<PackageJson>,
-      packageJson: PackageJson
-    ) => {
+    const compareObject = (data: Partial<PackageJson>, packageJson: PackageJson) => {
       for (const key of Object.keys(data)) {
         if (!packageJson[key]) {
           return false;
@@ -188,22 +175,13 @@ export class PackageManagerService {
       return true;
     };
 
-    return compareObject(
-      data,
-      this.getPackageManager(dirPath).getPackageJsonData()
-    );
+    return compareObject(data, this.getPackageManager(dirPath).getPackageJsonData());
   }
 
-  async updatePackageJson(
-    dirPath: string,
-    data: Partial<PackageJson>
-  ): Promise<void> {
+  async updatePackageJson(dirPath: string, data: Partial<PackageJson>): Promise<void> {
     const packageJsonPath = this.assertPackageJsonExists(dirPath);
 
-    await this.fileFactory
-      .fromFile<JsonFile>(packageJsonPath)
-      .appendData(data)
-      .saveFile();
+    await this.fileFactory.fromFile<JsonFile>(packageJsonPath).appendData(data).saveFile();
   }
 
   private getPackageManager(dirPath: string): IPackageManager {
@@ -229,9 +207,7 @@ export class PackageManagerService {
         packageManager = new YarnPackageManager(...args);
         break;
 
-      case this.fileService.fileExistsSync(
-        resolve(dirPath, 'package-lock.json')
-      ):
+      case this.fileService.fileExistsSync(resolve(dirPath, 'package-lock.json')):
         packageManager = new NpmPackageManager(...args);
         break;
 

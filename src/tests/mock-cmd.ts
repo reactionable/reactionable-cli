@@ -1,7 +1,8 @@
-import shelljs from 'shelljs';
-import mockSpawn from 'mock-spawn';
-import { cwd } from 'process';
 import { resolve } from 'path';
+import { cwd } from 'process';
+
+import mockSpawn from 'mock-spawn';
+import shelljs from 'shelljs';
 
 let spawnMock;
 let originalSpawn;

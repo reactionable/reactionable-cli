@@ -1,5 +1,5 @@
-import { AbstractPackageManager, MonorepoInfo } from './AbstractPackageManager';
 import { PackageManagerType } from '../PackageManagerService';
+import { AbstractPackageManager, MonorepoInfo } from './AbstractPackageManager';
 
 export class NpmPackageManager extends AbstractPackageManager {
   protected type = PackageManagerType.npm;

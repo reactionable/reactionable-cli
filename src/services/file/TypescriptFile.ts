@@ -1,11 +1,10 @@
-import { parse, AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
-import {
-  ImportDeclaration,
-  Statement,
-} from '@typescript-eslint/types/dist/ts-estree';
-import { TypescriptImport, ITypescriptImport } from './TypescriptImport';
-import { StdFile } from './StdFile';
 import { EOL } from 'os';
+
+import { ImportDeclaration, Statement } from '@typescript-eslint/types/dist/ts-estree';
+import { AST_NODE_TYPES, parse } from '@typescript-eslint/typescript-estree';
+
+import { StdFile } from './StdFile';
+import { ITypescriptImport, TypescriptImport } from './TypescriptImport';
 
 export class TypescriptFile extends StdFile {
   protected imports?: Array<TypescriptImport>;
@@ -27,10 +26,7 @@ export class TypescriptFile extends StdFile {
           break;
         default:
           this.declarations.push(
-            content.substr(
-              bodyItem.range[0],
-              bodyItem.range[1] - bodyItem.range[0]
-            )
+            content.substr(bodyItem.range[0], bodyItem.range[1] - bodyItem.range[0])
           );
       }
     }
@@ -53,9 +49,9 @@ export class TypescriptFile extends StdFile {
       }
 
       throw new Error(
-        `An error occurred while parsing file content "${
-          this.file
-        }": ${JSON.stringify(error)} => "${contentError.trim()}"`
+        `An error occurred while parsing file content "${this.file}": ${JSON.stringify(
+          error
+        )} => "${contentError.trim()}"`
       );
     }
   }
@@ -85,10 +81,7 @@ export class TypescriptFile extends StdFile {
           break;
 
         case AST_NODE_TYPES.ImportSpecifier:
-          importType =
-            specifier.local.name !== specifier.imported.name
-              ? specifier.local.name
-              : '';
+          importType = specifier.local.name !== specifier.imported.name ? specifier.local.name : '';
           moduleName = specifier.imported.name;
           break;
       }
@@ -117,12 +110,10 @@ export class TypescriptFile extends StdFile {
     importsToRemove: Array<ITypescriptImport> = []
   ): this {
     const importToAddItems = importsToAdd.map(
-      (importItem) =>
-        new TypescriptImport(importItem.packageName, importItem.modules)
+      (importItem) => new TypescriptImport(importItem.packageName, importItem.modules)
     );
     const importToRemoveItems = importsToRemove.map(
-      (importItem) =>
-        new TypescriptImport(importItem.packageName, importItem.modules)
+      (importItem) => new TypescriptImport(importItem.packageName, importItem.modules)
     );
 
     this.addImports(importToAddItems);

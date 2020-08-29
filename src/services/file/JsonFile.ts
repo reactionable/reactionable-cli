@@ -1,5 +1,6 @@
-import { StdFile } from './StdFile';
 import { all } from 'deepmerge';
+
+import { StdFile } from './StdFile';
 
 export class JsonFile extends StdFile {
   protected data?: object;
@@ -18,9 +19,7 @@ export class JsonFile extends StdFile {
   }
 
   getData<D extends Object = Object>(): D | undefined;
-  getData<D extends Object = Object, P extends keyof D = keyof D>(
-    property: P
-  ): D[P] | undefined;
+  getData<D extends Object = Object, P extends keyof D = keyof D>(property: P): D[P] | undefined;
   getData<D extends Object = Object, P extends keyof D = keyof D>(
     property: P | undefined = undefined
   ): D | D[P] | undefined {
@@ -42,9 +41,9 @@ export class JsonFile extends StdFile {
       this.data = JSON.parse(content);
     } catch (error) {
       throw new Error(
-        `An error occurred while parsing file content "${
-          this.file
-        }": ${JSON.stringify(error)} => "${content.trim()}"`
+        `An error occurred while parsing file content "${this.file}": ${JSON.stringify(
+          error
+        )} => "${content.trim()}"`
       );
     }
     return content;

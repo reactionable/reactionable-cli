@@ -1,11 +1,11 @@
-import { join } from 'path';
 import { readFileSync } from 'fs';
+import { join } from 'path';
 
 import container from '../../container';
-import { restoreMockFs, mockDir, mockDirPath } from '../../tests/mock-fs';
+import { mockDir, mockDirPath, restoreMockFs } from '../../tests/mock-fs';
 import { CliService } from '../CliService';
-import { FileService } from './FileService';
 import { FileFactory } from './FileFactory';
+import { FileService } from './FileService';
 import { TypescriptFile } from './TypescriptFile';
 
 describe('Services - File - TypescriptFile', () => {

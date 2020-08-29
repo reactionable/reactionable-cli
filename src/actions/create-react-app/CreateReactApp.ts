@@ -1,23 +1,24 @@
-import { prompt } from 'inquirer';
-import { basename, resolve, dirname } from 'path';
-import { red } from 'chalk';
-import { injectable, inject } from 'inversify';
-import { IAction } from '../IAction';
+import { basename, dirname, resolve } from 'path';
 
-import AddUIFramework from '../add-ui-framework/AddUIFramework';
-import AddHosting from '../add-hosting/AddHosting';
-import AddVersioning from '../add-versioning/AddVersioning';
-import CreateComponent from '../create-component/CreateComponent';
-import GenerateReadme from '../generate-readme/GenerateReadme';
-import { FileFactory } from '../../services/file/FileFactory';
+import { red } from 'chalk';
+import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
+
 import { CliService } from '../../services/CliService';
 import { ConsoleService } from '../../services/ConsoleService';
+import { FileFactory } from '../../services/file/FileFactory';
+import { FileService } from '../../services/file/FileService';
 import {
   PackageManagerService,
   PackageManagerType,
 } from '../../services/package-manager/PackageManagerService';
-import { FileService } from '../../services/file/FileService';
 import { TemplateService } from '../../services/TemplateService';
+import AddHosting from '../add-hosting/AddHosting';
+import AddUIFramework from '../add-ui-framework/AddUIFramework';
+import AddVersioning from '../add-versioning/AddVersioning';
+import CreateComponent from '../create-component/CreateComponent';
+import GenerateReadme from '../generate-readme/GenerateReadme';
+import { IAction } from '../IAction';
 
 @injectable()
 export default class CreateReactApp implements IAction {
@@ -41,9 +42,7 @@ export default class CreateReactApp implements IAction {
   }
 
   async run({ realpath }) {
-    const reactAppExistsAlready = await this.checkIfReactAppExistsAlready(
-      realpath
-    );
+    const reactAppExistsAlready = await this.checkIfReactAppExistsAlready(realpath);
     if (reactAppExistsAlready === undefined) {
       return;
     }
@@ -54,9 +53,7 @@ export default class CreateReactApp implements IAction {
         return;
       }
 
-      const createReactAppCmd = this.cliService.getGlobalCmd(
-        'create-react-app'
-      );
+      const createReactAppCmd = this.cliService.getGlobalCmd('create-react-app');
       if (!createReactAppCmd) {
         return this.consoleService.error(
           'Unable to create app, install globally "create-react-app" or "npx"'
@@ -89,9 +86,7 @@ export default class CreateReactApp implements IAction {
     await this.createComponent.run({ realpath, name: 'App' });
     await this.createComponent.run({ realpath, name: 'NotFound' });
     await this.createComponent.run({ realpath, name: 'Home' });
-    this.consoleService.success(
-      `Base components have been created in "${realpath}"`
-    );
+    this.consoleService.success(`Base components have been created in "${realpath}"`);
 
     // Add Sass
     await this.addSass(realpath);
@@ -112,17 +107,13 @@ export default class CreateReactApp implements IAction {
     await this.generateReadme.run({ realpath, mustPrompt: true });
   }
 
-  async checkIfReactAppExistsAlready(
-    realpath: string
-  ): Promise<boolean | undefined> {
+  async checkIfReactAppExistsAlready(realpath: string): Promise<boolean | undefined> {
     if (this.fileService.dirExistsSync(realpath)) {
       const { override } = await prompt([
         {
           type: 'confirm',
           name: 'override',
-          message: `Directory "${realpath}" exists already, ${red(
-            'override it?'
-          )}`,
+          message: `Directory "${realpath}" exists already, ${red('override it?')}`,
         },
       ]);
 
@@ -133,9 +124,7 @@ export default class CreateReactApp implements IAction {
       if (
         this.packageManagerService.hasPackageJson(realpath) &&
         this.packageManagerService.hasInstalledPackage(realpath, 'react') &&
-        this.fileService.fileExistsSync(
-          resolve(realpath, 'src/react-app-env.d.ts')
-        )
+        this.fileService.fileExistsSync(resolve(realpath, 'src/react-app-env.d.ts'))
       ) {
         return true;
       }
@@ -143,9 +132,7 @@ export default class CreateReactApp implements IAction {
       const parentDir = dirname(realpath);
       if (!this.fileService.dirExistsSync(parentDir)) {
         this.consoleService.error(
-          `Unable to create app "${basename(
-            realpath
-          )}", directory "${parentDir}" does not exist.`
+          `Unable to create app "${basename(realpath)}", directory "${parentDir}" does not exist.`
         );
         return undefined;
       }
@@ -159,14 +146,8 @@ export default class CreateReactApp implements IAction {
     await this.packageManagerService.installPackages(realpath, ['node-sass']);
 
     // Replace css files
-    this.fileService.replaceFileExtension(
-      resolve(realpath, 'src/index.css'),
-      'scss'
-    );
-    this.fileService.replaceFileExtension(
-      resolve(realpath, 'src/App.css'),
-      'scss'
-    );
+    this.fileService.replaceFileExtension(resolve(realpath, 'src/index.css'), 'scss');
+    this.fileService.replaceFileExtension(resolve(realpath, 'src/App.css'), 'scss');
 
     await this.fileFactory
       .fromFile(resolve(realpath, 'src/index.tsx'))
@@ -189,18 +170,11 @@ export default class CreateReactApp implements IAction {
       realpath,
       'i18n',
       {
-        [i18nPath]: [
-          'i18n.ts',
-          'locales/en/translation.json',
-          'locales/fr/translation.json',
-        ],
+        [i18nPath]: ['i18n.ts', 'locales/en/translation.json', 'locales/fr/translation.json'],
       },
       {
         projectName: JSON.stringify(
-          await this.packageManagerService.getPackageName(
-            realpath,
-            'capitalizeWords'
-          )
+          await this.packageManagerService.getPackageName(realpath, 'capitalizeWords')
         ),
       }
     );

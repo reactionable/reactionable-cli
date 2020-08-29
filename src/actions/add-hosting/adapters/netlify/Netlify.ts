@@ -1,24 +1,23 @@
-import { injectable, inject } from 'inversify';
-import { prompt } from 'inquirer';
+import { error, info } from 'console';
 import { resolve } from 'path';
 
-import { AbstractAdapter } from '../../../AbstractAdapter';
-import { FileFactory } from '../../../../services/file/FileFactory';
-import { TomlFile } from '../../../../services/file/TomlFile';
-import { ConsoleService } from '../../../../services/ConsoleService';
-import { info, error } from 'console';
-import { FileService } from '../../../../services/file/FileService';
-import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
-import { TemplateService } from '../../../../services/TemplateService';
+import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
+
 import { CliService } from '../../../../services/CliService';
+import { ConsoleService } from '../../../../services/ConsoleService';
+import { FileFactory } from '../../../../services/file/FileFactory';
+import { FileService } from '../../../../services/file/FileService';
+import { TomlFile } from '../../../../services/file/TomlFile';
 import { GitService } from '../../../../services/git/GitService';
-import { IHostingAdapter } from '../IHostingAdapter';
+import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { StringUtils } from '../../../../services/StringUtils';
+import { TemplateService } from '../../../../services/TemplateService';
+import { AbstractAdapter } from '../../../AbstractAdapter';
+import { IHostingAdapter } from '../IHostingAdapter';
 
 @injectable()
-export default class Netlify
-  extends AbstractAdapter
-  implements IHostingAdapter {
+export default class Netlify extends AbstractAdapter implements IHostingAdapter {
   protected name = 'Netlify (https://docs.netlify.com)';
 
   constructor(
@@ -43,19 +42,14 @@ export default class Netlify
     info('Configure Netlify...');
 
     if (!this.cliService.getGlobalCmd('netlify')) {
-      return error(
-        'Unable to configure Netlify, please install globally "@netlify/cli" or "npx"'
-      );
+      return error('Unable to configure Netlify, please install globally "@netlify/cli" or "npx"');
     }
 
     const { projectName } = await prompt([
       {
         type: 'input',
         name: 'projectName',
-        default: await this.packageManagerService.getPackageName(
-          realpath,
-          'hyphenize'
-        ),
+        default: await this.packageManagerService.getPackageName(realpath, 'hyphenize'),
         message: 'Enter a name for the netlify application',
         transformer: (value) => StringUtils.hyphenize(value),
       },
@@ -66,18 +60,12 @@ export default class Netlify
     await this.fileFactory
       .fromFile<TomlFile>(netlifyFilePath)
       .appendContent(
-        await this.templateService.renderTemplateFile(
-          'add-hosting/netlify/netlify.toml',
-          {
-            nodeVersion: this.cliService.getNodeVersion(),
-            projectBranch: await this.gitService.getGitCurrentBranch(
-              realpath,
-              'master'
-            ),
-            projectPath: realpath,
-            projectName,
-          }
-        )
+        await this.templateService.renderTemplateFile('add-hosting/netlify/netlify.toml', {
+          nodeVersion: this.cliService.getNodeVersion(),
+          projectBranch: await this.gitService.getGitCurrentBranch(realpath, 'master'),
+          projectPath: realpath,
+          projectName,
+        })
       )
       .saveFile();
 
@@ -85,20 +73,12 @@ export default class Netlify
 
     // Check if netlify is configured
     let netlifyConfig: { name: string } | undefined;
-    let gitRemoteUrl = await this.gitService.getGitRemoteOriginUrl(
-      realpath,
-      false
-    );
+    let gitRemoteUrl = await this.gitService.getGitRemoteOriginUrl(realpath, false);
     if (gitRemoteUrl) {
       gitRemoteUrl = gitRemoteUrl.replace(/\.git$/, '');
 
       const sitesListData = await this.execNetlifyCmd(
-        [
-          'api',
-          'listSites',
-          '--data',
-          JSON.stringify(JSON.stringify({ filter: 'all' })),
-        ],
+        ['api', 'listSites', '--data', JSON.stringify(JSON.stringify({ filter: 'all' }))],
         realpath,
         true
       );
@@ -123,14 +103,9 @@ export default class Netlify
       return;
     }
 
-    await this.execNetlifyCmd(
-      ['sites:create', '-n', projectName, '--with-ci'],
-      realpath
-    );
+    await this.execNetlifyCmd(['sites:create', '-n', projectName, '--with-ci'], realpath);
 
-    this.consoleService.success(
-      `Netlify has been configured in \"${realpath}\"`
-    );
+    this.consoleService.success(`Netlify has been configured in \"${realpath}\"`);
   }
 
   private execNetlifyCmd(args: string[], realpath: string, silent?: boolean) {

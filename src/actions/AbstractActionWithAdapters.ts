@@ -1,24 +1,20 @@
 import { red } from 'chalk';
-import { injectable, inject } from 'inversify';
 import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
 
-import { IAdapter } from './IAdapter';
-import { IOptions } from './IRunnable';
-import { IRealpathRunnable } from './IRealpathRunnable';
-import { ConsoleService } from '../services/ConsoleService';
 import container from '../container';
+import { ConsoleService } from '../services/ConsoleService';
+import { IAdapter } from './IAdapter';
+import { IRealpathRunnable } from './IRealpathRunnable';
+import { IOptions } from './IRunnable';
 
 @injectable()
-export abstract class AbstractActionWithAdapters<
-  A extends IAdapter,
-  O extends IOptions = {}
-> implements IRealpathRunnable<O> {
+export abstract class AbstractActionWithAdapters<A extends IAdapter, O extends IOptions = {}>
+  implements IRealpathRunnable<O> {
   protected abstract name: string;
   protected abstract adapterKey: string;
 
-  constructor(
-    @inject(ConsoleService) private readonly consoleService: ConsoleService
-  ) {}
+  constructor(@inject(ConsoleService) private readonly consoleService: ConsoleService) {}
 
   getName() {
     return this.name;
@@ -50,9 +46,7 @@ export abstract class AbstractActionWithAdapters<
         {
           type: 'confirm',
           name: 'override',
-          message: `${name} "${adapter.getName()}" is already added, ${red(
-            'override it?'
-          )}`,
+          message: `${name} "${adapter.getName()}" is already added, ${red('override it?')}`,
         },
       ]);
       if (!override) {
@@ -84,8 +78,6 @@ export abstract class AbstractActionWithAdapters<
 
     await adapter.run(options);
 
-    this.consoleService.success(
-      `${name} has been added in "${options.realpath}"`
-    );
+    this.consoleService.success(`${name} has been added in "${options.realpath}"`);
   }
 }

@@ -1,5 +1,5 @@
-import { resolve } from 'path';
 import { tmpdir } from 'os';
+import { resolve } from 'path';
 
 import container from '../../container';
 import { GitService } from './GitService';

@@ -1,4 +1,4 @@
-import { IRunnable, IOptions } from './IRunnable';
+import { IOptions, IRunnable } from './IRunnable';
 
 export interface IRealpathRunnableOptions extends IOptions {
   realpath: string;

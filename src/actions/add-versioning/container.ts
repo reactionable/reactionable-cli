@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+
 import { Container } from 'inversify';
 
 import Github from './adapters/github/Github';

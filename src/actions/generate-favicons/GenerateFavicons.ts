@@ -1,15 +1,14 @@
-import { prompt } from 'inquirer';
-import { injectable, inject } from 'inversify';
 import { basename } from 'path';
-import { IAction } from '../IAction';
+
+import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
+
 import { ConsoleService } from '../../services/ConsoleService';
+import { IAction } from '../IAction';
 
 @injectable()
-export default class GenerateFavicons
-  implements IAction<{ mustPrompt: boolean }> {
-  constructor(
-    @inject(ConsoleService) private readonly consoleService: ConsoleService
-  ) {}
+export default class GenerateFavicons implements IAction<{ mustPrompt: boolean }> {
+  constructor(@inject(ConsoleService) private readonly consoleService: ConsoleService) {}
 
   getName() {
     return 'Generate favicons';
@@ -32,9 +31,7 @@ export default class GenerateFavicons
     }
 
     await this.executeFavicon();
-    this.consoleService.success(
-      `Favicons have been generated in "${realpath}"`
-    );
+    this.consoleService.success(`Favicons have been generated in "${realpath}"`);
   }
 
   private async executeFavicon(): Promise<void> {

@@ -1,13 +1,9 @@
 import { join } from 'path';
+
 import inquirer from 'inquirer';
 
 import container from '../../container';
-import {
-  restoreMockFs,
-  mockDir,
-  mockDirPath,
-  mockYarnDir,
-} from '../../tests/mock-fs';
+import { mockDir, mockDirPath, mockYarnDir, restoreMockFs } from '../../tests/mock-fs';
 import CreateReactApp from './CreateReactApp';
 
 describe('CreateReactApp', () => {
@@ -25,9 +21,7 @@ describe('CreateReactApp', () => {
     it('should return false if the given realpath is not an existing directory', async () => {
       mockDir();
 
-      const result = await createReactApp.checkIfReactAppExistsAlready(
-        join(mockDirPath, 'app')
-      );
+      const result = await createReactApp.checkIfReactAppExistsAlready(join(mockDirPath, 'app'));
       expect(result).toEqual(false);
     });
 
@@ -42,25 +36,17 @@ describe('CreateReactApp', () => {
     it('should return undefined if user do not want overriding existing directory', async () => {
       mockDir();
 
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ override: false });
-      const result = await createReactApp.checkIfReactAppExistsAlready(
-        mockDirPath
-      );
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ override: false });
+      const result = await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(result).toBeUndefined();
     });
 
     it('should return false if directory exists but do not have expected files', async () => {
       mockDir();
 
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ override: true });
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ override: true });
 
-      const result = await createReactApp.checkIfReactAppExistsAlready(
-        mockDirPath
-      );
+      const result = await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(result).toEqual(false);
     });
 
@@ -76,13 +62,9 @@ describe('CreateReactApp', () => {
         },
       });
 
-      (inquirer.prompt as any) = jest
-        .fn()
-        .mockResolvedValue({ override: true });
+      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ override: true });
 
-      const result = await createReactApp.checkIfReactAppExistsAlready(
-        mockDirPath
-      );
+      const result = await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(result).toEqual(true);
     });
   });

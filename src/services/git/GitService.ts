@@ -1,9 +1,9 @@
-import parseGitRemote from 'parse-github-url';
-import { which } from 'shelljs';
-import { parse } from 'js-ini';
-import { Result } from 'parse-github-url';
-import { injectable, inject } from 'inversify';
 import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
+import { parse } from 'js-ini';
+import parseGitRemote from 'parse-github-url';
+import { Result } from 'parse-github-url';
+import { which } from 'shelljs';
 
 import { CliService } from '../CliService';
 import { ConsoleService } from '../ConsoleService';
@@ -24,11 +24,7 @@ export class GitService {
     private readonly conventionalCommitsService: ConventionalCommitsService
   ) {}
 
-  execGitCmd(
-    cmd: string | string[],
-    dirPath: string,
-    silent?: boolean
-  ): Promise<string> {
+  execGitCmd(cmd: string | string[], dirPath: string, silent?: boolean): Promise<string> {
     const gitCmd = this.getGitCmd();
     if (!gitCmd) {
       throw new Error('Unable to execute Git command, please install "Git"');
@@ -42,11 +38,7 @@ export class GitService {
 
   async isAGitRepository(dirPath: string): Promise<boolean> {
     try {
-      const result = await this.execGitCmd(
-        'rev-parse --is-inside-work-tree',
-        dirPath,
-        true
-      );
+      const result = await this.execGitCmd('rev-parse --is-inside-work-tree', dirPath, true);
       return result.trim() === 'true';
     } catch (error) {
       if (error.toString().indexOf('not a git repository') !== -1) {
@@ -65,29 +57,16 @@ export class GitService {
     this.consoleService.success(`Git has been initialized in "${dirPath}"`);
   }
 
-  async getGitCurrentBranch(
-    dirPath: string,
-    defaultBranch: string
-  ): Promise<string> {
-    let branch = await this.execGitCmd(
-      'name-rev --name-only HEAD',
-      dirPath,
-      true
-    );
+  async getGitCurrentBranch(dirPath: string, defaultBranch: string): Promise<string> {
+    let branch = await this.execGitCmd('name-rev --name-only HEAD', dirPath, true);
     if (branch) {
       branch = branch.trim();
     }
     return branch || defaultBranch;
   }
 
-  async getGitRemoteOriginUrl(
-    dirPath: string,
-    parsed: true
-  ): Promise<Result | null>;
-  async getGitRemoteOriginUrl(
-    dirPath: string,
-    parsed: false
-  ): Promise<string | null>;
+  async getGitRemoteOriginUrl(dirPath: string, parsed: true): Promise<Result | null>;
+  async getGitRemoteOriginUrl(dirPath: string, parsed: false): Promise<string | null>;
   async getGitRemoteOriginUrl(
     dirPath: string,
     parsed: boolean = false
@@ -121,11 +100,7 @@ export class GitService {
     commitMessageType: string
   ): Promise<void> {
     // Determine if Git working directory is clean
-    const status = await this.execGitCmd(
-      ['status', '--porcelain'],
-      realpath,
-      true
-    );
+    const status = await this.execGitCmd(['status', '--porcelain'], realpath, true);
     if (!status) {
       return;
     }
@@ -190,11 +165,7 @@ export class GitService {
   }
 
   private async getGitConfig(dirPath: string): Promise<GitConfig> {
-    const config = await this.execGitCmd(
-      'config --local --list',
-      dirPath,
-      true
-    );
+    const config = await this.execGitCmd('config --local --list', dirPath, true);
 
     return parse(config) as GitConfig;
   }

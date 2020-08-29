@@ -1,10 +1,10 @@
-import { IRealpathRunnable } from './IRealpathRunnable';
-import { IOptions } from './IRunnable';
 import { injectable } from 'inversify';
 
+import { IRealpathRunnable } from './IRealpathRunnable';
+import { IOptions } from './IRunnable';
+
 @injectable()
-export abstract class AbstractAdapter<O extends IOptions = {}>
-  implements IRealpathRunnable<O> {
+export abstract class AbstractAdapter<O extends IOptions = {}> implements IRealpathRunnable<O> {
   protected abstract name: string;
 
   getName(): string {

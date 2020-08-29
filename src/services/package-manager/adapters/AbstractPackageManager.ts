@@ -1,19 +1,20 @@
-import { IPackageManager, PackageJson } from './IPackageManager';
-import { which } from 'shelljs';
 import { resolve } from 'path';
+
 import { inject } from 'inversify';
-import { PackageManagerType } from '../PackageManagerService';
+import { which } from 'shelljs';
+
 import { CliService } from '../../CliService';
 import { FileFactory } from '../../file/FileFactory';
 import { JsonFile } from '../../file/JsonFile';
+import { PackageManagerType } from '../PackageManagerService';
+import { IPackageManager, PackageJson } from './IPackageManager';
 
 export interface MonorepoInfo {
   rootDirectory: string;
 }
 
-export abstract class AbstractPackageManager<
-  PJ extends PackageJson = PackageJson
-> implements IPackageManager<PJ> {
+export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJson>
+  implements IPackageManager<PJ> {
   protected abstract type: PackageManagerType;
 
   constructor(
@@ -72,14 +73,9 @@ export abstract class AbstractPackageManager<
     return this.installPackages(devPackages, true);
   }
 
-  protected execCmd(
-    cmd: string | string[],
-    silent: boolean = false
-  ): Promise<string> {
+  protected execCmd(cmd: string | string[], silent: boolean = false): Promise<string> {
     if (!which(`${this.type}`)) {
-      throw new Error(
-        `Unable to execute command, please install "${this.type}"`
-      );
+      throw new Error(`Unable to execute command, please install "${this.type}"`);
     }
 
     return this.cliService.execCmd(

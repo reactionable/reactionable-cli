@@ -1,11 +1,13 @@
-import { injectable, inject } from 'inversify';
-import { resolve } from 'path';
-import { AbstractAdapterWithPackage } from '../../AbstractAdapterWithPackage';
-import { TypescriptFile } from '../../../services/file/TypescriptFile';
-import { FileFactory } from '../../../services/file/FileFactory';
 import { info } from 'console';
+import { resolve } from 'path';
+
+import { inject, injectable } from 'inversify';
+
 import { ConsoleService } from '../../../services/ConsoleService';
+import { FileFactory } from '../../../services/file/FileFactory';
+import { TypescriptFile } from '../../../services/file/TypescriptFile';
 import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
+import { AbstractAdapterWithPackage } from '../../AbstractAdapterWithPackage';
 import { IUIFrameworkAdapter } from './IUIFrameworkAdapter';
 
 @injectable()
@@ -40,9 +42,7 @@ export default class ReactBootstrap
       )
       .saveFile();
 
-    this.consoleService.success(
-      `Style files have been imported in "${mainStyleFile}"`
-    );
+    this.consoleService.success(`Style files have been imported in "${mainStyleFile}"`);
 
     // Add UI components to existing App components
     info('Add UI components to existing components...');
@@ -73,8 +73,6 @@ export default class ReactBootstrap
       .replaceContent(/ui: undefined,.*$/m, 'ui: useUIContextProviderProps(),')
       .saveFile();
 
-    this.consoleService.success(
-      'UI components have been added to existing components'
-    );
+    this.consoleService.success('UI components have been added to existing components');
   }
 }

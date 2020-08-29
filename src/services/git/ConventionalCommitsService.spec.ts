@@ -1,20 +1,20 @@
 import container from '../../container';
 import {
-  restoreMockFs,
+  mockYarnBinCmd,
+  mockYarnCmd,
+  mockYarnWorkspacesInfoCmd,
+  restoreMockCmd,
+} from '../../tests/mock-cmd';
+import {
   mockDirPath,
-  mockYarnDir,
-  mockYarnMonorepoDir,
-  mockPackageName,
   mockMonorepoPackageDirName,
   mockMonorepoPackageDirPath,
+  mockPackageName,
+  mockYarnDir,
+  mockYarnMonorepoDir,
+  restoreMockFs,
 } from '../../tests/mock-fs';
 import { ConventionalCommitsService } from './ConventionalCommitsService';
-import {
-  mockYarnCmd,
-  restoreMockCmd,
-  mockYarnBinCmd,
-  mockYarnWorkspacesInfoCmd,
-} from '../../tests/mock-cmd';
 
 describe('ConventionalCommitsService', () => {
   let service: ConventionalCommitsService;

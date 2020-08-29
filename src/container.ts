@@ -1,24 +1,26 @@
 import 'reflect-metadata';
+
 import { Container } from 'inversify';
-import CreateReactApp from './actions/create-react-app/CreateReactApp';
-import AddCssFramework from './actions/add-ui-framework/AddUIFramework';
+
 import AddHosting from './actions/add-hosting/AddHosting';
+import { bindHostingAdapters } from './actions/add-hosting/container';
+import AddCssFramework from './actions/add-ui-framework/AddUIFramework';
+import { bindUIFrameworkAdapters } from './actions/add-ui-framework/container';
 import AddVersioning from './actions/add-versioning/AddVersioning';
+import { bindVersioningAdapters } from './actions/add-versioning/container';
 import CreateComponent from './actions/create-component/CreateComponent';
 import CreateCrudComponent from './actions/create-component/CreateCrudComponent';
+import CreateReactApp from './actions/create-react-app/CreateReactApp';
 import GenerateReadme from './actions/generate-readme/GenerateReadme';
 import { IAction } from './actions/IAction';
-import { PackageManagerService } from './services/package-manager/PackageManagerService';
-import { FileService } from './services/file/FileService';
 import { CliService } from './services/CliService';
-import { GitService } from './services/git/GitService';
 import { ConsoleService } from './services/ConsoleService';
-import { ConventionalCommitsService } from './services/git/ConventionalCommitsService';
-import { TemplateService } from './services/TemplateService';
 import { FileFactory } from './services/file/FileFactory';
-import { bindHostingAdapters } from './actions/add-hosting/container';
-import { bindUIFrameworkAdapters } from './actions/add-ui-framework/container';
-import { bindVersioningAdapters } from './actions/add-versioning/container';
+import { FileService } from './services/file/FileService';
+import { ConventionalCommitsService } from './services/git/ConventionalCommitsService';
+import { GitService } from './services/git/GitService';
+import { PackageManagerService } from './services/package-manager/PackageManagerService';
+import { TemplateService } from './services/TemplateService';
 
 const container = new Container({ defaultScope: 'Singleton' });
 

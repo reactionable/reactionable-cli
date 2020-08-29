@@ -1,11 +1,13 @@
-import { red, green, bgGreen, bgRed, grey } from 'chalk';
 import { spawn } from 'child_process';
-import { which } from 'shelljs';
-import { prompt } from 'inquirer';
+
+import { bgGreen, bgRed, green, grey, red } from 'chalk';
 import { Change } from 'diff';
-import { injectable, inject } from 'inversify';
-import { FileService } from './file/FileService';
+import { prompt } from 'inquirer';
+import { inject, injectable } from 'inversify';
+import { which } from 'shelljs';
+
 import { ConsoleService } from './ConsoleService';
+import { FileService } from './file/FileService';
 
 @injectable()
 export class CliService {
@@ -31,11 +33,7 @@ export class CliService {
     return null;
   }
 
-  execCmd(
-    args: string | string[],
-    cwd?: string,
-    silent: boolean = false
-  ): Promise<string> {
+  execCmd(args: string | string[], cwd?: string, silent: boolean = false): Promise<string> {
     if (!args.length) {
       throw new Error('Command args must not be empty');
     }
@@ -83,10 +81,7 @@ export class CliService {
     });
   }
 
-  async promptOverwriteFileDiff(
-    file: string,
-    diff: Change[]
-  ): Promise<boolean> {
+  async promptOverwriteFileDiff(file: string, diff: Change[]): Promise<boolean> {
     const hasDiff = diff.some((part) => part.added || part.removed);
     if (!hasDiff) {
       return false;

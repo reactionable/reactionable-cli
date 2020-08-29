@@ -1,10 +1,11 @@
-import { injectable, inject } from 'inversify';
-import AbstractVersioning from '../AbstractVersioning';
+import { inject, injectable } from 'inversify';
 import { Result } from 'parse-github-url';
-import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
-import { GitService } from '../../../../services/git/GitService';
+
 import { ConsoleService } from '../../../../services/ConsoleService';
 import { ConventionalCommitsService } from '../../../../services/git/ConventionalCommitsService';
+import { GitService } from '../../../../services/git/GitService';
+import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
+import AbstractVersioning from '../AbstractVersioning';
 
 @injectable()
 export default class Github extends AbstractVersioning {
@@ -18,12 +19,7 @@ export default class Github extends AbstractVersioning {
     protected readonly packageManagerService: PackageManagerService,
     @inject(GitService) protected readonly gitService: GitService
   ) {
-    super(
-      consoleService,
-      conventionalCommitsService,
-      packageManagerService,
-      gitService
-    );
+    super(consoleService, conventionalCommitsService, packageManagerService, gitService);
   }
 
   async isEnabled(realpath: string): Promise<boolean> {
@@ -32,20 +28,14 @@ export default class Github extends AbstractVersioning {
       return isEnabled;
     }
 
-    const parsedGitRemote = await this.gitService.getGitRemoteOriginUrl(
-      realpath,
-      false
-    );
+    const parsedGitRemote = await this.gitService.getGitRemoteOriginUrl(realpath, false);
     return !!(parsedGitRemote && this.validateGitRemote(parsedGitRemote));
   }
 
   async run({ realpath }) {
     await super.run({ realpath });
 
-    const parsedGitRemote = await this.gitService.getGitRemoteOriginUrl(
-      realpath,
-      true
-    );
+    const parsedGitRemote = await this.gitService.getGitRemoteOriginUrl(realpath, true);
     if (!parsedGitRemote) {
       throw new Error('Unable to parse git remote origin url');
     }

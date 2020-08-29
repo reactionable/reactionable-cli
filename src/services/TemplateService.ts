@@ -1,24 +1,18 @@
 import { mkdirSync } from 'fs';
-import { resolve, dirname, join, basename, extname, sep } from 'path';
-import { plural, singular } from 'pluralize';
-import {
-  compile,
-  registerHelper,
-  SafeString,
-  registerPartial,
-  partials,
-} from 'handlebars';
+import { basename, dirname, extname, join, resolve, sep } from 'path';
+
+import { SafeString, compile, partials, registerHelper, registerPartial } from 'handlebars';
 import { inject, injectable } from 'inversify';
-import { FileService } from './file/FileService';
+import { plural, singular } from 'pluralize';
+
 import { FileFactory } from './file/FileFactory';
+import { FileService } from './file/FileService';
 import { StringUtils } from './StringUtils';
 
 // Compile template
 registerHelper({
   and: (...parts) => {
-    return Array.prototype.slice
-      .call(parts, 0, parts.length - 1)
-      .every(Boolean);
+    return Array.prototype.slice.call(parts, 0, parts.length - 1).every(Boolean);
   },
   eq: (v1, v2) => {
     return v1 === v2;
@@ -81,10 +75,7 @@ registerHelper({
     // Split ranks steps in two parts
     const tmpArray = array;
     const halfWayThough = Math.floor(array.length / 2);
-    return [
-      tmpArray.slice(0, halfWayThough),
-      tmpArray.slice(halfWayThough, tmpArray.length),
-    ];
+    return [tmpArray.slice(0, halfWayThough), tmpArray.slice(halfWayThough, tmpArray.length)];
   },
   inline(options) {
     const inline = compile(options.fn(this))(options.data.root);
@@ -123,10 +114,7 @@ export class TemplateService {
 
     if (Array.isArray(config)) {
       for (const filePath of config) {
-        const currentPath = resolve(
-          dirPath,
-          await this.renderTemplateString(filePath, context)
-        );
+        const currentPath = resolve(dirPath, await this.renderTemplateString(filePath, context));
 
         const currentBaseDirPath = dirname(currentPath);
         if (!this.fileService.dirExistsSync(currentBaseDirPath)) {
@@ -140,10 +128,7 @@ export class TemplateService {
 
     for (const dir of Object.keys(config)) {
       const templateConfig = config[dir];
-      const currentPath = resolve(
-        dirPath,
-        await this.renderTemplateString(dir, context)
-      );
+      const currentPath = resolve(dirPath, await this.renderTemplateString(dir, context));
 
       if (typeof templateConfig === 'string') {
         const currentBaseDirPath = dirname(currentPath);
@@ -151,19 +136,10 @@ export class TemplateService {
           mkdirSync(currentBaseDirPath, { recursive: true });
         }
 
-        await this.createFileFromTemplate(
-          currentPath,
-          join(namespace, templateConfig),
-          context
-        );
+        await this.createFileFromTemplate(currentPath, join(namespace, templateConfig), context);
       } else {
         mkdirSync(currentPath, { recursive: true });
-        await this.renderTemplateTree(
-          currentPath,
-          namespace,
-          templateConfig,
-          context
-        );
+        await this.renderTemplateTree(currentPath, namespace, templateConfig, context);
       }
     }
   }
@@ -181,14 +157,10 @@ export class TemplateService {
       );
     }
 
-    const templateKey = extname(namespace)
-      ? namespace
-      : join(namespace, basename(filePath));
+    const templateKey = extname(namespace) ? namespace : join(namespace, basename(filePath));
     const fileContent = await this.renderTemplateFile(templateKey, context);
 
-    await this.fileFactory
-      .fromString(fileContent, filePath, encoding)
-      .saveFile();
+    await this.fileFactory.fromString(fileContent, filePath, encoding).saveFile();
   }
 
   async getTemplateFileContent(template: string): Promise<string> {
@@ -210,9 +182,7 @@ export class TemplateService {
         );
       }
     } catch (error) {
-      throw new Error(
-        `An error occurred while importing template file "${templatePath}"`
-      );
+      throw new Error(`An error occurred while importing template file "${templatePath}"`);
     }
 
     // Register partials if any
@@ -228,12 +198,8 @@ export class TemplateService {
         continue;
       }
 
-      const partialTemplateKey = `${
-        template.split(sep)[0]
-      }/partials/${partialName}`;
-      const partialTmplateContent = await this.getTemplateFileContent(
-        partialTemplateKey
-      );
+      const partialTemplateKey = `${template.split(sep)[0]}/partials/${partialName}`;
+      const partialTmplateContent = await this.getTemplateFileContent(partialTemplateKey);
 
       registerPartial(partialName, partialTmplateContent);
     }
@@ -256,20 +222,12 @@ export class TemplateService {
     return compiledTemplate;
   }
 
-  async renderTemplateString(
-    template: string,
-    context: Object
-  ): Promise<string> {
-    const compiledTemplate = await this.getCompiledTemplateString(
-      template,
-      template
-    );
+  async renderTemplateString(template: string, context: Object): Promise<string> {
+    const compiledTemplate = await this.getCompiledTemplateString(template, template);
     return compiledTemplate(context);
   }
 
-  async getCompiledTemplateFile(
-    templateKey: string
-  ): Promise<CompiledTemplate> {
+  async getCompiledTemplateFile(templateKey: string): Promise<CompiledTemplate> {
     let compiledTemplate = this.compiledTemplates.get(templateKey);
     if (compiledTemplate) {
       return compiledTemplate;
@@ -283,24 +241,17 @@ export class TemplateService {
 
       return compiledTemplate;
     } catch (error) {
-      throw new Error(
-        `An error occurred while compiling template "${templateKey}": ${error}`
-      );
+      throw new Error(`An error occurred while compiling template "${templateKey}": ${error}`);
     }
   }
 
-  async renderTemplateFile(
-    templateKey: string,
-    context: Object
-  ): Promise<string> {
+  async renderTemplateFile(templateKey: string, context: Object): Promise<string> {
     const compiledTemplate = await this.getCompiledTemplateFile(templateKey);
     try {
       const content = compiledTemplate(context);
       return content;
     } catch (error) {
-      throw new Error(
-        `An error occurred while rendering template "${templateKey}": ${error}`
-      );
+      throw new Error(`An error occurred while rendering template "${templateKey}": ${error}`);
     }
   }
 }

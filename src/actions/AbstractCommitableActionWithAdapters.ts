@@ -1,10 +1,11 @@
-import { injectable, inject } from 'inversify';
-import { IOptions } from './IRunnable';
-import { IAdapter } from './IAdapter';
-import { AbstractActionWithAdapters } from './AbstractActionWithAdapters';
-import AddVersioning from './add-versioning/AddVersioning';
+import { inject, injectable } from 'inversify';
+
 import { ConsoleService } from '../services/ConsoleService';
 import { GitService } from '../services/git/GitService';
+import { AbstractActionWithAdapters } from './AbstractActionWithAdapters';
+import AddVersioning from './add-versioning/AddVersioning';
+import { IAdapter } from './IAdapter';
+import { IOptions } from './IRunnable';
 
 @injectable()
 export abstract class AbstractCommitableActionWithAdapters<

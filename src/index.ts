@@ -1,11 +1,12 @@
-import { prompt } from 'inquirer';
-import { text } from 'figlet';
-import container from './container';
-import { IAction } from './actions/IAction';
 import { resolve } from 'path';
+
+import { text } from 'figlet';
+import { prompt } from 'inquirer';
+
+import { IAction } from './actions/IAction';
+import container from './container';
 import { CliService } from './services/CliService';
 import { ConsoleService } from './services/ConsoleService';
-import { realpathSync } from 'fs';
 import { GitService } from './services/git/GitService';
 
 const displayBanner = async (): Promise<void> => {
@@ -52,9 +53,7 @@ export const run = async (): Promise<boolean> => {
       {
         type: 'input ',
         name: 'projectDir',
-        message: `Where to you you want to ${action
-          .getName()
-          .toLowerCase()} (path)?`,
+        message: `Where to you you want to ${action.getName().toLowerCase()} (path)?`,
         default: process.cwd(),
         filter: (input) => resolve(input),
       },

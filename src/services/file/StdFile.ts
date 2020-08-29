@@ -1,9 +1,11 @@
-import { writeFileSync, statSync, realpathSync } from 'fs';
-import { diffLines, Change } from 'diff';
+import { realpathSync, statSync, writeFileSync } from 'fs';
 import { EOL } from 'os';
+
+import { Change, diffLines } from 'diff';
+
+import { CliService } from '../CliService';
 import { FileFactory } from './FileFactory';
 import { FileService } from './FileService';
-import { CliService } from '../CliService';
 
 const overwritedFilesChanges: {
   [key: string]: Change[];
@@ -39,10 +41,7 @@ export class StdFile {
     return diffLines(content, this.getContent());
   }
 
-  protected checkSafeOverwriteChanges(
-    file: string,
-    encoding: BufferEncoding
-  ): Change[] {
+  protected checkSafeOverwriteChanges(file: string, encoding: BufferEncoding): Change[] {
     if (!this.fileService.fileExistsSync(file)) {
       return [];
     }

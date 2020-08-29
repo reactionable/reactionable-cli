@@ -9,20 +9,14 @@ export class TypescriptImport {
   static readonly globImport = '*';
   static readonly defaultImport = 'default';
 
-  constructor(
-    public packageName: string,
-    public modules: ITypescriptImportModules
-  ) {}
+  constructor(public packageName: string, public modules: ITypescriptImportModules) {}
 
   isLocal(): boolean {
     return !!/^\./.exec(this.packageName);
   }
 
   isDefaultImport(): boolean {
-    return (
-      this.modules[TypescriptImport.defaultImport] ===
-      TypescriptImport.defaultImport
-    );
+    return this.modules[TypescriptImport.defaultImport] === TypescriptImport.defaultImport;
   }
 
   static fromString(line: string): TypescriptImport | null {
@@ -34,9 +28,7 @@ export class TypescriptImport {
 
     return new TypescriptImport(
       matches[3].trim(),
-      TypescriptImport.parseImportModules(
-        matches[2]?.trim() || TypescriptImport.defaultImport
-      )
+      TypescriptImport.parseImportModules(matches[2]?.trim() || TypescriptImport.defaultImport)
     );
   }
 
@@ -132,24 +124,17 @@ export class TypescriptImport {
     let imports = defaultImport;
 
     if (globImport) {
-      imports += `${imports.length > 0 ? ', ' : ''}${
-        TypescriptImport.globImport
-      } as ${globImport}`;
+      imports += `${imports.length > 0 ? ', ' : ''}${TypescriptImport.globImport} as ${globImport}`;
     }
     if (brakesImports.length) {
-      imports += `${imports.length > 0 ? ', ' : ''}{ ${brakesImports.join(
-        ', '
-      )} }`;
+      imports += `${imports.length > 0 ? ', ' : ''}{ ${brakesImports.join(', ')} }`;
     }
 
     if (!imports.length) {
       return '';
     }
 
-    if (
-      imports === defaultImport &&
-      defaultImport === TypescriptImport.defaultImport
-    ) {
+    if (imports === defaultImport && defaultImport === TypescriptImport.defaultImport) {
       return `import '${this.packageName}';`;
     }
 

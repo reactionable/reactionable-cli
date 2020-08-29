@@ -1,5 +1,5 @@
+import { green, red, yellow } from 'chalk';
 import { injectable } from 'inversify';
-import { yellow, green, red } from 'chalk';
 
 @injectable()
 export class ConsoleService {
@@ -16,8 +16,6 @@ export class ConsoleService {
       process.stderr.write(`\n${red(`⚠ ${error}`)}\n`);
       return;
     }
-    process.stderr.write(
-      `\n${red(`⚠ [${error.name}] ${error.message}`)}\n${error.stack}\n`
-    );
+    process.stderr.write(`\n${red(`⚠ [${error.name}] ${error.message}`)}\n${error.stack}\n`);
   }
 }
