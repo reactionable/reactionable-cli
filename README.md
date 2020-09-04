@@ -56,6 +56,7 @@ yarn link
 👤 **ESCEMI <contact@escemi.com>**
 
 - Website: https://www.escemi.com
+- Sponsor: https://github.com/sponsors/neilime
 - Github: [@reactionable](https://github.com/reactionable)
 - LinkedIn: [@https:\/\/www.linkedin.com\/company\/escemi](https://linkedin.com/in/https://www.linkedin.com/company/escemi)
 
