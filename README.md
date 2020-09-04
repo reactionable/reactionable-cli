@@ -61,5 +61,5 @@ yarn link
 
 ## 📝 License
 
-Copyright © 2020 [ESCEMI <contact@escemi.com>](https://github.com/reactionable).<br />
+Copyright © 2020 [ESCEMI <contact@escemi.com>](https://www.escemi.com).<br />
 This project is [MIT](https://github.com/reactionable/reactionable-cli/blob/master/LICENSE) licensed.
