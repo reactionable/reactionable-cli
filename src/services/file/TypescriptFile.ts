@@ -1,7 +1,10 @@
 import { EOL } from 'os';
 
-import { ImportDeclaration, Statement } from '@typescript-eslint/types/dist/ts-estree';
 import { AST_NODE_TYPES, parse } from '@typescript-eslint/typescript-estree';
+import {
+  ImportDeclaration,
+  Statement,
+} from '@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/types/dist/ts-estree';
 
 import { StdFile } from './StdFile';
 import { ITypescriptImport, TypescriptImport } from './TypescriptImport';
