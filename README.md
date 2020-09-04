@@ -53,13 +53,13 @@ yarn link
 
 ## Author
 
-👤 **ESCEMI <developer@escemi.com>**
+👤 **ESCEMI <contact@escemi.com>**
 
-- Website: https://github.com/reactionable
+- Website: https://www.escemi.com
 - Github: [@reactionable](https://github.com/reactionable)
 - LinkedIn: [@https:\/\/www.linkedin.com\/company\/escemi](https://linkedin.com/in/https://www.linkedin.com/company/escemi)
 
 ## 📝 License
 
-Copyright © 2020 [ESCEMI <developer@escemi.com>](https://github.com/reactionable).<br />
+Copyright © 2020 [ESCEMI <contact@escemi.com>](https://github.com/reactionable).<br />
 This project is [MIT](https://github.com/reactionable/reactionable-cli/blob/master/LICENSE) licensed.
