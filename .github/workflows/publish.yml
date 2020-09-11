@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: octokit/request-action@v2.0.13
+      - uses: octokit/request-action@v2.0.14
         id: get_latest_release
         with:
           route: GET /repos/:repository/collaborators/${{ github.actor }}
