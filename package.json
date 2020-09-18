@@ -40,7 +40,7 @@
     "@types/jest": "^26.0.13",
     "@types/mock-fs": "^4.10.0",
     "@types/mustache": "^4.0.0",
-    "@types/node": "^14.10.0",
+    "@types/node": "^14.11.1",
     "@types/parse-github-url": "^1.0.0",
     "@types/reflect-metadata": "^0.1.0",
     "@types/shelljs": "^0.8.8",
