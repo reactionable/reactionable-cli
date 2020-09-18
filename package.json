@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",
-    "@typescript-eslint/typescript-estree": "^4.1.0",
+    "@typescript-eslint/typescript-estree": "^4.1.1",
     "chalk": "^4.1.0",
     "deepmerge": "^4.2.2",
     "diff": "^4.0.1",
