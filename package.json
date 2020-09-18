@@ -37,7 +37,7 @@
     "@types/figlet": "^1.2.0",
     "@types/inquirer": "^7.3.1",
     "@types/inversify": "^2.0.33",
-    "@types/jest": "^26.0.13",
+    "@types/jest": "^26.0.14",
     "@types/mock-fs": "^4.10.0",
     "@types/mustache": "^4.0.0",
     "@types/node": "^14.11.1",
