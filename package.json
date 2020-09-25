@@ -62,7 +62,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^26.3.0",
     "tsc-watch": "^4.2.9",
-    "typedoc": "^0.19.1",
+    "typedoc": "^0.19.2",
     "typedoc-plugin-nojekyll": "^1.0.1"
   },
   "dependencies": {
