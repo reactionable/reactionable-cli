@@ -16,7 +16,7 @@ import {
 } from '../../tests/mock-fs';
 import { ConventionalCommitsService } from './ConventionalCommitsService';
 
-describe('ConventionalCommitsService', () => {
+describe('conventionalCommitsService', () => {
   let service: ConventionalCommitsService;
 
   beforeAll(() => {

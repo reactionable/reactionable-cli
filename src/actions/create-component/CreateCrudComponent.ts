@@ -8,7 +8,7 @@ import { PackageManagerService } from '../../services/package-manager/PackageMan
 import { TemplateService } from '../../services/TemplateService';
 import AddHosting from '../add-hosting/AddHosting';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
-import CreateComponent from './CreateComponent';
+import CreateComponent, { CreateComponentOptions } from './CreateComponent';
 
 @injectable()
 export default class CreateCrudComponent extends CreateComponent {
@@ -31,11 +31,11 @@ export default class CreateCrudComponent extends CreateComponent {
     );
   }
 
-  getName() {
+  getName(): string {
     return 'Create a new react CRUD component';
   }
 
-  async run({ realpath, name }) {
+  async run({ realpath, name }: CreateComponentOptions): Promise<void> {
     if (!name) {
       const answer = await prompt<{ name: string }>([
         {

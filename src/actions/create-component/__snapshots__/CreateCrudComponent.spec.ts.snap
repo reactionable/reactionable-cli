@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CreateCrudComponent run should create all crud components files 1`] = `
+exports[`createCrudComponent run should create all crud components files 1`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -26,7 +26,7 @@ describe('CreateTestEntity', () => {
 });"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 2`] = `
+exports[`createCrudComponent run should create all crud components files 2`] = `
 "import { Create, IFormProps, IOnSubmitForm } from '@reactionable/ui-bootstrap';
 import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
@@ -57,7 +57,7 @@ const CreateTestEntity: FC<ICreateTestEntityProps> = (props) => {
 export default CreateTestEntity;"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 3`] = `
+exports[`createCrudComponent run should create all crud components files 3`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -83,7 +83,7 @@ describe('DeleteTestEntity', () => {
 });"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 4`] = `
+exports[`createCrudComponent run should create all crud components files 4`] = `
 "import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
 import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
@@ -116,7 +116,7 @@ const DeleteTestEntity: FC<IDeleteTestEntityProps> = (props) => {
 export default DeleteTestEntity;"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 5`] = `
+exports[`createCrudComponent run should create all crud components files 5`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -142,7 +142,7 @@ describe('ListTestEntities', () => {
 });"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 6`] = `
+exports[`createCrudComponent run should create all crud components files 6`] = `
 "import { useQueryList } from '@reactionable/amplify';
 import { Suspense, generatePath } from '@reactionable/core';
 import { List } from '@reactionable/ui-bootstrap';
@@ -221,7 +221,7 @@ const ListTestEntities: FC<IListTestEntitiesProps> = (props) => {
 export default ListTestEntities;"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 7`] = `
+exports[`createCrudComponent run should create all crud components files 7`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -247,7 +247,7 @@ describe('ReadTestEntity', () => {
 });"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 8`] = `
+exports[`createCrudComponent run should create all crud components files 8`] = `
 "import { useQueryList } from '@reactionable/amplify';
 import { Suspense } from '@reactionable/core';
 import { Read } from '@reactionable/ui-bootstrap';
@@ -305,7 +305,7 @@ const ReadTestEntity: FC<IReadTestEntityProps> = (props) => {
 export default ReadTestEntity;"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 9`] = `
+exports[`createCrudComponent run should create all crud components files 9`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -331,7 +331,7 @@ describe('UpdateTestEntity', () => {
 });"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 10`] = `
+exports[`createCrudComponent run should create all crud components files 10`] = `
 "import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
 import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
@@ -372,7 +372,7 @@ const UpdateTestEntity: FC<IUpdateTestEntityProps> = (props) => {
 export default UpdateTestEntity;"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 11`] = `
+exports[`createCrudComponent run should create all crud components files 11`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -398,7 +398,7 @@ describe('TestEntities', () => {
 });"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 12`] = `
+exports[`createCrudComponent run should create all crud components files 12`] = `
 "import { Crud } from '@reactionable/core';
 import { IUseLayoutProps } from '@reactionable/ui-bootstrap';
 import React, { FC, lazy } from 'react';
@@ -425,7 +425,7 @@ const TestEntities: FC<ITestEntitiesProps> = (props) => {
 export default TestEntities;"
 `;
 
-exports[`CreateCrudComponent run should create all crud components files 13`] = `
+exports[`createCrudComponent run should create all crud components files 13`] = `
 "import { IFormChildrenProps } from '@reactionable/core';
 import { FormField } from '@reactionable/ui-bootstrap';
 import { TFunction } from 'i18next';

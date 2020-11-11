@@ -5,6 +5,7 @@ import { ConsoleService } from '../../../../services/ConsoleService';
 import { ConventionalCommitsService } from '../../../../services/git/ConventionalCommitsService';
 import { GitService } from '../../../../services/git/GitService';
 import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
+import { VersioningAdapterOptions } from '../../VersioningAdapter';
 import AbstractVersioning from '../AbstractVersioning';
 
 @injectable()
@@ -32,7 +33,7 @@ export default class Github extends AbstractVersioning {
     return !!(parsedGitRemote && this.validateGitRemote(parsedGitRemote));
   }
 
-  async run({ realpath }) {
+  async run({ realpath }: VersioningAdapterOptions): Promise<void> {
     await super.run({ realpath });
 
     const parsedGitRemote = await this.gitService.getGitRemoteOriginUrl(realpath, true);

@@ -4,22 +4,23 @@ import { inject, injectable } from 'inversify';
 import { CliService } from '../../services/CliService';
 import { ConsoleService } from '../../services/ConsoleService';
 import { GitService } from '../../services/git/GitService';
-import AddVersioning from '../add-versioning/AddVersioning';
-import { IAction } from '../IAction';
+import { NamedAction, NamedActionOptions } from '../NamedAction';
+
+type GenerateReadmeOptions = NamedActionOptions & { mustPrompt: boolean };
 
 @injectable()
-export default class GenerateReadme implements IAction<{ mustPrompt: boolean }> {
+export default class GenerateReadme implements NamedAction<GenerateReadmeOptions> {
   constructor(
     @inject(CliService) private readonly cliService: CliService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
     @inject(GitService) private readonly gitService: GitService
   ) {}
 
-  getName() {
+  getName(): string {
     return 'Generate README.md file';
   }
 
-  async run({ realpath, mustPrompt = false }) {
+  async run({ realpath, mustPrompt = false }: GenerateReadmeOptions): Promise<void> {
     this.consoleService.info('Generating README.md file...');
     if (mustPrompt) {
       const { override } = await prompt([

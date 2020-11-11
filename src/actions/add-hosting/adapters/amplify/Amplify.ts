@@ -13,8 +13,11 @@ import { GitService } from '../../../../services/git/GitService';
 import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { StringUtils } from '../../../../services/StringUtils';
 import { TemplateService } from '../../../../services/TemplateService';
-import { AbstractAdapterWithPackage } from '../../../AbstractAdapterWithPackage';
-import { IHostingAdapter } from '../IHostingAdapter';
+import {
+  AbstractAdapterWithPackageAction,
+  AdapterWithPackageActionOptions,
+} from '../../../AbstractAdapterWithPackageAction';
+import { HostingAdapter } from '../HostingAdapter';
 
 type ProjectConfig = {
   projectName: string;
@@ -43,7 +46,7 @@ type BackendConfig = {
 };
 
 @injectable()
-export default class Amplify extends AbstractAdapterWithPackage implements IHostingAdapter {
+export default class Amplify extends AbstractAdapterWithPackageAction implements HostingAdapter {
   protected name = 'Amplify';
   protected adapterPackageName = '@reactionable/amplify';
 
@@ -60,7 +63,7 @@ export default class Amplify extends AbstractAdapterWithPackage implements IHost
     super(packageManagerService);
   }
 
-  async run({ realpath }) {
+  async run({ realpath }: AdapterWithPackageActionOptions): Promise<void> {
     await super.run({ realpath });
 
     // Add amplify config in App component
@@ -228,7 +231,7 @@ export default class Amplify extends AbstractAdapterWithPackage implements IHost
 
   private async addAuth(realpath: string) {
     const backendConfig = this.getBackendConfig(realpath);
-    let isAuthAdded = !!backendConfig?.auth;
+    const isAuthAdded = !!backendConfig?.auth;
 
     if (!isAuthAdded) {
       const { addAuth } = await prompt([
@@ -270,7 +273,7 @@ export default class Amplify extends AbstractAdapterWithPackage implements IHost
 
   private async addApi(realpath: string) {
     const backendConfig = this.getBackendConfig(realpath);
-    let isApiAdded = !!backendConfig?.api;
+    const isApiAdded = !!backendConfig?.api;
 
     if (isApiAdded) {
       return;
@@ -294,7 +297,7 @@ export default class Amplify extends AbstractAdapterWithPackage implements IHost
 
   private async addHosting(realpath: string) {
     const backendConfig = this.getBackendConfig(realpath);
-    let isHostingAdded = !!backendConfig?.hosting?.amplifyhosting;
+    const isHostingAdded = !!backendConfig?.hosting?.amplifyhosting;
 
     if (isHostingAdded) {
       return;

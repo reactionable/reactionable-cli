@@ -18,10 +18,10 @@ import AddUIFramework from '../add-ui-framework/AddUIFramework';
 import AddVersioning from '../add-versioning/AddVersioning';
 import CreateComponent from '../create-component/CreateComponent';
 import GenerateReadme from '../generate-readme/GenerateReadme';
-import { IAction } from '../IAction';
+import { NamedAction, NamedActionOptions } from '../NamedAction';
 
 @injectable()
-export default class CreateReactApp implements IAction {
+export default class CreateReactApp implements NamedAction {
   constructor(
     @inject(FileService) private readonly fileService: FileService,
     @inject(FileFactory) private readonly fileFactory: FileFactory,
@@ -37,11 +37,11 @@ export default class CreateReactApp implements IAction {
     @inject(GenerateReadme) private readonly generateReadme: GenerateReadme
   ) {}
 
-  getName() {
+  getName(): string {
     return 'Create a new react app';
   }
 
-  async run({ realpath }) {
+  async run({ realpath }: NamedActionOptions): Promise<void> {
     const reactAppExistsAlready = await this.checkIfReactAppExistsAlready(realpath);
     if (reactAppExistsAlready === undefined) {
       return;
@@ -140,7 +140,7 @@ export default class CreateReactApp implements IAction {
     return false;
   }
 
-  async addSass(realpath: string) {
+  async addSass(realpath: string): Promise<void> {
     // Add Saas
     this.consoleService.info('Adding Sass...');
     await this.packageManagerService.installPackages(realpath, ['node-sass']);
@@ -162,7 +162,7 @@ export default class CreateReactApp implements IAction {
     this.consoleService.success(`Sass has been added in "${realpath}"`);
   }
 
-  async addI18n(realpath: string) {
+  async addI18n(realpath: string): Promise<void> {
     // Add i18n config
     this.consoleService.info('Add i18n configuration...');
     const i18nPath = 'src/i18n';
@@ -200,10 +200,13 @@ export default class CreateReactApp implements IAction {
             .join(' or ')}`
         );
         return;
+
       case 1:
         return availablePackageManagers[0];
-      default:
-        const { packageManager } = await prompt<{
+
+      default: {
+        // Prompts user to choose package manager
+        const result = await prompt<{
           packageManager: PackageManagerType;
         }>([
           {
@@ -218,7 +221,8 @@ export default class CreateReactApp implements IAction {
             ],
           },
         ]);
-        return packageManager;
+        return result.packageManager;
+      }
     }
   }
 }

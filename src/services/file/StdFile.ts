@@ -12,14 +12,14 @@ const overwritedFilesChanges: {
 } = {};
 
 export class StdFile {
-  protected content: string = '';
+  protected content = '';
   constructor(
     protected readonly cliService: CliService,
     protected readonly fileService: FileService,
     protected readonly fileFactory: FileFactory,
     protected readonly file: string | null = null,
     protected readonly encoding: BufferEncoding = 'utf8',
-    content: string = ''
+    content = ''
   ) {
     this.setContent(content);
   }
@@ -37,7 +37,7 @@ export class StdFile {
     return content.replace(/(?:\r\n|\r|\n)/g, '\n');
   }
 
-  protected getContentDiff(content): Change[] {
+  protected getContentDiff(content: string): Change[] {
     return diffLines(content, this.getContent());
   }
 
@@ -65,8 +65,12 @@ export class StdFile {
     const hasSomeNewChange = changes.some((change) => {
       for (const overwritedChange of overwritedChanges) {
         // TODO: compare changes
+        const changeDiffs = overwritedChange !== change;
+        if (changeDiffs) {
+          return true;
+        }
       }
-      return true;
+      return false;
     });
 
     if (hasSomeNewChange) {
@@ -126,6 +130,11 @@ export class StdFile {
         throw new Error('A file path is mandatory to save file');
       }
       file = this.file;
+    }
+
+    // Check if file directory exist
+    if (!this.fileService.fileDirExistsSync(file)) {
+      throw new Error(`Unable to create file "${file}, parent directory does not exist`);
     }
 
     const content = this.fixContentEOL(this.getContent());

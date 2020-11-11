@@ -16,14 +16,14 @@ export class TomlFile extends StdFile {
     return stringify(this.data || {});
   }
 
-  appendContent(content: string, after?: string, onlyIfNotExists = true): this {
+  appendContent(content: string): this {
     return this.appendData(parse(content));
   }
 
-  appendData(data: JsonMap) {
-    const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+  appendData(data: JsonMap): this {
+    const overwriteMerge = (destinationArray, sourceArray) => sourceArray;
 
-    const newData = all([(this.data || {}) as object, data as object], {
+    const newData = all([(this.data || {}) as JsonMap, data as JsonMap], {
       arrayMerge: overwriteMerge,
     }) as JsonMap;
     return this.setContent(stringify(newData));

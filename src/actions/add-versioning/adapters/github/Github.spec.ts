@@ -1,7 +1,7 @@
 import container from '../../../../container';
 import Github from './Github';
 
-describe('Github', () => {
+describe('github', () => {
   let github: Github;
 
   beforeEach(() => {

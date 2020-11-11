@@ -1,13 +1,14 @@
 import { inject, injectable } from 'inversify';
 
 import { PackageManagerService } from '../services/package-manager/PackageManagerService';
-import { AbstractAdapter } from './AbstractAdapter';
-import { IOptions } from './IRunnable';
+import { AbstractAdapterAction, AdapterActionOptions } from './AbstractAdapterAction';
+
+export type AdapterWithPackageActionOptions = AdapterActionOptions;
 
 @injectable()
-export abstract class AbstractAdapterWithPackage<O extends IOptions = {}> extends AbstractAdapter<
-  O
-> {
+export abstract class AbstractAdapterWithPackageAction<
+  O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions
+> extends AbstractAdapterAction<O> {
   protected abstract adapterPackageName: string;
 
   constructor(
@@ -25,8 +26,7 @@ export abstract class AbstractAdapterWithPackage<O extends IOptions = {}> extend
     return this.packageManagerService.hasInstalledPackage(realpath, this.getAdapterPackageName());
   }
 
-  async run({ realpath }) {
-    // Installs package
+  async run({ realpath }: AdapterWithPackageActionOptions): Promise<void> {
     await this.packageManagerService.installPackages(realpath, [this.getAdapterPackageName()]);
   }
 }

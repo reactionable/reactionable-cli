@@ -1,7 +1,7 @@
 import container from '../container';
 import { CliService } from './CliService';
 
-describe('CliService', () => {
+describe('cliService', () => {
   let service: CliService;
 
   beforeEach(() => {

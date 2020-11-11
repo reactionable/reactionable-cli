@@ -78,7 +78,6 @@ export class FileFactory {
       case '.toml':
         return new TomlFile(...args);
       case '.tsx':
-      // return new ReactComponentFile(file, encoding, content);
       case '.ts':
         return new TypescriptFile(...args);
       default:

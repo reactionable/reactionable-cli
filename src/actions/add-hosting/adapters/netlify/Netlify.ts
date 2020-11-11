@@ -13,11 +13,11 @@ import { GitService } from '../../../../services/git/GitService';
 import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { StringUtils } from '../../../../services/StringUtils';
 import { TemplateService } from '../../../../services/TemplateService';
-import { AbstractAdapter } from '../../../AbstractAdapter';
-import { IHostingAdapter } from '../IHostingAdapter';
+import { AbstractAdapterAction, AdapterActionOptions } from '../../../AbstractAdapterAction';
+import { HostingAdapter } from '../HostingAdapter';
 
 @injectable()
-export default class Netlify extends AbstractAdapter implements IHostingAdapter {
+export default class Netlify extends AbstractAdapterAction implements HostingAdapter {
   protected name = 'Netlify (https://docs.netlify.com)';
 
   constructor(
@@ -37,7 +37,7 @@ export default class Netlify extends AbstractAdapter implements IHostingAdapter 
     return this.fileService.fileExistsSync(resolve(realpath, 'netlify.toml'));
   }
 
-  async run({ realpath }) {
+  async run({ realpath }: AdapterActionOptions): Promise<void> {
     // Add netlify default configuration files
     info('Configure Netlify...');
 
@@ -97,15 +97,13 @@ export default class Netlify extends AbstractAdapter implements IHostingAdapter 
     }
 
     if (netlifyConfig) {
-      this.consoleService.success(
-        `Netlify is already configured for site \"${netlifyConfig.name}\"`
-      );
+      this.consoleService.success(`Netlify is already configured for site "${netlifyConfig.name}"`);
       return;
     }
 
     await this.execNetlifyCmd(['sites:create', '-n', projectName, '--with-ci'], realpath);
 
-    this.consoleService.success(`Netlify has been configured in \"${realpath}\"`);
+    this.consoleService.success(`Netlify has been configured in "${realpath}"`);
   }
 
   private execNetlifyCmd(args: string[], realpath: string, silent?: boolean) {

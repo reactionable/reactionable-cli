@@ -1,11 +1,11 @@
 import { injectable } from 'inversify';
 
 import { AbstractCommitableActionWithAdapters } from '../AbstractCommitableActionWithAdapters';
-import { IHostingAdapter } from './adapters/IHostingAdapter';
+import { HostingAdapter } from './adapters/HostingAdapter';
 import { AdapterKey } from './container';
 
 @injectable()
-export default class AddHosting extends AbstractCommitableActionWithAdapters<IHostingAdapter> {
+export default class AddHosting extends AbstractCommitableActionWithAdapters<HostingAdapter> {
   protected name = 'Hosting';
   protected adapterKey = AdapterKey;
 }

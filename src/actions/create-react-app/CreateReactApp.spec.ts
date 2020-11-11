@@ -6,7 +6,7 @@ import container from '../../container';
 import { mockDir, mockDirPath, mockYarnDir, restoreMockFs } from '../../tests/mock-fs';
 import CreateReactApp from './CreateReactApp';
 
-describe('CreateReactApp', () => {
+describe('createReactApp', () => {
   let createReactApp: CreateReactApp;
 
   beforeAll(() => {
@@ -28,7 +28,7 @@ describe('CreateReactApp', () => {
     it('should require confirmation for overriding existing directory', async () => {
       mockDir();
 
-      (inquirer.prompt as any) = jest.fn().mockResolvedValue({});
+      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({});
       await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(inquirer.prompt).toHaveBeenCalled();
     });
@@ -36,7 +36,7 @@ describe('CreateReactApp', () => {
     it('should return undefined if user do not want overriding existing directory', async () => {
       mockDir();
 
-      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ override: false });
+      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ override: false });
       const result = await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(result).toBeUndefined();
     });
@@ -44,7 +44,7 @@ describe('CreateReactApp', () => {
     it('should return false if directory exists but do not have expected files', async () => {
       mockDir();
 
-      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ override: true });
+      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ override: true });
 
       const result = await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(result).toEqual(false);
@@ -62,7 +62,7 @@ describe('CreateReactApp', () => {
         },
       });
 
-      (inquirer.prompt as any) = jest.fn().mockResolvedValue({ override: true });
+      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ override: true });
 
       const result = await createReactApp.checkIfReactAppExistsAlready(mockDirPath);
       expect(result).toEqual(true);

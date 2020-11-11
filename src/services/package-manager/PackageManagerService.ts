@@ -7,7 +7,7 @@ import { CliService } from '../CliService';
 import { ConsoleService } from '../ConsoleService';
 import { FileFactory } from '../file/FileFactory';
 import { FileService } from '../file/FileService';
-import { JsonFile } from '../file/JsonFile';
+import { JsonFile, JsonFileData } from '../file/JsonFile';
 import { StringUtils, StringUtilsMethod, StringUtilsMethods } from '../StringUtils';
 import { AbstractPackageManager } from './adapters/AbstractPackageManager';
 import { IPackageManager, PackageJson } from './adapters/IPackageManager';
@@ -19,8 +19,8 @@ export enum PackageManagerType {
   npm = 'npm',
 }
 
-type AbstractConstructorHelper<T> = (new (...args: any) => {
-  [x: string]: any;
+type AbstractConstructorHelper<T> = (new (...args: unknown[]) => {
+  [x: string]: unknown;
 }) &
   T;
 type AbstractContructorParameters<T> = ConstructorParameters<AbstractConstructorHelper<T>>;
@@ -41,7 +41,7 @@ export class PackageManagerService {
    */
   getAvailablePackageManagers = (): PackageManagerType[] => {
     const packageManagers: PackageManagerType[] = [];
-    for (let packageManager in PackageManagerType) {
+    for (const packageManager in PackageManagerType) {
       if (which(packageManager)) {
         packageManagers.push(packageManager as PackageManagerType);
       }
@@ -49,7 +49,7 @@ export class PackageManagerService {
     return packageManagers;
   };
 
-  getPackageManagerCmd(realpath: any) {
+  getPackageManagerCmd(realpath: string): string {
     return this.getPackageManager(realpath).getCmd();
   }
 
@@ -64,8 +64,8 @@ export class PackageManagerService {
   async installPackages(
     dirPath: string,
     packages: string[] = [],
-    verbose: boolean = true,
-    dev: boolean = false
+    verbose = true,
+    dev = false
   ): Promise<string[]> {
     const packageManager = this.getPackageManager(dirPath);
 
@@ -94,7 +94,7 @@ export class PackageManagerService {
   hasInstalledPackage(
     dirPath: string,
     packageName: string,
-    dev: boolean = false,
+    dev = false,
     encoding: BufferEncoding = 'utf8'
   ): boolean {
     const installedPackages = this.getPackageManager(dirPath).getPackageJsonData(
@@ -105,14 +105,14 @@ export class PackageManagerService {
     return !!(installedPackages && installedPackages[packageName]);
   }
 
-  hasPackageJson(dirPath: string) {
+  hasPackageJson(dirPath: string): boolean {
     return !!this.getPackageJsonPath(dirPath);
   }
 
   async getPackageName(
     dirPath: string,
     format?: StringUtilsMethods,
-    fullName: boolean = true
+    fullName = true
   ): Promise<string> {
     const packageManager = this.getPackageManager(dirPath);
 
@@ -125,7 +125,7 @@ export class PackageManagerService {
         if (monorepoRootPath) {
           const rootPackageManager = this.getPackageManager(monorepoRootPath);
 
-          let rootPackageName =
+          const rootPackageName =
             rootPackageManager.getPackageJsonData('name') || basename(monorepoRootPath);
 
           packageName = `${rootPackageName} - ${packageName}`;
@@ -139,35 +139,43 @@ export class PackageManagerService {
   hasPackageJsonConfig(dirPath: string, data: Partial<PackageJson>): boolean {
     const compareObject = (data: Partial<PackageJson>, packageJson: PackageJson) => {
       for (const key of Object.keys(data)) {
-        if (!packageJson[key]) {
+        const dataValue = data[key];
+        const packageJsonValue = packageJson[key];
+        if (!packageJsonValue) {
           return false;
         }
-        const typeofData = typeof data[key];
-        const typeofPackageInfo = typeof packageJson[key];
+
+        const typeofData = typeof dataValue;
+        const typeofPackageInfo = typeof packageJsonValue;
         if (typeofData !== typeofPackageInfo) {
           return false;
         }
+
         switch (typeofData) {
           case 'object':
-            if (Array.isArray(data[key])) {
-              if (!Array.isArray(packageJson[key])) {
+            if (Array.isArray(dataValue)) {
+              if (!Array.isArray(packageJsonValue)) {
                 return false;
               }
 
-              if (!data[key].every((item) => packageJson[key].contains(item))) {
+              if (
+                !(dataValue as unknown[]).every((item) =>
+                  (packageJsonValue as unknown[]).includes(item)
+                )
+              ) {
                 return false;
               }
             } else {
-              if (Array.isArray(packageJson[key])) {
+              if (Array.isArray(packageJsonValue)) {
                 return false;
               }
-              if (!compareObject(data[key], packageJson[key])) {
+              if (!compareObject(dataValue as JsonFileData, packageJsonValue as JsonFileData)) {
                 return false;
               }
             }
             break;
           default:
-            if (data[key] !== packageJson[key]) {
+            if (dataValue !== packageJsonValue) {
               return false;
             }
         }
@@ -190,7 +198,7 @@ export class PackageManagerService {
       return packageManager;
     }
 
-    let realpath = this.fileService.assertDirExists(dirPath);
+    const realpath = this.fileService.assertDirExists(dirPath);
     packageManager = this.packageManagers.get(realpath);
     if (packageManager) {
       return packageManager;

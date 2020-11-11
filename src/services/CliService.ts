@@ -33,7 +33,7 @@ export class CliService {
     return null;
   }
 
-  execCmd(args: string | string[], cwd?: string, silent: boolean = false): Promise<string> {
+  execCmd(args: string | string[], cwd?: string, silent = false): Promise<string> {
     if (!args.length) {
       throw new Error('Command args must not be empty');
     }
@@ -44,7 +44,7 @@ export class CliService {
 
     let cmd: string;
     if (Array.isArray(args)) {
-      cmd = args.shift()!;
+      cmd = args.shift() || '';
     } else {
       cmd = args;
       args = [];
@@ -61,7 +61,7 @@ export class CliService {
       let output = '';
       let error = '';
 
-      child.on('exit', function (code, signal) {
+      child.on('exit', function (code) {
         if (code) {
           return reject(error);
         }
@@ -87,7 +87,8 @@ export class CliService {
       return false;
     }
 
-    while (true) {
+    const shouldPrompt = true;
+    while (shouldPrompt) {
       const { action } = await prompt([
         {
           type: 'list',
@@ -136,6 +137,7 @@ export class CliService {
       this.consoleService.info(diffMessage);
       await this.pause();
     }
+    return false;
   }
 
   getNodeVersion(): string {
@@ -157,7 +159,7 @@ export class CliService {
     return null;
   }
 
-  async upgradeGlobalPackage(packageName: string) {
+  async upgradeGlobalPackage(packageName: string): Promise<void> {
     const outdatedInfo = await this.execCmd(
       ['npm', 'outdated', '-g', packageName, '--json', '||', 'true'],
       undefined,
@@ -170,7 +172,7 @@ export class CliService {
         outdatedData[packageName]?.current &&
         outdatedData[packageName].current !== outdatedData[packageName].latest
       ) {
-        return this.execCmd(['npm', 'install', '-g', packageName], undefined);
+        await this.execCmd(['npm', 'install', '-g', packageName], undefined);
       }
     }
   }

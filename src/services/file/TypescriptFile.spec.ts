@@ -8,7 +8,7 @@ import { FileFactory } from './FileFactory';
 import { FileService } from './FileService';
 import { TypescriptFile } from './TypescriptFile';
 
-describe('Services - File - TypescriptFile', () => {
+describe('services - File - TypescriptFile', () => {
   const fileName = 'test.ts';
   const filePath = join(mockDirPath, fileName);
 

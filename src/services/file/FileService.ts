@@ -20,6 +20,10 @@ export class FileService {
     return lstatSync(path).isDirectory();
   }
 
+  fileDirExistsSync(path: string): boolean {
+    return this.dirExistsSync(dirname(path));
+  }
+
   assertDirExists(path: string): string {
     if (!this.dirExistsSync(path)) {
       throw new Error(`Directory "${path}" does not exist`);
@@ -34,7 +38,7 @@ export class FileService {
     return realpathSync(path);
   }
 
-  replaceFileExtension(filePath: string, newExtension: string, mustExist = false) {
+  replaceFileExtension(filePath: string, newExtension: string, mustExist = false): void {
     if (!this.fileExistsSync(filePath)) {
       if (mustExist) {
         throw new Error(`File "${filePath}" does not exist`);
@@ -44,7 +48,7 @@ export class FileService {
 
     const newFilePath = resolve(
       dirname(filePath),
-      `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s\.]+/, '')}`
+      `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s.]+/, '')}`
     );
     mv(filePath, newFilePath);
   }

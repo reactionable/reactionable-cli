@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import container from '../../container';
 import { GitService } from './GitService';
 
-describe('GitService', () => {
+describe('gitService', () => {
   let service: GitService;
 
   beforeAll(() => {

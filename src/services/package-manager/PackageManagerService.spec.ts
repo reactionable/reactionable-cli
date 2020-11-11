@@ -12,7 +12,7 @@ import {
 } from '../../tests/mock-fs';
 import { PackageManagerService, PackageManagerType } from './PackageManagerService';
 
-describe('PackageManagerService', () => {
+describe('packageManagerService', () => {
   let service: PackageManagerService;
 
   beforeAll(() => {

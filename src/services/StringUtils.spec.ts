@@ -1,6 +1,6 @@
 import { StringUtils } from './StringUtils';
 
-describe('StringUtils', () => {
+describe('stringUtils', () => {
   describe('capitalize', () => {
     it('should capitalize the given string', () => {
       const capitalized = StringUtils.capitalize('test value');

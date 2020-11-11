@@ -6,13 +6,13 @@ import { ConsoleService } from '../../../services/ConsoleService';
 import { ConventionalCommitsService } from '../../../services/git/ConventionalCommitsService';
 import { GitService } from '../../../services/git/GitService';
 import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
-import { AbstractAdapter } from '../../AbstractAdapter';
-import { IVersioningAdapter } from '../IVersioningAdapter';
+import { AbstractAdapterAction } from '../../AbstractAdapterAction';
+import { VersioningAdapter, VersioningAdapterOptions } from '../VersioningAdapter';
 
 @injectable()
 export default abstract class AbstractVersioning
-  extends AbstractAdapter
-  implements IVersioningAdapter {
+  extends AbstractAdapterAction
+  implements VersioningAdapter {
   constructor(
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
     @inject(ConventionalCommitsService)
@@ -28,7 +28,7 @@ export default abstract class AbstractVersioning
     return this.gitService.isAGitRepository(realpath);
   }
 
-  async run({ realpath }) {
+  async run({ realpath }: VersioningAdapterOptions): Promise<void> {
     await this.gitService.initializeGit(realpath);
 
     const gitRemoteOriginUrl = await this.gitService.getGitRemoteOriginUrl(realpath, false);

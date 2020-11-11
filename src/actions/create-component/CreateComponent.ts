@@ -8,14 +8,16 @@ import { ConsoleService } from '../../services/ConsoleService';
 import { FileService } from '../../services/file/FileService';
 import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
 import { StringUtils } from '../../services/StringUtils';
-import { TemplateService } from '../../services/TemplateService';
-import { AbstractAdapterWithPackage } from '../AbstractAdapterWithPackage';
+import { TemplateContext, TemplateService } from '../../services/TemplateService';
+import { AbstractAdapterWithPackageAction } from '../AbstractAdapterWithPackageAction';
 import AddHosting from '../add-hosting/AddHosting';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
-import { IAction } from '../IAction';
+import { NamedAction, NamedActionOptions } from '../NamedAction';
+
+export type CreateComponentOptions = NamedActionOptions & { name: string | undefined };
 
 @injectable()
-export default class CreateComponent implements IAction<{ name: string | undefined }> {
+export default class CreateComponent implements NamedAction<CreateComponentOptions> {
   protected static defaultPackage = '@reactionable/core';
   protected static viewsPath = join('', 'src', 'views');
   protected static templateNamespace = 'create-component';
@@ -30,11 +32,11 @@ export default class CreateComponent implements IAction<{ name: string | undefin
     @inject(TemplateService) protected readonly templateService: TemplateService
   ) {}
 
-  getName() {
+  getName(): string {
     return 'Create a new react component';
   }
 
-  async run({ realpath, name }) {
+  async run({ realpath, name }: CreateComponentOptions): Promise<void> {
     if (!name) {
       const answer = await prompt<{ name: string }>([
         {
@@ -68,7 +70,7 @@ export default class CreateComponent implements IAction<{ name: string | undefin
     componentDirPath?: string;
     componentTemplate?: string;
     testComponentTemplate?: string;
-    templateContext?: Object;
+    templateContext?: TemplateContext;
   }): Promise<string> {
     // Define component path
     const componentDirName = StringUtils.hyphenize(name);
@@ -145,7 +147,7 @@ export default class CreateComponent implements IAction<{ name: string | undefin
   private async getHostingPackage(realpath: string): Promise<string> {
     const hostingAdapter = await this.addHosting.detectAdapter(this.getProjectRootPath(realpath));
 
-    if (hostingAdapter && hostingAdapter instanceof AbstractAdapterWithPackage) {
+    if (hostingAdapter && hostingAdapter instanceof AbstractAdapterWithPackageAction) {
       return hostingAdapter.getAdapterPackageName();
     }
 

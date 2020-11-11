@@ -7,13 +7,16 @@ import { ConsoleService } from '../../../services/ConsoleService';
 import { FileFactory } from '../../../services/file/FileFactory';
 import { TypescriptFile } from '../../../services/file/TypescriptFile';
 import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
-import { AbstractAdapterWithPackage } from '../../AbstractAdapterWithPackage';
-import { IUIFrameworkAdapter } from './IUIFrameworkAdapter';
+import {
+  AbstractAdapterWithPackageAction,
+  AdapterWithPackageActionOptions,
+} from '../../AbstractAdapterWithPackageAction';
+import { UIFrameworkAdapter } from './UIFrameworkAdapter';
 
 @injectable()
 export default class ReactBootstrap
-  extends AbstractAdapterWithPackage
-  implements IUIFrameworkAdapter {
+  extends AbstractAdapterWithPackageAction
+  implements UIFrameworkAdapter {
   protected name = 'React Bootstrap (https://react-bootstrap.github.io)';
   protected adapterPackageName = '@reactionable/ui-bootstrap';
 
@@ -26,7 +29,7 @@ export default class ReactBootstrap
     super(packageManagerService);
   }
 
-  async run({ realpath }) {
+  async run({ realpath }: AdapterWithPackageActionOptions): Promise<void> {
     await super.run({ realpath });
 
     // Import style files

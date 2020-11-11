@@ -44,7 +44,7 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
       return file.getData<PJ>(property) as PJ[P] | undefined;
     }
 
-    return file.getData<PJ>()!;
+    return file.getData<PJ>() || undefined;
   }
 
   async getNodeModulesDirPath(): Promise<string> {
@@ -73,7 +73,7 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
     return this.installPackages(devPackages, true);
   }
 
-  protected execCmd(cmd: string | string[], silent: boolean = false): Promise<string> {
+  protected execCmd(cmd: string | string[], silent = false): Promise<string> {
     if (!which(`${this.type}`)) {
       throw new Error(`Unable to execute command, please install "${this.type}"`);
     }

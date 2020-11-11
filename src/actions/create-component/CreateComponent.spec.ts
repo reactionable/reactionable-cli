@@ -6,10 +6,10 @@ import { sync } from 'rimraf';
 import container from '../../container';
 import CreateComponent from './CreateComponent';
 
-describe('CreateComponent', () => {
+describe('createComponent', () => {
   let createComponent: CreateComponent;
 
-  const testDirPath = '__tests__/test-project';
+  const testDirPath = resolve('__tests__/test-project');
 
   const cleanTestDir = async () => {
     const testComponentDirPath = resolve(testDirPath, 'src');
@@ -24,49 +24,53 @@ describe('CreateComponent', () => {
   afterAll(cleanTestDir);
 
   describe('construct', () => {
-    it('should be initialized ', () => {
+    it('should be initialized', () => {
       expect(createComponent).toBeInstanceOf(CreateComponent);
     });
   });
 
   describe('run', () => {
     it('should create expected components files', async () => {
-      mkdirSync(join(testDirPath, 'src/views/test-component'), {
-        recursive: true,
-      });
+      const testComponentDirPath = join(testDirPath, 'src/views/test-component');
+      mkdirSync(testComponentDirPath, { recursive: true });
+      expect(existsSync(testComponentDirPath)).toBe(true);
 
       await createComponent.run({
         realpath: testDirPath,
         name: 'test component',
       });
 
-      const expectedFiles = [
-        'views/test-component/TestComponent.test.tsx',
-        'views/test-component/TestComponent.tsx',
-      ];
-
-      for (const expectedFile of expectedFiles) {
-        const filePath = resolve(testDirPath, 'src', expectedFile);
-        expect(existsSync(filePath)).toBe(true);
-        expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot();
-      }
+      const expectedComponentFile = resolve(
+        testDirPath,
+        'src/views/test-component/TestComponent.tsx'
+      );
+      expect(existsSync(expectedComponentFile)).toBe(true);
+      expect(readFileSync(expectedComponentFile, 'utf-8')).toMatchSnapshot();
+      const expectedTestComponentFile = resolve(
+        testDirPath,
+        'src/views/test-component/TestComponent.test.tsx'
+      );
+      expect(existsSync(expectedTestComponentFile)).toBe(true);
+      expect(readFileSync(expectedTestComponentFile, 'utf-8')).toMatchSnapshot();
     });
 
     it('should create expected App component files', async () => {
-      mkdirSync(join(testDirPath, 'src'), { recursive: true });
+      const appComponentDirPath = join(testDirPath, 'src');
+      mkdirSync(appComponentDirPath, { recursive: true });
+      expect(existsSync(appComponentDirPath)).toBe(true);
 
       await createComponent.run({
         realpath: testDirPath,
         name: 'App',
       });
 
-      const expectedFiles = ['App.test.tsx', 'App.tsx'];
+      const expectedAppFile = resolve(testDirPath, 'src/App.tsx');
+      expect(existsSync(expectedAppFile)).toBe(true);
+      expect(readFileSync(expectedAppFile, 'utf-8')).toMatchSnapshot();
 
-      for (const expectedFile of expectedFiles) {
-        const filePath = resolve(testDirPath, 'src', expectedFile);
-        expect(existsSync(filePath)).toBe(true);
-        expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot();
-      }
+      const expectedTestAppFile = resolve(testDirPath, 'src/App.test.tsx');
+      expect(existsSync(expectedTestAppFile)).toBe(true);
+      expect(readFileSync(expectedTestAppFile, 'utf-8')).toMatchSnapshot();
     });
   });
 });

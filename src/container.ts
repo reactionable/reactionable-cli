@@ -12,7 +12,7 @@ import CreateComponent from './actions/create-component/CreateComponent';
 import CreateCrudComponent from './actions/create-component/CreateCrudComponent';
 import CreateReactApp from './actions/create-react-app/CreateReactApp';
 import GenerateReadme from './actions/generate-readme/GenerateReadme';
-import { IAction } from './actions/IAction';
+import { NamedAction } from './actions/NamedAction';
 import { CliService } from './services/CliService';
 import { ConsoleService } from './services/ConsoleService';
 import { FileFactory } from './services/file/FileFactory';
@@ -35,14 +35,14 @@ container.bind<FileFactory>(FileFactory).toSelf();
 container.bind<CliService>(CliService).toSelf();
 
 // Available root actions
-container.bind<IAction>('Action').to(CreateReactApp);
-container.bind<IAction>(CreateReactApp).toSelf();
-container.bind<IAction>('Action').to(CreateComponent);
-container.bind<IAction>(CreateComponent).toSelf();
-container.bind<IAction>('Action').to(CreateCrudComponent);
-container.bind<IAction>(CreateCrudComponent).toSelf();
-container.bind<IAction>('Action').to(GenerateReadme);
-container.bind<IAction>(GenerateReadme).toSelf();
+container.bind<CreateReactApp>('Action').to(CreateReactApp);
+container.bind<NamedAction>(CreateReactApp).toSelf();
+container.bind<CreateComponent>('Action').to(CreateComponent);
+container.bind<CreateComponent>(CreateComponent).toSelf();
+container.bind<CreateCrudComponent>('Action').to(CreateCrudComponent);
+container.bind<CreateCrudComponent>(CreateCrudComponent).toSelf();
+container.bind<GenerateReadme>('Action').to(GenerateReadme);
+container.bind<GenerateReadme>(GenerateReadme).toSelf();
 
 // Sub actions
 container.bind<AddCssFramework>(AddCssFramework).toSelf();

@@ -1,10 +1,7 @@
 import { EOL } from 'os';
 
+import { ImportDeclaration, ProgramStatement } from '@typescript-eslint/types/dist/ts-estree';
 import { AST_NODE_TYPES, parse } from '@typescript-eslint/typescript-estree';
-import {
-  ImportDeclaration,
-  Statement,
-} from '@typescript-eslint/typescript-estree/node_modules/@typescript-eslint/types/dist/ts-estree';
 
 import { StdFile } from './StdFile';
 import { ITypescriptImport, TypescriptImport } from './TypescriptImport';
@@ -25,7 +22,7 @@ export class TypescriptFile extends StdFile {
     for (const bodyItem of body) {
       switch (bodyItem.type) {
         case AST_NODE_TYPES.ImportDeclaration:
-          this.parseImportDeclaration(bodyItem as ImportDeclaration);
+          this.parseImportDeclaration(bodyItem);
           break;
         default:
           this.declarations.push(
@@ -37,13 +34,13 @@ export class TypescriptFile extends StdFile {
     return content;
   }
 
-  protected parseTypescriptContent(content: string): Statement[] {
+  protected parseTypescriptContent(content: string): ProgramStatement[] {
     try {
       const { body } = parse(content, {
         jsx: true,
         range: true,
       });
-      return body as Statement[];
+      return body;
     } catch (error) {
       let contentError = content;
 
@@ -59,7 +56,7 @@ export class TypescriptFile extends StdFile {
     }
   }
 
-  protected parseImportDeclaration(bodyItem: ImportDeclaration) {
+  protected parseImportDeclaration(bodyItem: ImportDeclaration): void {
     if (!bodyItem.specifiers.length) {
       this.addImports([
         new TypescriptImport(bodyItem.source.value as string, {
@@ -124,7 +121,7 @@ export class TypescriptFile extends StdFile {
     return this;
   }
 
-  protected addImports(imports: TypescriptImport[]) {
+  protected addImports(imports: TypescriptImport[]): void {
     if (!this.imports) {
       this.imports = [];
     }
@@ -143,7 +140,7 @@ export class TypescriptFile extends StdFile {
     }
   }
 
-  protected removeImports(imports: TypescriptImport[]) {
+  protected removeImports(imports: TypescriptImport[]): void {
     if (!this.imports) {
       this.imports = [];
     }
@@ -158,7 +155,7 @@ export class TypescriptFile extends StdFile {
     }
   }
 
-  protected sortImports(importA: TypescriptImport, importB: TypescriptImport) {
+  protected sortImports(importA: TypescriptImport, importB: TypescriptImport): number {
     // Put local import after
     const importAIsLocal = importA.isLocal();
     const importBIsLocal = importB.isLocal();

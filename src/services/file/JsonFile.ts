@@ -2,25 +2,34 @@ import { all } from 'deepmerge';
 
 import { StdFile } from './StdFile';
 
+type JsonArray = boolean[] | number[] | string[] | JsonFileData[] | Date[];
+type AnyJson = boolean | number | string | JsonFileData | Date | JsonArray | JsonArray[];
+
+export interface JsonFileData {
+  [key: string]: AnyJson | undefined;
+}
+
 export class JsonFile extends StdFile {
-  protected data?: object;
+  protected data?: JsonFileData;
 
   getContent(): string {
     return JSON.stringify(this.data, null, '  ');
   }
 
-  appendContent(content: string, after?: string, onlyIfNotExists = true): this {
+  appendContent(content: string): this {
     return this.appendData(JSON.parse(content));
   }
 
-  appendData(data: object): this {
-    const newData = all([(this.data || {}) as object, data]);
+  appendData(data: JsonFileData): this {
+    const newData = all([(this.data || {}) as JsonFileData, data]);
     return this.setContent(JSON.stringify(newData, null, '  '));
   }
 
-  getData<D extends Object = Object>(): D | undefined;
-  getData<D extends Object = Object, P extends keyof D = keyof D>(property: P): D[P] | undefined;
-  getData<D extends Object = Object, P extends keyof D = keyof D>(
+  getData<D extends JsonFileData = JsonFileData>(): D | undefined;
+  getData<D extends JsonFileData = JsonFileData, P extends keyof D = keyof D>(
+    property: P
+  ): D[P] | undefined;
+  getData<D extends JsonFileData = JsonFileData, P extends keyof D = keyof D>(
     property: P | undefined = undefined
   ): D | D[P] | undefined {
     if (!this.data) {

@@ -1,37 +1,39 @@
 import { TypescriptImport } from './TypescriptImport';
 
-describe('Services - File - TypescriptImport', () => {
+describe('services - File - TypescriptImport', () => {
   describe('fromString', () => {
     it('should retrieve an instance of TypescriptImport from a given "glob" import string', async () => {
       const importString = `import * as serviceWorker from './serviceWorker';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString)!;
-
-      expect(typescriptImport.packageName).toEqual('./serviceWorker');
-      expect(typescriptImport.modules).toEqual({ '*': 'serviceWorker' });
-      expect(typescriptImport.toString()).toEqual(importString);
+      const typescriptImport = TypescriptImport.fromString(importString);
+      expect(typescriptImport).not.toBeNull();
+      expect(typescriptImport?.packageName).toEqual('./serviceWorker');
+      expect(typescriptImport?.modules).toEqual({ '*': 'serviceWorker' });
+      expect(typescriptImport?.toString()).toEqual(importString);
     });
 
     it('should retrieve an instance of TypescriptImport from given an "aliased" import string', async () => {
       const importString = `import { App as CoreApp } from '@reactionable/core';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString)!;
+      const typescriptImport = TypescriptImport.fromString(importString);
 
-      expect(typescriptImport.packageName).toEqual('@reactionable/core');
-      expect(typescriptImport.modules).toEqual({ App: 'CoreApp' });
-      expect(typescriptImport.toString()).toEqual(importString);
+      expect(typescriptImport).not.toBeNull();
+      expect(typescriptImport?.packageName).toEqual('@reactionable/core');
+      expect(typescriptImport?.modules).toEqual({ App: 'CoreApp' });
+      expect(typescriptImport?.toString()).toEqual(importString);
     });
 
     it('should retrieve an instance of TypescriptImport from given import file string', async () => {
       const importString = `import './index.scss';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString)!;
+      const typescriptImport = TypescriptImport.fromString(importString);
 
-      expect(typescriptImport.packageName).toEqual('./index.scss');
-      expect(typescriptImport.modules).toEqual({
+      expect(typescriptImport).not.toBeNull();
+      expect(typescriptImport?.packageName).toEqual('./index.scss');
+      expect(typescriptImport?.modules).toEqual({
         [TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
       });
-      expect(typescriptImport.toString()).toEqual(importString);
+      expect(typescriptImport?.toString()).toEqual(importString);
     });
   });
 

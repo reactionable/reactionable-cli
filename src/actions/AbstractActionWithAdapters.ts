@@ -4,19 +4,22 @@ import { inject, injectable } from 'inversify';
 
 import container from '../container';
 import { ConsoleService } from '../services/ConsoleService';
-import { IAdapter } from './IAdapter';
-import { IRealpathRunnable } from './IRealpathRunnable';
-import { IOptions } from './IRunnable';
+import { AdapterAction } from './AdapterAction';
+import { RealpathAction, RealpathActionOptions } from './RealpathAction';
+
+export type ActionWithAdaptersOptions = RealpathActionOptions;
 
 @injectable()
-export abstract class AbstractActionWithAdapters<A extends IAdapter, O extends IOptions = {}>
-  implements IRealpathRunnable<O> {
+export abstract class AbstractActionWithAdapters<
+  A extends AdapterAction,
+  O extends ActionWithAdaptersOptions = ActionWithAdaptersOptions
+> implements RealpathAction<O> {
   protected abstract name: string;
   protected abstract adapterKey: string;
 
   constructor(@inject(ConsoleService) private readonly consoleService: ConsoleService) {}
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
@@ -35,7 +38,7 @@ export abstract class AbstractActionWithAdapters<A extends IAdapter, O extends I
     return null;
   }
 
-  async run(options) {
+  async run(options: ActionWithAdaptersOptions): Promise<void> {
     const name = this.getName();
 
     this.consoleService.info(`Adding ${name}...`);

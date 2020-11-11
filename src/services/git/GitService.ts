@@ -67,10 +67,7 @@ export class GitService {
 
   async getGitRemoteOriginUrl(dirPath: string, parsed: true): Promise<Result | null>;
   async getGitRemoteOriginUrl(dirPath: string, parsed: false): Promise<string | null>;
-  async getGitRemoteOriginUrl(
-    dirPath: string,
-    parsed: boolean = false
-  ): Promise<string | Result | null> {
+  async getGitRemoteOriginUrl(dirPath: string, parsed = false): Promise<string | Result | null> {
     const config = await this.getGitConfig(dirPath);
     const url = config['remote.origin.url'];
     if (!parsed) {
@@ -129,7 +126,7 @@ export class GitService {
     this.consoleService.success('Files have been commited');
   }
 
-  async pushCommits(realpath: string) {
+  async pushCommits(realpath: string): Promise<string | undefined> {
     if (!(await this.isAGitRepository(realpath))) {
       return;
     }

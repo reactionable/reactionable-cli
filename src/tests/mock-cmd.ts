@@ -2,10 +2,10 @@ import { resolve } from 'path';
 import { cwd } from 'process';
 
 import mockSpawn from 'mock-spawn';
-import shelljs from 'shelljs';
+import shelljs, { ShellString } from 'shelljs';
 
-let spawnMock;
 let originalSpawn;
+let spawnMock;
 
 export type MockedCmd = {
   mockResult: (stdin: string) => void;
@@ -15,10 +15,15 @@ export type MockedCmd = {
 function mockCmd(cmd: string): MockedCmd {
   jest.mock('shelljs');
 
-  shelljs.which = jest.fn().mockReturnValue(cmd);
+  jest
+    .spyOn(shelljs, 'which')
+    .mockImplementation()
+    .mockReturnValue(cmd as ShellString);
 
-  spawnMock = mockSpawn();
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   originalSpawn = require('child_process').spawn;
+  spawnMock = mockSpawn();
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('child_process').spawn = spawnMock;
 
   return {
@@ -51,7 +56,7 @@ export function mockYarnWorkspacesInfoCmd(
 ): MockedCmd {
   const yarnCmdMock = mockYarnCmd();
 
-  const data: any = {};
+  const data: { [key: string]: { location?: string } } = {};
   if (mockPackageName) {
     data[mockPackageName] = {};
     if (mockMonorepoPackageDirName) {
@@ -64,9 +69,10 @@ export function mockYarnWorkspacesInfoCmd(
   return yarnCmdMock;
 }
 
-export function restoreMockCmd() {
+export function restoreMockCmd(): void {
   jest.restoreAllMocks();
   if (originalSpawn) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     require('child_process').spawn = originalSpawn;
     originalSpawn = undefined;
   }

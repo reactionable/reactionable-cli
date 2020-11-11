@@ -1,32 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CreateComponent run should create expected App component files 1`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
-import { render } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router';
-import App from './App';
-
-describe('App', () => {
-    
-    let identity: IIdentityContextProviderProps;
-
-    beforeAll(() => {
-        identity = useIdentityContextProviderProps();
-    });
-
-    it('renders without crashing', () => {  
-        render(
-            <TestWrapper identity={identity}>
-                <App />
-            </TestWrapper>
-        );
-    });
-});"
-`;
-
-exports[`CreateComponent run should create expected App component files 2`] = `
+exports[`createComponent run should create expected App component files 1`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { App as CoreApp, IAppProps } from '@reactionable/core';
 import { IUIContextProviderProps, IUseLayoutProps, useUIContextProviderProps } from '@reactionable/ui-bootstrap';
@@ -66,7 +40,54 @@ const App: FC = () => {
 export default App;"
 `;
 
-exports[`CreateComponent run should create expected components files 1`] = `
+exports[`createComponent run should create expected App component files 2`] = `
+"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { TestWrapper } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import { MemoryRouter } from 'react-router';
+import App from './App';
+
+describe('App', () => {
+    
+    let identity: IIdentityContextProviderProps;
+
+    beforeAll(() => {
+        identity = useIdentityContextProviderProps();
+    });
+
+    it('renders without crashing', () => {  
+        render(
+            <TestWrapper identity={identity}>
+                <App />
+            </TestWrapper>
+        );
+    });
+});"
+`;
+
+exports[`createComponent run should create expected components files 1`] = `
+"import React, { FC } from 'react';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
+
+interface ITestComponentProps { }
+const TestComponent: FC<ITestComponentProps> = (props) => {
+  const { t } = useTranslation();
+  
+  return <>
+    <Helmet>
+      <title>{t('Tests')} - {t('Test component')}</title>
+      <meta name=\\"description\\" content={t('Test component description')} />
+    </Helmet>
+    <h1>{t('Test component')}</h1>
+    
+  </>;
+};
+export default TestComponent;"
+`;
+
+exports[`createComponent run should create expected components files 2`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
@@ -90,25 +111,4 @@ describe('TestComponent', () => {
         );
     });
 });"
-`;
-
-exports[`CreateComponent run should create expected components files 2`] = `
-"import React, { FC } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-
-interface ITestComponentProps { }
-const TestComponent: FC<ITestComponentProps> = (props) => {
-  const { t } = useTranslation();
-  
-  return <>
-    <Helmet>
-      <title>{t('Tests')} - {t('Test component')}</title>
-      <meta name=\\"description\\" content={t('Test component description')} />
-    </Helmet>
-    <h1>{t('Test component')}</h1>
-    
-  </>;
-};
-export default TestComponent;"
 `;

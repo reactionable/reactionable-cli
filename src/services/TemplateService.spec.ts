@@ -1,7 +1,7 @@
 import container from '../container';
 import { TemplateService } from './TemplateService';
 
-describe('TemplateService', () => {
+describe('templateService', () => {
   let service: TemplateService;
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('TemplateService', () => {
         {}
       );
 
-      expect(createFileOperation).rejects.toThrowError(
+      await expect(createFileOperation).rejects.toThrow(
         `Unable to create file "/unexisting-directory/test.js", directory "/unexisting-directory" does not exist`
       );
     });

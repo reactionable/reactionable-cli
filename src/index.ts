@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { text } from 'figlet';
 import { prompt } from 'inquirer';
 
-import { IAction } from './actions/IAction';
+import { NamedAction } from './actions/NamedAction';
 import container from './container';
 import { CliService } from './services/CliService';
 import { ConsoleService } from './services/ConsoleService';
@@ -35,13 +35,13 @@ export const run = async (): Promise<boolean> => {
 
     // Display banner
     await displayBanner();
-    const { action } = await prompt<{ action: IAction }>([
+    const { action } = await prompt<{ action: NamedAction }>([
       {
         name: 'action',
         message: 'What do you want to do?',
         type: 'list',
         choices: [
-          ...container.getAll<IAction>('Action').map((action) => ({
+          ...container.getAll<NamedAction>('Action').map((action) => ({
             name: action.getName(),
             value: action,
           })),

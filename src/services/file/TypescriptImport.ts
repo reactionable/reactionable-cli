@@ -52,10 +52,7 @@ export class TypescriptImport {
     return parsedPodules;
   }
 
-  private static parseImportModule(
-    importModule: string,
-    defaultAs: string = ''
-  ): ITypescriptImportModules {
+  private static parseImportModule(importModule: string, defaultAs = ''): ITypescriptImportModules {
     const parsedPodules: ITypescriptImportModules = {};
     for (const modulePart of importModule.trim().split(',')) {
       if (!modulePart.length) {
@@ -68,11 +65,11 @@ export class TypescriptImport {
     return parsedPodules;
   }
 
-  addModules(modules: ITypescriptImportModules) {
+  addModules(modules: ITypescriptImportModules): void {
     this.modules = Object.assign(this.modules, modules);
   }
 
-  removeModules(modulesToRemove: ITypescriptImportModules) {
+  removeModules(modulesToRemove: ITypescriptImportModules): void {
     for (const moduleName of Object.keys(this.modules)) {
       for (const moduleToRemove of Object.keys(modulesToRemove)) {
         if (moduleName === moduleToRemove) {
@@ -82,17 +79,17 @@ export class TypescriptImport {
     }
   }
 
-  toString() {
-    let defaultImport: string = '';
-    let globImport: string = '';
+  toString(): string {
+    let defaultImport = '';
+    let globImport = '';
     const brakesImports: string[] = [];
 
     const orderedModules: ITypescriptImportModules = {};
-    Object.keys(this.modules)
-      .sort()
-      .forEach(function (key) {
-        orderedModules[key] = orderedModules[key];
-      });
+    const moduleKeys = Object.keys(this.modules);
+    moduleKeys.sort();
+    for (const key of moduleKeys) {
+      orderedModules[key] = this.modules[key];
+    }
 
     for (const moduleName of Object.keys(orderedModules)) {
       if (this.modules[moduleName] === TypescriptImport.defaultImport) {

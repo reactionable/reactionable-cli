@@ -1,8 +1,10 @@
+import { JsonFileData } from '../../file/JsonFile';
+
 export interface PackageJsonDependencies {
   [key: string]: string;
 }
 
-export interface PackageJson {
+export interface PackageJson extends JsonFileData {
   name?: string;
   version?: string;
   author?: {

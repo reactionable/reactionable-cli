@@ -6,10 +6,10 @@ import { sync } from 'rimraf';
 import container from '../../container';
 import CreateCrudComponent from './CreateCrudComponent';
 
-describe('CreateCrudComponent', () => {
+describe('createCrudComponent', () => {
   let createCrudComponent: CreateCrudComponent;
 
-  const testDirPath = '__tests__/test-project';
+  const testDirPath = resolve('__tests__/test-project');
 
   const cleanTestDir = async () => {
     const testComponentDirPath = resolve(testDirPath, 'src');
@@ -24,16 +24,16 @@ describe('CreateCrudComponent', () => {
   afterEach(cleanTestDir);
 
   describe('construct', () => {
-    it('should be initialized ', () => {
+    it('should be initialized', () => {
       expect(createCrudComponent).toBeInstanceOf(CreateCrudComponent);
     });
   });
 
   describe('run', () => {
     it('should create all crud components files', async () => {
-      mkdirSync(join(testDirPath, 'src/views/test-entities'), {
-        recursive: true,
-      });
+      const testComponentDirPath = join(testDirPath, 'src/views/test-entities');
+      mkdirSync(testComponentDirPath, { recursive: true });
+      expect(existsSync(testComponentDirPath)).toBe(true);
 
       await createCrudComponent.run({
         realpath: testDirPath,

@@ -2,15 +2,18 @@ import { inject, injectable } from 'inversify';
 
 import { ConsoleService } from '../services/ConsoleService';
 import { GitService } from '../services/git/GitService';
-import { AbstractActionWithAdapters } from './AbstractActionWithAdapters';
-import AddVersioning from './add-versioning/AddVersioning';
-import { IAdapter } from './IAdapter';
-import { IOptions } from './IRunnable';
+import {
+  AbstractActionWithAdapters,
+  ActionWithAdaptersOptions,
+} from './AbstractActionWithAdapters';
+import { AdapterAction } from './AdapterAction';
+
+export type CommitableActionWithAdaptersOptions = ActionWithAdaptersOptions;
 
 @injectable()
 export abstract class AbstractCommitableActionWithAdapters<
-  A extends IAdapter,
-  O extends IOptions = {}
+  A extends AdapterAction,
+  O extends CommitableActionWithAdaptersOptions = CommitableActionWithAdaptersOptions
 > extends AbstractActionWithAdapters<A, O> {
   constructor(
     @inject(GitService) private readonly gitService: GitService,
@@ -19,7 +22,7 @@ export abstract class AbstractCommitableActionWithAdapters<
     super(consoleService);
   }
 
-  async run(options) {
+  async run(options: CommitableActionWithAdaptersOptions): Promise<void> {
     await super.run(options);
 
     const adapter = await this.detectAdapter(options.realpath);

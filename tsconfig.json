@@ -11,7 +11,7 @@
     "sourceMap": true,
     "strict": true,
     "outDir": "./dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
   },
   "exclude": ["__tests__", "node_modules", "dist", "**/*.spec.ts"]
 }

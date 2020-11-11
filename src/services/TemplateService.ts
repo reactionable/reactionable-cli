@@ -93,7 +93,8 @@ export type TemplateConfig =
       [key: string]: TemplateConfig | string;
     };
 
-type CompiledTemplate = (context: Object) => string;
+export type TemplateContext = Record<string, unknown>;
+type CompiledTemplate = (context: TemplateContext) => string;
 
 @injectable()
 export class TemplateService {
@@ -108,7 +109,7 @@ export class TemplateService {
     dirPath: string,
     namespace: string,
     config: TemplateConfig,
-    context: Object = {}
+    context: TemplateContext = {}
   ): Promise<void> {
     this.fileService.assertDirExists(dirPath);
 
@@ -147,7 +148,7 @@ export class TemplateService {
   async createFileFromTemplate(
     filePath: string,
     namespace: string,
-    context: Object,
+    context: TemplateContext,
     encoding: BufferEncoding = 'utf8'
   ): Promise<void> {
     const parentDir = dirname(filePath);
@@ -222,7 +223,7 @@ export class TemplateService {
     return compiledTemplate;
   }
 
-  async renderTemplateString(template: string, context: Object): Promise<string> {
+  async renderTemplateString(template: string, context: TemplateContext): Promise<string> {
     const compiledTemplate = await this.getCompiledTemplateString(template, template);
     return compiledTemplate(context);
   }
@@ -245,7 +246,7 @@ export class TemplateService {
     }
   }
 
-  async renderTemplateFile(templateKey: string, context: Object): Promise<string> {
+  async renderTemplateFile(templateKey: string, context: TemplateContext): Promise<string> {
     const compiledTemplate = await this.getCompiledTemplateFile(templateKey);
     try {
       const content = compiledTemplate(context);

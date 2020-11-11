@@ -8,6 +8,10 @@ export interface YarnPackageJson extends PackageJson {
   workspaces?: string[];
 }
 
+export interface MonorepoInfos {
+  rootDirectory: string;
+}
+
 export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> {
   protected type = PackageManagerType.yarn;
 
@@ -20,7 +24,7 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
     return packages;
   }
 
-  protected async getMonorepoInfos() {
+  protected async getMonorepoInfos(): Promise<MonorepoInfos | undefined> {
     const workspacesRootData = this.getPackageJsonData('workspaces');
     if (workspacesRootData) {
       return {

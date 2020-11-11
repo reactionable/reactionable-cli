@@ -66,7 +66,7 @@ export class ConventionalCommitsService {
     };
   }
 
-  async initializeConventionalCommits(realpath: any): Promise<void> {
+  async initializeConventionalCommits(realpath: string): Promise<void> {
     await this.packageManagerService.installPackages(
       realpath,
       ConventionalCommitsService.conventionalCommitsPackages,

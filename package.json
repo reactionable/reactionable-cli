@@ -11,8 +11,9 @@
     "build": "rimraf ./dist && yarn lint && tsc && yarn build:copy-templates",
     "build:copy-templates": "rimraf ./dist/**/*.template && cd src && copyfiles ./**/*.template ../dist/ && cd ..",
     "build:doc": "rimraf -rf docs && typedoc",
-    "lint": "eslint \"src/**/*.ts\"",
-    "test": "jest"
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "test": "jest",
+    "postinstall": "ts-dev-tools install"
   },
   "repository": {
     "type": "git",
@@ -30,47 +31,31 @@
   },
   "homepage": "https://reactionable.github.io/reactionable-cli",
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
+    "@ts-dev-tools/core": "^1.3.2",
     "@types/chalk": "^2.2.0",
     "@types/diff": "^4.0.2",
     "@types/figlet": "^1.2.1",
     "@types/inquirer": "^7.3.1",
     "@types/inversify": "^2.0.33",
-    "@types/jest": "^26.0.15",
     "@types/mock-fs": "^4.13.0",
     "@types/mustache": "^4.0.0",
-    "@types/node": "^14.14.6",
     "@types/parse-github-url": "^1.0.0",
     "@types/reflect-metadata": "^0.1.0",
     "@types/shelljs": "^0.8.8",
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^3.10.1",
-    "commitizen": "^4.2.2",
     "copyfiles": "^2.4.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.12.1",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "husky": "^4.3.0",
-    "import-sort-style-module": "^6.0.0",
-    "jest": "^26.6.3",
     "mock-fs": "^4.13.0",
     "mock-spawn": "^0.2.6",
-    "prettier": "^2.1.2",
-    "prettier-plugin-import-sort": "^0.0.6",
     "rimraf": "^3.0.0",
-    "ts-jest": "^26.4.3",
     "tsc-watch": "^4.2.9",
     "typedoc": "^0.19.2",
     "typedoc-plugin-nojekyll": "^1.0.1"
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",
-    "@typescript-eslint/typescript-estree": "^4.6.1",
+    "@typescript-eslint/typescript-estree": "^4.7.0",
     "chalk": "^4.1.0",
     "deepmerge": "^4.2.2",
-    "diff": "^4.0.1",
+    "diff": "^5.0.0",
     "esm": "^3.2.25",
     "figlet": "^1.5.0",
     "handlebars": "^4.7.6",
@@ -86,7 +71,8 @@
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "semi": true
   },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
@@ -96,12 +82,65 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "tsc && lint-staged && pretty-quick --staged",
+      "pre-push": "yarn lint && yarn test"
     }
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "jest"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jest/recommended",
+      "prettier"
+    ],
+    "env": {
+      "es2021": true
+    },
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.[t]s?(x)",
+      "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    ],
+    "setupFiles": [
+      "./src/container.ts"
+    ],
+    "transform": {
+      "\\.template$": "<rootDir>/__tests__/template-preprocessor.js"
+    }
+  },
+  "tsDevTools": {
+    "version": "20201024173398-init"
   }
 }
