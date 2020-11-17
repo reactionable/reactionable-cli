@@ -8,11 +8,12 @@
   },
   "scripts": {
     "start": "yarn link && tsc-watch",
-    "build": "rimraf ./dist && yarn lint && tsc && yarn build:copy-templates",
+    "build": "rimraf ./dist && tsc && yarn build:copy-templates",
     "build:copy-templates": "rimraf ./dist/**/*.template && cd src && copyfiles ./**/*.template ../dist/ && cd ..",
-    "build:doc": "rimraf -rf docs && typedoc",
+    "build:doc": "rimraf -rf build/docs && typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "jest",
+    "test:coverage": "yarn test --coverage",
     "postinstall": "ts-dev-tools install"
   },
   "repository": {

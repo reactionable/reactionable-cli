@@ -72,11 +72,13 @@ describe('App', () => {
 `;
 
 exports[`createComponent run should create expected components files 1`] = `
-"import React, { FC } from 'react';
+"import { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
 interface ITestComponentProps { }
+
+
 const TestComponent: FC<ITestComponentProps> = (props) => {
   const { t } = useTranslation();
   
@@ -89,6 +91,7 @@ const TestComponent: FC<ITestComponentProps> = (props) => {
     
   </>;
 };
+
 export default TestComponent;"
 `;
 
