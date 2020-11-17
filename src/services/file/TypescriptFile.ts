@@ -1,10 +1,14 @@
-import { EOL } from 'os';
-
-import { ImportDeclaration, ProgramStatement } from '@typescript-eslint/types/dist/ts-estree';
-import { AST_NODE_TYPES, parse } from '@typescript-eslint/typescript-estree';
+import {
+  ImportDeclaration,
+  NodeArray,
+  ScriptTarget,
+  Statement,
+  SyntaxKind,
+  createSourceFile,
+} from 'typescript';
 
 import { StdFile } from './StdFile';
-import { ITypescriptImport, TypescriptImport } from './TypescriptImport';
+import { ITypescriptImport, ITypescriptImportModules, TypescriptImport } from './TypescriptImport';
 
 export class TypescriptFile extends StdFile {
   protected imports?: Array<TypescriptImport>;
@@ -20,77 +24,75 @@ export class TypescriptFile extends StdFile {
     const body = this.parseTypescriptContent(content);
 
     for (const bodyItem of body) {
-      switch (bodyItem.type) {
-        case AST_NODE_TYPES.ImportDeclaration:
-          this.parseImportDeclaration(bodyItem);
+      switch (bodyItem.kind) {
+        case SyntaxKind.ImportDeclaration:
+          this.parseImportDeclaration(bodyItem as ImportDeclaration);
           break;
         default:
-          this.declarations.push(
-            content.substr(bodyItem.range[0], bodyItem.range[1] - bodyItem.range[0])
-          );
+          this.declarations.push(content.substr(bodyItem.pos, bodyItem.end - bodyItem.pos));
       }
     }
 
     return content;
   }
 
-  protected parseTypescriptContent(content: string): ProgramStatement[] {
-    try {
-      const { body } = parse(content, {
-        jsx: true,
-        range: true,
-      });
-      return body;
-    } catch (error) {
-      let contentError = content;
-
-      if (error.lineNumber) {
-        contentError = content.split('\n')[error.lineNumber - 1];
-      }
-
-      throw new Error(
-        `An error occurred while parsing file content "${this.file}": ${JSON.stringify(
-          error
-        )} => "${contentError.trim()}"`
-      );
-    }
+  protected parseTypescriptContent(content: string): NodeArray<Statement> {
+    const sourceFile = createSourceFile(this.file ?? 'tmp-file.ts', content, ScriptTarget.ES2020);
+    return sourceFile.statements;
   }
 
   protected parseImportDeclaration(bodyItem: ImportDeclaration): void {
-    if (!bodyItem.specifiers.length) {
+    const packageName = bodyItem.moduleSpecifier['text'];
+
+    // File import. I.e: import './index.scss';
+    if (!bodyItem.importClause) {
       this.addImports([
-        new TypescriptImport(bodyItem.source.value as string, {
+        new TypescriptImport(packageName, {
           [TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
         }),
       ]);
       return;
     }
 
-    for (const specifier of bodyItem.specifiers) {
-      let importType: string;
-      let moduleName: string;
-      switch (specifier.type) {
-        case AST_NODE_TYPES.ImportDefaultSpecifier:
-          importType = TypescriptImport.defaultImport;
-          moduleName = specifier.local.name;
-          break;
+    const namedBindings = bodyItem.importClause.namedBindings;
 
-        case AST_NODE_TYPES.ImportNamespaceSpecifier:
-          importType = specifier.local.name;
-          moduleName = TypescriptImport.globImport;
-          break;
-
-        case AST_NODE_TYPES.ImportSpecifier:
-          importType = specifier.local.name !== specifier.imported.name ? specifier.local.name : '';
-          moduleName = specifier.imported.name;
-          break;
+    // Named imports. I.e: import React from 'react';
+    if (!namedBindings) {
+      const name = bodyItem.importClause.name?.escapedText.toString();
+      if (!name) {
+        throw new Error('importClause does not have nameBindings and name');
       }
 
       this.addImports([
-        new TypescriptImport(bodyItem.source.value as string, {
-          [moduleName]: importType,
+        new TypescriptImport(packageName, {
+          [name]: TypescriptImport.defaultImport,
         }),
       ]);
+      return;
+    }
+
+    switch (namedBindings.kind) {
+      // Namespace imports. I.e: import * as serviceWorker from './serviceWorker';
+      case SyntaxKind.NamespaceImport:
+        this.addImports([
+          new TypescriptImport(packageName, {
+            [TypescriptImport.globImport]: namedBindings.name.text,
+          }),
+        ]);
+        break;
+
+      // Named imports. I.e: import { IAppProps } from '@reactionable/core';
+      case SyntaxKind.NamedImports:
+        // eslint-disable-next-line no-case-declarations
+        const modules: ITypescriptImportModules = {};
+        for (const element of namedBindings.elements) {
+          const propertyName = element?.propertyName?.escapedText?.toString();
+          const elementName = element.name.escapedText.toString();
+          const moduleName: string = propertyName ?? elementName;
+          modules[moduleName] = propertyName ? elementName : '';
+        }
+        this.addImports([new TypescriptImport(packageName, modules)]);
+        break;
     }
   }
 
@@ -102,7 +104,11 @@ export class TypescriptFile extends StdFile {
         .map((importItem) => importItem.toString())
         .filter((line) => !!line.length);
     }
-    return [...importLines, '', ...(this.declarations || [])].join(EOL);
+
+    return [importLines.join('\n'), (this.declarations || []).join('\n')]
+      .map((value) => value.trim())
+      .join('\n\n')
+      .trim();
   }
 
   setImports(

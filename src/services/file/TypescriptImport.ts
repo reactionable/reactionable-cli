@@ -3,6 +3,14 @@ export interface ITypescriptImport {
   modules: ITypescriptImportModules;
 }
 
+/**
+ * Key is the name of the import and value is the alias.
+ * Example:
+ * import { Test } from 'xxxx'; => { Test: '' }
+ * import { Test as TesAlias } from 'xxxx'; => { Test: 'TestAlias' }
+ * import Test from 'xxxx'; => { Test: 'default' }
+ *
+ */
 export type ITypescriptImportModules = { [key: string]: string };
 
 export class TypescriptImport {
