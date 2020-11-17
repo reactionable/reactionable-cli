@@ -23,6 +23,8 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
     protected realpath: string
   ) {}
 
+  abstract installPackages(packages: string[], dev: boolean): Promise<string[]>;
+
   getCmd(): string {
     return this.type;
   }
@@ -52,7 +54,17 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
     return resolve(result.trim(), '..');
   }
 
-  abstract installPackages(packages: string[], dev: boolean): Promise<string[]>;
+  execCmd(cmd: string | string[], silent = false): Promise<string> {
+    if (!which(`${this.type}`)) {
+      throw new Error(`Unable to execute command, please install "${this.type}"`);
+    }
+
+    return this.cliService.execCmd(
+      [this.type, ...(Array.isArray(cmd) ? cmd : [cmd])],
+      this.realpath,
+      silent
+    );
+  }
 
   async isMonorepoPackage(): Promise<boolean> {
     const monorepoInfo = await this.getMonorepoInfos();
@@ -71,17 +83,5 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
 
   protected installDevPackages(devPackages: string[]): Promise<string[]> {
     return this.installPackages(devPackages, true);
-  }
-
-  protected execCmd(cmd: string | string[], silent = false): Promise<string> {
-    if (!which(`${this.type}`)) {
-      throw new Error(`Unable to execute command, please install "${this.type}"`);
-    }
-
-    return this.cliService.execCmd(
-      [this.type, ...(Array.isArray(cmd) ? cmd : [cmd])],
-      this.realpath,
-      silent
-    );
   }
 }

@@ -53,6 +53,10 @@ export class PackageManagerService {
     return this.getPackageManager(realpath).getCmd();
   }
 
+  execCmd(realpath: string, cmd: string | string[], silent = false): Promise<string> {
+    return this.getPackageManager(realpath).execCmd(cmd, silent);
+  }
+
   isMonorepoPackage(realpath: string): Promise<boolean> {
     return this.getPackageManager(realpath).isMonorepoPackage();
   }

@@ -4,13 +4,17 @@ exports[`createComponent run should create expected App component files 1`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
 import { App as CoreApp, IAppProps } from '@reactionable/core';
 import { IUIContextProviderProps, IUseLayoutProps, useUIContextProviderProps } from '@reactionable/ui-bootstrap';
-import React, { FC, lazy } from 'react';
+import { FC, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.scss';
 import './i18n/i18n';
 
+// Lazy load these components
 const HomeComponent = lazy(() => import('./views/home/Home'));
+
 const NotFoundComponent = lazy(() => import('./views/not-found/NotFound'));
+
+
 const App: FC = () => {
   const { t } = useTranslation();
 
@@ -37,6 +41,7 @@ const App: FC = () => {
 
   return <CoreApp {...appConfig} />;
 };
+
 export default App;"
 `;
 

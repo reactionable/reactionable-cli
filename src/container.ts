@@ -8,11 +8,11 @@ import AddCssFramework from './actions/add-ui-framework/AddUIFramework';
 import { bindUIFrameworkAdapters } from './actions/add-ui-framework/container';
 import AddVersioning from './actions/add-versioning/AddVersioning';
 import { bindVersioningAdapters } from './actions/add-versioning/container';
+import { bindCreateAppAdapters } from './actions/create-app/container';
+import CreateApp from './actions/create-app/CreateApp';
 import CreateComponent from './actions/create-component/CreateComponent';
 import CreateCrudComponent from './actions/create-component/CreateCrudComponent';
-import CreateReactApp from './actions/create-react-app/CreateReactApp';
 import GenerateReadme from './actions/generate-readme/GenerateReadme';
-import { NamedAction } from './actions/NamedAction';
 import { CliService } from './services/CliService';
 import { ConsoleService } from './services/ConsoleService';
 import { FileFactory } from './services/file/FileFactory';
@@ -35,8 +35,8 @@ container.bind<FileFactory>(FileFactory).toSelf();
 container.bind<CliService>(CliService).toSelf();
 
 // Available root actions
-container.bind<CreateReactApp>('Action').to(CreateReactApp);
-container.bind<NamedAction>(CreateReactApp).toSelf();
+container.bind<CreateApp>('Action').to(CreateApp);
+container.bind<CreateApp>(CreateApp).toSelf();
 container.bind<CreateComponent>('Action').to(CreateComponent);
 container.bind<CreateComponent>(CreateComponent).toSelf();
 container.bind<CreateCrudComponent>('Action').to(CreateCrudComponent);
@@ -50,6 +50,7 @@ container.bind<AddHosting>(AddHosting).toSelf();
 container.bind<AddVersioning>(AddVersioning).toSelf();
 
 // Bind adapters
+bindCreateAppAdapters(container);
 bindHostingAdapters(container);
 bindUIFrameworkAdapters(container);
 bindVersioningAdapters(container);

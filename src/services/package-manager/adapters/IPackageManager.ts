@@ -53,4 +53,6 @@ export interface IPackageManager<PJ extends PackageJson = PackageJson> {
     property: P | undefined,
     encoding: BufferEncoding
   ): PackageJson | PJ[P] | undefined;
+
+  execCmd(cmd: string | string[], silent: boolean): Promise<string>;
 }
