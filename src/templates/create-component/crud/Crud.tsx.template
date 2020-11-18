@@ -1,11 +1,11 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
-import { lazy } from 'react';
-import { Crud } from '@reactionable/core';
-import { IUseLayoutProps } from '{{ uiPackage }}';
-import { I{{ entityName }}Data } from './{{ entitiesName }}Config';
-const List{{ entitiesName }} = lazy(() => import('./list-{{hyphenize entitiesName }}/List{{ entitiesName }}'));
-const Read{{ entityName }} = lazy(() => import('./read-{{hyphenize entityName }}/Read{{ entityName }}'));
+import { lazy } from "react";
+import { Crud } from "@reactionable/core";
+import { IUseLayoutProps } from "{{ uiPackage }}";
+import { I{{ entityName }}Data } from "./{{ entitiesName }}Config";
+const List{{ entitiesName }} = lazy(() => import("./list-{{hyphenize entitiesName }}/List{{ entitiesName }}"));
+const Read{{ entityName }} = lazy(() => import("./read-{{hyphenize entityName }}/Read{{ entityName }}"));
 {{/inline}}
 {{#*inline "helmet-block"}}{{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}

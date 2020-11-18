@@ -1,9 +1,9 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
-import { Delete, IDeleteProps } from '{{ uiPackage }}';
-import { I{{ entityName }}Data } from '../{{ entitiesName }}Config';
+import { Delete, IDeleteProps } from "{{ uiPackage }}";
+import { I{{ entityName }}Data } from "../{{ entitiesName }}Config";
 {{/inline}}
-{{#*inline "props-block"}}interface IProps extends Pick<IDeleteProps<I{{ entityName }}Data>, 'onSuccess'> {
+{{#*inline "props-block"}}interface IProps extends Pick<IDeleteProps<I{{ entityName }}Data>, "onSuccess"> {
   id: string; 
   label?: boolean;
 }
@@ -11,16 +11,16 @@ import { I{{ entityName }}Data } from '../{{ entitiesName }}Config';
 {{#*inline "helmet-block"}}{{/inline}}
 {{#*inline "pre-render-block"}}const { id, label, ...deleteProps} = props;
   const onConfirm = async (): Promise<I{{ entityName }}Data> => {
-    return { id, label: '' };
+    return { id, label: "" };
   };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
 {{#*inline "render-block"}}<Delete<I{{ entityName }}Data>
       {...deleteProps}
-      title={t('Delete {{decamelize entityName }}')}
-      children={label ? t('Delete {{decamelize entityName }}') : undefined}
-      confirmationMessage={t('Are you sure you want to delete this {{decamelize entityName }} ?')}
-      successMessage={t('The {{decamelize entityName }} has been deleted')}
+      title={t("Delete {{decamelize entityName }}")}
+      children={label ? t("Delete {{decamelize entityName }}") : undefined}
+      confirmationMessage={t("Are you sure you want to delete this {{decamelize entityName }} ?")}
+      successMessage={t("The {{decamelize entityName }} has been deleted")}
       onConfirm={onConfirm}
     />{{/inline}}
 {{/Component}}`;

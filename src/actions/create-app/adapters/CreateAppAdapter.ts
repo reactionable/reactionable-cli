@@ -140,7 +140,7 @@ export abstract class AbstractCreateAppAdapter
       realpath,
       'i18n',
       {
-        [i18nPath]: ['i18n.ts', 'locales/en/translation.json', 'locales/fr/translation.json'],
+        [i18nPath]: ['i18n.ts', 'locales/en/common.json', 'locales/fr/common.json'],
       },
       {
         projectName: JSON.stringify(

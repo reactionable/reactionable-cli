@@ -1,16 +1,15 @@
-const template = `import { initializeI18n } from '{{ hostingPackage }}';
+import { initializeI18n } from '@reactionable/core';
 
 import enCommon from './locales/en/common.json';
 import frCommon from './locales/fr/common.json';
 
 const resources = {
-  en: { 
+  en: {
     common: enCommon,
   },
-  fr: { 
+  fr: {
     common: frCommon,
   },
 };
 
-initializeI18n({ resources });`;
-module.exports = template;
+initializeI18n({ resources });

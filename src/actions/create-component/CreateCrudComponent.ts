@@ -1,9 +1,14 @@
+import { basename, resolve } from 'path';
+
 import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
 import { plural, singular } from 'pluralize';
 
 import { ConsoleService } from '../../services/ConsoleService';
+import { FileFactory } from '../../services/file/FileFactory';
 import { FileService } from '../../services/file/FileService';
+import { TypescriptFile } from '../../services/file/TypescriptFile';
+import { TypescriptImport } from '../../services/file/TypescriptImport';
 import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
 import { TemplateService } from '../../services/TemplateService';
 import AddHosting from '../add-hosting/AddHosting';
@@ -19,7 +24,8 @@ export default class CreateCrudComponent extends CreateComponent {
     protected readonly packageManagerService: PackageManagerService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
     @inject(FileService) protected readonly fileService: FileService,
-    @inject(TemplateService) protected readonly templateService: TemplateService
+    @inject(TemplateService) protected readonly templateService: TemplateService,
+    @inject(FileFactory) protected readonly fileFactory: FileFactory
   ) {
     super(
       addUIFramework,
@@ -60,7 +66,7 @@ export default class CreateCrudComponent extends CreateComponent {
     // Create main component
     const componentDirPath = await this.createComponent({
       realpath,
-      name: plural(entityName),
+      name: entitiesName,
       componentTemplate: 'crud/Crud.tsx',
       templateContext,
     });
@@ -95,6 +101,39 @@ export default class CreateCrudComponent extends CreateComponent {
         templateContext,
       });
     }
+
+    // Create I18n translations
+    const translationNamespace = entitiesName[0].toLowerCase() + entitiesName.substring(1);
+
+    const translationFileName = `${basename(componentDirPath)}.json`;
+    await this.templateService.renderTemplateTree(
+      realpath,
+      'i18n/locales',
+      {
+        'src/i18n/locales': {
+          [`en/${translationFileName}`]: 'en/crud.json',
+          [`fr/${translationFileName}`]: 'fr/crud.json',
+        },
+      },
+      templateContext
+    );
+
+    // Import and add translations as i18n ressources
+    await this.fileFactory
+      .fromFile<TypescriptFile>(resolve(realpath, 'src/i18n/i18n.ts'))
+      .setImports([
+        {
+          packageName: `./locales/en/${translationFileName}`,
+          modules: { [`en${entitiesName}`]: TypescriptImport.defaultImport },
+        },
+        {
+          packageName: `./locales/fr/${translationFileName}`,
+          modules: { [`fr${entitiesName}`]: TypescriptImport.defaultImport },
+        },
+      ])
+      .appendContent(`    ${translationNamespace}: en${entitiesName},`, '    common: enCommon,')
+      .appendContent(`    ${translationNamespace}: fr${entitiesName},`, '    common: frCommon,')
+      .saveFile();
 
     this.consoleService.success(`CRUD component for "${entityName}" has been created`);
   }

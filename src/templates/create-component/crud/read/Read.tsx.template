@@ -1,13 +1,13 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
-import { Link, useParams } from 'react-router-dom';
-import { lazy } from 'react';
-import { Suspense } from '@reactionable/core';
-import { Read } from '{{ uiPackage }}';
-import { useQueryList } from '{{ hostingPackage }}';
-import { I{{ entityName }}Data, IGet{{ entityName }}QueryVariables } from '../{{ entitiesName }}Config';
+import { Link, useParams } from "react-router-dom";
+import { lazy } from "react";
+import { Suspense } from "@reactionable/core";
+import { Read } from "{{ uiPackage }}";
+import { useQueryList } from "{{ hostingPackage }}";
+import { I{{ entityName }}Data, IGet{{ entityName }}QueryVariables } from "../{{ entitiesName }}Config";
 
-const Update{{ entityName }} = lazy(() => import('../update-{{hyphenize entityName }}/Update{{ entityName }}'));
+const Update{{ entityName }} = lazy(() => import("../update-{{hyphenize entityName }}/Update{{ entityName }}"));
 
 interface I{{entityName}}ItemProps { 
   data: I{{ entityName }}Data;
@@ -15,21 +15,21 @@ interface I{{entityName}}ItemProps {
 }
 
 const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("{{decapitalize entitiesName }}");
   const match = useRouteMatch();
 
   return <>
     <Helmet>
-      <title>{t('{{projectName}}')} - {t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)}</title>
-      <meta name="description" content={t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)} />
+      <title>{t("{{projectName}}", { ns: "common" })} - {t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)}</title>
+      <meta name="description" content={t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)} />
     </Helmet>
-    <h1>{t('{{capitalize (decamelize componentName)}} - \\{{label}}', data)}</h1>
+    <h1>{t("{{capitalize (decamelize componentName)}} - {{label}}", data)}</h1>
     { data && <Suspense>
       <Update{{ entityName }}
         onSuccess={refetch}
         formValues={data}
       >
-        <Link to="#">{ t('Update {{decamelize entityName }} "\\{{label}}"', data) }</Link>
+        <Link to="#">{ t("Update {{decamelize entityName }} \"\\{{label}}\"", data) }</Link>
       </Update{{ entityName }}>
     </Suspense>}
   </>;

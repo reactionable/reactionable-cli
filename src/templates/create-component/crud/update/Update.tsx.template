@@ -1,11 +1,11 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
-import { useParams } from 'react-router-dom';
-import { Update, IFormProps, IOnSubmitForm } from '{{ uiPackage }}';
-import { I{{ entityName }}Values, I{{ entityName }}Data, {{decapitalize entityName }}FormSchema, {{decapitalize entityName }}FormValues, {{decapitalize entityName }}FormChildren } from '../{{ entitiesName }}Config';
+import { useParams } from "react-router-dom";
+import { Update, IFormProps, IOnSubmitForm } from "{{ uiPackage }}";
+import { I{{ entityName }}Values, I{{ entityName }}Data, {{decapitalize entityName }}FormSchema, {{decapitalize entityName }}FormValues, {{decapitalize entityName }}FormChildren } from "../{{ entitiesName }}Config";
 {{/inline}}
 {{#*inline "props-block"}}
-interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName }}Data>, 'onSuccess' | 'formValues'> { }
+interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName }}Data>, "onSuccess" | "formValues"> { }
 {{/inline}}
 {{#*inline "helmet-block"}}{{/inline}}
 {{#*inline "pre-render-block"}}const matchParams = useParams<{ {{decapitalize entityName }}Id: string }>();
@@ -22,7 +22,7 @@ interface IProps extends Pick<IFormProps<I{{ entityName }}Values, I{{ entityName
   });
 
   const form = {
-    title: t('Update {{decamelize entityName }} "\\{{label}}"', safeFormValues),
+    title: t("Update {{decamelize entityName }} "\\{{label}}"", safeFormValues),
     onSubmit,
     formValues: safeFormValues,
     formSchema: {{decapitalize entityName }}FormSchema(t),

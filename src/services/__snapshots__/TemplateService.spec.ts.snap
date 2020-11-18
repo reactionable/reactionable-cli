@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`templateService createFileFromTemplate should create a file from given template 1`] = `
+"import { initializeI18n } from '';
+import enCommon from './locales/en/common.json';
+import frCommon from './locales/fr/common.json';
+
+const resources = {
+  en: { 
+    common: enCommon,
+  },
+  fr: { 
+    common: frCommon,
+  },
+};
+
+
+initializeI18n({ resources });"
+`;
+
+exports[`templateService createFileFromTemplate should create a file from given template file name different from target filename 1`] = `
+"{
+  \\"test-project\\": \\"test-project\\"
+}"
+`;

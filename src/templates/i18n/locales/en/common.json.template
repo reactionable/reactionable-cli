@@ -1,0 +1,4 @@
+const template = `{
+    {{{projectName}}}: {{{projectName}}}
+}`;
+module.exports = template;

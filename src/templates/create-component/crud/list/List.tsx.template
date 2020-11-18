@@ -1,14 +1,14 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
-import { lazy } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { generatePath, Suspense } from '@reactionable/core';
-import { List } from '{{ uiPackage }}';
-import { useQueryList } from '{{ hostingPackage }}';
-import { I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables } from '../{{ entitiesName }}Config';
+import { lazy } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
+import { generatePath, Suspense } from "@reactionable/core";
+import { List } from "{{ uiPackage }}";
+import { useQueryList } from "{{ hostingPackage }}";
+import { I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables } from "../{{ entitiesName }}Config";
 
-const Create{{ entityName }} = lazy(() => import('../create-{{hyphenize entityName }}/Create{{ entityName }}'));
-const Delete{{ entityName }} = lazy(() => import('../delete-{{hyphenize entityName }}/Delete{{ entityName }}'));
+const Create{{ entityName }} = lazy(() => import("../create-{{hyphenize entityName }}/Create{{ entityName }}"));
+const Delete{{ entityName }} = lazy(() => import("../delete-{{hyphenize entityName }}/Delete{{ entityName }}"));
 
 interface I{{entityName}}ItemProps { 
   data: I{{ entityName }}Data;
@@ -16,24 +16,24 @@ interface I{{entityName}}ItemProps {
 }
 
 const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("{{decapitalize entitiesName }}");
   const match = useRouteMatch();
 
-  return <tr key={'{{ entityName }}-' + data.id}>
+  return <tr key={"{{ entityName }}-" + data.id}>
     <td>
       <Link
         to={generatePath(\`\${match.path}/:{{decapitalize entitiesName }}Id\`, { ...match.params, {{decapitalize entitiesName }}Id: data.id })}
-        title={t('Go to {{decamelize entityName }} "\\{{label}}"', data)}
+        title={t("Go to {{decamelize entityName }} \"\\{{label}}\"", data)}
       >{data.label}</Link>
     </td>
     <td>
       <Link
         to={generatePath(\`\${match.path}/:{{decapitalize entitiesName }}Id\`, { ...match.params, {{decapitalize entitiesName }}Id: data.id })}
-        title={t('Go to {{decamelize entityName }} "\\{{label}}"', data)}
-      >{t('Go to {{decamelize entityName }} "\\{{label}}"', data)}</Link>
+        title={t("Go to {{decamelize entityName }} "\\{{label}}"", data)}
+      >{t("Go to {{decamelize entityName }} "\\{{label}}"", data)}</Link>
       <Suspense>
         <Delete{{ entityName }} id={data.id} onSuccess={refetch}>
-          {t('Delete {{decamelize entityName }} "\\{{label}}"', data)}
+          {t("Delete {{decamelize entityName }} \"\\{{label}}\"", data)}
         </Delete{{ entityName }}>
       </Suspense>
     </td>
@@ -46,22 +46,22 @@ const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) 
 
   const renderChildren = (data: I{{ entityName }}Data) => <{{componentName}}Item data={data} refetch={refetch}/>;
 {{/inline}}
-{{#*inline "render-block"}}<Link disabled={!previous} title={t('Load the previous {{decamelize entitiesName }}')}>{t('Previous')}</Link>
-    <Link disabled={!next} title={t('Load the next {{decamelize entitiesName }}')}>{t('Next')}</Link>
+{{#*inline "render-block"}}<Link disabled={!previous} title={t("Load the previous {{decamelize entitiesName }}")}>{t("Previous")}</Link>
+    <Link disabled={!next} title={t("Load the next {{decamelize entitiesName }}")}>{t("Next")}</Link>
     <List<I{{ entityName }}Data>
       {...listProps}
       data={data}
-      head={[t('Label'), t('Actions')]}
+      head={[t("Label"), t("Actions")]}
       children={renderChildren}
       noData={<>
         <br /> <br />
-        {t('You don\\'t have any {{decamelize entitiesName }} yet')}
+        {t("You don\\"t have any {{decamelize entitiesName }} yet")}
         <br />
-        {t('Click the button to create a new {{decamelize entityName }}')}
+        {t("Click the button to create a new {{decamelize entityName }}")}
         <br /><br />
         <Suspense>
           <Create{{ entityName }} onSuccess={refetch}>
-            <Link>{t('Create a new {{decamelize entityName }}')}</Link>
+            <Link>{t("Create a new {{decamelize entityName }}")}</Link>
           </Create{{ entityName }}>
         </Suspense>
       </>}
