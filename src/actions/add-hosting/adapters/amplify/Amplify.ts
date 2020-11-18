@@ -9,6 +9,7 @@ import { FileFactory } from '../../../../services/file/FileFactory';
 import { FileService } from '../../../../services/file/FileService';
 import { JsonFile } from '../../../../services/file/JsonFile';
 import { TypescriptFile } from '../../../../services/file/TypescriptFile';
+import { TypescriptImport } from '../../../../services/file/TypescriptImport';
 import { GitService } from '../../../../services/git/GitService';
 import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { StringUtils } from '../../../../services/StringUtils';
@@ -146,8 +147,6 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
             packageName: '@reactionable/amplify',
             modules: { IIdentityContextProviderProps: '' },
           },
-          { packageName: 'aws-amplify', modules: { Amplify: 'default' } },
-          { packageName: './aws-exports', modules: { awsconfig: 'default' } },
         ],
         [
           {
@@ -156,7 +155,19 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
           },
         ]
       )
-      .appendContent('Amplify.configure(awsconfig);', "import './App.scss';")
+      .saveFile();
+
+    await this.fileFactory
+      .fromFile<TypescriptFile>(resolve(realpath, 'src/index.tsx'))
+      .setImports([
+        { packageName: 'aws-amplify', modules: { Amplify: TypescriptImport.defaultImport } },
+        { packageName: './aws-exports', modules: { awsconfig: TypescriptImport.defaultImport } },
+        {
+          packageName: '@aws-amplify/ui/dist/style.css',
+          modules: { [TypescriptImport.defaultImport]: TypescriptImport.defaultImport },
+        },
+      ])
+      .appendContent('Amplify.configure(awsconfig);', "import './index.scss';")
       .saveFile();
 
     await this.fileFactory
