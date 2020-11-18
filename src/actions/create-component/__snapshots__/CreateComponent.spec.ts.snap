@@ -47,6 +47,7 @@ export default App;"
 
 exports[`createComponent run should create expected App component files 2`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -54,19 +55,22 @@ import { MemoryRouter } from 'react-router';
 import App from './App';
 
 describe('App', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <App />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;
@@ -97,6 +101,7 @@ export default TestComponent;"
 
 exports[`createComponent run should create expected components files 2`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -104,19 +109,22 @@ import { MemoryRouter } from 'react-router';
 import TestComponent from './TestComponent';
 
 describe('TestComponent', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <TestComponent />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;

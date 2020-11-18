@@ -2,6 +2,7 @@
 
 exports[`createCrudComponent run should create all crud components files 1`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -9,19 +10,22 @@ import { MemoryRouter } from 'react-router';
 import CreateTestEntity from './CreateTestEntity';
 
 describe('CreateTestEntity', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <CreateTestEntity />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;
@@ -62,6 +66,7 @@ export default CreateTestEntity;"
 
 exports[`createCrudComponent run should create all crud components files 3`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -69,19 +74,22 @@ import { MemoryRouter } from 'react-router';
 import DeleteTestEntity from './DeleteTestEntity';
 
 describe('DeleteTestEntity', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <DeleteTestEntity />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;
@@ -124,6 +132,7 @@ export default DeleteTestEntity;"
 
 exports[`createCrudComponent run should create all crud components files 5`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -131,19 +140,22 @@ import { MemoryRouter } from 'react-router';
 import ListTestEntities from './ListTestEntities';
 
 describe('ListTestEntities', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <ListTestEntities />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;
@@ -240,6 +252,7 @@ export default ListTestEntities;"
 
 exports[`createCrudComponent run should create all crud components files 7`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -247,19 +260,22 @@ import { MemoryRouter } from 'react-router';
 import ReadTestEntity from './ReadTestEntity';
 
 describe('ReadTestEntity', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <ReadTestEntity />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;
@@ -334,6 +350,7 @@ export default ReadTestEntity;"
 
 exports[`createCrudComponent run should create all crud components files 9`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -341,19 +358,22 @@ import { MemoryRouter } from 'react-router';
 import UpdateTestEntity from './UpdateTestEntity';
 
 describe('UpdateTestEntity', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <UpdateTestEntity />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;
@@ -404,6 +424,7 @@ export default UpdateTestEntity;"
 
 exports[`createCrudComponent run should create all crud components files 11`] = `
 "import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
@@ -411,19 +432,22 @@ import { MemoryRouter } from 'react-router';
 import TestEntities from './TestEntities';
 
 describe('TestEntities', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <TestEntities />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });"
 `;

@@ -1,27 +1,22 @@
-import { existsSync, mkdirSync, readFileSync } from 'fs';
-import { join, resolve } from 'path';
-
-import { sync } from 'rimraf';
+import { existsSync, readFileSync } from 'fs';
+import { resolve } from 'path';
 
 import container from '../../container';
+import { DirResult, createTmpDir } from '../../tests/tmp-dir';
 import CreateCrudComponent from './CreateCrudComponent';
 
 describe('createCrudComponent', () => {
   let createCrudComponent: CreateCrudComponent;
 
-  const testDirPath = resolve('__tests__/test-project');
+  let testDir: DirResult;
 
-  const cleanTestDir = async () => {
-    const testComponentDirPath = resolve(testDirPath, 'src');
-    await sync(testComponentDirPath);
-  };
-
-  beforeAll(() => {
+  beforeAll(async () => {
     createCrudComponent = container.get(CreateCrudComponent);
   });
 
-  beforeEach(cleanTestDir);
-  afterEach(cleanTestDir);
+  afterEach(() => {
+    testDir && testDir.removeCallback();
+  });
 
   describe('construct', () => {
     it('should be initialized', () => {
@@ -31,9 +26,8 @@ describe('createCrudComponent', () => {
 
   describe('run', () => {
     it('should create all crud components files', async () => {
-      const testComponentDirPath = join(testDirPath, 'src/views/test-entities');
-      mkdirSync(testComponentDirPath, { recursive: true });
-      expect(existsSync(testComponentDirPath)).toBe(true);
+      testDir = createTmpDir();
+      const testDirPath = testDir.name;
 
       await createCrudComponent.run({
         realpath: testDirPath,

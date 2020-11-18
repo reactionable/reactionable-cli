@@ -51,6 +51,12 @@ export default class CreateCrudComponent extends CreateComponent {
     const templateContext = { entityName, entitiesName };
     this.consoleService.info(`Create CRUD component for "${entityName}"...`);
 
+    if (!this.fileService.fileDirExistsSync(realpath)) {
+      throw new Error(
+        `Unable to create CRUD component for "${entityName}" in unexisting directory "${realpath}`
+      );
+    }
+
     // Create main component
     const componentDirPath = await this.createComponent({
       realpath,

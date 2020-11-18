@@ -1,4 +1,4 @@
-import { existsSync, lstatSync, realpathSync } from 'fs';
+import { existsSync, realpathSync, statSync } from 'fs';
 import { basename, dirname, extname, resolve } from 'path';
 
 import { injectable } from 'inversify';
@@ -10,14 +10,14 @@ export class FileService {
     if (!existsSync(path)) {
       return false;
     }
-    return lstatSync(path).isFile();
+    return statSync(path).isFile();
   }
 
   dirExistsSync(path: string): boolean {
     if (!existsSync(path)) {
       return false;
     }
-    return lstatSync(path).isDirectory();
+    return statSync(path).isDirectory();
   }
 
   fileDirExistsSync(path: string): boolean {

@@ -56,7 +56,9 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
 
   execCmd(cmd: string | string[], silent = false): Promise<string> {
     if (!which(`${this.type}`)) {
-      throw new Error(`Unable to execute command, please install "${this.type}"`);
+      throw new Error(
+        `Unable to execute command "${Array.from(cmd).join(' ')}", please install "${this.type}"`
+      );
     }
 
     return this.cliService.execCmd(

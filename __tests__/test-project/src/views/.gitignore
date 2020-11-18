@@ -3,5 +3,3 @@
 
 # But not these files...
 !.gitignore
-!package.json
-!yarn.lock

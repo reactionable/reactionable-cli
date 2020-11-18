@@ -99,6 +99,12 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
         break;
     }
 
+    if (!this.fileService.fileDirExistsSync(componentDirPath)) {
+      throw new Error(
+        `Unable to create component "${name}" in unexisting directory "${componentDirPath}`
+      );
+    }
+
     // Get enabled UI framework
     const projectName = await this.packageManagerService.getPackageName(
       realpath,
