@@ -1,6 +1,7 @@
 const template = `import React from 'react';
 import { MemoryRouter } from "react-router";
 import { render } from '@testing-library/react';
+import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
 import { TestWrapper } from '{{ uiPackage }}';
 import { useIdentityContextProviderProps, IIdentityContextProviderProps } from '{{ hostingPackage }}';
 {{#> imports-block}}
@@ -9,19 +10,22 @@ import { useIdentityContextProviderProps, IIdentityContextProviderProps } from '
 import {{ componentName }} from './{{ componentName }}';
 
 describe('{{ componentName }}', () => {
-    
+
     let identity: IIdentityContextProviderProps;
 
-    beforeAll(() => {
+    beforeAll(async () => {
+        await i18nTestInstance();
         identity = useIdentityContextProviderProps();
     });
 
-    it('renders without crashing', () => {  
-        render(
+    it('renders without crashing', () => {
+        const result = render(
             <TestWrapper identity={identity}>
                 <{{ componentName }} />
             </TestWrapper>
         );
+
+        expect(result).toBeTruthy();
     });
 });`;
 module.exports = template;
