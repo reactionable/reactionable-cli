@@ -1,13 +1,5 @@
-import { resolve } from 'path';
-import { cwd } from 'process';
-
 import container from '../../../container';
-import {
-  mockYarnBinCmd,
-  mockYarnCmd,
-  mockYarnWorkspacesInfoCmd,
-  restoreMockCmd,
-} from '../../../tests/mock-cmd';
+import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from '../../../tests/mock-cmd';
 import {
   mockDirPath,
   mockMonorepoPackageDirName,
@@ -19,34 +11,24 @@ import {
 } from '../../../tests/mock-fs';
 import { CliService } from '../../CliService';
 import { FileFactory } from '../../file/FileFactory';
+import { FileService } from '../../file/FileService';
 import { YarnPackageManager } from '../adapters/YarnPackageManager';
 
 describe('yarnPackageManager', () => {
   const cliService = container.get(CliService);
+  const fileService = container.get(FileService);
   const fileFactory = container.get(FileFactory);
 
   let adapter: YarnPackageManager;
 
   beforeEach(() => {
-    adapter = new YarnPackageManager(cliService, fileFactory, mockDirPath);
+    adapter = new YarnPackageManager(cliService, fileService, fileFactory, mockDirPath);
     mockYarnDir();
   });
 
   afterEach(() => {
     restoreMockFs();
     restoreMockCmd();
-  });
-
-  describe('getNodeModulesDirPath', () => {
-    it('should retrieve "node_modules" directory path', async () => {
-      expect.hasAssertions();
-
-      mockYarnBinCmd(mockDirPath);
-
-      const result = await adapter.getNodeModulesDirPath();
-
-      expect(result).toStrictEqual(resolve(cwd(), mockDirPath, 'node_modules'));
-    });
   });
 
   describe('getMonorepoRootPath', () => {
@@ -78,7 +60,12 @@ describe('yarnPackageManager', () => {
       mockYarnMonorepoDir();
       mockYarnWorkspacesInfoCmd(mockPackageName, mockMonorepoPackageDirName);
 
-      adapter = new YarnPackageManager(cliService, fileFactory, mockMonorepoPackageDirPath);
+      adapter = new YarnPackageManager(
+        cliService,
+        fileService,
+        fileFactory,
+        mockMonorepoPackageDirPath
+      );
 
       const result = await adapter.isMonorepoPackage();
 

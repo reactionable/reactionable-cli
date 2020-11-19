@@ -5,6 +5,7 @@ import { which } from 'shelljs';
 
 import { CliService } from '../../CliService';
 import { FileFactory } from '../../file/FileFactory';
+import { FileService } from '../../file/FileService';
 import { JsonFile } from '../../file/JsonFile';
 import { PackageManagerType } from '../PackageManagerService';
 import { IPackageManager, PackageJson } from './IPackageManager';
@@ -19,10 +20,12 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
 
   constructor(
     @inject(CliService) protected readonly cliService: CliService,
+    @inject(FileService) protected readonly fileService: FileService,
     @inject(FileFactory) private readonly fileFactory: FileFactory,
     protected realpath: string
   ) {}
 
+  abstract isEnabled(): Promise<boolean>;
   abstract installPackages(packages: string[], dev: boolean): Promise<string[]>;
   abstract uninstallPackages(packages: string[]): Promise<string[]>;
 

@@ -95,7 +95,7 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
       projectBranch: JSON.stringify(projectBranch),
       projectPath: JSON.stringify(realpath),
       projectName: JSON.stringify(projectName),
-      packageManager: this.packageManagerService.getPackageManagerCmd(realpath),
+      packageManager: await this.packageManagerService.getPackageManagerCmd(realpath),
     });
 
     // Configure amplify

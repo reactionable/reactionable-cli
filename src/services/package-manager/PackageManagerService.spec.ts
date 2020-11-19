@@ -32,8 +32,8 @@ describe('packageManagerService', () => {
   });
 
   describe('getAvailablePackageManagers', () => {
-    it('should retrieve installed package managers', async () => {
-      const result = await service.getAvailablePackageManagers();
+    it('should retrieve installed package managers', () => {
+      const result = service.getAvailablePackageManagers();
       expect(result).toEqual([PackageManagerType.yarn, PackageManagerType.npm]);
     });
   });
@@ -82,17 +82,19 @@ describe('packageManagerService', () => {
 
   describe('hasInstalledPackage', () => {
     const packageName = 'test-package';
-    it('should return false if given package is not installed', () => {
+    it('should return false if given package is not installed', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({}),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName);
 
       expect(result).toEqual(false);
     });
 
-    it('should return true if given package is installed', () => {
+    it('should return true if given package is installed', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
@@ -101,12 +103,13 @@ describe('packageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName);
 
       expect(result).toEqual(true);
     });
 
-    it('should return true if given package is installed for dev', () => {
+    it('should return true if given package is installed for dev', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           devDependencies: {
@@ -115,12 +118,13 @@ describe('packageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(true);
     });
 
-    it('should return false if given package is not installed for dev', () => {
+    it('should return false if given package is not installed for dev', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
@@ -130,7 +134,7 @@ describe('packageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(false);
     });
@@ -138,17 +142,19 @@ describe('packageManagerService', () => {
 
   describe('hasPackageJsonConfig', () => {
     const packageName = 'test-package';
-    it('should return false if given package is not installed', () => {
+    it('should return false if given package is not installed', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({}),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName);
 
       expect(result).toEqual(false);
     });
 
-    it('should return true if given package is installed', () => {
+    it('should return true if given package is installed', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
@@ -157,12 +163,13 @@ describe('packageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName);
 
       expect(result).toEqual(true);
     });
 
-    it('should return true if given package is installed for dev', () => {
+    it('should return true if given package is installed for dev', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           devDependencies: {
@@ -171,12 +178,13 @@ describe('packageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(true);
     });
 
-    it('should return false if given package is not installed for dev', () => {
+    it('should return false if given package is not installed for dev', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {
@@ -186,7 +194,7 @@ describe('packageManagerService', () => {
         }),
       });
 
-      const result = service.hasInstalledPackage(mockDirPath, packageName, true);
+      const result = await service.hasInstalledPackage(mockDirPath, packageName, true);
 
       expect(result).toEqual(false);
     });

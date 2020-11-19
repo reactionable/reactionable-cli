@@ -3,6 +3,7 @@ import { join } from 'path';
 import inquirer from 'inquirer';
 
 import container from '../../../../container';
+import { mockYarnCmd, restoreMockCmd } from '../../../../tests/mock-cmd';
 import { mockDir, mockDirPath, mockYarnDir, restoreMockFs } from '../../../../tests/mock-fs';
 import CreateReactApp from './CreateReactApp';
 
@@ -14,7 +15,11 @@ describe('createReactApp', () => {
     jest.mock('inquirer');
   });
 
-  afterEach(restoreMockFs);
+  afterEach(() => {
+    restoreMockFs();
+    restoreMockCmd();
+  });
+
   afterAll(jest.resetAllMocks);
 
   describe('checkIfAppExistsAlready', () => {
@@ -51,6 +56,7 @@ describe('createReactApp', () => {
     });
 
     it('should return true if directory exists and have expected files', async () => {
+      mockYarnCmd();
       mockYarnDir({
         'package.json': JSON.stringify({
           dependencies: {

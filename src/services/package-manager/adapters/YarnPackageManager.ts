@@ -1,4 +1,5 @@
 import { realpathSync } from 'fs';
+import { resolve } from 'path';
 
 import { PackageManagerType } from '../PackageManagerService';
 import { AbstractPackageManager } from './AbstractPackageManager';
@@ -14,6 +15,13 @@ export interface MonorepoInfos {
 
 export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> {
   protected type = PackageManagerType.yarn;
+
+  async isEnabled(): Promise<boolean> {
+    if (this.fileService.fileExistsSync(resolve(this.realpath, 'yarn.lock'))) {
+      return true;
+    }
+    return this.isMonorepoPackage();
+  }
 
   async installPackages(packages: string[], dev: boolean): Promise<string[]> {
     const args = ['add', ...packages];

@@ -96,8 +96,8 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
     }
 
     const reactAppExists =
-      this.packageManagerService.hasPackageJson(realpath) &&
-      this.packageManagerService.hasInstalledPackage(realpath, 'react') &&
+      (await this.packageManagerService.hasPackageJson(realpath)) &&
+      (await this.packageManagerService.hasInstalledPackage(realpath, 'react')) &&
       this.fileService.fileExistsSync(
         resolve(realpath, this.getLibDirectoryPath(), 'react-app-env.d.ts')
       );

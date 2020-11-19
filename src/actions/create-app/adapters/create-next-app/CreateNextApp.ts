@@ -72,7 +72,7 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
         '@types/react',
         '@types/node',
       ]);
-      await this.packageManagerService.execCmd(realpath, ['next', 'build']);
+      await this.packageManagerService.execPackageManagerCmd(realpath, ['next', 'build']);
     }
 
     // Replace js files
@@ -106,8 +106,8 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
     }
 
     const reactAppExists =
-      this.packageManagerService.hasPackageJson(realpath) &&
-      this.packageManagerService.hasInstalledPackage(realpath, 'next');
+      (await this.packageManagerService.hasPackageJson(realpath)) &&
+      (await this.packageManagerService.hasInstalledPackage(realpath, 'next'));
 
     return reactAppExists;
   }

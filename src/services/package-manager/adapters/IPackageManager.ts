@@ -35,6 +35,11 @@ export interface PackageJson extends JsonFileData {
 }
 
 export interface IPackageManager<PJ extends PackageJson = PackageJson> {
+  /**
+   * Check if the current path is related to this package manager
+   */
+  isEnabled(): Promise<boolean>;
+
   getCmd(): string;
 
   getNodeModulesDirPath(): Promise<string>;

@@ -1,8 +1,14 @@
+import { resolve } from 'path';
+
 import { PackageManagerType } from '../PackageManagerService';
 import { AbstractPackageManager, MonorepoInfo } from './AbstractPackageManager';
 
 export class NpmPackageManager extends AbstractPackageManager {
   protected type = PackageManagerType.npm;
+
+  async isEnabled(): Promise<boolean> {
+    return this.fileService.fileExistsSync(resolve(this.realpath, 'package-lock.json'));
+  }
 
   async installPackages(packages: string[], dev: boolean): Promise<string[]> {
     const args = ['install', ...packages];

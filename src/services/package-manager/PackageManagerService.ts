@@ -7,7 +7,7 @@ import { CliService } from '../CliService';
 import { ConsoleService } from '../ConsoleService';
 import { FileFactory } from '../file/FileFactory';
 import { FileService } from '../file/FileService';
-import { JsonFile, JsonFileData } from '../file/JsonFile';
+import { JsonFile } from '../file/JsonFile';
 import { StringUtils, StringUtilsMethod, StringUtilsMethods } from '../StringUtils';
 import { AbstractPackageManager } from './adapters/AbstractPackageManager';
 import { IPackageManager, PackageJson } from './adapters/IPackageManager';
@@ -49,20 +49,20 @@ export class PackageManagerService {
     return packageManagers;
   };
 
-  getPackageManagerCmd(realpath: string): string {
-    return this.getPackageManager(realpath).getCmd();
+  async getPackageManagerCmd(realpath: string): Promise<string> {
+    return (await this.getPackageManager(realpath)).getCmd();
   }
 
-  execCmd(realpath: string, cmd: string | string[], silent = false): Promise<string> {
-    return this.getPackageManager(realpath).execCmd(cmd, silent);
+  async execPackageManagerCmd(
+    realpath: string,
+    cmd: string | string[],
+    silent = false
+  ): Promise<string> {
+    return (await this.getPackageManager(realpath)).execCmd(cmd, silent);
   }
 
-  isMonorepoPackage(realpath: string): Promise<boolean> {
-    return this.getPackageManager(realpath).isMonorepoPackage();
-  }
-
-  getNodeModulesDirPath(realpath: string): Promise<string> {
-    return this.getPackageManager(realpath).getNodeModulesDirPath();
+  async isMonorepoPackage(realpath: string): Promise<boolean> {
+    return (await this.getPackageManager(realpath)).isMonorepoPackage();
   }
 
   async installPackages(
@@ -71,20 +71,24 @@ export class PackageManagerService {
     verbose = true,
     dev = false
   ): Promise<string[]> {
-    const packageManager = this.getPackageManager(dirPath);
+    const packageManager = await this.getPackageManager(dirPath);
 
     // Remove already installed packges
-    packages = packages.filter(
-      (packageName) => !this.hasInstalledPackage(dirPath, packageName, dev)
-    );
-
-    if (!packages.length) {
-      return packages;
+    const packagesToInstall: string[] = [];
+    for (const packageName of packages) {
+      const packageIsInstalled = await this.hasInstalledPackage(dirPath, packageName, dev);
+      if (!packageIsInstalled) {
+        packagesToInstall.push(packageName);
+      }
     }
 
-    verbose && this.consoleService.info(`Installing ${packages.join(', ')}...`);
+    if (!packagesToInstall.length) {
+      return packagesToInstall;
+    }
 
-    const installedPackages = await packageManager.installPackages(packages, dev);
+    verbose && this.consoleService.info(`Installing ${packagesToInstall.join(', ')}...`);
+
+    const installedPackages = await packageManager.installPackages(packagesToInstall, dev);
 
     verbose &&
       this.consoleService.success(
@@ -92,7 +96,7 @@ export class PackageManagerService {
           ? `Package(s) "${installedPackages.join(', ')}" have been installed`
           : 'no package has been installed'
       );
-    return packages;
+    return installedPackages;
   }
 
   async uninstallPackages(
@@ -100,7 +104,7 @@ export class PackageManagerService {
     packages: string[] = [],
     verbose = true
   ): Promise<string[]> {
-    const packageManager = this.getPackageManager(dirPath);
+    const packageManager = await this.getPackageManager(dirPath);
 
     // Remove already installed packges
     verbose && this.consoleService.info(`Uninstalling ${packages.join(', ')}...`);
@@ -116,13 +120,14 @@ export class PackageManagerService {
     return packages;
   }
 
-  hasInstalledPackage(
+  async hasInstalledPackage(
     dirPath: string,
     packageName: string,
     dev = false,
     encoding: BufferEncoding = 'utf8'
-  ): boolean {
-    const installedPackages = this.getPackageManager(dirPath).getPackageJsonData(
+  ): Promise<boolean> {
+    const packageManager = await this.getPackageManager(dirPath);
+    const installedPackages = packageManager.getPackageJsonData(
       dev ? 'devDependencies' : 'dependencies',
       encoding
     );
@@ -139,7 +144,7 @@ export class PackageManagerService {
     format?: StringUtilsMethods,
     fullName = true
   ): Promise<string> {
-    const packageManager = this.getPackageManager(dirPath);
+    const packageManager = await this.getPackageManager(dirPath);
 
     let packageName = packageManager.getPackageJsonData('name') || basename(dirPath);
 
@@ -148,7 +153,7 @@ export class PackageManagerService {
       if (isMonorepoPackage) {
         const monorepoRootPath = await packageManager.getMonorepoRootPath();
         if (monorepoRootPath) {
-          const rootPackageManager = this.getPackageManager(monorepoRootPath);
+          const rootPackageManager = await this.getPackageManager(monorepoRootPath);
 
           const rootPackageName =
             rootPackageManager.getPackageJsonData('name') || basename(monorepoRootPath);
@@ -161,63 +166,13 @@ export class PackageManagerService {
     return format ? (StringUtils[format] as StringUtilsMethod)(packageName) : packageName;
   }
 
-  hasPackageJsonConfig(dirPath: string, data: Partial<PackageJson>): boolean {
-    const compareObject = (data: Partial<PackageJson>, packageJson: PackageJson) => {
-      for (const key of Object.keys(data)) {
-        const dataValue = data[key];
-        const packageJsonValue = packageJson[key];
-        if (!packageJsonValue) {
-          return false;
-        }
-
-        const typeofData = typeof dataValue;
-        const typeofPackageInfo = typeof packageJsonValue;
-        if (typeofData !== typeofPackageInfo) {
-          return false;
-        }
-
-        switch (typeofData) {
-          case 'object':
-            if (Array.isArray(dataValue)) {
-              if (!Array.isArray(packageJsonValue)) {
-                return false;
-              }
-
-              if (
-                !(dataValue as unknown[]).every((item) =>
-                  (packageJsonValue as unknown[]).includes(item)
-                )
-              ) {
-                return false;
-              }
-            } else {
-              if (Array.isArray(packageJsonValue)) {
-                return false;
-              }
-              if (!compareObject(dataValue as JsonFileData, packageJsonValue as JsonFileData)) {
-                return false;
-              }
-            }
-            break;
-          default:
-            if (dataValue !== packageJsonValue) {
-              return false;
-            }
-        }
-      }
-      return true;
-    };
-
-    return compareObject(data, this.getPackageManager(dirPath).getPackageJsonData());
-  }
-
   async updatePackageJson(dirPath: string, data: Partial<PackageJson>): Promise<void> {
     const packageJsonPath = this.assertPackageJsonExists(dirPath);
 
     await this.fileFactory.fromFile<JsonFile>(packageJsonPath).appendData(data).saveFile();
   }
 
-  private getPackageManager(dirPath: string): IPackageManager {
+  private async getPackageManager(dirPath: string): Promise<IPackageManager> {
     let packageManager = this.packageManagers.get(dirPath);
     if (packageManager) {
       return packageManager;
@@ -231,21 +186,33 @@ export class PackageManagerService {
 
     const args: AbstractContructorParameters<typeof AbstractPackageManager> = [
       this.cliService,
+      this.fileService,
       this.fileFactory,
       realpath,
     ];
 
-    switch (true) {
-      case this.fileService.fileExistsSync(resolve(dirPath, 'yarn.lock')):
-        packageManager = new YarnPackageManager(...args);
-        break;
+    const availablePackageManagers = this.getAvailablePackageManagers();
 
-      case this.fileService.fileExistsSync(resolve(dirPath, 'package-lock.json')):
-        packageManager = new NpmPackageManager(...args);
-        break;
+    for (const packageManagerType of availablePackageManagers) {
+      packageManager = undefined;
 
-      default:
-        throw new Error(`No package manager found for directory ${realpath}`);
+      switch (packageManagerType) {
+        case PackageManagerType.npm:
+          packageManager = new NpmPackageManager(...args);
+          break;
+        case PackageManagerType.yarn:
+          packageManager = new YarnPackageManager(...args);
+          break;
+      }
+
+      const isEnabled = await packageManager.isEnabled();
+      if (isEnabled) {
+        break;
+      }
+    }
+
+    if (!packageManager) {
+      throw new Error(`No package manager found for directory ${realpath}`);
     }
 
     this.packageManagers.set(dirPath, packageManager);

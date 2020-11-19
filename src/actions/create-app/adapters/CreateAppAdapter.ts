@@ -182,7 +182,7 @@ export abstract class AbstractCreateAppAdapter
     this.consoleService.info('Add ts-dev-tools...');
 
     await this.packageManagerService.installPackages(realpath, ['@ts-dev-tools/react'], true, true);
-    await this.packageManagerService.execCmd(realpath, 'ts-dev-tools install');
+    await this.packageManagerService.execPackageManagerCmd(realpath, 'ts-dev-tools install');
     this.consoleService.success(`ts-dev-tools configuration has been installed`);
   }
 
