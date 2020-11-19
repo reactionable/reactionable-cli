@@ -12,7 +12,7 @@ import {{ componentName }} from "./{{ componentName }}";
 describe("{{ componentName }}", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();

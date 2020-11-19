@@ -43,7 +43,7 @@ import App from './App';
 describe(\\"App\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -121,7 +121,7 @@ import App from './App';
 describe(\\"App\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -175,7 +175,7 @@ import TestComponent from './TestComponent';
 describe(\\"TestComponent\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();

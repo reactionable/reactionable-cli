@@ -11,7 +11,7 @@ import TestEntities from './TestEntities';
 describe(\\"TestEntities\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -119,7 +119,7 @@ import CreateTestEntity from './CreateTestEntity';
 describe(\\"CreateTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -182,7 +182,7 @@ import DeleteTestEntity from './DeleteTestEntity';
 describe(\\"DeleteTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -247,7 +247,7 @@ import ListTestEntities from './ListTestEntities';
 describe(\\"ListTestEntities\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -366,7 +366,7 @@ import ReadTestEntity from './ReadTestEntity';
 describe(\\"ReadTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -462,7 +462,7 @@ import UpdateTestEntity from './UpdateTestEntity';
 describe(\\"UpdateTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -596,7 +596,7 @@ import TestEntities from './TestEntities';
 describe(\\"TestEntities\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -704,7 +704,7 @@ import CreateTestEntity from './CreateTestEntity';
 describe(\\"CreateTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -767,7 +767,7 @@ import DeleteTestEntity from './DeleteTestEntity';
 describe(\\"DeleteTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -832,7 +832,7 @@ import ListTestEntities from './ListTestEntities';
 describe(\\"ListTestEntities\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -951,7 +951,7 @@ import ReadTestEntity from './ReadTestEntity';
 describe(\\"ReadTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
@@ -1047,7 +1047,7 @@ import UpdateTestEntity from './UpdateTestEntity';
 describe(\\"UpdateTestEntity\\", () => {
 
     let identity: IIdentityProviderProps;
-    let ui: IIdentityProviderProps;
+    let ui: IUIProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
