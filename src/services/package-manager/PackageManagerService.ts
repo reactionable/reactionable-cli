@@ -109,7 +109,21 @@ export class PackageManagerService {
     // Remove already installed packges
     verbose && this.consoleService.info(`Uninstalling ${packages.join(', ')}...`);
 
-    const uninstalledPackages = await packageManager.uninstallPackages(packages);
+    const packagesToUninstall: string[] = [];
+    for (const packageName of packages) {
+      const packageIsInstalled =
+        (await this.hasInstalledPackage(dirPath, packageName)) ||
+        (await this.hasInstalledPackage(dirPath, packageName, true));
+      if (packageIsInstalled) {
+        packagesToUninstall.push(packageName);
+      }
+    }
+
+    if (!packagesToUninstall.length) {
+      return packagesToUninstall;
+    }
+
+    const uninstalledPackages = await packageManager.uninstallPackages(packagesToUninstall);
 
     verbose &&
       this.consoleService.success(
@@ -117,7 +131,7 @@ export class PackageManagerService {
           ? `Package(s) "${uninstalledPackages.join(', ')}" have been uninstalled`
           : 'no package has been uninstalled'
       );
-    return packages;
+    return uninstalledPackages;
   }
 
   async hasInstalledPackage(
