@@ -95,6 +95,27 @@ export class PackageManagerService {
     return packages;
   }
 
+  async uninstallPackages(
+    dirPath: string,
+    packages: string[] = [],
+    verbose = true
+  ): Promise<string[]> {
+    const packageManager = this.getPackageManager(dirPath);
+
+    // Remove already installed packges
+    verbose && this.consoleService.info(`Uninstalling ${packages.join(', ')}...`);
+
+    const uninstalledPackages = await packageManager.uninstallPackages(packages);
+
+    verbose &&
+      this.consoleService.success(
+        uninstalledPackages.length
+          ? `Package(s) "${uninstalledPackages.join(', ')}" have been uninstalled`
+          : 'no package has been uninstalled'
+      );
+    return packages;
+  }
+
   hasInstalledPackage(
     dirPath: string,
     packageName: string,

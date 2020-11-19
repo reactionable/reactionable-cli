@@ -23,6 +23,20 @@ describe('services - File - TypescriptImport', () => {
       expect(typescriptImport?.toString()).toEqual(importString);
     });
 
+    it('should retrieve an instance of TypescriptImport from given an "named" and default import string', async () => {
+      const importString = `import React, { ReactElement } from 'react';`;
+
+      const typescriptImport = TypescriptImport.fromString(importString);
+
+      expect(typescriptImport).not.toBeNull();
+      expect(typescriptImport?.packageName).toEqual('react');
+      expect(typescriptImport?.modules).toEqual({
+        React: TypescriptImport.defaultImport,
+        ReactElement: '',
+      });
+      expect(typescriptImport?.toString()).toEqual(importString);
+    });
+
     it('should retrieve an instance of TypescriptImport from given import file string', async () => {
       const importString = `import './index.scss';`;
 

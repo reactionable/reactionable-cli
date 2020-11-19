@@ -1,4 +1,4 @@
 const template = `{
-    {{{projectName}}}: {{{projectName}}}
+    "{{ projectName }}": "{{ projectName }}"
 }`;
 module.exports = template;

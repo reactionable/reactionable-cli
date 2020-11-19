@@ -1,27 +1,12 @@
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import { Result } from 'parse-github-url';
 
-import { ConsoleService } from '../../../../services/ConsoleService';
-import { ConventionalCommitsService } from '../../../../services/git/ConventionalCommitsService';
-import { GitService } from '../../../../services/git/GitService';
-import { PackageManagerService } from '../../../../services/package-manager/PackageManagerService';
 import { VersioningAdapterOptions } from '../../VersioningAdapter';
 import AbstractVersioning from '../AbstractVersioning';
 
 @injectable()
 export default class Github extends AbstractVersioning {
   protected name = 'Github';
-
-  constructor(
-    @inject(ConsoleService) consoleService: ConsoleService,
-    @inject(ConventionalCommitsService)
-    conventionalCommitsService: ConventionalCommitsService,
-    @inject(PackageManagerService)
-    protected readonly packageManagerService: PackageManagerService,
-    @inject(GitService) protected readonly gitService: GitService
-  ) {
-    super(consoleService, conventionalCommitsService, packageManagerService, gitService);
-  }
 
   async isEnabled(realpath: string): Promise<boolean> {
     const isEnabled = await super.isEnabled(realpath);

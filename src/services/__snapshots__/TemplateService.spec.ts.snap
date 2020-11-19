@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`templateService createFileFromTemplate should create a file from given template 1`] = `
+exports[`templateService renderTemplate should create a file from given namespace 1`] = `
 "import { initializeI18n } from '';
 import enCommon from './locales/en/common.json';
 import frCommon from './locales/fr/common.json';
@@ -18,8 +18,73 @@ const resources = {
 initializeI18n({ resources });"
 `;
 
-exports[`templateService createFileFromTemplate should create a file from given template file name different from target filename 1`] = `
+exports[`templateService renderTemplate should create a file from given namespace 2`] = `
 "{
   \\"test-project\\": \\"test-project\\"
+}"
+`;
+
+exports[`templateService renderTemplate should create a file from given namespace having nested config: TestEntitiesConfig.tsx 1`] = `
+"import { FormField } from '';
+import { IFormChildrenProps } from '@reactionable/core';
+import { TFunction } from 'i18next';
+import React from 'react';
+import { string } from 'yup';
+
+export type ITestEntityData = {
+  id: string;
+  label: string;
+};
+
+export type ITestEntityValues = Omit<ITestEntityData, \\"id\\">;
+
+
+export type IGetTestEntityQueryVariables = Pick<ITestEntityData, \\"id\\"> & {
+
+};
+
+
+export type IListTestEntitiesQueryVariables = {
+  
+};
+
+
+export const testEntityFormValues: ITestEntityValues = {
+  label: \\"\\",
+};
+
+
+export const testEntityFormSchema = (t: TFunction) => ({
+   label: string()
+    .min(1, t(\\"Test entity label must be at least 1 characters\\"), { ns : \\"testEntities\\" })
+    .required(t(\\"Test entity label is required\\"), { ns : \\"testEntities\\" }),
+});
+
+
+export const testEntityFormChildren = (t: TFunction) => (formikProps: IFormChildrenProps<ITestEntityValues>) => <>
+  <FormField
+    name=\\"label\\"
+    label={t(\\"Label\\", { ns : \\"testEntities\\" })}
+    placeholder={t(\\"Label\\", { ns : \\"testEntities\\" })}
+    autoFocus={true}
+  />
+</>;"
+`;
+
+exports[`templateService renderTemplate should create a file from given namespace having nested config: testEntities.json 1`] = `
+"{
+  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
+  \\"Test entity label is required\\": \\"Test entity label is required\\",
+  \\"Label\\": \\"Label\\",
+  \\"Create a new test entity\\": \\"Create a new test entity\\",
+  \\"Delete test entity\\": \\"Delete test entity\\",
+  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
+  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
+  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
+  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
+  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
+  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
+  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
 }"
 `;

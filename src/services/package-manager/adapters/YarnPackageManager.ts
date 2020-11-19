@@ -24,6 +24,12 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
     return packages;
   }
 
+  async uninstallPackages(packages: string[]): Promise<string[]> {
+    const args = ['remove', ...packages];
+    await this.execCmd(args);
+    return packages;
+  }
+
   protected async getMonorepoInfos(): Promise<MonorepoInfos | undefined> {
     const workspacesRootData = this.getPackageJsonData('workspaces');
     if (workspacesRootData) {

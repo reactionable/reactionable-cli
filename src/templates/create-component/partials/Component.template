@@ -1,6 +1,6 @@
-const template = `import React, { FC } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
+const template = `import React, { PropsWithChildren, ReactElement } from "react";
+import { useTranslation } from "@reactionable/core";
+import { Head } from "{{ routerPackage }}";
 {{#> imports-block}}
 {{!-- Custom imports could be added. --}}
 {{/imports-block}}
@@ -9,15 +9,15 @@ import { useTranslation } from 'react-i18next';
 interface I{{componentName}}Props { }
 {{/props-block}}
 
-const {{componentName}}: FC<I{{componentName}}Props> = (props) => {
+const {{componentName}} = (props: PropsWithChildren<I{{componentName}}Props>): ReactElement => {
   const { t } = useTranslation();
   {{#> pre-render-block}}{{!-- Custom pre render script could be added. --}}{{/pre-render-block}}
-  return <>{{#> helmet-block}}
-    <Helmet>
-      <title>{t('{{projectName}}')} - {t('{{capitalize (decamelize componentName)}}')}</title>
-      <meta name="description" content={t('{{#> description-block}}{{capitalize (decamelize componentName)}} description{{/description-block}}')} />
-    </Helmet>{{/helmet-block}}
-    {{#> render-block-title}}<h1>{t('{{capitalize (decamelize componentName)}}')}</h1>{{/render-block-title}}
+  return <>{{#> head-block}}
+    <Head>
+      <title>{t("{{projectName}}")} - {t("{{capitalize (decamelize componentName)}}")}</title>
+      <meta name="description" content={t("{{#> description-block}}{{capitalize (decamelize componentName)}} description{{/description-block}}")} />
+    </Head>
+    {{/head-block}}{{#> render-block-title}}<h1>{t("{{capitalize (decamelize componentName)}}")}</h1>{{/render-block-title}}
     {{#> render-block}}{{!-- Custom render content could be added. --}}{{/render-block}}
   </>;
 };

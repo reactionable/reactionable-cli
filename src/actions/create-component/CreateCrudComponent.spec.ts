@@ -21,20 +21,21 @@ describe('createCrudComponent', () => {
     createCrudComponent = container.get(CreateCrudComponent);
   });
 
-  afterEach(() => {
-    testDir && testDir.removeCallback();
-  });
-
   describe('construct', () => {
     it('should be initialized', () => {
       expect(createCrudComponent).toBeInstanceOf(CreateCrudComponent);
     });
   });
 
-  describe('run', () => {
-    it('should create all crud components files', async () => {
-      testDir = createTmpDir();
-      const testDirPath = testDir.name;
+  describe.each([
+    ['React', 'test-react-project', 'src'],
+    ['NextJs', 'test-nextjs-project', 'lib'],
+  ])('Run for a %s project', (name, testProjectPath, libPath) => {
+    let testDirPath: string;
+
+    beforeAll(async () => {
+      testDir = createTmpDir(testProjectPath);
+      testDirPath = testDir.name;
 
       (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ action: 'overwrite' });
 
@@ -42,31 +43,48 @@ describe('createCrudComponent', () => {
         realpath: testDirPath,
         name: 'test entity',
       });
-
-      const expectedFiles = [
-        'src/i18n/i18n.ts',
-        'src/i18n/locales/en/test-entities.json',
-        'src/i18n/locales/fr/test-entities.json',
-        'src/views/test-entities/create-test-entity/CreateTestEntity.test.tsx',
-        'src/views/test-entities/create-test-entity/CreateTestEntity.tsx',
-        'src/views/test-entities/delete-test-entity/DeleteTestEntity.test.tsx',
-        'src/views/test-entities/delete-test-entity/DeleteTestEntity.tsx',
-        'src/views/test-entities/list-test-entities/ListTestEntities.test.tsx',
-        'src/views/test-entities/list-test-entities/ListTestEntities.tsx',
-        'src/views/test-entities/read-test-entity/ReadTestEntity.test.tsx',
-        'src/views/test-entities/read-test-entity/ReadTestEntity.tsx',
-        'src/views/test-entities/update-test-entity/UpdateTestEntity.test.tsx',
-        'src/views/test-entities/update-test-entity/UpdateTestEntity.tsx',
-        'src/views/test-entities/TestEntities.test.tsx',
-        'src/views/test-entities/TestEntities.tsx',
-        'src/views/test-entities/TestEntitiesConfig.tsx',
-      ];
-
-      for (const expectedFile of expectedFiles) {
-        const filePath = resolve(testDirPath, expectedFile);
-        expect(existsSync(filePath)).toBe(true);
-        expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot();
-      }
     });
+
+    afterAll(() => {
+      testDir && testDir.removeCallback();
+    });
+
+    const expectedFiles = [
+      // Config
+      'components/test-entities/TestEntitiesConfig.tsx',
+      // Crud entry point
+      'components/test-entities/TestEntities.test.tsx',
+      'components/test-entities/TestEntities.tsx',
+      // Create
+      'components/test-entities/create-test-entity/CreateTestEntity.test.tsx',
+      'components/test-entities/create-test-entity/CreateTestEntity.tsx',
+      // Read
+      'components/test-entities/read-test-entity/ReadTestEntity.test.tsx',
+      'components/test-entities/read-test-entity/ReadTestEntity.tsx',
+      // Update
+      'components/test-entities/update-test-entity/UpdateTestEntity.test.tsx',
+      'components/test-entities/update-test-entity/UpdateTestEntity.tsx',
+      // Delete
+      'components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx',
+      'components/test-entities/delete-test-entity/DeleteTestEntity.tsx',
+      // List
+      'components/test-entities/list-test-entities/ListTestEntities.test.tsx',
+      'components/test-entities/list-test-entities/ListTestEntities.tsx',
+      // Translations
+      'i18n/i18n.ts',
+      'i18n/locales/en/testEntities.json',
+      'i18n/locales/fr/testEntities.json',
+    ];
+
+    it.each(expectedFiles.map((value) => [value]))(
+      'should create crud component file "%s"',
+      (expectedFile) => {
+        const filePath = resolve(testDirPath, libPath, expectedFile);
+
+        const fileExists = existsSync(filePath);
+        expect(fileExists).toBe(true);
+        expect(readFileSync(filePath, 'utf-8')).toMatchSnapshot(expectedFile);
+      }
+    );
   });
 });

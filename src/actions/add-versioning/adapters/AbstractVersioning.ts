@@ -3,7 +3,6 @@ import { inject, injectable } from 'inversify';
 import { Result } from 'parse-github-url';
 
 import { ConsoleService } from '../../../services/ConsoleService';
-import { ConventionalCommitsService } from '../../../services/git/ConventionalCommitsService';
 import { GitService } from '../../../services/git/GitService';
 import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
 import { AbstractAdapterAction } from '../../AbstractAdapterAction';
@@ -15,8 +14,6 @@ export default abstract class AbstractVersioning
   implements VersioningAdapter {
   constructor(
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(ConventionalCommitsService)
-    private readonly conventionalCommitsService: ConventionalCommitsService,
     @inject(PackageManagerService)
     protected readonly packageManagerService: PackageManagerService,
     @inject(GitService) protected readonly gitService: GitService
@@ -58,24 +55,6 @@ export default abstract class AbstractVersioning
         url: `git+${gitRemoteOriginUrl}`,
       },
     });
-
-    const hasConventionalCommits = await this.conventionalCommitsService.hasConventionalCommits(
-      realpath
-    );
-
-    if (!hasConventionalCommits) {
-      const { conventionalCommits } = await prompt([
-        {
-          type: 'confirm',
-          name: 'conventionalCommits',
-          message: 'Do you want to use Conventional Commits (https://www.conventionalcommits.org)',
-        },
-      ]);
-
-      if (conventionalCommits) {
-        await this.conventionalCommitsService.initializeConventionalCommits(realpath);
-      }
-    }
 
     return this.gitService.commitFiles(realpath, 'initial commit', 'feat');
   }

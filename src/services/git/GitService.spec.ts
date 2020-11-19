@@ -1,29 +1,28 @@
-import { tmpdir } from 'os';
-import { resolve } from 'path';
-
 import container from '../../container';
+import { DirResult, createTmpDir } from '../../tests/tmp-dir';
 import { GitService } from './GitService';
 
 describe('gitService', () => {
   let service: GitService;
+  let testDir: DirResult;
 
   beforeAll(() => {
     service = container.get(GitService);
   });
-  let testDirPath: string;
 
-  beforeAll(() => {
-    testDirPath = resolve('__tests__/test-project');
+  afterEach(() => {
+    testDir && testDir.removeCallback();
   });
 
   describe('isAGitRepository', () => {
     it('should return true when the given directory path is a git repository', async () => {
-      const result = await service.isAGitRepository(testDirPath);
+      const result = await service.isAGitRepository(__dirname);
       expect(result).toEqual(true);
     });
 
     it('should return false when the given directory path is not a git repository', async () => {
-      const result = await service.isAGitRepository(tmpdir());
+      testDir = createTmpDir(false);
+      const result = await service.isAGitRepository(testDir.name);
       expect(result).toEqual(false);
     });
   });

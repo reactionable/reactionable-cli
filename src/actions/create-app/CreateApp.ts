@@ -6,6 +6,6 @@ import { AdapterKey } from './container';
 
 @injectable()
 export default class CreateApp extends AbstractCommitableActionWithAdapters<CreateAppAdapter> {
-  protected name = 'CreateApp';
+  protected name = 'Create a new application';
   protected adapterKey = AdapterKey;
 }

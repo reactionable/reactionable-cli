@@ -24,6 +24,7 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
   ) {}
 
   abstract installPackages(packages: string[], dev: boolean): Promise<string[]>;
+  abstract uninstallPackages(packages: string[]): Promise<string[]>;
 
   getCmd(): string {
     return this.type;

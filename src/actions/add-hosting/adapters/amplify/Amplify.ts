@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
 import { prompt } from 'inquirer';
-import { inject, injectable } from 'inversify';
+import { LazyServiceIdentifer, inject, injectable } from 'inversify';
 
 import { CliService } from '../../../../services/CliService';
 import { ConsoleService } from '../../../../services/ConsoleService';
@@ -18,6 +18,8 @@ import {
   AbstractAdapterWithPackageAction,
   AdapterWithPackageActionOptions,
 } from '../../../AbstractAdapterWithPackageAction';
+import { CreateAppAdapter } from '../../../create-app/adapters/CreateAppAdapter';
+import CreateApp from '../../../create-app/CreateApp';
 import { HostingAdapter } from '../HostingAdapter';
 
 type ProjectConfig = {
@@ -52,14 +54,15 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
   protected adapterPackageName = '@reactionable/amplify';
 
   constructor(
+    @inject(PackageManagerService)
+    protected readonly packageManagerService: PackageManagerService,
     @inject(FileService) private readonly fileService: FileService,
     @inject(FileFactory) private readonly fileFactory: FileFactory,
     @inject(TemplateService) private readonly templateService: TemplateService,
     @inject(CliService) private readonly cliService: CliService,
     @inject(GitService) private readonly gitService: GitService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(PackageManagerService)
-    protected readonly packageManagerService: PackageManagerService
+    @inject(new LazyServiceIdentifer(() => CreateApp)) protected readonly createApp: CreateApp
   ) {
     super(packageManagerService);
   }
@@ -88,24 +91,12 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
       projectName = response.projectName;
     }
 
-    await this.templateService.renderTemplateTree(
-      realpath,
-      'add-hosting/amplify',
-      {
-        amplify: {
-          '.config': ['project-config.json'],
-          ...(!this.getBackendConfig(realpath) && {
-            backend: ['backend-config.json'],
-          }),
-        },
-      },
-      {
-        projectBranch: JSON.stringify(projectBranch),
-        projectPath: JSON.stringify(realpath),
-        projectName: JSON.stringify(projectName),
-        packageManager: this.packageManagerService.getPackageManagerCmd(realpath),
-      }
-    );
+    await this.templateService.renderTemplate(realpath, 'add-hosting/amplify', {
+      projectBranch: JSON.stringify(projectBranch),
+      projectPath: JSON.stringify(realpath),
+      projectName: JSON.stringify(projectName),
+      packageManager: this.packageManagerService.getPackageManagerCmd(realpath),
+    });
 
     // Configure amplify
     if (!this.getAmplifyCmd()) {
@@ -139,8 +130,9 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
     await this.addApi(realpath);
     await this.addHosting(realpath);
 
+    const appFilePath = await this.getAppFilePath(realpath);
     await this.fileFactory
-      .fromFile<TypescriptFile>(resolve(realpath, 'src/App.tsx'))
+      .fromFile<TypescriptFile>(appFilePath)
       .setImports(
         [
           {
@@ -157,8 +149,9 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
       )
       .saveFile();
 
+    const indexFilePath = await this.getEntrypointFilePath(realpath);
     await this.fileFactory
-      .fromFile<TypescriptFile>(resolve(realpath, 'src/index.tsx'))
+      .fromFile<TypescriptFile>(indexFilePath)
       .setImports([
         { packageName: 'aws-amplify', modules: { Amplify: TypescriptImport.defaultImport } },
         { packageName: './aws-exports', modules: { awsconfig: TypescriptImport.defaultImport } },
@@ -170,8 +163,14 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
       .appendContent('Amplify.configure(awsconfig);', "import './index.scss';")
       .saveFile();
 
+    const i18nFilepath = resolve(
+      realpath,
+      await this.getLibDirectoryPath(realpath),
+      'i18n/i18n.ts'
+    );
+
     await this.fileFactory
-      .fromFile<TypescriptFile>(resolve(realpath, 'src/i18n/i18n.ts'))
+      .fromFile<TypescriptFile>(i18nFilepath)
       .setImports(
         [
           {
@@ -196,6 +195,29 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
     });
 
     this.consoleService.success(`Amplify has been configured in "${realpath}"`);
+  }
+
+  private async getCreateAppAdapter(realpath: string): Promise<CreateAppAdapter> {
+    const adapter = await this.createApp.detectAdapter(realpath);
+    if (!adapter) {
+      throw new Error(`Unable to detect app type for given path "${realpath}"`);
+    }
+    return adapter;
+  }
+
+  private async getAppFilePath(realpath: string): Promise<string> {
+    const adapter = await this.getCreateAppAdapter(realpath);
+    return resolve(realpath, adapter.getAppFilePath());
+  }
+
+  private async getEntrypointFilePath(realpath: string): Promise<string> {
+    const adapter = await this.getCreateAppAdapter(realpath);
+    return resolve(realpath, adapter.getEntrypointFilePath());
+  }
+
+  private async getLibDirectoryPath(realpath: string): Promise<string> {
+    const adapter = await this.getCreateAppAdapter(realpath);
+    return resolve(realpath, adapter.getLibDirectoryPath());
   }
 
   private getAmplifyCmd(): string | null {
@@ -263,7 +285,7 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
     }
 
     await this.fileFactory
-      .fromFile<TypescriptFile>(resolve(realpath, 'src/App.tsx'))
+      .fromFile<TypescriptFile>(await this.getAppFilePath(realpath))
       .setImports([
         {
           packageName: '@reactionable/amplify',
@@ -277,7 +299,7 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
       .saveFile();
 
     await this.fileFactory
-      .fromFile(resolve(realpath, 'src/index.tsx'))
+      .fromFile(await this.getEntrypointFilePath(realpath))
       .appendContent("import '@aws-amplify/ui/dist/style.css';", "import './index.scss';")
       .saveFile();
   }

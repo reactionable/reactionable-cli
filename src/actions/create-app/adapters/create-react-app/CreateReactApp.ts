@@ -1,53 +1,33 @@
 import { dirname, resolve } from 'path';
 
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 
-import { CliService } from '../../../../services/CliService';
-import { ConsoleService } from '../../../../services/ConsoleService';
-import { FileFactory } from '../../../../services/file/FileFactory';
-import { FileService } from '../../../../services/file/FileService';
-import {
-  PackageManagerService,
-  PackageManagerType,
-} from '../../../../services/package-manager/PackageManagerService';
-import { TemplateService } from '../../../../services/TemplateService';
-import AddHosting from '../../../add-hosting/AddHosting';
-import AddUIFramework from '../../../add-ui-framework/AddUIFramework';
-import AddVersioning from '../../../add-versioning/AddVersioning';
-import CreateComponent from '../../../create-component/CreateComponent';
-import GenerateReadme from '../../../generate-readme/GenerateReadme';
+import { PackageManagerType } from '../../../../services/package-manager/PackageManagerService';
 import { AbstractCreateAppAdapter } from '../CreateAppAdapter';
 
 @injectable()
 export default class CreateReactApp extends AbstractCreateAppAdapter {
-  protected name = 'Create a new react app';
+  protected name = 'Create a new React app';
 
-  constructor(
-    @inject(FileService) protected readonly fileService: FileService,
-    @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(AddUIFramework) protected addUIFramework: AddUIFramework,
-    @inject(AddHosting) protected readonly addHosting: AddHosting,
-    @inject(AddVersioning) protected readonly addVersioning: AddVersioning,
-    @inject(GenerateReadme) protected readonly generateReadme: GenerateReadme,
-    @inject(TemplateService) protected readonly templateService: TemplateService,
-    @inject(PackageManagerService)
-    protected readonly packageManagerService: PackageManagerService,
-    @inject(FileFactory) protected readonly fileFactory: FileFactory,
-    @inject(CliService) private readonly cliService: CliService,
-    @inject(CreateComponent) private readonly createComponent: CreateComponent
-  ) {
-    super(
-      fileService,
-      consoleService,
-      addUIFramework,
-      addHosting,
-      addVersioning,
-      generateReadme,
-      templateService,
-      packageManagerService,
-      fileFactory
-    );
-  }
+  /**
+   * Define the namespace to be used for generating files from templates
+   */
+  protected namespace = 'react';
+
+  /**
+   * Define where the application entrypoint file is located
+   */
+  protected entrypointPath = 'src/index.tsx';
+
+  /**
+   * Define where the main application file is located
+   */
+  protected applicationPath = 'src/App.tsx';
+
+  /**
+   * Define where the lib files are located
+   */
+  protected libPath = 'src';
 
   async createApp({
     realpath,
@@ -79,7 +59,7 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
       this.consoleService.success(`App has been created in "${realpath}"`);
     }
 
-    await this.packageManagerService.installPackages(realpath, ['@reactionable/core']);
+    await this.packageManagerService.installPackages(realpath, ['@reactionable/router-dom']);
     await this.packageManagerService.installPackages(
       realpath,
       ['@types/react-helmet', '@types/react-router-dom', '@types/yup'],
@@ -87,41 +67,30 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
       true
     );
 
+    this.fileService.mkdirSync(resolve(realpath, this.libPath, 'components'), true);
+
     // Create app components
     this.consoleService.info('Create base components...');
-    await this.createComponent.run({ realpath, name: 'App' });
-    await this.createComponent.run({ realpath, name: 'NotFound' });
+    await this.createComponent.run({
+      realpath,
+      name: 'App',
+      componentDirPath: resolve(realpath, this.getAppFilePath()),
+      componentTemplate: 'app/react/App.tsx',
+    });
+    await this.createComponent.run({
+      realpath,
+      name: 'NotFound',
+      componentTemplate: 'not-found/NotFound.tsx',
+    });
     await this.createComponent.run({ realpath, name: 'Home' });
     this.consoleService.success(`Base components have been created in "${realpath}"`);
-
-    // Add Sass
-    await this.addSass(realpath);
   }
 
-  async addSass(realpath: string): Promise<void> {
-    // Add Saas
-    this.consoleService.info('Adding Sass...');
-    await this.packageManagerService.installPackages(realpath, ['node-sass']);
-
-    // Replace css files
-    this.fileService.replaceFileExtension(resolve(realpath, 'src/index.css'), 'scss');
-    this.fileService.replaceFileExtension(resolve(realpath, 'src/App.css'), 'scss');
-
-    await this.fileFactory
-      .fromFile(resolve(realpath, 'src/index.tsx'))
-      .replaceContent(/import '\.\/index\.css';/, "import './index.scss';")
-      .saveFile();
-
-    await this.fileFactory
-      .fromFile(resolve(realpath, 'src/App.tsx'))
-      .replaceContent(/import '\.\/App\.css';/, "import './App.scss';")
-      .saveFile();
-
-    this.consoleService.success(`Sass has been added in "${realpath}"`);
-  }
-
-  async checkIfAppExistsAlready(realpath: string): Promise<boolean | undefined> {
-    const appExists = await super.checkIfAppExistsAlready(realpath);
+  async checkIfAppExistsAlready(
+    realpath: string,
+    shouldPrompt = true
+  ): Promise<boolean | undefined> {
+    const appExists = await super.checkIfAppExistsAlready(realpath, shouldPrompt);
     if (!appExists) {
       return appExists;
     }
@@ -129,8 +98,34 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
     const reactAppExists =
       this.packageManagerService.hasPackageJson(realpath) &&
       this.packageManagerService.hasInstalledPackage(realpath, 'react') &&
-      this.fileService.fileExistsSync(resolve(realpath, 'src/react-app-env.d.ts'));
+      this.fileService.fileExistsSync(
+        resolve(realpath, this.getLibDirectoryPath(), 'react-app-env.d.ts')
+      );
 
     return reactAppExists;
+  }
+
+  async addSass(realpath: string): Promise<void> {
+    await super.addSass(realpath);
+
+    // Replace css files
+    this.fileService.replaceFileExtension(
+      resolve(realpath, this.getLibDirectoryPath(), 'index.css'),
+      'scss'
+    );
+    this.fileService.replaceFileExtension(
+      resolve(realpath, this.getLibDirectoryPath(), 'App.css'),
+      'scss'
+    );
+
+    await this.fileFactory
+      .fromFile(resolve(realpath, this.getEntrypointFilePath()))
+      .replaceContent(/import '\.\/index\.css';/, "import './index.scss';")
+      .saveFile();
+
+    await this.fileFactory
+      .fromFile(resolve(realpath, this.getAppFilePath()))
+      .replaceContent(/import '\.\/App\.css';/, "import './App.scss';")
+      .saveFile();
   }
 }

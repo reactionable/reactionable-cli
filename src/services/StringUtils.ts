@@ -18,7 +18,9 @@ export class StringUtils {
   }
 
   static camelize(value: string): string {
-    return value.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase());
+    return (value[0].toLowerCase() + value.substring(1)).replace(/\W+(.)/g, (match, chr) =>
+      chr.toUpperCase()
+    );
   }
 
   static decamelize(value: string): string {

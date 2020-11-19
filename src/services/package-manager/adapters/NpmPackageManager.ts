@@ -13,6 +13,12 @@ export class NpmPackageManager extends AbstractPackageManager {
     return packages;
   }
 
+  async uninstallPackages(packages: string[]): Promise<string[]> {
+    const args = ['uninstall', ...packages];
+    await this.execCmd(args);
+    return packages;
+  }
+
   protected getMonorepoInfos(): Promise<MonorepoInfo | undefined> {
     throw new Error('Method not implemented.');
   }

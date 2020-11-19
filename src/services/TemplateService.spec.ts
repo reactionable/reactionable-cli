@@ -20,38 +20,54 @@ describe('templateService', () => {
     testDir && testDir.removeCallback();
   });
 
-  describe('createFileFromTemplate', () => {
-    it('should create a file from given template', async () => {
+  describe('renderTemplate', () => {
+    it('should create a file from given namespace', async () => {
       testDir = createTmpDir(false);
+
       const testDirPath = testDir.name;
+      const templateContext = {
+        projectName: 'test-project',
+        i18nPath: 'src/i18n',
+      };
 
-      await service.renderTemplateTree(testDirPath, 'i18n', {
-        'src/i18n': ['i18n.ts'],
-      });
+      await service.renderTemplate(testDirPath, 'i18n', templateContext);
 
-      const expectedTestComponentFile = resolve(testDirPath, 'src/i18n/i18n.ts');
-      expect(existsSync(expectedTestComponentFile)).toBe(true);
-      expect(readFileSync(expectedTestComponentFile, 'utf-8')).toMatchSnapshot();
+      const expectedI18nFile = resolve(testDirPath, 'src/i18n/i18n.ts');
+      expect(existsSync(expectedI18nFile)).toBe(true);
+      expect(readFileSync(expectedI18nFile, 'utf-8')).toMatchSnapshot();
+
+      const expectedTranslationFile = resolve(testDirPath, 'src/i18n/locales/en/common.json');
+      expect(existsSync(expectedTranslationFile)).toBe(true);
+      expect(readFileSync(expectedTranslationFile, 'utf-8')).toMatchSnapshot();
     });
 
-    it('should create a file from given template file name different from target filename', async () => {
+    it('should create a file from given namespace having nested config', async () => {
       testDir = createTmpDir(false);
-      const testDirPath = testDir.name;
 
-      await service.renderTemplateTree(
+      const testDirPath = testDir.name;
+      const templateContext = {
+        componentDirPath: resolve(testDirPath, 'src/components/test-component'),
+        i18nPath: 'src/i18n',
+        entityName: 'TestEntity',
+        entitiesName: 'TestEntities',
+      };
+
+      await service.renderTemplate(testDir.name, 'create-component/crud', templateContext);
+
+      const expectedConfigFile = resolve(
         testDirPath,
-        'i18n/locales',
-        {
-          'src/i18n/locales': { 'en/common.json': 'en/common.json' },
-        },
-        { projectName: JSON.stringify('test-project') }
+        'src/components/test-component/TestEntitiesConfig.tsx'
       );
+      expect(existsSync(expectedConfigFile)).toBe(true);
+      expect(readFileSync(expectedConfigFile, 'utf-8')).toMatchSnapshot('TestEntitiesConfig.tsx');
 
-      const expectedTestComponentFile = resolve(testDirPath, 'src/i18n/locales/en/common.json');
-      expect(existsSync(expectedTestComponentFile)).toBe(true);
-      expect(readFileSync(expectedTestComponentFile, 'utf-8')).toMatchSnapshot();
+      const expectedTranslationFile = resolve(testDirPath, 'src/i18n/locales/en/testEntities.json');
+      expect(existsSync(expectedTranslationFile)).toBe(true);
+      expect(readFileSync(expectedTranslationFile, 'utf-8')).toMatchSnapshot('testEntities.json');
     });
+  });
 
+  describe('createFileFromTemplate', () => {
     it('should throws an error if file directory does not exist', async () => {
       const createFileOperation = service.createFileFromTemplate(
         '/unexisting-directory/test.js',

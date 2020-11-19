@@ -40,6 +40,7 @@ export interface IPackageManager<PJ extends PackageJson = PackageJson> {
   getNodeModulesDirPath(): Promise<string>;
 
   installPackages(packages: string[], dev?: boolean): Promise<string[]>;
+  uninstallPackages(packages: string[]): Promise<string[]>;
 
   isMonorepoPackage(): Promise<boolean>;
   getMonorepoRootPath(): Promise<string | undefined>;

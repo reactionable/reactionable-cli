@@ -30,7 +30,8 @@ export abstract class AbstractCommitableActionWithAdapters<
       return;
     }
 
-    if (!(await this.gitService.isAGitRepository(options.realpath))) {
+    const isAGitRepository = await this.gitService.isAGitRepository(options.realpath);
+    if (!isAGitRepository) {
       return;
     }
 

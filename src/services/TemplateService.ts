@@ -1,5 +1,4 @@
-import { mkdirSync } from 'fs';
-import { basename, dirname, extname, join, resolve, sep } from 'path';
+import { dirname, extname, join, resolve, sep } from 'path';
 
 import { SafeString, compile, partials, registerHelper, registerPartial } from 'handlebars';
 import { inject, injectable } from 'inversify';
@@ -87,11 +86,11 @@ registerHelper({
   },
 });
 
-export type TemplateConfig =
-  | string[]
-  | {
-      [key: string]: TemplateConfig | string;
-    };
+type TemplateConfigItem = string[] | TemplateConfig | string;
+
+export type TemplateConfig = {
+  [key: string]: TemplateConfigItem;
+};
 
 export type TemplateContext = Record<string, unknown>;
 type CompiledTemplate = (context: TemplateContext) => string;
@@ -105,49 +104,82 @@ export class TemplateService {
     @inject(FileFactory) private readonly fileFactory: FileFactory
   ) {}
 
-  async renderTemplateTree(
+  async renderTemplate(
     dirPath: string,
     namespace: string,
-    config: TemplateConfig,
     context: TemplateContext = {}
   ): Promise<void> {
     this.fileService.assertDirExists(dirPath);
 
+    const config: TemplateConfig = await this.getTemplateConfig(namespace, context);
+    return this.renderTemplateFromConfig(dirPath, namespace, context, config);
+  }
+
+  /**
+   * Render the template file(s) form given config
+   */
+  protected async renderTemplateFromConfig(
+    dirPath: string,
+    namespace: string,
+    context: TemplateContext,
+    config: TemplateConfigItem
+  ): Promise<void> {
     if (Array.isArray(config)) {
       for (const filePath of config) {
-        const currentPath = resolve(dirPath, await this.renderTemplateString(filePath, context));
-
-        const currentBaseDirPath = dirname(currentPath);
-        if (!this.fileService.dirExistsSync(currentBaseDirPath)) {
-          mkdirSync(currentBaseDirPath, { recursive: true });
-        }
-
-        await this.createFileFromTemplate(currentPath, namespace, context);
+        await this.renderTemplateFromConfig(dirPath, namespace, context, filePath);
       }
       return;
     }
 
-    for (const dir of Object.keys(config)) {
-      const templateConfig = config[dir];
-      const currentPath = resolve(dirPath, await this.renderTemplateString(dir, context));
-
-      if (typeof templateConfig === 'string') {
-        const currentBaseDirPath = dirname(currentPath);
-        if (!this.fileService.dirExistsSync(currentBaseDirPath)) {
-          mkdirSync(currentBaseDirPath, { recursive: true });
-        }
-
-        await this.createFileFromTemplate(currentPath, join(namespace, templateConfig), context);
-      } else {
-        mkdirSync(currentPath, { recursive: true });
-        await this.renderTemplateTree(currentPath, namespace, templateConfig, context);
+    if (typeof config === 'object') {
+      for (const dir of Object.keys(config)) {
+        const currentPath = resolve(dirPath, dir);
+        await this.renderTemplateFromConfig(currentPath, namespace, context, config[dir]);
       }
+      return;
     }
+
+    const currentNamespace = join(namespace, config);
+    const currentPath = extname(dirPath) ? dirPath : join(dirPath, config);
+    const currentBaseDirPath = dirname(currentPath);
+
+    if (!this.fileService.dirExistsSync(currentBaseDirPath)) {
+      this.fileService.mkdirSync(currentBaseDirPath, true);
+    }
+
+    const templateKey = this.getTemplateKey(dirPath, currentPath, currentNamespace);
+
+    // console.log({ namespace, config, dirPath, templateKey, currentPath });
+
+    await this.createFileFromTemplate(currentPath, templateKey, context);
+  }
+
+  async getTemplateConfig(namespace: string, context: TemplateContext): Promise<TemplateConfig> {
+    const templateKey = join(namespace, 'config');
+    const templateContent = await this.getTemplateFileContent(templateKey);
+    const content = await this.renderTemplateString(templateContent, context);
+    const templateConfig = JSON.parse(content);
+    return templateConfig;
+  }
+
+  getTemplateKey(dirPath: string, filepath: string, namespace: string): string {
+    // Namespace is the template key
+    if (extname(namespace)) {
+      return namespace;
+    }
+
+    const templateKey = join(namespace, filepath.replace(dirPath, ''));
+    const templatePath = join(__dirname, './../templates', templateKey + '.template');
+    if (!this.fileService.fileExistsSync(templatePath)) {
+      throw new Error(`Template file "${templatePath}" does not exist`);
+    }
+
+    return templateKey;
   }
 
   async createFileFromTemplate(
     filePath: string,
-    namespace: string,
+    templateKey: string,
     context: TemplateContext,
     encoding: BufferEncoding = 'utf8'
   ): Promise<void> {
@@ -158,14 +190,16 @@ export class TemplateService {
       );
     }
 
-    const templateKey = extname(namespace) ? namespace : join(namespace, basename(filePath));
     const fileContent = await this.renderTemplateFile(templateKey, context);
 
     await this.fileFactory.fromString(fileContent, filePath, encoding).saveFile();
   }
 
   async getTemplateFileContent(template: string): Promise<string> {
-    const templatePath = join('./../templates', template + '.template');
+    const templatePath = join(__dirname, './../templates', template + '.template');
+    if (!this.fileService.fileExistsSync(templatePath)) {
+      throw new Error(`Template file "${templatePath}" does not exist`);
+    }
 
     let templateContent: string;
     try {
@@ -183,7 +217,9 @@ export class TemplateService {
         );
       }
     } catch (error) {
-      throw new Error(`An error occurred while importing template file "${templatePath}"`);
+      throw new Error(
+        `An error occurred while importing template file "${templatePath}": ${error.message}`
+      );
     }
 
     // Register partials if any
@@ -216,7 +252,7 @@ export class TemplateService {
     if (compiledTemplate) {
       return compiledTemplate;
     }
-    compiledTemplate = compile(templateContent);
+    compiledTemplate = compile(templateContent, { strict: true });
 
     this.compiledTemplates.set(templateKey, compiledTemplate);
 
@@ -225,7 +261,16 @@ export class TemplateService {
 
   async renderTemplateString(template: string, context: TemplateContext): Promise<string> {
     const compiledTemplate = await this.getCompiledTemplateString(template, template);
-    return compiledTemplate(context);
+    try {
+      return compiledTemplate(context);
+    } catch (error) {
+      throw new Error(
+        `An error occurred while compiling template "${template}": ${error.message.replace(
+          '[object Object]',
+          JSON.stringify(context)
+        )}`
+      );
+    }
   }
 
   async getCompiledTemplateFile(templateKey: string): Promise<CompiledTemplate> {

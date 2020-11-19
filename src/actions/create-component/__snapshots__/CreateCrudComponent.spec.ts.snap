@@ -1,509 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createCrudComponent run should create all crud components files 1`] = `
-"import { initializeI18n } from '@reactionable/core';
-import enCommon from './locales/en/common.json';
-import enTestEntities from './locales/en/test-entities.json';
-import frCommon from './locales/fr/common.json';
-import frTestEntities from './locales/fr/test-entities.json';
-
-const resources = {
-  en: {
-    common: enCommon,
-    testEntities: enTestEntities,
-  },
-  fr: {
-    common: frCommon,
-    testEntities: frTestEntities,
-  },
-};
-
-
-
-
-initializeI18n({ resources });"
-`;
-
-exports[`createCrudComponent run should create all crud components files 2`] = `
-"{
-  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
-  \\"Test entity label is required\\": \\"Test entity label is required\\",
-  \\"Label\\": \\"Label\\",
-  \\"Create a new test entity\\": \\"Create a new test entity\\",
-  \\"Delete test entity\\": \\"Delete test entity\\",
-  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
-  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
-  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
-  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
-}"
-`;
-
-exports[`createCrudComponent run should create all crud components files 3`] = `
-"{
-  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
-  \\"Test entity label is required\\": \\"Test entity label is required\\",
-  \\"Label\\": \\"Label\\",
-  \\"Create a new test entity\\": \\"Create a new test entity\\",
-  \\"Delete test entity\\": \\"Delete test entity\\",
-  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
-  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
-  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
-  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
-}"
-`;
-
-exports[`createCrudComponent run should create all crud components files 4`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntities.test.tsx": components/test-entities/TestEntities.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter } from 'react-router';
-import CreateTestEntity from './CreateTestEntity';
-
-describe('CreateTestEntity', () => {
-
-    let identity: IIdentityContextProviderProps;
-
-    beforeAll(async () => {
-        await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
-    });
-
-    it('renders without crashing', () => {
-        const result = render(
-            <TestWrapper identity={identity}>
-                <CreateTestEntity />
-            </TestWrapper>
-        );
-
-        expect(result).toBeTruthy();
-    });
-});"
-`;
-
-exports[`createCrudComponent run should create all crud components files 5`] = `
-"import { Create, IFormProps, IOnSubmitForm } from '@reactionable/ui-bootstrap';
-import { FC } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
-
-interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, \\"onSuccess\\"> { }
-
-
-const CreateTestEntity: FC<ICreateTestEntityProps> = (props) => {
-  const { t } = useTranslation();
-  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
-    return { id: \\"\\", label: \\"\\" };
-  };
-
-  const form = {
-    title: t(\\"Create a new test entity\\"),
-    onSubmit,
-    formValues: testEntityFormValues,
-    formSchema: testEntityFormSchema(t),
-    children: testEntityFormChildren(t),
-    onSuccess: props.onSuccess,
-  };
-
-  return <>
-    
-    <Create<ITestEntityValues, ITestEntityData> form={form} children={props.children}/>
-  </>;
-};
-
-export default CreateTestEntity;"
-`;
-
-exports[`createCrudComponent run should create all crud components files 6`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
-import { render } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router';
-import DeleteTestEntity from './DeleteTestEntity';
-
-describe('DeleteTestEntity', () => {
-
-    let identity: IIdentityContextProviderProps;
-
-    beforeAll(async () => {
-        await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
-    });
-
-    it('renders without crashing', () => {
-        const result = render(
-            <TestWrapper identity={identity}>
-                <DeleteTestEntity />
-            </TestWrapper>
-        );
-
-        expect(result).toBeTruthy();
-    });
-});"
-`;
-
-exports[`createCrudComponent run should create all crud components files 7`] = `
-"import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
-import { FC } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import { ITestEntityData } from '../TestEntitiesConfig';
-
-interface IProps extends Pick<IDeleteProps<ITestEntityData>, \\"onSuccess\\"> {
-  id: string; 
-  label?: boolean;
-}
-
-
-const DeleteTestEntity: FC<IDeleteTestEntityProps> = (props) => {
-  const { t } = useTranslation();
-  const { id, label, ...deleteProps} = props;
-  const onConfirm = async (): Promise<ITestEntityData> => {
-    return { id, label: \\"\\" };
-  };
-
-  return <>
-    
-    <Delete<ITestEntityData>
-      {...deleteProps}
-      title={t(\\"Delete test entity\\")}
-      children={label ? t(\\"Delete test entity\\") : undefined}
-      confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
-      successMessage={t(\\"The test entity has been deleted\\")}
-      onConfirm={onConfirm}
-    />
-  </>;
-};
-
-export default DeleteTestEntity;"
-`;
-
-exports[`createCrudComponent run should create all crud components files 8`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
-import { render } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router';
-import ListTestEntities from './ListTestEntities';
-
-describe('ListTestEntities', () => {
-
-    let identity: IIdentityContextProviderProps;
-
-    beforeAll(async () => {
-        await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
-    });
-
-    it('renders without crashing', () => {
-        const result = render(
-            <TestWrapper identity={identity}>
-                <ListTestEntities />
-            </TestWrapper>
-        );
-
-        expect(result).toBeTruthy();
-    });
-});"
-`;
-
-exports[`createCrudComponent run should create all crud components files 9`] = `
-"import { useQueryList } from '@reactionable/amplify';
-import { Suspense, generatePath } from '@reactionable/core';
-import { List } from '@reactionable/ui-bootstrap';
-import { FC, lazy } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { IListTestEntitiesQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
-
-const CreateTestEntity = lazy(() => import(\\"../create-test-entity/CreateTestEntity\\"));
-
-const DeleteTestEntity = lazy(() => import(\\"../delete-test-entity/DeleteTestEntity\\"));
-
-
-interface ITestEntityItemProps { 
-  data: ITestEntityData;
-  refetch: () => void;
-}
-
-
-const ListTestEntitiesItem: FC<ITestEntityItemProps> = ({ data, refetch }) => {
-  const { t } = useTranslation(\\"testEntities\\");
-  const match = useRouteMatch();
-
-  return <tr key={\\"TestEntity-\\" + data.id}>
-    <td>
-      <Link
-        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
-        title={t(\\"Go to test entity \\"{{label}}\\"\\", data)}
-      >{data.label}</Link>
-    </td>
-    <td>
-      <Link
-        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
-        title={t(\\"Go to test entity \\"{{label}}\\"\\", data)}
-      >{t(\\"Go to test entity \\"{{label}}\\"\\", data)}</Link>
-      <Suspense>
-        <DeleteTestEntity id={data.id} onSuccess={refetch}>
-          {t(\\"Delete test entity \\"{{label}}\\"\\", data)}
-        </DeleteTestEntity>
-      </Suspense>
-td>
-tr>;
-;
-
-
-
-interface IListTestEntitiesProps { }
-
-
-const ListTestEntities: FC<IListTestEntitiesProps> = (props) => {
-  const { t } = useTranslation();
-  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
-  });
-
-  const renderChildren = (data: ITestEntityData) => <ListTestEntitiesItem data={data} refetch={refetch}/>;
-
-  return <>
-    <Helmet>
-      <title>{t('Tests')} - {t('List test entities')}</title>
-      <meta name=\\"description\\" content={t('List test entities description')} />
-    </Helmet>
-    <h1>{t('List test entities')}</h1>
-    <Link disabled={!previous} title={t(\\"Load the previous test entities\\")}>{t(\\"Previous\\")}</Link>
-    <Link disabled={!next} title={t(\\"Load the next test entities\\")}>{t(\\"Next\\")}</Link>
-    <List<ITestEntityData>
-      {...listProps}
-      data={data}
-      head={[t(\\"Label\\"), t(\\"Actions\\")]}
-      children={renderChildren}
-      noData={<>
-        <br /> <br />
-        {t(\\"You don\\\\\\"t have any test entities yet\\")}
-        <br />
-        {t(\\"Click the button to create a new test entity\\")}
-        <br /><br />
-        <Suspense>
-          <CreateTestEntity onSuccess={refetch}>
-            <Link>{t(\\"Create a new test entity\\")}</Link>
-          </CreateTestEntity>
-        </Suspense>
-      </>}
-    />
-  </>;
-};
-
-export default ListTestEntities;"
-`;
-
-exports[`createCrudComponent run should create all crud components files 10`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
-import { render } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router';
-import ReadTestEntity from './ReadTestEntity';
-
-describe('ReadTestEntity', () => {
-
-    let identity: IIdentityContextProviderProps;
-
-    beforeAll(async () => {
-        await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
-    });
-
-    it('renders without crashing', () => {
-        const result = render(
-            <TestWrapper identity={identity}>
-                <ReadTestEntity />
-            </TestWrapper>
-        );
-
-        expect(result).toBeTruthy();
-    });
-});"
-`;
-
-exports[`createCrudComponent run should create all crud components files 11`] = `
-"import { useQueryList } from '@reactionable/amplify';
-import { Suspense } from '@reactionable/core';
-import { Read } from '@reactionable/ui-bootstrap';
-import { FC, lazy } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
-import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
-
-const UpdateTestEntity = lazy(() => import(\\"../update-test-entity/UpdateTestEntity\\"));
-
-
-interface ITestEntityItemProps { 
-  data: ITestEntityData;
-  refetch: () => void;
-}
-
-
-const ReadTestEntityItem: FC<ITestEntityItemProps> = ({ data, refetch }) => {
-  const { t } = useTranslation(\\"testEntities\\");
-  const match = useRouteMatch();
-
-  return <>
-    <Helmet>
-      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
-      <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
-    </Helmet>
-    <h1>{t(\\"Read test entity - \\", data)}</h1>
-    { data && <Suspense>
-      <UpdateTestEntity
-        onSuccess={refetch}
-        formValues={data}
-      >
-        <Link to=\\"#\\">{ t(\\"Update test entity \\"{{label}}\\"\\", data) }</Link>
-      </UpdateTestEntity>
-    </Suspense>}
-  </>;
-};
-
-
-
-interface IReadTestEntityProps { }
-
-
-const ReadTestEntity: FC<IReadTestEntityProps> = (props) => {
-  const { t } = useTranslation();
-  const matchParams = useParams<{ testEntityId: string }>();
-
-  const { data, refetch, ...readProps } = useQuery<ITestEntityData, IGetTestEntityQueryVariables>({
-    variables: { id: matchParams.testEntityId },
-  });
-
-  const renderChildren = (data: ITestEntityData) => <ReadTestEntityItem data={data} refetch={refetch}/>;
-
-  return <>
-    
-    <Read<ITestEntityData>
-      {...readProps}
-      data={data}
-      children={renderChildren}
-    />
-  </>;
-};
-
-export default ReadTestEntity;"
-`;
-
-exports[`createCrudComponent run should create all crud components files 12`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
-import { render } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router';
-import UpdateTestEntity from './UpdateTestEntity';
-
-describe('UpdateTestEntity', () => {
-
-    let identity: IIdentityContextProviderProps;
-
-    beforeAll(async () => {
-        await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
-    });
-
-    it('renders without crashing', () => {
-        const result = render(
-            <TestWrapper identity={identity}>
-                <UpdateTestEntity />
-            </TestWrapper>
-        );
-
-        expect(result).toBeTruthy();
-    });
-});"
-`;
-
-exports[`createCrudComponent run should create all crud components files 13`] = `
-"import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
-import { FC } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
-
-interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, \\"onSuccess\\" | \\"formValues\\"> { }
-
-
-const UpdateTestEntity: FC<IUpdateTestEntityProps> = (props) => {
-  const { t } = useTranslation();
-  const matchParams = useParams<{ testEntityId: string }>();
-  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
-    return { ...values, id: matchParams.testEntityId };
-  };
-
-  const safeFormValues: any = { ...testEntityFormValues };
-  Object.keys(safeFormValues).forEach(value => {
-    const key = value as keyof ITestEntityValues;
-    if (props.formValues[key]) {
-      safeFormValues[key] = props.formValues[key] as ITestEntityValues[keyof ITestEntityValues];
-    }
-  });
-
-  const form = {
-    title: t(\\"Update test entity \\"{{label}}\\"\\", safeFormValues),
-    onSubmit,
-    formValues: safeFormValues,
-    formSchema: testEntityFormSchema(t),
-    children: testEntityFormChildren(t),
-    onSuccess: props.onSuccess,
-  };
-
-
-  return <>
-    
-    <Update<ITestEntityValues, ITestEntityData> modal form={form} children={props.children}/>
-  </>;
-;
-
-export default UpdateTestEntity;"
-`;
-
-exports[`createCrudComponent run should create all crud components files 14`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
-import { render } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router';
 import TestEntities from './TestEntities';
 
-describe('TestEntities', () => {
+describe(\\"TestEntities\\", () => {
 
-    let identity: IIdentityContextProviderProps;
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
     });
 
-    it('renders without crashing', () => {
+    it(\\"renders without crashing\\", () => {
         const result = render(
-            <TestWrapper identity={identity}>
+            <TestWrapper identity={identity} ui={ui}>
                 <TestEntities />
             </TestWrapper>
         );
@@ -513,12 +31,10 @@ describe('TestEntities', () => {
 });"
 `;
 
-exports[`createCrudComponent run should create all crud components files 15`] = `
-"import { Crud } from '@reactionable/core';
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntities.tsx": components/test-entities/TestEntities.tsx 1`] = `
+"import { Crud, Head, useTranslation } from '@reactionable/core';
 import { IUseLayoutProps } from '@reactionable/ui-bootstrap';
-import { FC, lazy } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
+import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData } from './TestEntitiesConfig';
 
 const ListTestEntities = lazy(() => import(\\"./list-test-entities/ListTestEntities\\"));
@@ -529,11 +45,10 @@ const ReadTestEntity = lazy(() => import(\\"./read-test-entity/ReadTestEntity\\"
 interface ITestEntitiesProps { }
 
 
-const TestEntities: FC<ITestEntitiesProps> = (props) => {
+const TestEntities = (props: PropsWithChildren<ITestEntitiesProps>): ReactElement => {
   const { t } = useTranslation();
   
   return <>
-    
     <Crud<ITestEntityData, IUseLayoutProps>
       name=\\"TestEntity\\"
       listComponent={ ListTestEntities }
@@ -546,7 +61,7 @@ const TestEntities: FC<ITestEntitiesProps> = (props) => {
 export default TestEntities;"
 `;
 
-exports[`createCrudComponent run should create all crud components files 16`] = `
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntitiesConfig.tsx": components/test-entities/TestEntitiesConfig.tsx 1`] = `
 "import { IFormChildrenProps } from '@reactionable/core';
 import { FormField } from '@reactionable/ui-bootstrap';
 import { TFunction } from 'i18next';
@@ -591,4 +106,1066 @@ export const testEntityFormChildren = (t: TFunction) => (formikProps: IFormChild
     autoFocus={true}
   />
 </>;"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.test.tsx": components/test-entities/create-test-entity/CreateTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import CreateTestEntity from './CreateTestEntity';
+
+describe(\\"CreateTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <CreateTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.tsx": components/test-entities/create-test-entity/CreateTestEntity.tsx 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import { Create, IFormProps, IOnSubmitForm } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, \\"onSuccess\\"> { }
+
+
+const CreateTestEntity = (props: PropsWithChildren<ICreateTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values) => {
+    return values;
+  };
+
+  const form = {
+    title: t(\\"Create a new test entity\\"),
+    onSubmit,
+    formValues: testEntityFormValues,
+    formSchema: testEntityFormSchema(t),
+    children: testEntityFormChildren(t),
+    onSuccess: props.onSuccess,
+  };
+
+  return <>
+    <Create<ITestEntityValues, ITestEntityData> form={form} children={props.children}/>
+  </>;
+};
+
+export default CreateTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import DeleteTestEntity from './DeleteTestEntity';
+
+describe(\\"DeleteTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <DeleteTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.tsx 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { ITestEntityData } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IDeleteProps<ITestEntityData>, \\"onSuccess\\"> {
+  id: string; 
+  label?: boolean;
+}
+
+
+const DeleteTestEntity = (props: PropsWithChildren<IDeleteTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const { id, label, ...deleteProps} = props;
+  const onConfirm = async (): Promise<void> => { 
+    // Execute delete
+  };
+
+  return <>
+    <Delete<ITestEntityData>
+      {...deleteProps}
+      title={t(\\"Delete test entity\\")}
+      children={label ? t(\\"Delete test entity\\") : undefined}
+      confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
+      successMessage={t(\\"The test entity has been deleted\\")}
+      onConfirm={onConfirm}
+    />
+  </>;
+};
+
+export default DeleteTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.test.tsx": components/test-entities/list-test-entities/ListTestEntities.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import ListTestEntities from './ListTestEntities';
+
+describe(\\"ListTestEntities\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <ListTestEntities />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx": components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
+"import { useQueryList } from '@reactionable/amplify';
+import { Head, Link, Suspense, generatePath, useRouteMatch, useTranslation } from '@reactionable/core';
+import { List } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement, lazy } from 'react';
+import { IListTestEntitiesQueryVariables, ITestEntityData, useQueryList } from '../TestEntitiesConfig';
+
+const CreateTestEntity = lazy(() => import(\\"../create-test-entity/CreateTestEntity\\"));
+
+const DeleteTestEntity = lazy(() => import(\\"../delete-test-entity/DeleteTestEntity\\"));
+
+
+interface ITestEntityItemProps { 
+  data: ITestEntityData;
+  refetch: () => void;
+}
+
+
+const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren
+<ITestEntityItemProps>: ReactElement => {
+  const { t } = useTranslation(\\"testEntities\\");
+  const match = useRouteMatch();
+
+  return <tr key={\\"TestEntity-\\" + data.id}>
+    <td>
+      <Link
+        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
+        title={t(\\"Go to test entity \\"{{label}}\\"\\", data)}
+      >{data.label}</Link>
+    </td>
+    <td>
+      <Link
+        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
+        title={t(\\"Go to test entity \\"{{label}}\\"\\", data)}
+      >{t(\\"Go to test entity \\"{{label}}\\"\\", data)}</Link>
+      <Suspense>
+        <DeleteTestEntity id={data.id} onSuccess={refetch}>
+          {t(\\"Delete test entity \\"{{label}}\\"\\", data)}
+        </DeleteTestEntity>
+      </Suspense>
+    </td>
+tr>;
+;
+
+
+
+interface IListTestEntitiesProps { }
+
+
+const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): ReactElement => {
+  const { t } = useTranslation();
+  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
+  });
+
+  const renderChildren = (data: ITestEntityData) => <ListTestEntitiesItem data={data} refetch={refetch}/>;
+
+  return <>
+    <Head>
+      <title>{t(\\"Tests\\")} - {t(\\"List test entities\\")}</title>
+      <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
+    </Head>
+    <h1>{t(\\"List test entities\\")}</h1>
+    <Link disabled={!previous} title={t(\\"Load the previous test entities\\")}>{t(\\"Previous\\")}</Link>
+    <Link disabled={!next} title={t(\\"Load the next test entities\\")}>{t(\\"Next\\")}</Link>
+    <List<ITestEntityData>
+      {...listProps}
+      data={data}
+      head={[t(\\"Label\\"), t(\\"Actions\\")]}
+      children={renderChildren}
+      noData={<>
+        <br /> <br />
+        {t(\\"You don\\\\\\"t have any test entities yet\\")}
+        <br />
+        {t(\\"Click the button to create a new test entity\\")}
+        <br /><br />
+        <Suspense>
+          <CreateTestEntity onSuccess={refetch}>
+            <Link>{t(\\"Create a new test entity\\")}</Link>
+          </CreateTestEntity>
+        </Suspense>
+      </>}
+    />
+  </>;
+};
+
+export default ListTestEntities;"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.test.tsx": components/test-entities/read-test-entity/ReadTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import ReadTestEntity from './ReadTestEntity';
+
+describe(\\"ReadTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <ReadTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.tsx": components/test-entities/read-test-entity/ReadTestEntity.tsx 1`] = `
+"import { useQueryList } from '@reactionable/amplify';
+import { Head, Suspense, useTranslation } from '@reactionable/core';
+import { Link, useParams } from '@reactionable/router-dom';
+import { Read } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement, lazy } from 'react';
+import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
+
+const UpdateTestEntity = lazy(() => import(\\"../update-test-entity/UpdateTestEntity\\"));
+
+
+interface ITestEntityItemProps { 
+  data: ITestEntityData;
+  refetch: () => void;
+}
+
+
+const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
+  const { t } = useTranslation(\\"testEntities\\");
+  const match = useRouteMatch();
+
+  return <>
+    <Head>
+      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
+      <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
+    </Head>
+    <h1>{t(\\"Read test entity - \\", data)}</h1>
+    { data && <Suspense>
+      <UpdateTestEntity
+        onSuccess={refetch}
+        formValues={data}
+      >
+        <Link to=\\"#\\">{ t(\\"Update test entity \\"{{label}}\\"\\", data) }</Link>
+      </UpdateTestEntity>
+    </Suspense>}
+  </>;
+};
+
+
+
+interface IReadTestEntityProps { }
+
+
+const ReadTestEntity = (props: PropsWithChildren<IReadTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const matchParams = useParams<{ testEntityId: string }>();
+
+  const { data, refetch, ...readProps } = useQuery<ITestEntityData, IGetTestEntityQueryVariables>({
+    variables: { id: matchParams.testEntityId },
+  });
+
+  const renderChildren = (data: ITestEntityData) => <ReadTestEntityItem data={data} refetch={refetch}/>;
+
+  return <>
+    <Read<ITestEntityData>
+      {...readProps}
+      data={data}
+      children={renderChildren}
+    />
+  </>;
+};
+
+export default ReadTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.test.tsx": components/test-entities/update-test-entity/UpdateTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import UpdateTestEntity from './UpdateTestEntity';
+
+describe(\\"UpdateTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <UpdateTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.tsx": components/test-entities/update-test-entity/UpdateTestEntity.tsx 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import { useRouteMatch } from '@reactionable/router-dom';
+import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, \\"onSuccess\\" | \\"formValues\\"> { }
+
+
+const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const matchParams = useRouteMatch<{ testEntityId: string }>().params;
+  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
+    return { ...values, id: matchParams.testEntityId };
+  };
+
+  const safeFormValues: any = { ...testEntityFormValues };
+  Object.keys(safeFormValues).forEach(value => {
+    const key = value as keyof ITestEntityValues;
+    if (props.formValues[key]) {
+      safeFormValues[key] = props.formValues[key] as ITestEntityValues[keyof ITestEntityValues];
+    }
+  });
+
+  const form = {
+    title: t(\\"Update test entity \\"{{label}}\\"\\", safeFormValues),
+    onSubmit,
+    formValues: safeFormValues,
+    formSchema: testEntityFormSchema(t),
+    children: testEntityFormChildren(t),
+    onSuccess: props.onSuccess,
+  };
+
+
+  return <>
+    <Update<ITestEntityValues, ITestEntityData> modal form={form} children={props.children}/>
+  </>;
+;
+
+export default UpdateTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "i18n/i18n.ts": i18n/i18n.ts 1`] = `
+"import { initializeI18n } from '@reactionable/core';
+import enCommon from './locales/en/common.json';
+import enTestEntities from './locales/en/testEntities.json';
+import frCommon from './locales/fr/common.json';
+import frTestEntities from './locales/fr/testEntities.json';
+
+const resources = {
+  en: {
+    common: enCommon,
+    testEntities: enTestEntities,
+  },
+  fr: {
+    common: frCommon,
+    testEntities: frTestEntities,
+  },
+};
+
+
+
+
+initializeI18n({ resources });"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "i18n/locales/en/testEntities.json": i18n/locales/en/testEntities.json 1`] = `
+"{
+  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
+  \\"Test entity label is required\\": \\"Test entity label is required\\",
+  \\"Label\\": \\"Label\\",
+  \\"Create a new test entity\\": \\"Create a new test entity\\",
+  \\"Delete test entity\\": \\"Delete test entity\\",
+  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
+  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
+  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
+  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
+  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
+  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
+  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
+}"
+`;
+
+exports[`createCrudComponent Run for a NextJs project should create crud component file "i18n/locales/fr/testEntities.json": i18n/locales/fr/testEntities.json 1`] = `
+"{
+  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
+  \\"Test entity label is required\\": \\"Test entity label is required\\",
+  \\"Label\\": \\"Label\\",
+  \\"Create a new test entity\\": \\"Create a new test entity\\",
+  \\"Delete test entity\\": \\"Delete test entity\\",
+  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
+  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
+  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
+  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
+  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
+  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
+  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
+}"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/TestEntities.test.tsx": components/test-entities/TestEntities.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import TestEntities from './TestEntities';
+
+describe(\\"TestEntities\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <TestEntities />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/TestEntities.tsx": components/test-entities/TestEntities.tsx 1`] = `
+"import { Crud, Head, useTranslation } from '@reactionable/core';
+import { IUseLayoutProps } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement, lazy } from 'react';
+import { ITestEntityData } from './TestEntitiesConfig';
+
+const ListTestEntities = lazy(() => import(\\"./list-test-entities/ListTestEntities\\"));
+
+const ReadTestEntity = lazy(() => import(\\"./read-test-entity/ReadTestEntity\\"));
+
+
+interface ITestEntitiesProps { }
+
+
+const TestEntities = (props: PropsWithChildren<ITestEntitiesProps>): ReactElement => {
+  const { t } = useTranslation();
+  
+  return <>
+    <Crud<ITestEntityData, IUseLayoutProps>
+      name=\\"TestEntity\\"
+      listComponent={ ListTestEntities }
+      readComponent={ ReadTestEntity }
+      {...props}
+    />
+  </>;
+};
+
+export default TestEntities;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/TestEntitiesConfig.tsx": components/test-entities/TestEntitiesConfig.tsx 1`] = `
+"import { IFormChildrenProps } from '@reactionable/core';
+import { FormField } from '@reactionable/ui-bootstrap';
+import { TFunction } from 'i18next';
+import React from 'react';
+import { string } from 'yup';
+
+export type ITestEntityData = {
+  id: string;
+  label: string;
+};
+
+export type ITestEntityValues = Omit<ITestEntityData, \\"id\\">;
+
+
+export type IGetTestEntityQueryVariables = Pick<ITestEntityData, \\"id\\"> & {
+
+};
+
+
+export type IListTestEntitiesQueryVariables = {
+  
+};
+
+
+export const testEntityFormValues: ITestEntityValues = {
+  label: \\"\\",
+};
+
+
+export const testEntityFormSchema = (t: TFunction) => ({
+   label: string()
+    .min(1, t(\\"Test entity label must be at least 1 characters\\"), { ns : \\"testEntities\\" })
+    .required(t(\\"Test entity label is required\\"), { ns : \\"testEntities\\" }),
+});
+
+
+export const testEntityFormChildren = (t: TFunction) => (formikProps: IFormChildrenProps<ITestEntityValues>) => <>
+  <FormField
+    name=\\"label\\"
+    label={t(\\"Label\\", { ns : \\"testEntities\\" })}
+    placeholder={t(\\"Label\\", { ns : \\"testEntities\\" })}
+    autoFocus={true}
+  />
+</>;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.test.tsx": components/test-entities/create-test-entity/CreateTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import CreateTestEntity from './CreateTestEntity';
+
+describe(\\"CreateTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <CreateTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.tsx": components/test-entities/create-test-entity/CreateTestEntity.tsx 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import { Create, IFormProps, IOnSubmitForm } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, \\"onSuccess\\"> { }
+
+
+const CreateTestEntity = (props: PropsWithChildren<ICreateTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values) => {
+    return values;
+  };
+
+  const form = {
+    title: t(\\"Create a new test entity\\"),
+    onSubmit,
+    formValues: testEntityFormValues,
+    formSchema: testEntityFormSchema(t),
+    children: testEntityFormChildren(t),
+    onSuccess: props.onSuccess,
+  };
+
+  return <>
+    <Create<ITestEntityValues, ITestEntityData> form={form} children={props.children}/>
+  </>;
+};
+
+export default CreateTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import DeleteTestEntity from './DeleteTestEntity';
+
+describe(\\"DeleteTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <DeleteTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.tsx 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { ITestEntityData } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IDeleteProps<ITestEntityData>, \\"onSuccess\\"> {
+  id: string; 
+  label?: boolean;
+}
+
+
+const DeleteTestEntity = (props: PropsWithChildren<IDeleteTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const { id, label, ...deleteProps} = props;
+  const onConfirm = async (): Promise<void> => { 
+    // Execute delete
+  };
+
+  return <>
+    <Delete<ITestEntityData>
+      {...deleteProps}
+      title={t(\\"Delete test entity\\")}
+      children={label ? t(\\"Delete test entity\\") : undefined}
+      confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
+      successMessage={t(\\"The test entity has been deleted\\")}
+      onConfirm={onConfirm}
+    />
+  </>;
+};
+
+export default DeleteTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.test.tsx": components/test-entities/list-test-entities/ListTestEntities.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import ListTestEntities from './ListTestEntities';
+
+describe(\\"ListTestEntities\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <ListTestEntities />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx": components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
+"import { useQueryList } from '@reactionable/amplify';
+import { Head, Link, Suspense, generatePath, useRouteMatch, useTranslation } from '@reactionable/core';
+import { List } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement, lazy } from 'react';
+import { IListTestEntitiesQueryVariables, ITestEntityData, useQueryList } from '../TestEntitiesConfig';
+
+const CreateTestEntity = lazy(() => import(\\"../create-test-entity/CreateTestEntity\\"));
+
+const DeleteTestEntity = lazy(() => import(\\"../delete-test-entity/DeleteTestEntity\\"));
+
+
+interface ITestEntityItemProps { 
+  data: ITestEntityData;
+  refetch: () => void;
+}
+
+
+const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren
+<ITestEntityItemProps>: ReactElement => {
+  const { t } = useTranslation(\\"testEntities\\");
+  const match = useRouteMatch();
+
+  return <tr key={\\"TestEntity-\\" + data.id}>
+    <td>
+      <Link
+        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
+        title={t(\\"Go to test entity \\"{{label}}\\"\\", data)}
+      >{data.label}</Link>
+    </td>
+    <td>
+      <Link
+        to={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
+        title={t(\\"Go to test entity \\"{{label}}\\"\\", data)}
+      >{t(\\"Go to test entity \\"{{label}}\\"\\", data)}</Link>
+      <Suspense>
+        <DeleteTestEntity id={data.id} onSuccess={refetch}>
+          {t(\\"Delete test entity \\"{{label}}\\"\\", data)}
+        </DeleteTestEntity>
+      </Suspense>
+    </td>
+tr>;
+;
+
+
+
+interface IListTestEntitiesProps { }
+
+
+const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): ReactElement => {
+  const { t } = useTranslation();
+  const { data, refetch, next, previous, ...listProps } = useQueryList<ITestEntityData, IListTestEntitiesQueryVariables>({
+  });
+
+  const renderChildren = (data: ITestEntityData) => <ListTestEntitiesItem data={data} refetch={refetch}/>;
+
+  return <>
+    <Head>
+      <title>{t(\\"Tests\\")} - {t(\\"List test entities\\")}</title>
+      <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
+    </Head>
+    <h1>{t(\\"List test entities\\")}</h1>
+    <Link disabled={!previous} title={t(\\"Load the previous test entities\\")}>{t(\\"Previous\\")}</Link>
+    <Link disabled={!next} title={t(\\"Load the next test entities\\")}>{t(\\"Next\\")}</Link>
+    <List<ITestEntityData>
+      {...listProps}
+      data={data}
+      head={[t(\\"Label\\"), t(\\"Actions\\")]}
+      children={renderChildren}
+      noData={<>
+        <br /> <br />
+        {t(\\"You don\\\\\\"t have any test entities yet\\")}
+        <br />
+        {t(\\"Click the button to create a new test entity\\")}
+        <br /><br />
+        <Suspense>
+          <CreateTestEntity onSuccess={refetch}>
+            <Link>{t(\\"Create a new test entity\\")}</Link>
+          </CreateTestEntity>
+        </Suspense>
+      </>}
+    />
+  </>;
+};
+
+export default ListTestEntities;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.test.tsx": components/test-entities/read-test-entity/ReadTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import ReadTestEntity from './ReadTestEntity';
+
+describe(\\"ReadTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <ReadTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.tsx": components/test-entities/read-test-entity/ReadTestEntity.tsx 1`] = `
+"import { useQueryList } from '@reactionable/amplify';
+import { Head, Suspense, useTranslation } from '@reactionable/core';
+import { Link, useParams } from '@reactionable/router-dom';
+import { Read } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement, lazy } from 'react';
+import { IGetTestEntityQueryVariables, ITestEntityData } from '../TestEntitiesConfig';
+
+const UpdateTestEntity = lazy(() => import(\\"../update-test-entity/UpdateTestEntity\\"));
+
+
+interface ITestEntityItemProps { 
+  data: ITestEntityData;
+  refetch: () => void;
+}
+
+
+const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
+  const { t } = useTranslation(\\"testEntities\\");
+  const match = useRouteMatch();
+
+  return <>
+    <Head>
+      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
+      <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
+    </Head>
+    <h1>{t(\\"Read test entity - \\", data)}</h1>
+    { data && <Suspense>
+      <UpdateTestEntity
+        onSuccess={refetch}
+        formValues={data}
+      >
+        <Link to=\\"#\\">{ t(\\"Update test entity \\"{{label}}\\"\\", data) }</Link>
+      </UpdateTestEntity>
+    </Suspense>}
+  </>;
+};
+
+
+
+interface IReadTestEntityProps { }
+
+
+const ReadTestEntity = (props: PropsWithChildren<IReadTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const matchParams = useParams<{ testEntityId: string }>();
+
+  const { data, refetch, ...readProps } = useQuery<ITestEntityData, IGetTestEntityQueryVariables>({
+    variables: { id: matchParams.testEntityId },
+  });
+
+  const renderChildren = (data: ITestEntityData) => <ReadTestEntityItem data={data} refetch={refetch}/>;
+
+  return <>
+    <Read<ITestEntityData>
+      {...readProps}
+      data={data}
+      children={renderChildren}
+    />
+  </>;
+};
+
+export default ReadTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.test.tsx": components/test-entities/update-test-entity/UpdateTestEntity.test.tsx 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import UpdateTestEntity from './UpdateTestEntity';
+
+describe(\\"UpdateTestEntity\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <UpdateTestEntity />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.tsx": components/test-entities/update-test-entity/UpdateTestEntity.tsx 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import { useRouteMatch } from '@reactionable/router-dom';
+import { IFormProps, IOnSubmitForm, Update } from '@reactionable/ui-bootstrap';
+import React, { PropsWithChildren, ReactElement } from 'react';
+import { ITestEntityData, ITestEntityValues, testEntityFormChildren, testEntityFormSchema, testEntityFormValues } from '../TestEntitiesConfig';
+
+interface IProps extends Pick<IFormProps<ITestEntityValues, ITestEntityData>, \\"onSuccess\\" | \\"formValues\\"> { }
+
+
+const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): ReactElement => {
+  const { t } = useTranslation();
+  const matchParams = useRouteMatch<{ testEntityId: string }>().params;
+  const onSubmit: IOnSubmitForm<ITestEntityValues, ITestEntityData> = async (values, formikHelpers) => {
+    return { ...values, id: matchParams.testEntityId };
+  };
+
+  const safeFormValues: any = { ...testEntityFormValues };
+  Object.keys(safeFormValues).forEach(value => {
+    const key = value as keyof ITestEntityValues;
+    if (props.formValues[key]) {
+      safeFormValues[key] = props.formValues[key] as ITestEntityValues[keyof ITestEntityValues];
+    }
+  });
+
+  const form = {
+    title: t(\\"Update test entity \\"{{label}}\\"\\", safeFormValues),
+    onSubmit,
+    formValues: safeFormValues,
+    formSchema: testEntityFormSchema(t),
+    children: testEntityFormChildren(t),
+    onSuccess: props.onSuccess,
+  };
+
+
+  return <>
+    <Update<ITestEntityValues, ITestEntityData> modal form={form} children={props.children}/>
+  </>;
+;
+
+export default UpdateTestEntity;"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "i18n/i18n.ts": i18n/i18n.ts 1`] = `
+"import { initializeI18n } from '@reactionable/core';
+import enCommon from './locales/en/common.json';
+import enTestEntities from './locales/en/testEntities.json';
+import frCommon from './locales/fr/common.json';
+import frTestEntities from './locales/fr/testEntities.json';
+
+const resources = {
+  en: {
+    common: enCommon,
+    testEntities: enTestEntities,
+  },
+  fr: {
+    common: frCommon,
+    testEntities: frTestEntities,
+  },
+};
+
+
+
+
+initializeI18n({ resources });"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "i18n/locales/en/testEntities.json": i18n/locales/en/testEntities.json 1`] = `
+"{
+  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
+  \\"Test entity label is required\\": \\"Test entity label is required\\",
+  \\"Label\\": \\"Label\\",
+  \\"Create a new test entity\\": \\"Create a new test entity\\",
+  \\"Delete test entity\\": \\"Delete test entity\\",
+  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
+  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
+  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
+  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
+  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
+  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
+  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
+}"
+`;
+
+exports[`createCrudComponent Run for a React project should create crud component file "i18n/locales/fr/testEntities.json": i18n/locales/fr/testEntities.json 1`] = `
+"{
+  \\"Test entity label must be at least 1 characters\\": \\"Test entity label must be at least 1 characters\\",
+  \\"Test entity label is required\\": \\"Test entity label is required\\",
+  \\"Label\\": \\"Label\\",
+  \\"Create a new test entity\\": \\"Create a new test entity\\",
+  \\"Delete test entity\\": \\"Delete test entity\\",
+  \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
+  \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
+  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"\\\\\\"\\",
+  \\"You don\\\\\\"t have any test entities yet\\": \\"You don\\\\\\"t have any test entities yet\\",
+  \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
+  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
+  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\"
+}"
 `;

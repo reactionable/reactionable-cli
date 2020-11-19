@@ -4,7 +4,9 @@ import { Container } from 'inversify';
 
 import AddHosting from './actions/add-hosting/AddHosting';
 import { bindHostingAdapters } from './actions/add-hosting/container';
-import AddCssFramework from './actions/add-ui-framework/AddUIFramework';
+import AddRouter from './actions/add-router/AddRouter';
+import { bindRouterAdapters } from './actions/add-router/container';
+import AddUIFramework from './actions/add-ui-framework/AddUIFramework';
 import { bindUIFrameworkAdapters } from './actions/add-ui-framework/container';
 import AddVersioning from './actions/add-versioning/AddVersioning';
 import { bindVersioningAdapters } from './actions/add-versioning/container';
@@ -17,41 +19,45 @@ import { CliService } from './services/CliService';
 import { ConsoleService } from './services/ConsoleService';
 import { FileFactory } from './services/file/FileFactory';
 import { FileService } from './services/file/FileService';
-import { ConventionalCommitsService } from './services/git/ConventionalCommitsService';
 import { GitService } from './services/git/GitService';
 import { PackageManagerService } from './services/package-manager/PackageManagerService';
 import { TemplateService } from './services/TemplateService';
 
 const container = new Container({ defaultScope: 'Singleton' });
 
+export const TYPES = {
+  Action: 'Action',
+};
+
 // Services
 container.bind<PackageManagerService>(PackageManagerService).toSelf();
 container.bind<GitService>(GitService).toSelf();
 container.bind<TemplateService>(TemplateService).toSelf();
-container.bind<ConventionalCommitsService>(ConventionalCommitsService).toSelf();
 container.bind<ConsoleService>(ConsoleService).toSelf();
 container.bind<FileService>(FileService).toSelf();
 container.bind<FileFactory>(FileFactory).toSelf();
 container.bind<CliService>(CliService).toSelf();
 
 // Available root actions
-container.bind<CreateApp>('Action').to(CreateApp);
+container.bind<CreateApp>(TYPES.Action).to(CreateApp);
 container.bind<CreateApp>(CreateApp).toSelf();
-container.bind<CreateComponent>('Action').to(CreateComponent);
+container.bind<CreateComponent>(TYPES.Action).to(CreateComponent);
 container.bind<CreateComponent>(CreateComponent).toSelf();
-container.bind<CreateCrudComponent>('Action').to(CreateCrudComponent);
+container.bind<CreateCrudComponent>(TYPES.Action).to(CreateCrudComponent);
 container.bind<CreateCrudComponent>(CreateCrudComponent).toSelf();
-container.bind<GenerateReadme>('Action').to(GenerateReadme);
+container.bind<GenerateReadme>(TYPES.Action).to(GenerateReadme);
 container.bind<GenerateReadme>(GenerateReadme).toSelf();
 
 // Sub actions
-container.bind<AddCssFramework>(AddCssFramework).toSelf();
+container.bind<AddUIFramework>(AddUIFramework).toSelf();
 container.bind<AddHosting>(AddHosting).toSelf();
+container.bind<AddRouter>(AddRouter).toSelf();
 container.bind<AddVersioning>(AddVersioning).toSelf();
 
 // Bind adapters
 bindCreateAppAdapters(container);
 bindHostingAdapters(container);
+bindRouterAdapters(container);
 bindUIFrameworkAdapters(container);
 bindVersioningAdapters(container);
 

@@ -1,4 +1,15 @@
-import { existsSync, realpathSync, statSync } from 'fs';
+import {
+  closeSync,
+  existsSync,
+  mkdirSync,
+  openSync,
+  readdirSync,
+  realpathSync,
+  rmdirSync,
+  statSync,
+  unlinkSync,
+  utimesSync,
+} from 'fs';
 import { basename, dirname, extname, resolve } from 'path';
 
 import { injectable } from 'inversify';
@@ -6,6 +17,15 @@ import { mv } from 'shelljs';
 
 @injectable()
 export class FileService {
+  touchFileSync(path: string): void {
+    const time = new Date();
+    try {
+      utimesSync(path, time, time);
+    } catch (err) {
+      closeSync(openSync(path, 'w'));
+    }
+  }
+
   fileExistsSync(path: string): boolean {
     if (!existsSync(path)) {
       return false;
@@ -51,5 +71,44 @@ export class FileService {
       `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s.]+/, '')}`
     );
     mv(filePath, newFilePath);
+  }
+
+  mkdirSync(dirpath: string, recursive: boolean): void {
+    if (this.dirExistsSync(dirpath)) {
+      return;
+    }
+
+    if (!this.fileDirExistsSync(dirpath)) {
+      const parentDirectory = dirname(dirpath);
+      if (!recursive) {
+        throw new Error(
+          `Unable to create directory "${dirpath}" in unexisting directory "${parentDirectory}"`
+        );
+      }
+    }
+
+    mkdirSync(dirpath, { recursive });
+  }
+
+  rmdirSync(dirpath: string): void {
+    if (!this.dirExistsSync(dirpath)) {
+      return;
+    }
+    const list = readdirSync(dirpath);
+    for (const filepath of list) {
+      const filename = resolve(dirpath, filepath);
+      const stat = statSync(filename);
+
+      if (filename == '.' || filename == '..') {
+        // pass these files
+      } else if (stat.isDirectory()) {
+        // rmdir recursively
+        this.rmdirSync(filename);
+      } else {
+        // rm filename
+        unlinkSync(filename);
+      }
+    }
+    rmdirSync(dirpath);
   }
 }

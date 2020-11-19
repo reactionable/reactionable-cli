@@ -5,15 +5,15 @@ import { DirResult, dirSync, setGracefulCleanup } from 'tmp';
 
 export { DirResult };
 
-export function createTmpDir(copyTestDir = true): DirResult {
+export function createTmpDir(copyTestDir: string | false = 'test-react-project'): DirResult {
   setGracefulCleanup();
   const tmpDir = dirSync({
-    prefix: 'reactionable-cli',
+    prefix: 'reactionable-cli' + (copyTestDir ? '-' + copyTestDir : ''),
     unsafeCleanup: true,
   });
 
   if (copyTestDir) {
-    const testDirPath = resolve('__tests__/test-project');
+    const testDirPath = resolve('__tests__', copyTestDir);
     copySync(testDirPath, tmpDir.name);
   }
 

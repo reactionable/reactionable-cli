@@ -1,26 +1,28 @@
-const template = `import React from 'react';
-import { MemoryRouter } from "react-router";
-import { render } from '@testing-library/react';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '{{ uiPackage }}';
-import { useIdentityContextProviderProps, IIdentityContextProviderProps } from '{{ hostingPackage }}';
+const template = `import React from "react";
+import { render } from "@testing-library/react";
+import { i18nTestInstance } from "@reactionable/core";
+import { useUIProviderProps, IUIProviderProps } from "{{ uiPackage }}";
+import { TestWrapper } from "{{ routerPackage }}";
+import { useIdentityProviderProps, IIdentityProviderProps } from "{{ hostingPackage }}";
 {{#> imports-block}}
 {{!-- Custom imports could be added. --}}
 {{/imports-block}}
-import {{ componentName }} from './{{ componentName }}';
+import {{ componentName }} from "./{{ componentName }}";
 
-describe('{{ componentName }}', () => {
+describe("{{ componentName }}", () => {
 
-    let identity: IIdentityContextProviderProps;
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
     });
 
-    it('renders without crashing', () => {
+    it("renders without crashing", () => {
         const result = render(
-            <TestWrapper identity={identity}>
+            <TestWrapper identity={identity} ui={ui}>
                 <{{ componentName }} />
             </TestWrapper>
         );

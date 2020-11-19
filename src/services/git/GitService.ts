@@ -7,7 +7,7 @@ import { which } from 'shelljs';
 
 import { CliService } from '../CliService';
 import { ConsoleService } from '../ConsoleService';
-import { ConventionalCommitsService } from './ConventionalCommitsService';
+import { PackageManagerService } from '../package-manager/PackageManagerService';
 
 export type GitConfig = {
   'remote.origin.url': string;
@@ -20,8 +20,7 @@ export class GitService {
   constructor(
     @inject(CliService) private readonly cliService: CliService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(ConventionalCommitsService)
-    private readonly conventionalCommitsService: ConventionalCommitsService
+    @inject(PackageManagerService) private readonly packageManagerService: PackageManagerService
   ) {}
 
   execGitCmd(cmd: string | string[], dirPath: string, silent?: boolean): Promise<string> {
@@ -130,6 +129,7 @@ export class GitService {
     if (!(await this.isAGitRepository(realpath))) {
       return;
     }
+
     this.consoleService.info('Push commits...');
     return this.execGitCmd(['push', '--all'], realpath);
   }
@@ -139,19 +139,20 @@ export class GitService {
     commitMessage: string,
     commitMessageType: string
   ): Promise<string> {
-    const hasConventionalCommits = await this.conventionalCommitsService.hasConventionalCommits(
-      realpath
-    );
+    let commitPrefix = commitMessageType.toLowerCase();
 
-    if (!hasConventionalCommits) {
-      return commitMessage.charAt(0).toUpperCase() + commitMessage.slice(1);
+    const isMonorepoPackage = await this.packageManagerService.isMonorepoPackage(realpath);
+
+    if (isMonorepoPackage) {
+      const projectName = await this.packageManagerService.getPackageName(
+        realpath,
+        'hyphenize',
+        false
+      );
+      commitPrefix += `(${projectName})`;
     }
 
-    return this.conventionalCommitsService.formatCommitMessage(
-      realpath,
-      commitMessageType,
-      commitMessage
-    );
+    return `${commitPrefix}: ${commitMessage}`;
   }
 
   private getGitCmd(): string | null {

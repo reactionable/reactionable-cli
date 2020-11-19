@@ -1,11 +1,12 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
 import { lazy } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch } from "{{ routerPackage }}";
 import { generatePath, Suspense } from "@reactionable/core";
 import { List } from "{{ uiPackage }}";
 import { useQueryList } from "{{ hostingPackage }}";
-import { I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables } from "../{{ entitiesName }}Config";
+
+import { I{{ entityName }}Data, IList{{ entitiesName }}QueryVariables, useQueryList } from "../{{ entitiesName }}Config";
 
 const Create{{ entityName }} = lazy(() => import("../create-{{hyphenize entityName }}/Create{{ entityName }}"));
 const Delete{{ entityName }} = lazy(() => import("../delete-{{hyphenize entityName }}/Delete{{ entityName }}"));
@@ -15,7 +16,7 @@ interface I{{entityName}}ItemProps {
   refetch: () => void;
 }
 
-const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) => {
+const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityName}}ItemProps>: ReactElement => {
   const { t } = useTranslation("{{decapitalize entitiesName }}");
   const match = useRouteMatch();
 

@@ -27,6 +27,11 @@ describe('stringUtils', () => {
       const camelized = StringUtils.camelize('test value');
       expect(camelized).toEqual('testValue');
     });
+
+    it('should lowercase the first char', () => {
+      const camelized = StringUtils.camelize('Test value');
+      expect(camelized).toEqual('testValue');
+    });
   });
 
   describe('decamelize', () => {

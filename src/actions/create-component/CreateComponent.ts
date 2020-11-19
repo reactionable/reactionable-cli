@@ -1,42 +1,56 @@
-import { mkdirSync } from 'fs';
-import { basename, dirname, join, resolve } from 'path';
+import { basename, dirname, extname, resolve } from 'path';
 
 import { prompt } from 'inquirer';
-import { inject, injectable } from 'inversify';
+import { LazyServiceIdentifer, inject, injectable } from 'inversify';
 
 import { ConsoleService } from '../../services/ConsoleService';
+import { FileFactory } from '../../services/file/FileFactory';
 import { FileService } from '../../services/file/FileService';
 import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
 import { StringUtils } from '../../services/StringUtils';
 import { TemplateContext, TemplateService } from '../../services/TemplateService';
 import { AbstractAdapterWithPackageAction } from '../AbstractAdapterWithPackageAction';
 import AddHosting from '../add-hosting/AddHosting';
+import AddRouter from '../add-router/AddRouter';
 import AddUIFramework from '../add-ui-framework/AddUIFramework';
+import { CreateAppAdapter } from '../create-app/adapters/CreateAppAdapter';
+import CreateApp from '../create-app/CreateApp';
 import { NamedAction, NamedActionOptions } from '../NamedAction';
 
-export type CreateComponentOptions = NamedActionOptions & { name: string | undefined };
+export type CreateComponentOptions = NamedActionOptions & {
+  name?: string;
+  componentTemplate?: string;
+  // Can be the directory folder where to create the component or the file path of an existing component
+  componentDirPath?: string;
+};
 
 @injectable()
 export default class CreateComponent implements NamedAction<CreateComponentOptions> {
   protected static defaultPackage = '@reactionable/core';
-  protected static viewsPath = join('', 'src', 'views');
   protected static templateNamespace = 'create-component';
 
   constructor(
-    @inject(AddUIFramework) private readonly addUIFramework: AddUIFramework,
-    @inject(AddHosting) private readonly addHosting: AddHosting,
+    @inject(new LazyServiceIdentifer(() => AddUIFramework))
+    private readonly addUIFramework: AddUIFramework,
+    @inject(new LazyServiceIdentifer(() => AddHosting))
+    private readonly addHosting: AddHosting,
+    @inject(new LazyServiceIdentifer(() => AddRouter))
+    private readonly addRouter: AddRouter,
+    @inject(new LazyServiceIdentifer(() => CreateApp))
+    private readonly createApp: CreateApp,
     @inject(PackageManagerService)
     protected readonly packageManagerService: PackageManagerService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
     @inject(FileService) protected readonly fileService: FileService,
-    @inject(TemplateService) protected readonly templateService: TemplateService
+    @inject(TemplateService) protected readonly templateService: TemplateService,
+    @inject(FileFactory) protected readonly fileFactory: FileFactory
   ) {}
 
   getName(): string {
-    return 'Create a new react component';
+    return 'Create a new component';
   }
 
-  async run({ realpath, name }: CreateComponentOptions): Promise<void> {
+  async run({ realpath, name, ...options }: CreateComponentOptions): Promise<void> {
     if (!name) {
       const answer = await prompt<{ name: string }>([
         {
@@ -52,7 +66,7 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     name = this.formatName(name);
     this.consoleService.info(`Create component "${name}"...`);
 
-    const componentDirPath = await this.createComponent({ realpath, name });
+    const componentDirPath = await this.createComponent({ realpath, name, ...options });
 
     this.consoleService.success(`Component "${name}" has been created in "${componentDirPath}"`);
   }
@@ -61,8 +75,8 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     realpath,
     componentDirPath,
     name,
-    componentTemplate = 'simple/Simple.tsx',
-    testComponentTemplate = 'simple/Simple.test.tsx',
+    componentTemplate = 'standalone/Standalone.tsx',
+    testComponentTemplate = 'standalone/Standalone.test.tsx',
     templateContext = {},
   }: {
     realpath: string;
@@ -72,36 +86,27 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     testComponentTemplate?: string;
     templateContext?: TemplateContext;
   }): Promise<string> {
-    // Define component path
-    const componentDirName = StringUtils.hyphenize(name);
+    let componentFilename = name + '.tsx';
 
     if (!componentDirPath) {
-      componentDirPath = realpath;
-    }
-
-    if (componentDirPath.indexOf(CreateComponent.viewsPath) === -1) {
-      const viewsRealpath = resolve(componentDirPath, CreateComponent.viewsPath);
-      if (!this.fileService.dirExistsSync(viewsRealpath)) {
-        mkdirSync(viewsRealpath);
-      }
-      componentDirPath = resolve(viewsRealpath, componentDirName);
+      componentDirPath = resolve(
+        realpath,
+        (await this.getCreateAppAdapter(realpath)).getLibDirectoryPath(),
+        'components',
+        StringUtils.hyphenize(name)
+      );
+    } else if (extname(componentDirPath)) {
+      componentFilename = basename(componentDirPath);
+      componentDirPath = dirname(componentDirPath);
     } else {
-      componentDirPath = resolve(componentDirPath, componentDirName);
-    }
-
-    switch (name) {
-      case 'App':
-        componentDirPath = resolve(realpath, 'src');
-        componentTemplate = 'app/App.tsx';
-        break;
-      case 'NotFound':
-        componentTemplate = 'not-found/NotFound.tsx';
-        break;
+      componentDirPath = resolve(componentDirPath, StringUtils.hyphenize(name));
     }
 
     if (!this.fileService.fileDirExistsSync(componentDirPath)) {
       throw new Error(
-        `Unable to create component "${name}" in unexisting directory "${componentDirPath}`
+        `Unable to create component "${name}" in unexisting directory "${dirname(
+          componentDirPath
+        )}"`
       );
     }
 
@@ -111,28 +116,28 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
       'capitalizeWords'
     );
     const uiPackage = await this.getUIPackage(realpath);
+    const routerPackage = await this.getRouterPackage(realpath);
     const hostingPackage = await this.getHostingPackage(realpath);
 
+    const testComponentFilename = componentFilename.split('.').slice(0, -1).join('.') + '.test.tsx';
     const context = {
       ...templateContext,
       componentName: name,
+      componentDirname: basename(componentDirPath),
+      componentFilename,
+      componentTemplate,
+      testComponentFilename,
+      testComponentTemplate,
       projectName,
       uiPackage,
       hostingPackage,
+      routerPackage,
     };
 
     // Create component from template
-    await this.templateService.renderTemplateTree(
-      dirname(componentDirPath),
-      CreateComponent.templateNamespace,
-      {
-        [basename(componentDirPath)]: {
-          [name + '.tsx']: componentTemplate,
-          [name + '.test.tsx']: testComponentTemplate,
-        },
-      },
-      context
-    );
+    const namespace = CreateComponent.templateNamespace;
+    await this.templateService.renderTemplate(dirname(componentDirPath), namespace, context);
+
     return componentDirPath;
   }
 
@@ -141,17 +146,23 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
   }
 
   protected async getUIPackage(realpath: string): Promise<string> {
-    const uiPackage = (
-      await this.addUIFramework.detectAdapter(this.getProjectRootPath(realpath))
-    )?.getAdapterPackageName();
+    const uiPackage = (await this.addUIFramework.detectAdapter(realpath))?.getAdapterPackageName();
     if (uiPackage) {
       return uiPackage;
     }
     return CreateComponent.defaultPackage;
   }
 
-  private async getHostingPackage(realpath: string): Promise<string> {
-    const hostingAdapter = await this.addHosting.detectAdapter(this.getProjectRootPath(realpath));
+  protected async getRouterPackage(realpath: string): Promise<string> {
+    const routerPackage = (await this.addRouter.detectAdapter(realpath))?.getAdapterPackageName();
+    if (routerPackage) {
+      return routerPackage;
+    }
+    return CreateComponent.defaultPackage;
+  }
+
+  public async getHostingPackage(realpath: string): Promise<string> {
+    const hostingAdapter = await this.addHosting.detectAdapter(realpath);
 
     if (hostingAdapter && hostingAdapter instanceof AbstractAdapterWithPackageAction) {
       return hostingAdapter.getAdapterPackageName();
@@ -160,13 +171,11 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     return CreateComponent.defaultPackage;
   }
 
-  private getProjectRootPath(realpath: string): string {
-    let projectRootPath: string;
-    if (realpath.indexOf(CreateComponent.viewsPath) === -1) {
-      projectRootPath = realpath;
-    } else {
-      projectRootPath = realpath.split(CreateComponent.viewsPath)[0];
+  protected async getCreateAppAdapter(realpath: string): Promise<CreateAppAdapter> {
+    const adapter = await this.createApp.detectAdapter(realpath);
+    if (!adapter) {
+      throw new Error(`Unable to detect app type for given path "${realpath}"`);
     }
-    return projectRootPath;
+    return adapter;
   }
 }

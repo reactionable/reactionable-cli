@@ -88,6 +88,21 @@ describe('services - File - TypescriptFile', () => {
       expect(file.getContent()).toEqual(fileContent);
     });
 
+    it('should get content containing default and named import', () => {
+      const fileContent = `import React, { ReactElement } from 'react';\n\nclass Test {}`;
+
+      const file = new TypescriptFile(
+        cliService,
+        fileService,
+        fileFactory,
+        filePath,
+        undefined,
+        fileContent
+      );
+
+      expect(file.getContent()).toEqual(fileContent);
+    });
+
     it('should get content containing name binded import', () => {
       const fileContent = `import { IAppProps } from '@reactionable/core';\n\nclass Test {}`;
 

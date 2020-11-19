@@ -75,12 +75,11 @@ export abstract class AbstractActionWithAdapters<
       ]);
       adapter = answer.adapter;
     }
+
     if (!adapter) {
       return;
     }
 
     await adapter.run(options);
-
-    this.consoleService.success(`${name} has been added in "${options.realpath}"`);
   }
 }

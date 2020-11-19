@@ -1,0 +1,7 @@
+const template = `{
+    "{{componentDirname}}": {
+        "{{componentFilename}}": "{{componentTemplate}}",
+        "{{testComponentFilename}}": "{{testComponentTemplate}}"
+    }
+}`;
+module.exports = template;

@@ -1,10 +1,11 @@
 const template = `{{#> Component }}
 {{#*inline "imports-block"}}
-import { Link, useParams } from "react-router-dom";
 import { lazy } from "react";
 import { Suspense } from "@reactionable/core";
+import { Link, useParams } from "@reactionable/router-dom";
 import { Read } from "{{ uiPackage }}";
 import { useQueryList } from "{{ hostingPackage }}";
+
 import { I{{ entityName }}Data, IGet{{ entityName }}QueryVariables } from "../{{ entitiesName }}Config";
 
 const Update{{ entityName }} = lazy(() => import("../update-{{hyphenize entityName }}/Update{{ entityName }}"));
@@ -14,15 +15,15 @@ interface I{{entityName}}ItemProps {
   refetch: () => void;
 }
 
-const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) => {
+const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityName}}ItemProps>): ReactElement => {
   const { t } = useTranslation("{{decapitalize entitiesName }}");
   const match = useRouteMatch();
 
   return <>
-    <Helmet>
+    <Head>
       <title>{t("{{projectName}}", { ns: "common" })} - {t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)}</title>
       <meta name="description" content={t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)} />
-    </Helmet>
+    </Head>
     <h1>{t("{{capitalize (decamelize componentName)}} - {{label}}", data)}</h1>
     { data && <Suspense>
       <Update{{ entityName }}
@@ -36,7 +37,7 @@ const {{componentName}}Item: FC<I{{entityName}}ItemProps> = ({ data, refetch }) 
 };
 
 {{/inline}}
-{{#*inline "helmet-block"}}{{/inline}}
+{{#*inline "head-block"}}{{/inline}}
 {{#*inline "pre-render-block"}}const matchParams = useParams<{ {{decapitalize entityName }}Id: string }>();
 
   const { data, refetch, ...readProps } = useQuery<I{{ entityName }}Data, IGet{{ entityName }}QueryVariables>({

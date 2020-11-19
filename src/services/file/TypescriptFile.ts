@@ -43,7 +43,6 @@ export class TypescriptFile extends StdFile {
 
   protected parseImportDeclaration(bodyItem: ImportDeclaration): void {
     const packageName = bodyItem.moduleSpecifier['text'];
-
     // File import. I.e: import './index.scss';
     if (!bodyItem.importClause) {
       this.addImports([
@@ -57,17 +56,17 @@ export class TypescriptFile extends StdFile {
     const namedBindings = bodyItem.importClause.namedBindings;
 
     // Named imports. I.e: import React from 'react';
-    if (!namedBindings) {
-      const name = bodyItem.importClause.name?.escapedText.toString();
-      if (!name) {
-        throw new Error('importClause does not have nameBindings and name');
-      }
+    if (bodyItem.importClause.name) {
+      const name = bodyItem.importClause.name.escapedText.toString();
 
       this.addImports([
         new TypescriptImport(packageName, {
           [name]: TypescriptImport.defaultImport,
         }),
       ]);
+    }
+
+    if (!namedBindings) {
       return;
     }
 

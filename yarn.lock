@@ -665,15 +665,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ts-dev-tools/core@^1.3.6":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.4.0.tgz#05f06e5bf4c613bd1ac9b02435b50f2cefcb04aa"
-  integrity sha512-By5WOpESt9Ka8SUi4sJWk6cO579yYUIcShLNT9l7Llz6OJazJGAhG32MlUg1t6F4bQ/TwcyEMVHZ2/6cdpJrqw==
+"@ts-dev-tools/core@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.4.1.tgz#908e9a6be0668aa1fee6ac97ce3b92fb9406a388"
+  integrity sha512-/y/nMAROsLftIzxuPJNP6gX/FGiR1M3pxMpr0v8d+MM/XG5jY0/ADGc+mEeeORGPy+tY9l4A3qwJ0Fl8lVLXCA==
   dependencies:
     "@commitlint/cli" "^11.0.0"
     "@commitlint/config-conventional" "^11.0.0"
     "@types/jest" "^26.0.15"
-    "@types/node" "^14.14.7"
+    "@types/node" "^14.14.8"
     "@typescript-eslint/eslint-plugin" "^4.8.1"
     "@typescript-eslint/parser" "^4.8.1"
     deepmerge "^4.2.2"
@@ -831,10 +831,15 @@
   resolved "https://registry.yarnpkg.com/@types/mustache/-/mustache-4.0.1.tgz#e4d421ed2d06d463b120621774185a5cd1b92d77"
   integrity sha512-wH6Tu9mbiOt0n5EvdoWy0VGQaJMHfLIxY/6wS0xLC7CV1taM6gESEzcYy0ZlWvxxiiljYvfDIvz4hHbUUDRlhw==
 
-"@types/node@*", "@types/node@^14.14.7":
+"@types/node@*":
   version "14.14.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.7.tgz#8ea1e8f8eae2430cf440564b98c6dfce1ec5945d"
   integrity sha512-Zw1vhUSQZYw+7u5dAwNbIA9TuTotpzY/OF7sJM9FqPOF3SPjKnxrjoTktXDZgUjybf4cWVBP7O8wvKdSaGHweg==
+
+"@types/node@^14.14.8":
+  version "14.14.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.8.tgz#2127bd81949a95c8b7d3240f3254352d72563aec"
+  integrity sha512-z/5Yd59dCKI5kbxauAJgw6dLPzW+TNOItNE00PkpzNwUIEwdj/Lsqwq94H5DdYBX7C13aRA0CY32BK76+neEUA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"

@@ -1,11 +1,13 @@
 import { join, resolve } from 'path';
 
 import container from '../../container';
+import { DirResult, createTmpDir } from '../../tests/tmp-dir';
 import { FileService } from './FileService';
 
-const testDirPath = '__tests__/test-project';
+const testDirPath = '__tests__/test-react-project';
 
 describe('fileService', () => {
+  let testDir: DirResult;
   let service: FileService;
 
   beforeEach(() => {
@@ -16,6 +18,32 @@ describe('fileService', () => {
 
   afterEach(() => {
     container.restore();
+    testDir && testDir.removeCallback();
+  });
+
+  describe('touchFile', () => {
+    it('should touch a file for the given path', async () => {
+      testDir = createTmpDir(false);
+
+      const filepath = resolve(testDir.name, 'test.json');
+
+      service.touchFileSync(filepath);
+
+      const dirExists = service.fileExistsSync(filepath);
+      expect(dirExists).toBe(true);
+    });
+
+    it('should touch an existing file for the given path', async () => {
+      testDir = createTmpDir(false);
+
+      const filepath = resolve(testDir.name, 'test.json');
+
+      service.touchFileSync(filepath);
+      service.touchFileSync(filepath);
+
+      const dirExists = service.fileExistsSync(filepath);
+      expect(dirExists).toBe(true);
+    });
   });
 
   describe('fileExistsSync', () => {
@@ -60,9 +88,7 @@ describe('fileService', () => {
       const assertDirExistsOperation = () => {
         service.assertDirExists('/unexisting-directory');
       };
-      expect(assertDirExistsOperation).toThrow(
-        'Directory "/unexisting-directory" does not exist'
-      );
+      expect(assertDirExistsOperation).toThrow('Directory "/unexisting-directory" does not exist');
     });
   });
 
@@ -94,6 +120,59 @@ describe('fileService', () => {
         service.replaceFileExtension(testFilePath, 'ts', true);
       };
       expect(replaceFileExtensionOperation).toThrow(`File "${testFilePath}" does not exist`);
+    });
+  });
+
+  describe('mkdirSync', () => {
+    it('should create a directory for the given path', async () => {
+      testDir = createTmpDir(false);
+
+      const dirpath = resolve(testDir.name, 'test');
+      service.mkdirSync(dirpath, false);
+
+      const dirExists = service.dirExistsSync(dirpath);
+      expect(dirExists).toBe(true);
+    });
+
+    it('should create a directory recursively for the given path', async () => {
+      testDir = createTmpDir(false);
+
+      const dirpath = resolve(testDir.name, 'test1/test2/test3');
+      service.mkdirSync(dirpath, true);
+
+      const dirExists = service.dirExistsSync(dirpath);
+      expect(dirExists).toBe(true);
+    });
+
+    it('should create a directory for an existing path', async () => {
+      testDir = createTmpDir(false);
+
+      const dirpath = resolve(testDir.name, 'test1');
+      service.mkdirSync(dirpath, true);
+
+      let dirExists = service.dirExistsSync(dirpath);
+      expect(dirExists).toBe(true);
+
+      service.mkdirSync(dirpath, true);
+      dirExists = service.dirExistsSync(dirpath);
+      expect(dirExists).toBe(true);
+    });
+  });
+
+  describe('rmdirSync', () => {
+    it('should remove a directory for the given path', async () => {
+      testDir = createTmpDir(false);
+
+      const dirpath = resolve(testDir.name, 'test');
+      service.mkdirSync(dirpath, false);
+
+      let dirExists = service.dirExistsSync(dirpath);
+      expect(dirExists).toBe(true);
+
+      service.rmdirSync(dirpath);
+
+      dirExists = service.dirExistsSync(dirpath);
+      expect(dirExists).toBe(false);
     });
   });
 });

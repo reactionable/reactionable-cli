@@ -3,11 +3,12 @@ const template = `{{#> Component }}
 import { lazy } from "react";
 import { Crud } from "@reactionable/core";
 import { IUseLayoutProps } from "{{ uiPackage }}";
+
 import { I{{ entityName }}Data } from "./{{ entitiesName }}Config";
 const List{{ entitiesName }} = lazy(() => import("./list-{{hyphenize entitiesName }}/List{{ entitiesName }}"));
 const Read{{ entityName }} = lazy(() => import("./read-{{hyphenize entityName }}/Read{{ entityName }}"));
 {{/inline}}
-{{#*inline "helmet-block"}}{{/inline}}
+{{#*inline "head-block"}}{{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
 {{#*inline "render-block"}}<Crud<I{{ entityName }}Data, IUseLayoutProps>
       name="{{ entityName }}"

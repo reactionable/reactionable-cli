@@ -1,71 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createComponent run should create expected App component files 1`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
+exports[`createComponent run should create expected NextJs App component files 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { App as CoreApp, IAppProps } from '@reactionable/core';
-import { IUIContextProviderProps, IUseLayoutProps, useUIContextProviderProps } from '@reactionable/ui-bootstrap';
-import { FC, lazy } from 'react';
-import { useTranslation } from 'react-i18next';
-import './App.scss';
-import './i18n/i18n';
+import { IRouterProviderProps, useRouterProviderProps } from '@reactionable/nextjs';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { AppProps } from 'next/app';
+import React, { ReactElement } from 'react';
+import '../lib/i18n/i18n';
+import '../styles/globals.css';
 
-// Lazy load these components
-const HomeComponent = lazy(() => import('./views/home/Home'));
-
-const NotFoundComponent = lazy(() => import('./views/not-found/NotFound'));
-
-
-const App: FC = () => {
-  const { t } = useTranslation();
-
+const App = ({ Component, pageProps }: AppProps): ReactElement => {
   // Configure app
   const appConfig: IAppProps<
-    IIdentityContextProviderProps,
-    IUIContextProviderProps,
-    IUseLayoutProps
+    IIdentityProviderProps,
+    IUIProviderProps,
+    IRouterProviderProps
   > = {
-    routes: [],
-    HomeComponent,
-    NotFoundComponent,
-    layout: {
-      header: {
-        brand: t('Tests'),
-      },
-      footer: {
-        brand: t('Tests'),
-      },
-    },
-    ui: useUIContextProviderProps(),
-    identity: useIdentityContextProviderProps(),
+    router: useRouterProviderProps(),
+    ui: useUIProviderProps(),
+    identity: useIdentityProviderProps(),
   };
 
-  return <CoreApp {...appConfig} />;
+  return (
+    <CoreApp {...appConfig}>
+      <Component {...pageProps} />
+    </CoreApp>
+  );
 };
 
 export default App;"
 `;
 
-exports[`createComponent run should create expected App component files 2`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
+exports[`createComponent run should create expected NextJs App component files 2`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter } from 'react-router';
 import App from './App';
 
-describe('App', () => {
+describe(\\"App\\", () => {
 
-    let identity: IIdentityContextProviderProps;
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
     });
 
-    it('renders without crashing', () => {
+    it(\\"renders without crashing\\", () => {
         const result = render(
-            <TestWrapper identity={identity}>
+            <TestWrapper identity={identity} ui={ui}>
                 <App />
             </TestWrapper>
         );
@@ -75,23 +63,100 @@ describe('App', () => {
 });"
 `;
 
-exports[`createComponent run should create expected components files 1`] = `
-"import { FC } from 'react';
-import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
+exports[`createComponent run should create expected React App component files 1`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { App as CoreApp, IAppProps, useTranslation } from '@reactionable/core';
+import { IRouterProviderProps, useRouterProviderProps } from '@reactionable/router-dom';
+import { IUIProviderProps, IUseLayoutProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import React, { ReactElement, lazy } from 'react';
+import './App.scss';
+import './i18n/i18n';
+
+// Lazy load these components
+const HomeComponent = lazy(() => import(\\"./components/home/Home\\"));
+
+const NotFoundComponent = lazy(() => import(\\"./components/not-found/NotFound\\"));
+
+
+const App = (): ReactElement => {
+  const { t } = useTranslation();
+
+  // Configure app
+  const appConfig: IAppProps<
+    IIdentityProviderProps,
+    IUIProviderProps,
+    IUseLayoutProps,
+    IRouterProviderProps
+  > = {
+    routes: [],
+    HomeComponent,
+    NotFoundComponent,
+    layout: {
+      header: {
+        brand: t(\\"Tests\\"),
+      },
+      footer: {
+        brand: t(\\"Tests\\"),
+      },
+    },
+    router: useRouterProviderProps(),
+    ui: useUIProviderProps(),
+    identity: useIdentityProviderProps(),
+  };
+
+  return <CoreApp {...appConfig} />;
+};
+
+export default App;"
+`;
+
+exports[`createComponent run should create expected React App component files 2`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import App from './App';
+
+describe(\\"App\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <App />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
+exports[`createComponent run should create expected components files for a React project 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 interface ITestComponentProps { }
 
 
-const TestComponent: FC<ITestComponentProps> = (props) => {
+const TestComponent = (props: PropsWithChildren<ITestComponentProps>): ReactElement => {
   const { t } = useTranslation();
   
   return <>
-    <Helmet>
-      <title>{t('Tests')} - {t('Test component')}</title>
-      <meta name=\\"description\\" content={t('Test component description')} />
-    </Helmet>
-    <h1>{t('Test component')}</h1>
+    <Head>
+      <title>{t(\\"Tests\\")} - {t(\\"Test component\\")}</title>
+      <meta name=\\"description\\" content={t(\\"Test component description\\")} />
+    </Head>
+    <h1>{t(\\"Test component\\")}</h1>
     
   </>;
 };
@@ -99,27 +164,28 @@ const TestComponent: FC<ITestComponentProps> = (props) => {
 export default TestComponent;"
 `;
 
-exports[`createComponent run should create expected components files 2`] = `
-"import { IIdentityContextProviderProps, useIdentityContextProviderProps } from '@reactionable/amplify';
-import { i18nTestInstance } from '@reactionable/core/lib/tests/i18n';
-import { TestWrapper } from '@reactionable/ui-bootstrap';
+exports[`createComponent run should create expected components files for a React project 2`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
 import { render } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter } from 'react-router';
 import TestComponent from './TestComponent';
 
-describe('TestComponent', () => {
+describe(\\"TestComponent\\", () => {
 
-    let identity: IIdentityContextProviderProps;
+    let identity: IIdentityProviderProps;
+    let ui: IIdentityProviderProps;
 
     beforeAll(async () => {
         await i18nTestInstance();
-        identity = useIdentityContextProviderProps();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
     });
 
-    it('renders without crashing', () => {
+    it(\\"renders without crashing\\", () => {
         const result = render(
-            <TestWrapper identity={identity}>
+            <TestWrapper identity={identity} ui={ui}>
                 <TestComponent />
             </TestWrapper>
         );
