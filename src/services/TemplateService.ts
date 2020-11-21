@@ -149,8 +149,6 @@ export class TemplateService {
 
     const templateKey = this.getTemplateKey(dirPath, currentPath, currentNamespace);
 
-    // console.log({ namespace, config, dirPath, templateKey, currentPath });
-
     await this.createFileFromTemplate(currentPath, templateKey, context);
   }
 
@@ -196,7 +194,8 @@ export class TemplateService {
   }
 
   async getTemplateFileContent(template: string): Promise<string> {
-    const templatePath = join(__dirname, './../templates', template + '.template');
+    const fileExt = extname(__filename);
+    const templatePath = join(__dirname, './../templates', template + '.template' + fileExt);
     if (!this.fileService.fileExistsSync(templatePath)) {
       throw new Error(`Template file "${templatePath}" does not exist`);
     }

@@ -4,6 +4,7 @@ import { extname } from 'path';
 import { inject, injectable } from 'inversify';
 
 import { CliService } from '../CliService';
+import { FileDiffService } from './FileDiffService';
 import { FileService } from './FileService';
 import { JsonFile } from './JsonFile';
 import { StdFile } from './StdFile';
@@ -27,6 +28,7 @@ export class FileFactory {
 
   constructor(
     @inject(FileService) private readonly fileService: FileService,
+    @inject(FileDiffService) private readonly fileDiffService: FileDiffService,
     @inject(CliService) private readonly cliService: CliService
   ) {}
 
@@ -66,6 +68,7 @@ export class FileFactory {
     const args = [
       this.cliService,
       this.fileService,
+      this.fileDiffService,
       this,
       file,
       encoding,

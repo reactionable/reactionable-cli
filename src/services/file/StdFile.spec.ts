@@ -6,6 +6,7 @@ import inquirer from 'inquirer';
 import container from '../../container';
 import { mockDir, mockDirPath, restoreMockFs } from '../../tests/mock-fs';
 import { CliService } from '../CliService';
+import { FileDiffService } from './FileDiffService';
 import { FileFactory } from './FileFactory';
 import { FileService } from './FileService';
 import { StdFile } from './StdFile';
@@ -16,6 +17,7 @@ describe('services - File - StdFile', () => {
 
   let cliService: CliService;
   let fileService: FileService;
+  let fileDiffService: FileDiffService;
   let fileFactory: FileFactory;
   let promptMock: jest.Mock;
 
@@ -26,6 +28,7 @@ describe('services - File - StdFile', () => {
 
     cliService = container.get(CliService);
     fileService = container.get(FileService);
+    fileDiffService = container.get(FileDiffService);
     fileFactory = container.get(FileFactory);
   });
 
@@ -43,6 +46,7 @@ describe('services - File - StdFile', () => {
       const file = new StdFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -65,6 +69,7 @@ describe('services - File - StdFile', () => {
       const file = new StdFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -88,6 +93,7 @@ describe('services - File - StdFile', () => {
       const file = new StdFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -115,6 +121,7 @@ describe('services - File - StdFile', () => {
       let file = new StdFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -137,7 +144,15 @@ describe('services - File - StdFile', () => {
         line 4 content
       `;
 
-      file = new StdFile(cliService, fileService, fileFactory, filePath, undefined, newContent);
+      file = new StdFile(
+        cliService,
+        fileService,
+        fileDiffService,
+        fileFactory,
+        filePath,
+        undefined,
+        newContent
+      );
 
       const result = await file.saveFile();
 

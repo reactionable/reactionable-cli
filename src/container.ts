@@ -17,6 +17,7 @@ import CreateCrudComponent from './actions/create-component/CreateCrudComponent'
 import GenerateReadme from './actions/generate-readme/GenerateReadme';
 import { CliService } from './services/CliService';
 import { ConsoleService } from './services/ConsoleService';
+import { FileDiffService } from './services/file/FileDiffService';
 import { FileFactory } from './services/file/FileFactory';
 import { FileService } from './services/file/FileService';
 import { GitService } from './services/git/GitService';
@@ -35,6 +36,7 @@ container.bind<GitService>(GitService).toSelf();
 container.bind<TemplateService>(TemplateService).toSelf();
 container.bind<ConsoleService>(ConsoleService).toSelf();
 container.bind<FileService>(FileService).toSelf();
+container.bind<FileDiffService>(FileDiffService).toSelf();
 container.bind<FileFactory>(FileFactory).toSelf();
 container.bind<CliService>(CliService).toSelf();
 

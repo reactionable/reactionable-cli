@@ -4,6 +4,7 @@ import { join } from 'path';
 import container from '../../container';
 import { mockDir, mockDirPath, restoreMockFs } from '../../tests/mock-fs';
 import { CliService } from '../CliService';
+import { FileDiffService } from './FileDiffService';
 import { FileFactory } from './FileFactory';
 import { FileService } from './FileService';
 import { TypescriptFile } from './TypescriptFile';
@@ -14,6 +15,7 @@ describe('services - File - TypescriptFile', () => {
 
   let cliService: CliService;
   let fileService: FileService;
+  let fileDiffService: FileDiffService;
   let fileFactory: FileFactory;
 
   beforeAll(() => {
@@ -34,6 +36,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -49,6 +52,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -64,6 +68,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -79,6 +84,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -94,6 +100,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -109,6 +116,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -124,6 +132,7 @@ describe('services - File - TypescriptFile', () => {
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -150,6 +159,7 @@ serviceWorker.unregister();`;
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,
@@ -183,6 +193,7 @@ serviceWorker.unregister();`;
       const file = new TypescriptFile(
         cliService,
         fileService,
+        fileDiffService,
         fileFactory,
         filePath,
         undefined,

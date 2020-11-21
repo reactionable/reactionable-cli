@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 
-import { bgGreen, bgRed, green, grey, red } from 'chalk';
+import { bgGreenBright, bgRedBright, greenBright, grey, redBright } from 'chalk';
 import { Change } from 'diff';
 import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
@@ -82,7 +82,7 @@ export class CliService {
   }
 
   async promptOverwriteFileDiff(file: string, diff: Change[]): Promise<boolean> {
-    const hasDiff = diff.some((part) => part.added || part.removed);
+    const hasDiff = diff.some((part) => part.added !== undefined || part.removed !== undefined);
     if (!hasDiff) {
       return false;
     }
@@ -112,24 +112,25 @@ export class CliService {
 
       // Compare diff
       let diffMessage = `File ${file} diff:\n-----------------------------------------------\n`;
-
       for (const part of diff) {
         // green for additions, red for deletions
         // grey for common parts
-        const isSpaces = part.value.match(/^[\r\n\s]+$/);
-        let data = part.value;
+        const isSpaces = !!part.value.match(/^[\r\n\s]+$/);
+        let colorFunction: (value: string) => string;
         switch (true) {
           case !!part.added:
-            data = isSpaces ? bgGreen(data) : green(data);
+            colorFunction = isSpaces ? bgGreenBright : greenBright;
             break;
           case !!part.removed:
-            data = isSpaces ? bgRed(data) : red(data);
+            colorFunction = isSpaces ? bgRedBright : redBright;
             break;
           default:
-            data = grey(data);
+            colorFunction = grey;
             break;
         }
-        diffMessage += data;
+
+        const value = part.value === '\n' ? ' '.repeat(process.stdout.columns) : part.value;
+        diffMessage += colorFunction(value);
       }
 
       diffMessage += '\n-----------------------------------------------\n';

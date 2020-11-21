@@ -33,7 +33,7 @@ export class TypescriptFile extends StdFile {
       }
     }
 
-    return content;
+    return this.getContent();
   }
 
   protected parseTypescriptContent(content: string): NodeArray<Statement> {

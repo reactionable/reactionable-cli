@@ -1,21 +1,17 @@
-import { realpathSync, statSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { EOL } from 'os';
 
-import { Change, diffLines } from 'diff';
-
 import { CliService } from '../CliService';
+import { FileDiffService } from './FileDiffService';
 import { FileFactory } from './FileFactory';
 import { FileService } from './FileService';
-
-const overwritedFilesChanges: {
-  [key: string]: Change[];
-} = {};
 
 export class StdFile {
   protected content = '';
   constructor(
     protected readonly cliService: CliService,
     protected readonly fileService: FileService,
+    protected readonly fileDiffService: FileDiffService,
     protected readonly fileFactory: FileFactory,
     protected readonly file: string | null = null,
     protected readonly encoding: BufferEncoding = 'utf8',
@@ -35,49 +31,6 @@ export class StdFile {
 
   protected fixContentEOL(content: string): string {
     return content.replace(/(?:\r\n|\r|\n)/g, '\n');
-  }
-
-  protected getContentDiff(content: string): Change[] {
-    return diffLines(content, this.getContent());
-  }
-
-  protected checkSafeOverwriteChanges(file: string, encoding: BufferEncoding): Change[] {
-    if (!this.fileService.fileExistsSync(file)) {
-      return [];
-    }
-    const stat = statSync(file);
-
-    // If file has been created during current process
-    const runStartDate = this.cliService.getRunStartDate();
-    if (runStartDate && stat.birthtime >= runStartDate) {
-      return [];
-    }
-
-    const fileContent = this.fileFactory.fromFile(file, encoding).getContent();
-    const changes = this.getContentDiff(fileContent);
-
-    const overwritedChanges = overwritedFilesChanges[realpathSync(file)];
-    if (!overwritedChanges) {
-      return changes;
-    }
-
-    // Check if changes occured on past overwrites
-    const hasSomeNewChange = changes.some((change) => {
-      for (const overwritedChange of overwritedChanges) {
-        // TODO: compare changes
-        const changeDiffs = overwritedChange !== change;
-        if (changeDiffs) {
-          return true;
-        }
-      }
-      return false;
-    });
-
-    if (hasSomeNewChange) {
-      return changes;
-    }
-
-    return [];
   }
 
   getContent(): string {
@@ -121,10 +74,7 @@ export class StdFile {
     return this;
   }
 
-  async saveFile(
-    file: string | null = null,
-    encoding: BufferEncoding | null = null
-  ): Promise<this> {
+  async saveFile(file: string | null = null, encoding?: BufferEncoding): Promise<this> {
     if (file === null) {
       if (this.file === null) {
         throw new Error('A file path is mandatory to save file');
@@ -137,23 +87,26 @@ export class StdFile {
       throw new Error(`Unable to create file "${file}, parent directory does not exist`);
     }
 
-    const content = this.fixContentEOL(this.getContent());
+    const newFileContent = this.fixContentEOL(this.getContent());
     encoding = encoding === null ? this.encoding : encoding;
 
-    const diff = this.checkSafeOverwriteChanges(file, encoding);
-    if (!diff.length) {
-      writeFileSync(file, content, encoding);
-      return this;
+    if (this.fileService.fileExistsSync(file)) {
+      const fileContent = readFileSync(file).toString(encoding);
+      const diff = this.fileDiffService.getFileContentDiff(file, fileContent, newFileContent);
+
+      if (diff.length) {
+        const overwrite = await this.cliService.promptOverwriteFileDiff(file, diff);
+
+        if (!overwrite) {
+          // Do not update file, set real file content
+          this.setContent(fileContent);
+          return this;
+        }
+        this.fileDiffService.setOverwritedFilesChanges(file, diff);
+      }
     }
 
-    const overwrite = await this.cliService.promptOverwriteFileDiff(file, diff);
-
-    if (overwrite) {
-      overwritedFilesChanges[realpathSync(file)] = diff;
-      writeFileSync(file, content, encoding);
-    } else {
-      this.setContent(this.fileFactory.fromFile(file, encoding).getContent());
-    }
+    writeFileSync(file, newFileContent, encoding);
     return this;
   }
 }
