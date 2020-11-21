@@ -1,4 +1,4 @@
-const template = `{
+export default `{
     "{{capitalize (decamelize entityName) }} label must be at least 1 characters": "{{capitalize (decamelize entityName) }} label must be at least 1 characters",
     "{{capitalize (decamelize entityName) }} label is required": "{{capitalize (decamelize entityName) }} label is required",
     "Label": "Label",
@@ -13,4 +13,3 @@ const template = `{
     "{{capitalize (decamelize entityName)}} - \\{{label}}": "{{capitalize (decamelize entityName)}} - \\{{label}}",
     "Update {{decamelize entityName }} \\"\\{{label}}\\"": "Update {{decamelize entityName }} \\"\\{{label}}\\""
 }`;
-module.exports = template;

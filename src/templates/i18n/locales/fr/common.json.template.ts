@@ -1,4 +1,3 @@
-const template = `{
+export default `{
     "{{ projectName }}": "{{ projectName }}"
 }`;
-module.exports = template;

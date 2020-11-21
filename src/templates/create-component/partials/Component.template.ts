@@ -1,12 +1,9 @@
-const template = `import React, { PropsWithChildren, ReactElement } from "react";
+export default `import React, { PropsWithChildren, ReactElement } from "react";
 import { useTranslation } from "@reactionable/core";
-import { Head } from "{{ routerPackage }}";
-{{#> imports-block}}
-{{!-- Custom imports could be added. --}}
-{{/imports-block}}
-
+{{#> imports-head-block}}{{!-- Custom imports could be added. --}}import { Head } from "{{ routerPackage }}";{{/imports-head-block}}
+{{#> imports-block}}{{!-- Custom imports could be added. --}}{{/imports-block}}
 {{#> props-block}}
-interface I{{componentName}}Props { }
+type I{{componentName}}Props = unknown;
 {{/props-block}}
 
 const {{componentName}} = (props: PropsWithChildren<I{{componentName}}Props>): ReactElement => {
@@ -22,4 +19,3 @@ const {{componentName}} = (props: PropsWithChildren<I{{componentName}}Props>): R
   </>;
 };
 export default {{componentName}};`;
-module.exports = template;

@@ -1,4 +1,4 @@
-const template = `{
+export default `{
     "projectName": {{{projectName}}},
     "frontend": "javascript",
     "javascript": {
@@ -14,4 +14,3 @@ const template = `{
         "awscloudformation"
     ]
 }`;
-module.exports = template;

@@ -145,7 +145,7 @@ exports[`createComponent run should create expected components files for a React
 "import { Head, useTranslation } from '@reactionable/core';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-interface ITestComponentProps { }
+type ITestComponentProps = unknown;
 
 
 const TestComponent = (props: PropsWithChildren<ITestComponentProps>): ReactElement => {

@@ -1,7 +1,6 @@
-const template = `{
+export default `{
   amplify: {
     ".config": ["project-config.json"],
     "backend": ["backend-config.json"]
   },
 }`;
-module.exports = template;

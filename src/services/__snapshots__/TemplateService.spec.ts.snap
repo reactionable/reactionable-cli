@@ -25,9 +25,8 @@ exports[`templateService renderTemplate should create a file from given namespac
 `;
 
 exports[`templateService renderTemplate should create a file from given namespace having nested config: TestEntitiesConfig.tsx 1`] = `
-"import { FormField } from '';
-import { IFormChildrenProps } from '@reactionable/core';
-import { TFunction } from 'i18next';
+"import { FormField, IUseCrudConfigResult } from '';
+import { useList, useRead, useTranslation } from '@reactionable/core';
 import React from 'react';
 import { string } from 'yup';
 
@@ -36,39 +35,52 @@ export type ITestEntityData = {
   label: string;
 };
 
+
 export type ITestEntityValues = Omit<ITestEntityData, \\"id\\">;
 
 
-export type IGetTestEntityQueryVariables = Pick<ITestEntityData, \\"id\\"> & {
+const FormChildren = () => {
+  const { t } = useTranslation(\\"TestEntities\\");
 
+  return (
+    <>
+      <FormField name=\\"label\\" label={t(\\"Label\\")} placeholder={t(\\"Label\\")} autoFocus={true} />
+    </>
+  );
 };
 
 
-export type IListTestEntitiesQueryVariables = {
-  
-};
+export const useTestEntitiesConfig = (): IUseCrudConfigResult<
+  ITestEntityValues,
+  ITestEntityData
+> => {
+  const { t } = useTranslation(\\"TestEntities\\");
 
-
-export const testEntityFormValues: ITestEntityValues = {
-  label: \\"\\",
-};
-
-
-export const testEntityFormSchema = (t: TFunction) => ({
-   label: string()
-    .min(1, t(\\"Test entity label must be at least 1 characters\\"), { ns : \\"testEntities\\" })
-    .required(t(\\"Test entity label is required\\"), { ns : \\"testEntities\\" }),
-});
-
-
-export const testEntityFormChildren = (t: TFunction) => (formikProps: IFormChildrenProps<ITestEntityValues>) => <>
-  <FormField
-    name=\\"label\\"
-    label={t(\\"Label\\", { ns : \\"testEntities\\" })}
-    placeholder={t(\\"Label\\", { ns : \\"testEntities\\" })}
-    autoFocus={true}
-  />
-</>;"
+  return {
+    onCreate: async (data: ITestEntityValues) => null,
+    onUpdate: async (data: ITestEntityValues) => null,
+    onDelete: async (id: ITestEntityData[\\"id\\"]) => null,
+    useRead: (variables) =>
+      useRead<ITestEntityData>({
+        handleQuery: async () => null,
+        variables,
+      }),
+    useList: (variables) =>
+      useList<ITestEntityData>({
+        handleQuery: async () => null,
+        variables,
+      }),
+    initialValues: {
+      label: \\"\\",
+    },
+    validationSchema: {
+      label: string()
+        .min(1, t(\\"Test entity label must be at least 1 characters\\"))
+        .required(t(\\"Test entity label is required\\")),
+    },
+    formChildren: FormChildren,
+  };
+};"
 `;
 
 exports[`templateService renderTemplate should create a file from given namespace having nested config: testEntities.json 1`] = `

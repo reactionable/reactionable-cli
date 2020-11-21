@@ -1,4 +1,4 @@
-const template = `import { initializeI18n } from '{{ hostingPackage }}';
+export default `import { initializeI18n } from '{{ hostingPackage }}';
 
 import enCommon from './locales/en/common.json';
 import frCommon from './locales/fr/common.json';
@@ -13,4 +13,3 @@ const resources = {
 };
 
 initializeI18n({ resources });`;
-module.exports = template;

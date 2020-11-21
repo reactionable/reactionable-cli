@@ -1,4 +1,4 @@
-const template = `import React from "react";
+export default `import React from "react";
 import { render } from "@testing-library/react";
 import { i18nTestInstance } from "@reactionable/core";
 import { useUIProviderProps, IUIProviderProps } from "{{ uiPackage }}";
@@ -30,4 +30,3 @@ describe("{{ componentName }}", () => {
         expect(result).toBeTruthy();
     });
 });`;
-module.exports = template;

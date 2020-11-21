@@ -1,7 +1,6 @@
-const template = `{
+export default `{
     "{{componentDirname}}": {
         "{{componentFilename}}": "{{componentTemplate}}",
         "{{testComponentFilename}}": "{{testComponentTemplate}}"
     }
 }`;
-module.exports = template;

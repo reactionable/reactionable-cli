@@ -1,4 +1,4 @@
-const template = `import React, { ReactElement } from "react";
+export default `import React, { ReactElement } from "react";
 import { AppProps } from "next/app";
 import { App as CoreApp, IAppProps } from "@reactionable/core";
 import { useRouterProviderProps, IRouterProviderProps } from "@reactionable/nextjs";
@@ -32,4 +32,3 @@ const {{componentName}} = ({ Component, pageProps }: AppProps): ReactElement => 
   );
 };
 export default {{componentName}};`;
-module.exports = template;

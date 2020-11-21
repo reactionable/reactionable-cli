@@ -1,4 +1,4 @@
-const template = `{{#> Component }}
+export default `{{#> Component }}
   {{#*inline "imports-block"}}import { Link } from "@reactionable/router-dom";{{/inline}}
   {{#*inline "description-block"}}The page you are looking for might have been removed, or had its name changed, or is temporarily unavailable{{/inline}}
   {{#*inline "render-block"}}
@@ -6,4 +6,3 @@ const template = `{{#> Component }}
     <p><Link to="/">{t("Go To Homepage")}</Link></p>
   {{/inline}}
 {{/Component}}`;
-module.exports = template;

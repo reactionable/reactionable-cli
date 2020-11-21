@@ -1,4 +1,4 @@
-const template = `import React, { ReactElement, lazy } from "react";
+export default `import React, { ReactElement, lazy } from "react";
 import { App as CoreApp, IAppProps, useTranslation } from "@reactionable/core";
 import { useRouterProviderProps, IRouterProviderProps } from "@reactionable/router-dom";
 import {
@@ -46,4 +46,3 @@ const {{componentName}} = (): ReactElement => {
   return <CoreApp {...appConfig} />;
 };
 export default {{componentName}};`;
-module.exports = template;
