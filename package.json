@@ -7,9 +7,8 @@
     "reactionable": "./bin/reactionable"
   },
   "scripts": {
-    "start": "yarn link && yarn build && tsc-watch",
-    "build": "rimraf ./dist && tsc && yarn build:copy-templates",
-    "build:copy-templates": "rimraf ./dist/**/*.template && cd src && copyfiles ./**/*.template ../dist/ && cd ..",
+    "start": "yarn link && yarn build && tsc --watch",
+    "build": "rimraf ./dist && tsc",
     "build:doc": "rimraf -rf build/docs && typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "jest",
@@ -50,7 +49,6 @@
     "mock-spawn": "^0.2.6",
     "rimraf": "^3.0.0",
     "tmp": "^0.2.1",
-    "tsc-watch": "^4.2.9",
     "typedoc": "^0.19.2",
     "typedoc-plugin-nojekyll": "^1.0.1"
   },
@@ -58,6 +56,7 @@
     "@iarna/toml": "^2.2.5",
     "@typescript-eslint/typescript-estree": "^4.7.0",
     "chalk": "^4.1.0",
+    "clipanion": "^2.6.2",
     "deepmerge": "^4.2.2",
     "diff": "^5.0.0",
     "esm": "^3.2.25",
@@ -70,7 +69,8 @@
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.4",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "yup": "^0.30.0"
   },
   "prettier": {
     "printWidth": 100,

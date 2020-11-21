@@ -180,6 +180,11 @@ export class PackageManagerService {
     return format ? (StringUtils[format] as StringUtilsMethod)(packageName) : packageName;
   }
 
+  async getPackageVersion(dirPath: string): Promise<string | undefined> {
+    const packageManager = await this.getPackageManager(dirPath);
+    return packageManager.getPackageJsonData('version');
+  }
+
   async updatePackageJson(dirPath: string, data: Partial<PackageJson>): Promise<void> {
     const packageJsonPath = this.assertPackageJsonExists(dirPath);
 

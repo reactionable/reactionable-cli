@@ -7,11 +7,14 @@
     "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2018",
     "sourceMap": true,
     "strict": true,
     "outDir": "./dist",
     "esModuleInterop": true,
   },
-  "exclude": ["__tests__", "node_modules", "dist", "**/*.spec.ts"]
+  "include": [
+    "src/**/*"
+],
+  "exclude": ["__tests__", "dist", "**/*.spec.ts"]
 }

@@ -125,15 +125,6 @@ export class GitService {
     this.consoleService.success('Files have been commited');
   }
 
-  async pushCommits(realpath: string): Promise<string | undefined> {
-    if (!(await this.isAGitRepository(realpath))) {
-      return;
-    }
-
-    this.consoleService.info('Push commits...');
-    return this.execGitCmd(['push', '--all'], realpath);
-  }
-
   private async getCommitMessage(
     realpath: string,
     commitMessage: string,
