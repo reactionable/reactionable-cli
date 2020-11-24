@@ -29,8 +29,9 @@ type ICreate{{ entityName }}Props = {
     initialValues,
     validationSchema,
     children: formChildren,
+    successMessage: "{{ entityName }} has been successfully created",
     onSuccess: props.onSuccess,
   };
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data> form={form}>{props.children}</Create>{{/inline}}{{/Component}}`;
+{{#*inline "render-block"}}<Create<I{{ entityName }}Values, I{{ entityName }}Data> modal form={form}>{props.children}</Create>{{/inline}}{{/Component}}`;

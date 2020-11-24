@@ -11,7 +11,7 @@ export type I{{ entityName }}Data = {
 export type I{{ entityName }}Values = Omit<I{{ entityName }}Data, "id">;
 
 const FormChildren = () => {
-  const { t } = useTranslation("{{ entitiesName }}");
+  const { t } = useTranslation("{{decapitalize entitiesName }}");
 
   return (
     <>
@@ -24,7 +24,7 @@ export const use{{ entitiesName }}Config = (): IUseCrudConfigResult<
   I{{ entityName }}Values,
   I{{ entityName }}Data
 > => {
-  const { t } = useTranslation("{{ entitiesName }}");
+  const { t } = useTranslation("{{decapitalize entitiesName }}");
 
   return {
     onCreate: async (data: I{{ entityName }}Values) => null,

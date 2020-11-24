@@ -48,7 +48,7 @@ const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityNam
       head={[t("Label"), t("Actions")]}
       noData={<>
         <br /> <br />
-        {t("You don\\"t have any {{decamelize entitiesName }} yet")}
+        {t("You don't have any {{decamelize entitiesName }} yet.")}
         <br />
         {t("Click the button to create a new {{decamelize entityName }}")}
         <br /><br />

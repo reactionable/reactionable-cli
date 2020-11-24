@@ -15,7 +15,7 @@ import { I{{ entityName }}Data, use{{ entitiesName }}Config } from "../{{ entiti
   const { onDelete } = use{{ entitiesName }}Config();
 {{/inline}}
 {{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Delete<I{{ entityName }}Data>
+{{#*inline "render-block"}}<Delete
       {...deleteProps}
       title={t("Delete {{decamelize entityName }}")}
       confirmationMessage={t("Are you sure you want to delete this {{decamelize entityName }} ?")}

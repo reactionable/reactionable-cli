@@ -87,7 +87,7 @@ export class StdFile {
       throw new Error(`Unable to create file "${file}, parent directory does not exist`);
     }
 
-    const newFileContent = this.fixContentEOL(this.getContent());
+    const newFileContent = this.fixContentEOL(this.getContent()).trim();
     encoding = encoding === null ? this.encoding : encoding;
 
     if (this.fileService.fileExistsSync(file)) {
