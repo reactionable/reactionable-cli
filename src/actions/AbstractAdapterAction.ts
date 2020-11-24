@@ -13,6 +13,6 @@ export abstract class AbstractAdapterAction<O extends AdapterActionOptions = Ada
     return this.name;
   }
 
-  abstract async isEnabled(realpath: string): Promise<boolean>;
-  abstract async run(options: AdapterActionOptions): Promise<void>;
+  abstract isEnabled(realpath: string): Promise<boolean>;
+  abstract run(options: AdapterActionOptions): Promise<void>;
 }

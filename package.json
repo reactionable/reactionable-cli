@@ -31,7 +31,7 @@
   },
   "homepage": "https://reactionable.github.io/reactionable-cli",
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.4.1",
+    "@ts-dev-tools/core": "^1.4.2",
     "@types/chalk": "^2.2.0",
     "@types/diff": "^4.0.2",
     "@types/figlet": "^1.2.1",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",
-    "@typescript-eslint/typescript-estree": "^4.7.0",
+    "@typescript-eslint/typescript-estree": "^4.8.2",
     "chalk": "^4.1.0",
     "clipanion": "^2.6.2",
     "deepmerge": "^4.2.2",
@@ -69,8 +69,8 @@
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.4",
-    "typescript": "^4.0.5",
-    "yup": "^0.30.0"
+    "typescript": "^4.1.2",
+    "yup": "^0.31.0"
   },
   "prettier": {
     "printWidth": 100,
