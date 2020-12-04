@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 
-import inquirer from 'inquirer';
+import prompts from 'prompts';
 
 import container from '../../container';
 import { DirResult, createTmpDir } from '../../tests/tmp-dir';
@@ -11,13 +11,8 @@ describe('createCrudComponent', () => {
   let createCrudComponent: CreateCrudComponent;
 
   let testDir: DirResult;
-  let promptMock: jest.Mock;
 
   beforeAll(async () => {
-    jest.mock('inquirer');
-    promptMock = jest.fn();
-    (inquirer.prompt as unknown) = promptMock;
-
     createCrudComponent = container.get(CreateCrudComponent);
   });
 
@@ -37,8 +32,7 @@ describe('createCrudComponent', () => {
       testDir = createTmpDir(testProjectPath);
       testDirPath = testDir.name;
 
-      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ action: 'overwrite' });
-
+      prompts.inject(['overwrite']);
       await createCrudComponent.run({
         realpath: testDirPath,
         name: 'test entity',

@@ -1,7 +1,7 @@
 import { basename, dirname, extname, resolve } from 'path';
 
-import { prompt } from 'inquirer';
 import { LazyServiceIdentifer, inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import { ConsoleService } from '../../services/ConsoleService';
 import { FileFactory } from '../../services/file/FileFactory';
@@ -52,15 +52,16 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
 
   async run({ realpath, name, ...options }: CreateComponentOptions): Promise<void> {
     if (!name) {
-      const answer = await prompt<{ name: string }>([
+      const answer = await prompts([
         {
+          type: 'text',
           name: 'name',
           message: "What's the component name?",
           validate: (input) => (input.trim().length ? true : 'Component name is required'),
-          transformer: (input) => this.formatName(input),
+          format: (input) => this.formatName(input),
         },
       ]);
-      name = answer.name;
+      name = answer.name as string;
     }
 
     name = this.formatName(name);

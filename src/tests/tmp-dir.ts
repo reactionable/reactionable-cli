@@ -7,9 +7,11 @@ export { DirResult };
 
 export function createTmpDir(copyTestDir: string | false = 'test-react-project'): DirResult {
   setGracefulCleanup();
+
   const tmpDir = dirSync({
     prefix: 'reactionable-cli' + (copyTestDir ? '-' + copyTestDir : ''),
     unsafeCleanup: true,
+    keep: false,
   });
 
   if (copyTestDir) {

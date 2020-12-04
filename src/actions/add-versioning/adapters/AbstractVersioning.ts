@@ -1,6 +1,6 @@
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
 import { Result } from 'parse-github-url';
+import prompts from 'prompts';
 
 import { ConsoleService } from '../../../services/ConsoleService';
 import { GitService } from '../../../services/git/GitService';
@@ -33,9 +33,9 @@ export default abstract class AbstractVersioning
     if (!gitRemoteOriginUrl) {
       this.consoleService.info('Define git remote url...');
 
-      const { remoteOriginUrl } = await prompt([
+      const { remoteOriginUrl } = await prompts([
         {
-          type: 'input',
+          type: 'text',
           name: 'remoteOriginUrl',
           message: 'Remote origin url (https://gitxxx.com/username/new_repo)',
           validate: (input) => {

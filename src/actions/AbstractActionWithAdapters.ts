@@ -1,6 +1,6 @@
 import { red } from 'chalk';
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import container from '../container';
 import { ConsoleService } from '../services/ConsoleService';
@@ -45,7 +45,7 @@ export abstract class AbstractActionWithAdapters<
 
     let adapter: A | null = await this.detectAdapter(options.realpath);
     if (adapter) {
-      const { override } = await prompt([
+      const { override } = await prompts([
         {
           type: 'confirm',
           name: 'override',
@@ -56,18 +56,18 @@ export abstract class AbstractActionWithAdapters<
         return;
       }
     } else {
-      const answer = await prompt<{ adapter: A | null }>([
+      const answer = await prompts([
         {
           name: 'adapter',
           message: `Wich ${name} do you want to add?`,
-          type: 'list',
+          type: 'select',
           choices: [
             ...this.getAdapters().map((adapter) => ({
-              name: adapter.getName(),
+              title: adapter.getName(),
               value: adapter,
             })),
             {
-              name: 'None',
+              title: 'None',
               value: null,
             },
           ],

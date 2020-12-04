@@ -2,8 +2,8 @@ import { spawn } from 'child_process';
 
 import { bgGreenBright, bgRedBright, greenBright, grey, redBright } from 'chalk';
 import { Change } from 'diff';
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
+import prompts from 'prompts';
 import { which } from 'shelljs';
 
 import { ConsoleService } from './ConsoleService';
@@ -89,15 +89,15 @@ export class CliService {
 
     const shouldPrompt = true;
     while (shouldPrompt) {
-      const { action } = await prompt([
+      const { action } = await prompts([
         {
-          type: 'list',
+          type: 'select',
           name: 'action',
           message: `File "${file}" exists already, what do you want to do?`,
           choices: [
-            { name: 'Show diff', value: 'diff' },
-            { name: 'Overwrite file', value: 'overwrite' },
-            { name: 'Keep original file', value: 'cancel' },
+            { title: 'Show diff', value: 'diff' },
+            { title: 'Overwrite file', value: 'overwrite' },
+            { title: 'Keep original file', value: 'cancel' },
           ],
         },
       ]);

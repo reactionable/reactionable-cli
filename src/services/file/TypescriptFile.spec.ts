@@ -19,8 +19,6 @@ describe('services - File - TypescriptFile', () => {
   let fileFactory: FileFactory;
 
   beforeAll(() => {
-    jest.mock('inquirer');
-
     cliService = container.get(CliService);
     fileService = container.get(FileService);
     fileFactory = container.get(FileFactory);

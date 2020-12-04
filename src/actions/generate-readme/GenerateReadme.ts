@@ -1,5 +1,5 @@
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import { CliService } from '../../services/CliService';
 import { ConsoleService } from '../../services/ConsoleService';
@@ -23,7 +23,7 @@ export default class GenerateReadme implements NamedAction<GenerateReadmeOptions
   async run({ realpath, mustPrompt = false }: GenerateReadmeOptions): Promise<void> {
     this.consoleService.info('Generating README.md file...');
     if (mustPrompt) {
-      const { override } = await prompt([
+      const { override } = await prompts([
         {
           type: 'confirm',
           name: 'override',

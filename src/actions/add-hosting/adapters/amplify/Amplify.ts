@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
-import { prompt } from 'inquirer';
 import { LazyServiceIdentifer, inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import { CliService } from '../../../../services/CliService';
 import { ConsoleService } from '../../../../services/ConsoleService';
@@ -79,13 +79,13 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
 
     let projectName = this.getProjectName(realpath);
     if (!projectName) {
-      const response = await prompt([
+      const response = await prompts([
         {
-          type: 'input',
+          type: 'text',
           name: 'projectName',
-          default: await this.packageManagerService.getPackageName(realpath, 'camelize'),
+          initial: await this.packageManagerService.getPackageName(realpath, 'camelize'),
           message: 'Enter a name for the amplify project',
-          transformer: (value) => StringUtils.camelize(value),
+          format: (value) => StringUtils.camelize(value),
         },
       ]);
       projectName = response.projectName;
@@ -267,7 +267,7 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
     const isAuthAdded = !!backendConfig?.auth;
 
     if (!isAuthAdded) {
-      const { addAuth } = await prompt([
+      const { addAuth } = await prompts([
         {
           type: 'confirm',
           name: 'addAuth',
@@ -312,7 +312,7 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
       return;
     }
 
-    const { addApi } = await prompt([
+    const { addApi } = await prompts([
       {
         type: 'confirm',
         name: 'addApi',

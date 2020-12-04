@@ -1,8 +1,8 @@
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
 import { parse } from 'js-ini';
 import parseGitRemote from 'parse-github-url';
 import { Result } from 'parse-github-url';
+import prompts from 'prompts';
 import { which } from 'shelljs';
 
 import { CliService } from '../CliService';
@@ -109,11 +109,11 @@ export class GitService {
       commitMessageType
     );
 
-    const answer = await prompt([
+    const answer = await prompts([
       {
-        type: 'input',
+        type: 'text',
         name: 'commitMessage',
-        default: defaultCommitMessage,
+        initial: defaultCommitMessage,
         message: 'Commit message',
       },
     ]);

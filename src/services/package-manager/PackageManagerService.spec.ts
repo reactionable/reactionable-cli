@@ -15,10 +15,6 @@ import { PackageManagerService, PackageManagerType } from './PackageManagerServi
 describe('packageManagerService', () => {
   let service: PackageManagerService;
 
-  beforeAll(() => {
-    jest.mock('inquirer');
-  });
-
   beforeEach(() => {
     // Initialize service before each test to not be confused by cache
     container.snapshot();

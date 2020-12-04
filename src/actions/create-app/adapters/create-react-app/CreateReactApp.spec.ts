@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-import inquirer from 'inquirer';
+import prompts from 'prompts';
 
 import container from '../../../../container';
 import { mockYarnCmd, restoreMockCmd } from '../../../../tests/mock-cmd';
@@ -12,7 +12,6 @@ describe('createReactApp', () => {
 
   beforeAll(() => {
     createReactApp = container.get(CreateReactApp);
-    jest.mock('inquirer');
   });
 
   afterEach(() => {
@@ -30,18 +29,11 @@ describe('createReactApp', () => {
       expect(result).toEqual(false);
     });
 
-    it('should require confirmation for overriding existing directory', async () => {
-      mockDir();
-
-      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({});
-      await createReactApp.checkIfAppExistsAlready(mockDirPath);
-      expect(inquirer.prompt).toHaveBeenCalled();
-    });
-
     it('should return undefined if user do not want overriding existing directory', async () => {
       mockDir();
 
-      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ override: false });
+      prompts.inject([false]);
+
       const result = await createReactApp.checkIfAppExistsAlready(mockDirPath);
       expect(result).toBeUndefined();
     });
@@ -49,7 +41,7 @@ describe('createReactApp', () => {
     it('should return false if directory exists but do not have expected files', async () => {
       mockDir();
 
-      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ override: true });
+      prompts.inject([true]);
 
       const result = await createReactApp.checkIfAppExistsAlready(mockDirPath);
       expect(result).toEqual(false);
@@ -68,7 +60,7 @@ describe('createReactApp', () => {
         },
       });
 
-      (inquirer.prompt as unknown) = jest.fn().mockResolvedValue({ override: true });
+      prompts.inject([true]);
 
       const result = await createReactApp.checkIfAppExistsAlready(mockDirPath);
       expect(result).toEqual(true);

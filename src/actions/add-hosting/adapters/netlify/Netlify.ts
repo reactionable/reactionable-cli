@@ -1,8 +1,8 @@
 import { error, info } from 'console';
 import { resolve } from 'path';
 
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import { CliService } from '../../../../services/CliService';
 import { ConsoleService } from '../../../../services/ConsoleService';
@@ -45,13 +45,13 @@ export default class Netlify extends AbstractAdapterAction implements HostingAda
       return error('Unable to configure Netlify, please install globally "@netlify/cli" or "npx"');
     }
 
-    const { projectName } = await prompt([
+    const { projectName } = await prompts([
       {
-        type: 'input',
+        type: 'text',
         name: 'projectName',
-        default: await this.packageManagerService.getPackageName(realpath, 'hyphenize'),
+        initial: await this.packageManagerService.getPackageName(realpath, 'hyphenize'),
         message: 'Enter a name for the netlify application',
-        transformer: (value) => StringUtils.hyphenize(value),
+        format: (value) => StringUtils.hyphenize(value),
       },
     ]);
 

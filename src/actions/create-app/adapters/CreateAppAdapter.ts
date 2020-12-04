@@ -1,8 +1,8 @@
 import { basename, dirname, resolve } from 'path';
 
 import { red } from 'chalk';
-import { prompt } from 'inquirer';
 import { LazyServiceIdentifer, inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import { CliService } from '../../../services/CliService';
 import { ConsoleService } from '../../../services/ConsoleService';
@@ -147,7 +147,7 @@ export abstract class AbstractCreateAppAdapter
   ): Promise<boolean | undefined> {
     if (this.fileService.dirExistsSync(realpath)) {
       if (shouldPrompt) {
-        const { override } = await prompt([
+        const { override } = await prompts([
           {
             type: 'confirm',
             name: 'override',
@@ -245,16 +245,14 @@ export abstract class AbstractCreateAppAdapter
 
       default: {
         // Prompts user to choose package manager
-        const result = await prompt<{
-          packageManager: PackageManagerType;
-        }>([
+        const result = await prompts([
           {
             name: 'packageManager',
             message: 'Wich package manager do you want to use?',
-            type: 'list',
+            type: 'select',
             choices: [
               ...availablePackageManagers.map((packageManager) => ({
-                name: packageManager,
+                title: packageManager,
                 value: packageManager,
               })),
             ],

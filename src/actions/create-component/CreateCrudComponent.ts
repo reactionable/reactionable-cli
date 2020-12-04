@@ -1,8 +1,8 @@
 import { join, resolve } from 'path';
 
-import { prompt } from 'inquirer';
 import { injectable } from 'inversify';
 import { plural, singular } from 'pluralize';
+import prompts from 'prompts';
 
 import { TypescriptFile } from '../../services/file/TypescriptFile';
 import { TypescriptImport } from '../../services/file/TypescriptImport';
@@ -17,14 +17,15 @@ export default class CreateCrudComponent extends CreateComponent {
 
   async run({ realpath, name }: CreateComponentOptions): Promise<void> {
     if (!name) {
-      const answer = await prompt<{ name: string }>([
+      const answer = await prompts([
         {
+          type: 'text',
           name: 'name',
           message: "What's the component entity name?",
-          validate: (input) => (input.length ? true : 'Component entity name is required'),
+          format: (input) => (input.length ? true : 'Component entity name is required'),
         },
       ]);
-      name = answer.name;
+      name = answer.name as string;
     }
     const entityName = this.formatName(name);
     const entitiesName = plural(entityName);

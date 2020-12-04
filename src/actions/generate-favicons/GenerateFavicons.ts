@@ -1,5 +1,5 @@
-import { prompt } from 'inquirer';
 import { inject, injectable } from 'inversify';
+import prompts from 'prompts';
 
 import { ConsoleService } from '../../services/ConsoleService';
 import { NamedAction, NamedActionOptions } from '../NamedAction';
@@ -17,7 +17,7 @@ export default class GenerateFavicons implements NamedAction<GenerateFaviconsOpt
   async run({ realpath, mustPrompt = false }: GenerateFaviconsOptions): Promise<void> {
     this.consoleService.info('Generating favicons...');
     if (mustPrompt) {
-      const { confirm } = await prompt([
+      const { confirm } = await prompts([
         {
           type: 'confirm',
           name: 'confirm',

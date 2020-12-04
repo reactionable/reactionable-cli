@@ -2,7 +2,7 @@ import { resolve } from 'path';
 
 import { Cli as Clipanion, Command } from 'clipanion';
 import { textSync } from 'figlet';
-import { prompt } from 'inquirer';
+import prompts from 'prompts';
 
 import { NamedAction } from '../actions/NamedAction';
 import container from '../container';
@@ -23,27 +23,27 @@ class RunCommand extends Command {
     try {
       container.get(CliService).initRunStartDate();
 
-      const { action } = await prompt<{ action: NamedAction }>([
+      const { action } = await prompts([
         {
           name: 'action',
           message: 'What do you want to do?',
           type: 'list',
           choices: [
             ...container.getAll<NamedAction>('Action').map((action) => ({
-              name: action.getName(),
+              title: action.getName(),
               value: action,
             })),
           ],
         },
       ]);
 
-      const { projectDir } = await prompt([
+      const { projectDir } = await prompts([
         {
-          type: 'input ',
+          type: 'text',
           name: 'projectDir',
           message: `Where to you you want to ${action.getName().toLowerCase()} (path)?`,
-          default: process.cwd(),
-          filter: (input) => resolve(input),
+          initial: process.cwd(),
+          format: (input) => resolve(input),
         },
       ]);
 
