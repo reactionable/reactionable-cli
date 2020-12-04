@@ -53,7 +53,6 @@ export abstract class AbstractUIFrameworkAdapter
             packageName: '@reactionable/core',
             modules: {
               IUIContextProviderProps: '',
-              IUseLayoutProps: '',
               IAppProps: '',
             },
           },

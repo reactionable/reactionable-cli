@@ -15,7 +15,7 @@ const FormChildren = () => {
 
   return (
     <>
-      <FormField name="label" label={t("Label")} placeholder={t("Label")} autoFocus={true} />
+      <FormField name="label" label={t("Label")} placeholder={t("Label")} autoFocus={true} required/>
     </>
   );
 };

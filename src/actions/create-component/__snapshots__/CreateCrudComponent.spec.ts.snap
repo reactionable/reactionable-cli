@@ -80,7 +80,7 @@ const FormChildren = () => {
 
   return (
     <>
-      <FormField name=\\"label\\" label={t(\\"Label\\")} placeholder={t(\\"Label\\")} autoFocus={true} />
+      <FormField name=\\"label\\" label={t(\\"Label\\")} placeholder={t(\\"Label\\")} autoFocus={true} required/>
     </>
   );
 };
@@ -285,7 +285,7 @@ describe(\\"ListTestEntities\\", () => {
 
 exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx": components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
 "import { Head, Suspense, generatePath, useRouteMatch, useTranslation } from '@reactionable/core';
-import { Link, List } from '@reactionable/ui-bootstrap';
+import { Link, ListTable } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData, useTestEntitiesConfig } from '../TestEntitiesConfig';
 
@@ -304,7 +304,7 @@ const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityIt
   const { t } = useTranslation(\\"testEntities\\");
   const match = useRouteMatch();
 
-  return <tr key={\\"TestEntity-\\" + data.id}>
+  return <tr key={\\"testEntity-\\" + data.id}>
     <td>
       <Link
       href={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
@@ -340,7 +340,7 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
       <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
     </Head>
     <h1>{t(\\"List test entities\\")}</h1>
-    <List<ITestEntityData>
+    <ListTable<ITestEntityData>
       {...listProps}
       head={[t(\\"Label\\"), t(\\"Actions\\")]}
       noData={<>
@@ -356,7 +356,7 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
         </Suspense>
       </>}
       >
-      {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</List>
+      {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</ListTable>
   </>;
 };
 
@@ -417,15 +417,15 @@ const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItem
       <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
       <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
     </Head>
-    <h1>{t(\\"Read test entity - \\", data)}</h1>
-    { data && <Suspense>
+    <h1>{t(\\"Test entity - {{label}}\\", data)}</h1>
+    <Suspense>
       <UpdateTestEntity
         onSuccess={refetch}
         initialValues={data}
       >
         <Link href=\\"#\\">{ t(\\"Update test entity \\\\\\"{{label}}\\\\\\"\\", data) }</Link>
       </UpdateTestEntity>
-    </Suspense>}
+    </Suspense>
   </>;
 };
 
@@ -505,7 +505,7 @@ const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): Rea
     formChildren,
   } = useTestEntitiesConfig();
 
-  const safeInitialValues: ITestEntityData = {
+  const safeInitialValues: ITestEntityValues & { id: ITestEntityData[\\"id\\"] } = {
     ...initialValues,
     id: matchParams.testEntityId as ITestEntityData[\\"id\\"],
   };
@@ -683,7 +683,7 @@ const FormChildren = () => {
 
   return (
     <>
-      <FormField name=\\"label\\" label={t(\\"Label\\")} placeholder={t(\\"Label\\")} autoFocus={true} />
+      <FormField name=\\"label\\" label={t(\\"Label\\")} placeholder={t(\\"Label\\")} autoFocus={true} required/>
     </>
   );
 };
@@ -888,7 +888,7 @@ describe(\\"ListTestEntities\\", () => {
 
 exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx": components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
 "import { Head, Suspense, generatePath, useRouteMatch, useTranslation } from '@reactionable/core';
-import { Link, List } from '@reactionable/ui-bootstrap';
+import { Link, ListTable } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData, useTestEntitiesConfig } from '../TestEntitiesConfig';
 
@@ -907,7 +907,7 @@ const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityIt
   const { t } = useTranslation(\\"testEntities\\");
   const match = useRouteMatch();
 
-  return <tr key={\\"TestEntity-\\" + data.id}>
+  return <tr key={\\"testEntity-\\" + data.id}>
     <td>
       <Link
       href={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
@@ -943,7 +943,7 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
       <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
     </Head>
     <h1>{t(\\"List test entities\\")}</h1>
-    <List<ITestEntityData>
+    <ListTable<ITestEntityData>
       {...listProps}
       head={[t(\\"Label\\"), t(\\"Actions\\")]}
       noData={<>
@@ -959,7 +959,7 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
         </Suspense>
       </>}
       >
-      {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</List>
+      {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</ListTable>
   </>;
 };
 
@@ -1020,15 +1020,15 @@ const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItem
       <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
       <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
     </Head>
-    <h1>{t(\\"Read test entity - \\", data)}</h1>
-    { data && <Suspense>
+    <h1>{t(\\"Test entity - {{label}}\\", data)}</h1>
+    <Suspense>
       <UpdateTestEntity
         onSuccess={refetch}
         initialValues={data}
       >
         <Link href=\\"#\\">{ t(\\"Update test entity \\\\\\"{{label}}\\\\\\"\\", data) }</Link>
       </UpdateTestEntity>
-    </Suspense>}
+    </Suspense>
   </>;
 };
 
@@ -1108,7 +1108,7 @@ const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): Rea
     formChildren,
   } = useTestEntitiesConfig();
 
-  const safeInitialValues: ITestEntityData = {
+  const safeInitialValues: ITestEntityValues & { id: ITestEntityData[\\"id\\"] } = {
     ...initialValues,
     id: matchParams.testEntityId as ITestEntityData[\\"id\\"],
   };

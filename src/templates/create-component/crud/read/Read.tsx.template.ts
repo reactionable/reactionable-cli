@@ -22,15 +22,15 @@ const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityNam
       <title>{t("{{projectName}}", { ns: "common" })} - {t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)}</title>
       <meta name="description" content={t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)} />
     </Head>
-    <h1>{t("{{capitalize (decamelize componentName)}} - {{label}}", data)}</h1>
-    { data && <Suspense>
+    <h1>{t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)}</h1>
+    <Suspense>
       <Update{{ entityName }}
         onSuccess={refetch}
         initialValues={data}
       >
         <Link href="#">{ t("Update {{decamelize entityName }} \\"\\{{label}}\\"", data) }</Link>
       </Update{{ entityName }}>
-    </Suspense>}
+    </Suspense>
   </>;
 };
 {{/inline}}

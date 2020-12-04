@@ -21,7 +21,7 @@ type IUpdate{{ entityName }}Props = {
     formChildren,
   } = use{{ entitiesName }}Config();
 
-  const safeInitialValues: I{{ entityName }}Data = {
+  const safeInitialValues: I{{ entityName }}Values & { id: I{{ entityName }}Data["id"] } = {
     ...initialValues,
     id: matchParams.{{decapitalize entityName }}Id as I{{ entityName }}Data["id"],
   };

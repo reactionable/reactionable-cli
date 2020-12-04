@@ -2,7 +2,7 @@ export default `{{#> Component }}
 {{#*inline "imports-block"}}
 import { generatePath, Suspense } from "@reactionable/core";
 import { useRouteMatch } from "{{ routerPackage }}";
-import { Link, List } from "{{ uiPackage }}";
+import { Link, ListTable } from "{{ uiPackage }}";
 import { lazy } from "react";
 
 import { I{{ entityName }}Data, use{{ entitiesName }}Config } from "../{{ entitiesName }}Config";
@@ -19,7 +19,7 @@ const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityNam
   const { t } = useTranslation("{{decapitalize entitiesName }}");
   const match = useRouteMatch();
 
-  return <tr key={"{{ entityName }}-" + data.id}>
+  return <tr key={"{{decapitalize entityName }}-" + data.id}>
     <td>
       <Link
       href={generatePath(\`\${match.path}/:{{decapitalize entitiesName }}Id\`, { ...match.params, {{decapitalize entitiesName }}Id: data.id })}
@@ -43,7 +43,7 @@ const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityNam
 {{#*inline "pre-render-block"}}const { useList } = use{{ entitiesName }}Config();
   const listProps = useList();
 {{/inline}}
-{{#*inline "render-block"}}<List<I{{ entityName }}Data>
+{{#*inline "render-block"}}<ListTable<I{{ entityName }}Data>
       {...listProps}
       head={[t("Label"), t("Actions")]}
       noData={<>
@@ -59,5 +59,5 @@ const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityNam
         </Suspense>
       </>}
       >
-      {(data) => <{{componentName}}Item data={data} refetch={listProps.refetch} />}</List>{{/inline}}
+      {(data) => <{{componentName}}Item data={data} refetch={listProps.refetch} />}</ListTable>{{/inline}}
 {{/Component}}`;

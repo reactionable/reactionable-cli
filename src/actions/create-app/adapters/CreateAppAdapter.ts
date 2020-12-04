@@ -1,4 +1,4 @@
-import { basename, dirname, resolve } from 'path';
+import { basename, dirname, join, relative, resolve } from 'path';
 
 import { red } from 'chalk';
 import { LazyServiceIdentifer, inject, injectable } from 'inversify';
@@ -210,11 +210,13 @@ export abstract class AbstractCreateAppAdapter
     });
 
     // Import and add translations as i18n ressources
+    const entrypointPath = resolve(realpath, this.getEntrypointFilePath());
+    const importPath = join('.', relative(entrypointPath, i18nPath));
     await this.fileFactory
-      .fromFile<TypescriptFile>(resolve(realpath, this.getEntrypointFilePath()))
+      .fromFile<TypescriptFile>(entrypointPath)
       .setImports([
         {
-          packageName: './i18n/i18n.ts',
+          packageName: importPath,
           modules: { [TypescriptImport.defaultImport]: TypescriptImport.defaultImport },
         },
       ])
