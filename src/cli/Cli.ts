@@ -27,7 +27,7 @@ class RunCommand extends Command {
         {
           name: 'action',
           message: 'What do you want to do?',
-          type: 'list',
+          type: 'select',
           choices: [
             ...container.getAll<NamedAction>('Action').map((action) => ({
               title: action.getName(),

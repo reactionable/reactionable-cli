@@ -52,9 +52,9 @@ container.bind<GenerateReadme>(GenerateReadme).toSelf();
 
 // Sub actions
 container.bind<AddUIFramework>(AddUIFramework).toSelf();
-container.bind<AddHosting>(AddHosting).toSelf();
 container.bind<AddRouter>(AddRouter).toSelf();
 container.bind<AddVersioning>(AddVersioning).toSelf();
+container.bind<AddHosting>(AddHosting).toSelf();
 
 // Bind adapters
 bindCreateAppAdapters(container);

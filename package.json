@@ -50,7 +50,7 @@
     "yup": "^0.32.0"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.4.3",
+    "@ts-dev-tools/core": "^1.4.4",
     "@types/diff": "^4.0.2",
     "@types/figlet": "^1.2.1",
     "@types/mock-fs": "^4.13.0",

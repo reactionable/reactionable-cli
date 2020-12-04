@@ -665,17 +665,17 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ts-dev-tools/core@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.4.3.tgz#87540ac55a5bca2694a97180766040e3db352da6"
-  integrity sha512-ciOKhL38SLS/u1Y9sD8bgsQo5JeEBFfHKtRmp+iyFxtGRiT5IhRgN2af0VptxQE5lPel8JHYoUdadPqUeIQpew==
+"@ts-dev-tools/core@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.4.4.tgz#9e8c9647a4de914e6aa10eae2dce55d2f7d37dbd"
+  integrity sha512-rXn72fBNpsHZltVvgn6bxK+IgwKOABqT8D6H+hFm0+v+YeIHHCfRNMYmfkmkSjsGNE2NUvoEmUff6JO0RXzMwg==
   dependencies:
     "@commitlint/cli" "^11.0.0"
     "@commitlint/config-conventional" "^11.0.0"
-    "@types/jest" "^26.0.15"
+    "@types/jest" "^26.0.16"
     "@types/node" "^14.14.10"
-    "@typescript-eslint/eslint-plugin" "^4.8.2"
-    "@typescript-eslint/parser" "^4.8.2"
+    "@typescript-eslint/eslint-plugin" "^4.9.0"
+    "@typescript-eslint/parser" "^4.9.0"
     deepmerge "^4.2.2"
     eslint "^7.14.0"
     eslint-config-prettier "^6.15.0"
@@ -687,7 +687,7 @@
     import-sort-style-module "^6.0.0"
     jest "^26.6.3"
     lint-staged "^10.5.2"
-    prettier "^2.2.0"
+    prettier "^2.2.1"
     prettier-plugin-import-sort "^0.0.6"
     pretty-quick "^3.1.0"
     ts-jest "^26.4.4"
@@ -769,7 +769,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@26.x", "@types/jest@^26.0.15":
+"@types/jest@26.x", "@types/jest@^26.0.16":
   version "26.0.16"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.16.tgz#b47abd50f6ed0503f589db8e126fc8eb470cf87c"
   integrity sha512-Gp12+7tmKCgv9JjtltxUXokohCAEZfpJaEW5tn871SGRp8I+bRWBonQO7vW5NHwnAHe5dd50+Q4zyKuN35i09g==
@@ -878,7 +878,7 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@typescript-eslint/eslint-plugin@^4.8.2":
+"@typescript-eslint/eslint-plugin@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.9.0.tgz#8fde15743413661fdc086c9f1f5d74a80b856113"
   integrity sha512-WrVzGMzzCrgrpnQMQm4Tnf+dk+wdl/YbgIgd5hKGa2P+lnJ2MON+nQnbwgbxtN9QDLi8HO+JAq0/krMnjQK6Cw==
@@ -903,7 +903,7 @@
     eslint-scope "^5.0.0"
     eslint-utils "^2.0.0"
 
-"@typescript-eslint/parser@^4.8.2":
+"@typescript-eslint/parser@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-4.9.0.tgz#bb65f1214b5e221604996db53ef77c9d62b09249"
   integrity sha512-QRSDAV8tGZoQye/ogp28ypb8qpsZPV6FOLD+tbN4ohKUWHD2n/u0Q2tIBnCsGwQCiD94RdtLkcqpdK4vKcLCCw==
@@ -4491,7 +4491,7 @@ prettier-plugin-import-sort@^0.0.6:
     import-sort-parser-babylon "^6.0.0"
     import-sort-parser-typescript "^6.0.0"
 
-prettier@^2.2.0:
+prettier@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
   integrity sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==

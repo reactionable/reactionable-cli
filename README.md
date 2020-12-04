@@ -27,14 +27,14 @@
 ### With npx
 
 ```sh
-npx @reactionable/cli
+npx @reactionable/cli run
 ```
 
 ### As global package
 
 ```sh
 npm install -g @reactionable/cli
-reactionable
+reactionable run
 ```
 
 ## Development
