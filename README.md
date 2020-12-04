@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="#" target="_blank"><img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/d9a05700-fbbf-11e9-96c7-c9230f407f12" width="600"></a>
+  <a href="#" target="_blank"><img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/24311480-3008-11eb-90e4-4a6cbf9c6197" width="600"></a>
   <br/><br/>
   <a href="https://github.com/reactionable/reactionable-cli/actions?query=workflow%3A%22Continuous+Integration%22" target="_blank"><img alt="Continuous integration" src="https://github.com/reactionable/reactionable-cli/workflows/Continuous%20Integration/badge.svg"></a>
   <a href="https://codecov.io/gh/reactionable/reactionable-cli" target="_blank"><img alt="Coverage Status" src="https://codecov.io/gh/reactionable/reactionable-cli/branch/master/graph/badge.svg"></a>
