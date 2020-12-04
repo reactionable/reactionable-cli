@@ -93,10 +93,13 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#createfilefromtemplate" class="tsd-kind-icon">create<wbr>File<wbr>From<wbr>Template</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#getcompiledtemplatefile" class="tsd-kind-icon">get<wbr>Compiled<wbr>Template<wbr>File</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#getcompiledtemplatestring" class="tsd-kind-icon">get<wbr>Compiled<wbr>Template<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#gettemplateconfig" class="tsd-kind-icon">get<wbr>Template<wbr>Config</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#gettemplatefilecontent" class="tsd-kind-icon">get<wbr>Template<wbr>File<wbr>Content</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#gettemplatekey" class="tsd-kind-icon">get<wbr>Template<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#rendertemplate" class="tsd-kind-icon">render<wbr>Template</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#rendertemplatefile" class="tsd-kind-icon">render<wbr>Template<wbr>File</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_services_templateservice_.templateservice.html#rendertemplatefromconfig" class="tsd-kind-icon">render<wbr>Template<wbr>From<wbr>Config</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#rendertemplatestring" class="tsd-kind-icon">render<wbr>Template<wbr>String</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_templateservice_.templateservice.html#rendertemplatetree" class="tsd-kind-icon">render<wbr>Template<wbr>Tree</a></li>
 							</ul>
 						</section>
 					</div>
@@ -114,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L101">services/TemplateService.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L100">src/services/TemplateService.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -137,13 +140,13 @@
 					<a name="createfilefromtemplate" class="tsd-anchor"></a>
 					<h3>create<wbr>File<wbr>From<wbr>Template</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>File<wbr>From<wbr>Template<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, context<span class="tsd-signature-symbol">: </span><a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BufferEncoding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>File<wbr>From<wbr>Template<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, templateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, context<span class="tsd-signature-symbol">: </span><a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a>, encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BufferEncoding</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L148">services/TemplateService.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L178">src/services/TemplateService.ts:178</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -152,7 +155,7 @@
 									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+									<h5>templateKey: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>context: <a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a></h5>
@@ -175,7 +178,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L231">services/TemplateService.ts:231</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L275">src/services/TemplateService.ts:275</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -198,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L211">services/TemplateService.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L246">src/services/TemplateService.ts:246</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -215,6 +218,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettemplateconfig" class="tsd-anchor"></a>
+					<h3>get<wbr>Template<wbr>Config</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Template<wbr>Config<span class="tsd-signature-symbol">(</span>namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, context<span class="tsd-signature-symbol">: </span><a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_services_templateservice_.html#templateconfig" class="tsd-signature-type">TemplateConfig</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L155">src/services/TemplateService.ts:155</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>context: <a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_services_templateservice_.html#templateconfig" class="tsd-signature-type">TemplateConfig</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="gettemplatefilecontent" class="tsd-anchor"></a>
 					<h3>get<wbr>Template<wbr>File<wbr>Content</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -224,7 +253,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L167">services/TemplateService.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L196">src/services/TemplateService.ts:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -238,6 +267,64 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettemplatekey" class="tsd-anchor"></a>
+					<h3>get<wbr>Template<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Template<wbr>Key<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filepath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L163">src/services/TemplateService.ts:163</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>filepath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rendertemplate" class="tsd-anchor"></a>
+					<h3>render<wbr>Template</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">render<wbr>Template<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, context<span class="tsd-signature-symbol">?: </span><a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L107">src/services/TemplateService.ts:107</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> context: <a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a><span class="tsd-signature-symbol"> = {}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="rendertemplatefile" class="tsd-anchor"></a>
 					<h3>render<wbr>Template<wbr>File</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -247,7 +334,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L249">services/TemplateService.ts:249</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L293">src/services/TemplateService.ts:293</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -263,6 +350,43 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="rendertemplatefromconfig" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> render<wbr>Template<wbr>From<wbr>Config</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">render<wbr>Template<wbr>From<wbr>Config<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, context<span class="tsd-signature-symbol">: </span><a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a>, config<span class="tsd-signature-symbol">: </span><a href="../modules/_services_templateservice_.html#templateconfigitem" class="tsd-signature-type">TemplateConfigItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L121">src/services/TemplateService.ts:121</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Render the template file(s) form given config</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>context: <a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a></h5>
+								</li>
+								<li>
+									<h5>config: <a href="../modules/_services_templateservice_.html#templateconfigitem" class="tsd-signature-type">TemplateConfigItem</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="rendertemplatestring" class="tsd-anchor"></a>
 					<h3>render<wbr>Template<wbr>String</h3>
@@ -273,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L226">services/TemplateService.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/TemplateService.ts#L261">src/services/TemplateService.ts:261</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -286,38 +410,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rendertemplatetree" class="tsd-anchor"></a>
-					<h3>render<wbr>Template<wbr>Tree</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<wbr>Template<wbr>Tree<span class="tsd-signature-symbol">(</span>dirPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, config<span class="tsd-signature-symbol">: </span><a href="../modules/_services_templateservice_.html#templateconfig" class="tsd-signature-type">TemplateConfig</a>, context<span class="tsd-signature-symbol">?: </span><a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/TemplateService.ts#L108">services/TemplateService.ts:108</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>dirPath: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>config: <a href="../modules/_services_templateservice_.html#templateconfig" class="tsd-signature-type">TemplateConfig</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> context: <a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-signature-type">TemplateContext</a><span class="tsd-signature-symbol"> = {}</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -354,16 +446,25 @@
 								<a href="_services_templateservice_.templateservice.html#getcompiledtemplatestring" class="tsd-kind-icon">get<wbr>Compiled<wbr>Template<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_templateservice_.templateservice.html#gettemplateconfig" class="tsd-kind-icon">get<wbr>Template<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_templateservice_.templateservice.html#gettemplatefilecontent" class="tsd-kind-icon">get<wbr>Template<wbr>File<wbr>Content</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_templateservice_.templateservice.html#gettemplatekey" class="tsd-kind-icon">get<wbr>Template<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_templateservice_.templateservice.html#rendertemplate" class="tsd-kind-icon">render<wbr>Template</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_templateservice_.templateservice.html#rendertemplatefile" class="tsd-kind-icon">render<wbr>Template<wbr>File</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_services_templateservice_.templateservice.html#rendertemplatestring" class="tsd-kind-icon">render<wbr>Template<wbr>String</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_services_templateservice_.templateservice.html#rendertemplatefromconfig" class="tsd-kind-icon">render<wbr>Template<wbr>From<wbr>Config</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_services_templateservice_.templateservice.html#rendertemplatetree" class="tsd-kind-icon">render<wbr>Template<wbr>Tree</a>
+								<a href="_services_templateservice_.templateservice.html#rendertemplatestring" class="tsd-kind-icon">render<wbr>Template<wbr>String</a>
 							</li>
 						</ul>
 					</li>
@@ -374,6 +475,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_services_templateservice_.html#templateconfig" class="tsd-kind-icon">Template<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_services_templateservice_.html#templateconfigitem" class="tsd-kind-icon">Template<wbr>Config<wbr>Item</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_services_templateservice_.html#templatecontext" class="tsd-kind-icon">Template<wbr>Context</a>
@@ -388,6 +492,7 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
@@ -405,6 +510,9 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
 			</ul>
 		</div>
 	</div>

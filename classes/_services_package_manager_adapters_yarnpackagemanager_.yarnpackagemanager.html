@@ -102,6 +102,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#cliservice" class="tsd-kind-icon">cli<wbr>Service</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#fileservice" class="tsd-kind-icon">file<wbr>Service</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#realpath" class="tsd-kind-icon">realpath</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
@@ -117,7 +118,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#getpackagejsondata" class="tsd-kind-icon">get<wbr>Package<wbr>Json<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#installdevpackages" class="tsd-kind-icon">install<wbr>Dev<wbr>Packages</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#installpackages" class="tsd-kind-icon">install<wbr>Packages</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#isenabled" class="tsd-kind-icon">is<wbr>Enabled</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#ismonorepopackage" class="tsd-kind-icon">is<wbr>Monorepo<wbr>Package</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#uninstallpackages" class="tsd-kind-icon">uninstall<wbr>Packages</a></li>
 							</ul>
 						</section>
 					</div>
@@ -129,20 +132,23 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Yarn<wbr>Package<wbr>Manager<span class="tsd-signature-symbol">(</span>cliService<span class="tsd-signature-symbol">: </span><a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a>, fileFactory<span class="tsd-signature-symbol">: </span><a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a>, realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html" class="tsd-signature-type">YarnPackageManager</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Yarn<wbr>Package<wbr>Manager<span class="tsd-signature-symbol">(</span>cliService<span class="tsd-signature-symbol">: </span><a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a>, fileService<span class="tsd-signature-symbol">: </span><a href="_services_file_fileservice_.fileservice.html" class="tsd-signature-type">FileService</a>, fileFactory<span class="tsd-signature-symbol">: </span><a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a>, realpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html" class="tsd-signature-type">YarnPackageManager</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L18">services/package-manager/adapters/AbstractPackageManager.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L19">src/services/package-manager/adapters/AbstractPackageManager.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>cliService: <a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a></h5>
+								</li>
+								<li>
+									<h5>fileService: <a href="_services_file_fileservice_.fileservice.html" class="tsd-signature-type">FileService</a></h5>
 								</li>
 								<li>
 									<h5>fileFactory: <a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a></h5>
@@ -165,7 +171,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#cliservice">cliService</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L21">services/package-manager/adapters/AbstractPackageManager.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L22">src/services/package-manager/adapters/AbstractPackageManager.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="fileservice" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> file<wbr>Service</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="_services_file_fileservice_.fileservice.html" class="tsd-signature-type">FileService</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#fileservice">fileService</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L23">src/services/package-manager/adapters/AbstractPackageManager.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +193,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#realpath">realpath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L23">services/package-manager/adapters/AbstractPackageManager.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L25">src/services/package-manager/adapters/AbstractPackageManager.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -187,7 +204,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/YarnPackageManager.ts#L16">services/package-manager/adapters/YarnPackageManager.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/YarnPackageManager.ts#L17">src/services/package-manager/adapters/YarnPackageManager.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +223,7 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#execcmd">execCmd</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#execcmd">execCmd</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L57">services/package-manager/adapters/AbstractPackageManager.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L61">src/services/package-manager/adapters/AbstractPackageManager.ts:61</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -234,7 +251,7 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getcmd">getCmd</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getcmd">getCmd</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L28">services/package-manager/adapters/AbstractPackageManager.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L32">src/services/package-manager/adapters/AbstractPackageManager.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -252,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getmonorepoinfos">getMonorepoInfos</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/YarnPackageManager.ts#L27">services/package-manager/adapters/YarnPackageManager.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/YarnPackageManager.ts#L41">src/services/package-manager/adapters/YarnPackageManager.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_services_package_manager_adapters_yarnpackagemanager_.monorepoinfos.html" class="tsd-signature-type">MonorepoInfos</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -271,7 +288,7 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getmonoreporootpath">getMonorepoRootPath</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getmonoreporootpath">getMonorepoRootPath</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L77">services/package-manager/adapters/AbstractPackageManager.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L83">src/services/package-manager/adapters/AbstractPackageManager.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -290,7 +307,7 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getnodemodulesdirpath">getNodeModulesDirPath</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getnodemodulesdirpath">getNodeModulesDirPath</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L52">services/package-manager/adapters/AbstractPackageManager.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L56">src/services/package-manager/adapters/AbstractPackageManager.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -310,7 +327,7 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L32">services/package-manager/adapters/AbstractPackageManager.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L36">src/services/package-manager/adapters/AbstractPackageManager.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_services_package_manager_adapters_yarnpackagemanager_.yarnpackagejson.html" class="tsd-signature-type">YarnPackageJson</a></h4>
@@ -319,7 +336,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#getpackagejsondata">getPackageJsonData</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L33">services/package-manager/adapters/AbstractPackageManager.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L37">src/services/package-manager/adapters/AbstractPackageManager.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -352,7 +369,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#installdevpackages">installDevPackages</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L84">services/package-manager/adapters/AbstractPackageManager.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L90">src/services/package-manager/adapters/AbstractPackageManager.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -376,7 +393,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#installpackages">installPackages</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/YarnPackageManager.ts#L18">services/package-manager/adapters/YarnPackageManager.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/YarnPackageManager.ts#L26">src/services/package-manager/adapters/YarnPackageManager.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -392,6 +409,25 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="isenabled" class="tsd-anchor"></a>
+					<h3>is<wbr>Enabled</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Enabled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#isenabled">isEnabled</a></p>
+								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#isenabled">isEnabled</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/YarnPackageManager.ts#L19">src/services/package-manager/adapters/YarnPackageManager.ts:19</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="ismonorepopackage" class="tsd-anchor"></a>
 					<h3>is<wbr>Monorepo<wbr>Package</h3>
@@ -404,10 +440,35 @@
 								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#ismonorepopackage">isMonorepoPackage</a></p>
 								<p>Inherited from <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#ismonorepopackage">isMonorepoPackage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/package-manager/adapters/AbstractPackageManager.ts#L69">services/package-manager/adapters/AbstractPackageManager.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/AbstractPackageManager.ts#L75">src/services/package-manager/adapters/AbstractPackageManager.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="uninstallpackages" class="tsd-anchor"></a>
+					<h3>uninstall<wbr>Packages</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">uninstall<wbr>Packages<span class="tsd-signature-symbol">(</span>packages<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html">IPackageManager</a>.<a href="../interfaces/_services_package_manager_adapters_ipackagemanager_.ipackagemanager.html#uninstallpackages">uninstallPackages</a></p>
+								<p>Overrides <a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html">AbstractPackageManager</a>.<a href="_services_package_manager_adapters_abstractpackagemanager_.abstractpackagemanager.html#uninstallpackages">uninstallPackages</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/package-manager/adapters/YarnPackageManager.ts#L35">src/services/package-manager/adapters/YarnPackageManager.ts:35</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>packages: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -436,6 +497,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#cliservice" class="tsd-kind-icon">cli<wbr>Service</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#fileservice" class="tsd-kind-icon">file<wbr>Service</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#realpath" class="tsd-kind-icon">realpath</a>
@@ -467,8 +531,14 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#installpackages" class="tsd-kind-icon">install<wbr>Packages</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#isenabled" class="tsd-kind-icon">is<wbr>Enabled</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#ismonorepopackage" class="tsd-kind-icon">is<wbr>Monorepo<wbr>Package</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="_services_package_manager_adapters_yarnpackagemanager_.yarnpackagemanager.html#uninstallpackages" class="tsd-kind-icon">uninstall<wbr>Packages</a>
 							</li>
 						</ul>
 					</li>
@@ -490,6 +560,7 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>

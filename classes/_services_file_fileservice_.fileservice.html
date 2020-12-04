@@ -89,7 +89,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#direxistssync" class="tsd-kind-icon">dir<wbr>Exists<wbr>Sync</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#filedirexistssync" class="tsd-kind-icon">file<wbr>Dir<wbr>Exists<wbr>Sync</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#fileexistssync" class="tsd-kind-icon">file<wbr>Exists<wbr>Sync</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#mkdirsync" class="tsd-kind-icon">mkdir<wbr>Sync</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#replacefileextension" class="tsd-kind-icon">replace<wbr>File<wbr>Extension</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#rmdirsync" class="tsd-kind-icon">rmdir<wbr>Sync</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_file_fileservice_.fileservice.html#touchfilesync" class="tsd-kind-icon">touch<wbr>File<wbr>Sync</a></li>
 							</ul>
 						</section>
 					</div>
@@ -107,7 +110,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/file/FileService.ts#L27">services/file/FileService.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L47">src/services/file/FileService.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -130,7 +133,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/file/FileService.ts#L34">services/file/FileService.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L54">src/services/file/FileService.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +156,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/file/FileService.ts#L16">services/file/FileService.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L36">src/services/file/FileService.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -176,7 +179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/file/FileService.ts#L23">services/file/FileService.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L43">src/services/file/FileService.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -199,7 +202,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/file/FileService.ts#L9">services/file/FileService.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L29">src/services/file/FileService.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -213,6 +216,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="mkdirsync" class="tsd-anchor"></a>
+					<h3>mkdir<wbr>Sync</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">mkdir<wbr>Sync<span class="tsd-signature-symbol">(</span>dirpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, recursive<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L76">src/services/file/FileService.ts:76</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dirpath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>recursive: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="replacefileextension" class="tsd-anchor"></a>
 					<h3>replace<wbr>File<wbr>Extension</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -222,7 +251,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/services/file/FileService.ts#L41">services/file/FileService.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L61">src/services/file/FileService.ts:61</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -235,6 +264,52 @@
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> mustExist: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rmdirsync" class="tsd-anchor"></a>
+					<h3>rmdir<wbr>Sync</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">rmdir<wbr>Sync<span class="tsd-signature-symbol">(</span>dirpath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L93">src/services/file/FileService.ts:93</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>dirpath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="touchfilesync" class="tsd-anchor"></a>
+					<h3>touch<wbr>File<wbr>Sync</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">touch<wbr>File<wbr>Sync<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/services/file/FileService.ts#L20">src/services/file/FileService.ts:20</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -277,7 +352,16 @@
 								<a href="_services_file_fileservice_.fileservice.html#fileexistssync" class="tsd-kind-icon">file<wbr>Exists<wbr>Sync</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_file_fileservice_.fileservice.html#mkdirsync" class="tsd-kind-icon">mkdir<wbr>Sync</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_services_file_fileservice_.fileservice.html#replacefileextension" class="tsd-kind-icon">replace<wbr>File<wbr>Extension</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_file_fileservice_.fileservice.html#rmdirsync" class="tsd-kind-icon">rmdir<wbr>Sync</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_services_file_fileservice_.fileservice.html#touchfilesync" class="tsd-kind-icon">touch<wbr>File<wbr>Sync</a>
 							</li>
 						</ul>
 					</li>
@@ -293,6 +377,7 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>

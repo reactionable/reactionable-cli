@@ -103,6 +103,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#adapterpackagename" class="tsd-kind-icon">adapter<wbr>Package<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#createapp" class="tsd-kind-icon">create<wbr>App</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#packagemanagerservice" class="tsd-kind-icon">package<wbr>Manager<wbr>Service</a></li>
 							</ul>
@@ -125,18 +126,21 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Amplify<span class="tsd-signature-symbol">(</span>fileService<span class="tsd-signature-symbol">: </span><a href="_services_file_fileservice_.fileservice.html" class="tsd-signature-type">FileService</a>, fileFactory<span class="tsd-signature-symbol">: </span><a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a>, templateService<span class="tsd-signature-symbol">: </span><a href="_services_templateservice_.templateservice.html" class="tsd-signature-type">TemplateService</a>, cliService<span class="tsd-signature-symbol">: </span><a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a>, gitService<span class="tsd-signature-symbol">: </span><a href="_services_git_gitservice_.gitservice.html" class="tsd-signature-type">GitService</a>, consoleService<span class="tsd-signature-symbol">: </span><a href="_services_consoleservice_.consoleservice.html" class="tsd-signature-type">ConsoleService</a>, packageManagerService<span class="tsd-signature-symbol">: </span><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html" class="tsd-signature-type">PackageManagerService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html" class="tsd-signature-type">Amplify</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Amplify<span class="tsd-signature-symbol">(</span>packageManagerService<span class="tsd-signature-symbol">: </span><a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html" class="tsd-signature-type">PackageManagerService</a>, fileService<span class="tsd-signature-symbol">: </span><a href="_services_file_fileservice_.fileservice.html" class="tsd-signature-type">FileService</a>, fileFactory<span class="tsd-signature-symbol">: </span><a href="_services_file_filefactory_.filefactory.html" class="tsd-signature-type">FileFactory</a>, templateService<span class="tsd-signature-symbol">: </span><a href="_services_templateservice_.templateservice.html" class="tsd-signature-type">TemplateService</a>, cliService<span class="tsd-signature-symbol">: </span><a href="_services_cliservice_.cliservice.html" class="tsd-signature-type">CliService</a>, gitService<span class="tsd-signature-symbol">: </span><a href="_services_git_gitservice_.gitservice.html" class="tsd-signature-type">GitService</a>, consoleService<span class="tsd-signature-symbol">: </span><a href="_services_consoleservice_.consoleservice.html" class="tsd-signature-type">ConsoleService</a>, createApp<span class="tsd-signature-symbol">: </span><a href="_actions_create_app_createapp_.createapp.html" class="tsd-signature-type">CreateApp</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html" class="tsd-signature-type">Amplify</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html">AbstractAdapterWithPackageAction</a>.<a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L51">actions/add-hosting/adapters/amplify/Amplify.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L54">src/actions/add-hosting/adapters/amplify/Amplify.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>packageManagerService: <a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html" class="tsd-signature-type">PackageManagerService</a></h5>
+								</li>
 								<li>
 									<h5>fileService: <a href="_services_file_fileservice_.fileservice.html" class="tsd-signature-type">FileService</a></h5>
 								</li>
@@ -156,7 +160,7 @@
 									<h5>consoleService: <a href="_services_consoleservice_.consoleservice.html" class="tsd-signature-type">ConsoleService</a></h5>
 								</li>
 								<li>
-									<h5>packageManagerService: <a href="_services_package_manager_packagemanagerservice_.packagemanagerservice.html" class="tsd-signature-type">PackageManagerService</a></h5>
+									<h5>createApp: <a href="_actions_create_app_createapp_.createapp.html" class="tsd-signature-type">CreateApp</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html" class="tsd-signature-type">Amplify</a></h4>
@@ -173,7 +177,17 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html">AbstractAdapterWithPackageAction</a>.<a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html#adapterpackagename">adapterPackageName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L51">actions/add-hosting/adapters/amplify/Amplify.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L54">src/actions/add-hosting/adapters/amplify/Amplify.ts:54</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="createapp" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> create<wbr>App</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>App<span class="tsd-signature-symbol">:</span> <a href="_actions_create_app_createapp_.createapp.html" class="tsd-signature-type">CreateApp</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L65">src/actions/add-hosting/adapters/amplify/Amplify.ts:65</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +198,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_actions_abstractadapteraction_.abstractadapteraction.html">AbstractAdapterAction</a>.<a href="_actions_abstractadapteraction_.abstractadapteraction.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L50">actions/add-hosting/adapters/amplify/Amplify.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L53">src/actions/add-hosting/adapters/amplify/Amplify.ts:53</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -195,7 +209,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html">AbstractAdapterWithPackageAction</a>.<a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html#packagemanagerservice">packageManagerService</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L61">actions/add-hosting/adapters/amplify/Amplify.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L58">src/actions/add-hosting/adapters/amplify/Amplify.ts:58</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -213,7 +227,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html">AbstractAdapterWithPackageAction</a>.<a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html#getadapterpackagename">getAdapterPackageName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/AbstractAdapterWithPackageAction.ts#L21">actions/AbstractAdapterWithPackageAction.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/AbstractAdapterWithPackageAction.ts#L21">src/actions/AbstractAdapterWithPackageAction.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -231,7 +245,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_actions_abstractadapteraction_.abstractadapteraction.html">AbstractAdapterAction</a>.<a href="_actions_abstractadapteraction_.abstractadapteraction.html#getname">getName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/AbstractAdapterAction.ts#L12">actions/AbstractAdapterAction.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/AbstractAdapterAction.ts#L12">src/actions/AbstractAdapterAction.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -251,7 +265,7 @@
 								<p>Inherited from <a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html">AbstractAdapterWithPackageAction</a>.<a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html#isenabled">isEnabled</a></p>
 								<p>Overrides <a href="_actions_abstractadapteraction_.abstractadapteraction.html">AbstractAdapterAction</a>.<a href="_actions_abstractadapteraction_.abstractadapteraction.html#isenabled">isEnabled</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/AbstractAdapterWithPackageAction.ts#L25">actions/AbstractAdapterWithPackageAction.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/AbstractAdapterWithPackageAction.ts#L25">src/actions/AbstractAdapterWithPackageAction.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -275,7 +289,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html">AbstractAdapterWithPackageAction</a>.<a href="_actions_abstractadapterwithpackageaction_.abstractadapterwithpackageaction.html#run">run</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/efd8b5a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L66">actions/add-hosting/adapters/amplify/Amplify.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/reactionable/reactionable-cli/blob/3e9d42a/src/actions/add-hosting/adapters/amplify/Amplify.ts#L70">src/actions/add-hosting/adapters/amplify/Amplify.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -319,6 +333,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 								<a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#adapterpackagename" class="tsd-kind-icon">adapter<wbr>Package<wbr>Name</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#createapp" class="tsd-kind-icon">create<wbr>App</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
 								<a href="_actions_add_hosting_adapters_amplify_amplify_.amplify.html#name" class="tsd-kind-icon">name</a>
 							</li>
@@ -357,6 +374,7 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
