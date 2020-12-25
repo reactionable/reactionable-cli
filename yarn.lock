@@ -3583,10 +3583,10 @@ jest@^26.6.3:
     import-local "^3.0.2"
     jest-cli "^26.6.3"
 
-js-ini@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/js-ini/-/js-ini-1.2.0.tgz#4dc412edb91f6ee4a99ab0ea14b7e4217c0c899c"
-  integrity sha512-pfgmRIkB8rCa1GoK3qdaRqRLcx/n2NxT1Z7eAJIE5CDdJFSzsIIR4ya+kI2VUuVk5+XjhKBrb3maAqGMtblC2Q==
+js-ini@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/js-ini/-/js-ini-1.3.0.tgz#b84a3a0bbacfdb3eb1b92e2ebd7c8c3f1f98339b"
+  integrity sha512-5MSh1zdBn/r3xnts6YfENzVuIGU2gbJ/Ib6zemYi+04Ui0AQp2QCNoTrlQdn0yNkaNVVg9wHZaoG5bW7Lv+3bA==
 
 js-tokens@^4.0.0:
   version "4.0.0"
