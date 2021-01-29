@@ -54,7 +54,7 @@
     "@types/diff": "^5.0.0",
     "@types/figlet": "^1.2.1",
     "@types/mock-fs": "^4.13.0",
-    "@types/mustache": "^4.1.0",
+    "@types/mustache": "^4.1.1",
     "@types/parse-github-url": "^1.0.0",
     "@types/prompts": "^2.0.9",
     "@types/shelljs": "^0.8.8",
