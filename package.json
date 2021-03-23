@@ -8,12 +8,13 @@
   },
   "scripts": {
     "start": "yarn link && yarn build && tsc --watch",
-    "build": "rimraf ./dist && tsc",
+    "prebuild": "rimraf ./dist",
+    "build": "tsc",
     "build:doc": "rimraf -rf build/docs && typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "jest",
     "test:coverage": "yarn test --coverage",
-    "postinstall": "ts-dev-tools install"
+    "prepare": "ts-dev-tools install"
   },
   "repository": {
     "type": "git",
@@ -50,7 +51,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.4.10",
+    "@ts-dev-tools/core": "^1.5.1",
     "@types/diff": "^5.0.0",
     "@types/figlet": "^1.2.1",
     "@types/mock-fs": "^4.13.0",
@@ -64,32 +65,8 @@
     "mock-spawn": "^0.2.6",
     "rimraf": "^3.0.0",
     "tmp": "^0.2.1",
-    "typedoc": "^0.20.32",
+    "typedoc": "^0.20.33",
     "typedoc-plugin-nojekyll": "^1.0.1"
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "semi": true
-  },
-  "importSort": {
-    ".js, .jsx, .ts, .tsx": {
-      "style": "module",
-      "parser": "typescript"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "tsc && lint-staged && pretty-quick --staged",
-      "pre-push": "yarn lint && yarn test"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   },
   "eslintConfig": {
     "root": true,
@@ -115,6 +92,11 @@
       "sourceType": "module"
     }
   },
+  "prettier": {
+    "semi": true,
+    "printWidth": 100,
+    "trailingComma": "es5"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -124,6 +106,12 @@
     "*.{js,ts,tsx}": [
       "eslint --fix"
     ]
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module",
+      "parser": "typescript"
+    }
   },
   "jest": {
     "preset": "ts-jest",
