@@ -673,15 +673,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ts-dev-tools/core@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.5.1.tgz#89da72f20a07ec69456f99f38960dcfaf1d335d1"
-  integrity sha512-ZtvEDSZAGWy3Kw03+hJyAncLlTk9eb+dQEmj7Pp6JAj22CG7X/XKi8q8ZmoEPMnFfTEmNGlJ1XgtyaTInUz8ww==
+"@ts-dev-tools/core@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.5.2.tgz#11ac04e88502cc893673994c213cb16db469826b"
+  integrity sha512-dR1h8vMfqk+iTuhRAhu2hGcZLS7Ui2hZBgQMrH+OC1Ky2z0Axgz6KLGVnAp3Hm3MsDexuAsx/JtBV0Nsp26jDA==
   dependencies:
     "@commitlint/cli" "^12.0.1"
     "@commitlint/config-conventional" "^12.0.1"
-    "@types/jest" "^26.0.21"
-    "@types/node" "^14.14.35"
+    "@types/jest" "^26.0.22"
+    "@types/node" "^14.14.36"
     "@typescript-eslint/eslint-plugin" "^4.19.0"
     "@typescript-eslint/parser" "^4.19.0"
     eslint "^7.22.0"
@@ -775,10 +775,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^26.0.21":
-  version "26.0.21"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.21.tgz#3a73c2731e7e4f0fbaea56ce7ff8c79cf812bd24"
-  integrity sha512-ab9TyM/69yg7eew9eOwKMUmvIZAKEGZYlq/dhe5/0IMUd/QLJv5ldRMdddSn+u22N13FP3s5jYyktxuBwY0kDA==
+"@types/jest@^26.0.22":
+  version "26.0.22"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.22.tgz#8308a1debdf1b807aa47be2838acdcd91e88fbe6"
+  integrity sha512-eeWwWjlqxvBxc4oQdkueW5OF/gtfSceKk4OnOAGlUSwS/liBRtZppbJuz1YkgbrbfGOoeBHun9fOvXnjNwrSOw==
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
@@ -820,10 +820,10 @@
   resolved "https://registry.yarnpkg.com/@types/mustache/-/mustache-4.1.1.tgz#fcfa2db0cee6261e66f2437dc2fe71e26c7856b4"
   integrity sha512-Sm0NWeLhS2QL7NNGsXvO+Fgp7e3JLHCO6RS3RCnfjAnkw6Y1bsji/AGfISdQZDIR/AeOyzkrxRk9jBkl55zdJw==
 
-"@types/node@*", "@types/node@^14.14.35":
-  version "14.14.35"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.35.tgz#42c953a4e2b18ab931f72477e7012172f4ffa313"
-  integrity sha512-Lt+wj8NVPx0zUmUwumiVXapmaLUcAk3yPuHCFVXras9k5VT9TdhJqKqGVUQCD60OTMCl0qxJ57OiTL0Mic3Iag==
+"@types/node@*", "@types/node@^14.14.36":
+  version "14.14.37"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.37.tgz#a3dd8da4eb84a996c36e331df98d82abd76b516e"
+  integrity sha512-XYmBiy+ohOR4Lh5jE379fV2IU+6Jn4g5qASinhitfyO71b/sCo6MKsMLF5tc7Zf2CE8hViVQyYSobJNke8OvUw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
