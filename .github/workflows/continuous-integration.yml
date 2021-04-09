@@ -6,7 +6,7 @@ on:
       - master
   pull_request:
     paths-ignore:
-      - '**.md'
+      - "**.md"
   workflow_dispatch:
     branches:
       - master
@@ -21,28 +21,49 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2.1.5
 
-      - name: Get yarn cache directory path
+      - name: ♻️ Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - uses: actions/cache@v2.1.4
+      - name: ♻️ Yarn packages cache
+        id: yarn-cache
+        uses: actions/cache@v2.1.4
         with:
           path: |
             ${{ steps.yarn-cache-dir-path.outputs.dir }}
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: ⚙️ Install Dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: 🏗️ Build
         run: yarn build
 
-      - name: 🧪 Test
+      - name: 👕 Lint
+        run: yarn lint
+
+      - name: ♻️ Get Jest cache dir
+        id: jest-cache-dir-path
         run: |
-          yarn lint
-          yarn test:coverage
+          JEST_CACHE_DIR=$(yarn jest --showConfig | grep -oP '(?<="cacheDirectory": ")[^"]+(?=")')
+          echo "::set-output name=dir::$JEST_CACHE_DIR"
+
+      - name: ♻️ Test cache
+        uses: actions/cache@v2.1.4
+        with:
+          path: |
+            ${{ steps.jest-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-test-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-test-
+
+      - name: 🧪 Test
+        run: yarn test:coverage
         env:
           CI: true
 
@@ -54,33 +75,32 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org/
 
-      - name: Get yarn cache directory path
+      - name: ♻️ Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - uses: actions/cache@v2.1.4
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - name: ♻️ Yarn packages cache
+        id: yarn-cache
+        uses: actions/cache@v2.1.4
         with:
           path: |
             ${{ steps.yarn-cache-dir-path.outputs.dir }}
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: ⚙️ Install Dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: 🏗️ Build

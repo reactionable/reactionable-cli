@@ -1,10 +1,7 @@
 {
-    "mode": "modules",
-    "out": "build/docs",
-    "exclude": [
-        "**/node_modules/**",
-        "**/*.spec.ts"
-    ],
-    "readme": "",
-    "excludePrivate": true
+  "entryPoints": ["src"],
+  "out": "build/docs",
+  "exclude": ["**/node_modules/**", "**/*.spec.ts"],
+  "readme": "",
+  "excludePrivate": true
 }
