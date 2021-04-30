@@ -1500,12 +1500,12 @@ cli-truncate@^2.1.0:
     slice-ansi "^3.0.0"
     string-width "^4.2.0"
 
-clipanion@^3.0.0-rc.11:
-  version "3.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/clipanion/-/clipanion-3.0.0-rc.11.tgz#390f93b91b9a6e2018c1cc8670b6a3b043203897"
-  integrity sha512-e0GyZXjprnxRuls/pHH0cqAgKtpiceQy8PztEZP9fdnkMxuo05D5en9fx60Iiqqjge8pmrMfsiglueS8SWmlgg==
+clipanion@^3.0.0-rc.12:
+  version "3.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/clipanion/-/clipanion-3.0.0-rc.12.tgz#8c235961feb4851c437fc4f23a4c4c1387622a4a"
+  integrity sha512-eCixNguza61+8MXXTu6sYzpA8gPZHZzvay4lpFFpr4KSy+43wsugdiKMNejLS9PVcnSuGf0fy9kYs5R2c7Ejmw==
   dependencies:
-    typanion "^3.3.0"
+    typanion "^3.3.1"
 
 cliui@^6.0.0:
   version "6.0.0"
@@ -5452,10 +5452,10 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-typanion@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/typanion/-/typanion-3.3.0.tgz#92d949d8fb90ba90a152b97909255e5420bfc81d"
-  integrity sha512-e+54C4+ozFsTorFe50JNQlXlt4HVGQUvqul7VS0GbDfKlxh3aXbJY87Yu9IdtzvJWCyTgDX7q1PeMd3FH9zZqA==
+typanion@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/typanion/-/typanion-3.3.1.tgz#d1ab4930d7b0d165d4356405891693b5648e3bf1"
+  integrity sha512-VogBiMj3ZQuWaHkbhXwSgd9jXE4s7EMaaV7VSEiKTNYnKJs/bPjvcOGbD7rTM9aPqTABvgLVEZ+iFP6ab12HtQ==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
