@@ -52,7 +52,7 @@
     "@ts-dev-tools/core": "^1.5.6",
     "@types/diff": "^5.0.0",
     "@types/figlet": "^1.5.4",
-    "@types/mock-fs": "^4.13.0",
+    "@types/mock-fs": "^4.13.1",
     "@types/parse-github-url": "^1.0.0",
     "@types/prompts": "^2.0.14",
     "@types/shelljs": "^0.8.9",
