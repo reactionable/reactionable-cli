@@ -3,13 +3,13 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     paths-ignore:
       - "**.md"
   workflow_dispatch:
     branches:
-      - master
+      - main
 
 jobs:
   continuous-integration:
@@ -59,7 +59,7 @@ jobs:
 
   publish:
     needs: continuous-integration
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -101,7 +101,7 @@ jobs:
           git config --local user.name "${{ github.actor }}"
           npx standard-version
           echo `git add -A && git commit -m "chore: prepare release"`
-          git push --follow-tags origin master
+          git push --follow-tags origin main
           mkdir -p /tmp
           cp -R build/docs /tmp/publish
           cp -R docs /tmp/publish/
