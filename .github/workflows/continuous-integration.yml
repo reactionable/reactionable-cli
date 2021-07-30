@@ -55,7 +55,7 @@ jobs:
           CI: true
 
       - name: 📊 Code coverage
-        uses: codecov/codecov-action@v2.0.1
+        uses: codecov/codecov-action@v2.0.2
 
   publish:
     needs: continuous-integration
