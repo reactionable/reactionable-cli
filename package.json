@@ -33,7 +33,7 @@
   "homepage": "https://reactionable.github.io/reactionable-cli",
   "dependencies": {
     "@iarna/toml": "^2.2.5",
-    "chalk": "^4.1.1",
+    "chalk": "^4.1.2",
     "clipanion": "^3.0.1",
     "deepmerge": "^4.2.2",
     "diff": "^5.0.0",
