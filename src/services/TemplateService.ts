@@ -1,12 +1,12 @@
-import { dirname, extname, join, resolve, sep } from 'path';
+import { dirname, extname, join, resolve, sep } from "path";
 
-import { SafeString, compile, partials, registerHelper, registerPartial } from 'handlebars';
-import { inject, injectable } from 'inversify';
-import { plural, singular } from 'pluralize';
+import { SafeString, compile, partials, registerHelper, registerPartial } from "handlebars";
+import { inject, injectable } from "inversify";
+import { plural, singular } from "pluralize";
 
-import { FileFactory } from './file/FileFactory';
-import { FileService } from './file/FileService';
-import { StringUtils } from './StringUtils';
+import { FileFactory } from "./file/FileFactory";
+import { FileService } from "./file/FileService";
+import { StringUtils } from "./StringUtils";
 
 // Compile template
 registerHelper({
@@ -26,43 +26,43 @@ registerHelper({
     return v1 > v2;
   },
   capitalize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return StringUtils.capitalize(str);
   },
   decapitalize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return str.charAt(0).toLowerCase() + str.slice(1);
   },
   pluralize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return plural(str);
   },
   singularize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return singular(str);
   },
   hyphenize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return StringUtils.hyphenize(str);
   },
   camelize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return StringUtils.camelize(str);
   },
   decamelize: (str) => {
-    if (typeof str !== 'string') {
+    if (typeof str !== "string") {
       return str;
     }
     return StringUtils.decamelize(str);
@@ -78,7 +78,7 @@ registerHelper({
   },
   inline(options) {
     const inline = compile(options.fn(this))(options.data.root);
-    const nl2br = inline.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
+    const nl2br = inline.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1<br>$2");
     return new SafeString(nl2br);
   },
   with(context, options) {
@@ -131,7 +131,7 @@ export class TemplateService {
       return;
     }
 
-    if (typeof config === 'object') {
+    if (typeof config === "object") {
       for (const dir of Object.keys(config)) {
         const currentPath = resolve(dirPath, dir);
         await this.renderTemplateFromConfig(currentPath, namespace, context, config[dir]);
@@ -153,7 +153,7 @@ export class TemplateService {
   }
 
   async getTemplateConfig(namespace: string, context: TemplateContext): Promise<TemplateConfig> {
-    const templateKey = join(namespace, 'config');
+    const templateKey = join(namespace, "config");
     const templateContent = await this.getTemplateFileContent(templateKey);
     const content = await this.renderTemplateString(templateContent, context);
     const templateConfig = JSON.parse(content);
@@ -166,8 +166,8 @@ export class TemplateService {
       return namespace;
     }
 
-    const templateKey = join(namespace, filepath.replace(dirPath, ''));
-    const templatePath = join(__dirname, './../templates', templateKey + '.template');
+    const templateKey = join(namespace, filepath.replace(dirPath, ""));
+    const templatePath = join(__dirname, "./../templates", templateKey + ".template");
     if (!this.fileService.fileExistsSync(templatePath)) {
       throw new Error(`Template file "${templatePath}" does not exist`);
     }
@@ -179,7 +179,7 @@ export class TemplateService {
     filePath: string,
     templateKey: string,
     context: TemplateContext,
-    encoding: BufferEncoding = 'utf8'
+    encoding: BufferEncoding = "utf8"
   ): Promise<void> {
     const parentDir = dirname(filePath);
     if (!this.fileService.dirExistsSync(parentDir)) {
@@ -195,7 +195,7 @@ export class TemplateService {
 
   async getTemplateFileContent(template: string): Promise<string> {
     const fileExt = extname(__filename);
-    const templatePath = join(__dirname, './../templates', template + '.template' + fileExt);
+    const templatePath = join(__dirname, "./../templates", template + ".template" + fileExt);
     if (!this.fileService.fileExistsSync(templatePath)) {
       throw new Error(`Template file "${templatePath}" does not exist`);
     }
@@ -203,11 +203,11 @@ export class TemplateService {
     let templateContent: string;
     try {
       const importedContent = await import(templatePath);
-      if ('string' === typeof importedContent) {
+      if ("string" === typeof importedContent) {
         templateContent = importedContent;
       } else if (
-        'object' === typeof importedContent &&
-        'string' === typeof importedContent.default
+        "object" === typeof importedContent &&
+        "string" === typeof importedContent.default
       ) {
         templateContent = importedContent.default;
       } else {
@@ -217,7 +217,9 @@ export class TemplateService {
       }
     } catch (error) {
       throw new Error(
-        `An error occurred while importing template file "${templatePath}": ${error.message}`
+        `An error occurred while importing template file "${templatePath}": ${
+          error instanceof Error ? error.message : error
+        }`
       );
     }
 
@@ -264,10 +266,11 @@ export class TemplateService {
       return compiledTemplate(context);
     } catch (error) {
       throw new Error(
-        `An error occurred while compiling template "${template}": ${error.message.replace(
-          '[object Object]',
-          JSON.stringify(context)
-        )}`
+        `An error occurred while compiling template "${template}": ${
+          error instanceof Error
+            ? error.message.replace("[object Object]", JSON.stringify(context))
+            : error
+        }`
       );
     }
   }

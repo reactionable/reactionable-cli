@@ -61,7 +61,7 @@ jobs:
     needs: continuous-integration
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
+    environment: github-pages
     steps:
       - uses: actions/checkout@v2
 

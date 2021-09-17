@@ -1,9 +1,9 @@
-import { realpathSync } from 'fs';
-import { resolve } from 'path';
+import { realpathSync } from "fs";
+import { resolve } from "path";
 
-import { PackageManagerType } from '../PackageManagerService';
-import { AbstractPackageManager } from './AbstractPackageManager';
-import { PackageJson } from './IPackageManager';
+import { PackageManagerType } from "../PackageManagerService";
+import { AbstractPackageManager } from "./AbstractPackageManager";
+import { PackageJson } from "./IPackageManager";
 
 export interface YarnPackageJson extends PackageJson {
   workspaces?: string[];
@@ -17,29 +17,29 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
   protected type = PackageManagerType.yarn;
 
   async isEnabled(): Promise<boolean> {
-    if (this.fileService.fileExistsSync(resolve(this.realpath, 'yarn.lock'))) {
+    if (this.fileService.fileExistsSync(resolve(this.realpath, "yarn.lock"))) {
       return true;
     }
     return this.isMonorepoPackage();
   }
 
   async installPackages(packages: string[], dev: boolean): Promise<string[]> {
-    const args = ['add', ...packages];
+    const args = ["add", ...packages];
     if (dev) {
-      args.push('--dev');
+      args.push("--dev");
     }
     await this.execCmd(args);
     return packages;
   }
 
   async uninstallPackages(packages: string[]): Promise<string[]> {
-    const args = ['remove', ...packages];
+    const args = ["remove", ...packages];
     await this.execCmd(args);
     return packages;
   }
 
   protected async getMonorepoInfos(): Promise<MonorepoInfos | undefined> {
-    const workspacesRootData = this.getPackageJsonData('workspaces');
+    const workspacesRootData = this.getPackageJsonData("workspaces");
     if (workspacesRootData) {
       return {
         rootDirectory: this.realpath,
@@ -47,7 +47,7 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
     }
 
     try {
-      const result = await this.execCmd(['workspaces', '--json', 'info'], true);
+      const result = await this.execCmd(["workspaces", "--json", "info"], true);
       if (!result) {
         return undefined;
       }
@@ -64,7 +64,7 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
 
       return undefined;
     } catch (error) {
-      if (error.toString().indexOf('Cannot find the root of your workspace') !== -1) {
+      if (`${error}`.indexOf("Cannot find the root of your workspace") !== -1) {
         return undefined;
       }
       throw error;

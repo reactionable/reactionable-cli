@@ -1,6 +1,6 @@
-import { all } from 'deepmerge';
+import { all } from "deepmerge";
 
-import { StdFile } from './StdFile';
+import { StdFile } from "./StdFile";
 
 type JsonArray = boolean[] | number[] | string[] | JsonFileData[] | Date[];
 type AnyJson = boolean | number | string | JsonFileData | Date | JsonArray | JsonArray[];
@@ -13,7 +13,7 @@ export class JsonFile extends StdFile {
   protected data?: JsonFileData;
 
   getContent(): string {
-    return JSON.stringify(this.data, null, '  ');
+    return JSON.stringify(this.data, null, "  ");
   }
 
   appendContent(content: string): this {
@@ -22,7 +22,7 @@ export class JsonFile extends StdFile {
 
   appendData(data: JsonFileData): this {
     const newData = all([(this.data || {}) as JsonFileData, data]);
-    return this.setContent(JSON.stringify(newData, null, '  '));
+    return this.setContent(JSON.stringify(newData, null, "  "));
   }
 
   getData<D extends JsonFileData = JsonFileData>(): D | undefined;
@@ -36,7 +36,7 @@ export class JsonFile extends StdFile {
       return this.data;
     }
 
-    const data = (this.data as unknown) as D;
+    const data = this.data as unknown as D;
     if (!property) {
       return data;
     }
@@ -51,7 +51,7 @@ export class JsonFile extends StdFile {
     } catch (error) {
       throw new Error(
         `An error occurred while parsing file content "${this.file}": ${JSON.stringify(
-          error.message
+          error instanceof Error ? error.message : error
         )} => "${content.trim()}"`
       );
     }
