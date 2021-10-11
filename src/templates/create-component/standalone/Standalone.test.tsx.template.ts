@@ -1,1 +1,1 @@
-export default '{{#> ComponentTest }}{{/ComponentTest}}';
+export default `<%= include("ComponentTest", it) %>`;

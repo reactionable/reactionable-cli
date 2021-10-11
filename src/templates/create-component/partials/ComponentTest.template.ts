@@ -1,15 +1,13 @@
 export default `import React from "react";
 import { render } from "@testing-library/react";
 import { i18nTestInstance } from "@reactionable/core";
-import { useUIProviderProps, IUIProviderProps } from "{{ uiPackage }}";
-import { TestWrapper } from "{{ routerPackage }}";
-import { useIdentityProviderProps, IIdentityProviderProps } from "{{ hostingPackage }}";
-{{#> imports-block}}
-{{!-- Custom imports could be added. --}}
-{{/imports-block}}
-import {{ componentName }} from "./{{ componentName }}";
+import { useUIProviderProps, IUIProviderProps } from "<%= it.uiPackage %>";
+import { TestWrapper } from "<%= it.routerPackage %>";
+import { useIdentityProviderProps, IIdentityProviderProps } from "<%= it.hostingPackage %>";
+<%= it.importsBlock || '' %>
+import <%= it.componentName %> from "./<%= it.componentName %>";
 
-describe("{{ componentName }}", () => {
+describe("<%= it.componentName %>", () => {
 
     let identity: IIdentityProviderProps;
     let ui: IUIProviderProps;
@@ -23,7 +21,7 @@ describe("{{ componentName }}", () => {
     it("renders without crashing", () => {
         const result = render(
             <TestWrapper identity={identity} ui={ui}>
-                <{{ componentName }} />
+                <<%= it.componentName %> />
             </TestWrapper>
         );
 

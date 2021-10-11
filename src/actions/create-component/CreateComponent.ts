@@ -1,21 +1,22 @@
-import { basename, dirname, extname, resolve } from 'path';
+import { basename, dirname, extname, resolve } from "path";
 
-import { LazyServiceIdentifer, inject, injectable } from 'inversify';
-import prompts from 'prompts';
+import { LazyServiceIdentifer, inject, injectable } from "inversify";
+import prompts from "prompts";
 
-import { ConsoleService } from '../../services/ConsoleService';
-import { FileFactory } from '../../services/file/FileFactory';
-import { FileService } from '../../services/file/FileService';
-import { PackageManagerService } from '../../services/package-manager/PackageManagerService';
-import { StringUtils } from '../../services/StringUtils';
-import { TemplateContext, TemplateService } from '../../services/TemplateService';
-import { AbstractAdapterWithPackageAction } from '../AbstractAdapterWithPackageAction';
-import AddHosting from '../add-hosting/AddHosting';
-import AddRouter from '../add-router/AddRouter';
-import AddUIFramework from '../add-ui-framework/AddUIFramework';
-import { CreateAppAdapter } from '../create-app/adapters/CreateAppAdapter';
-import CreateApp from '../create-app/CreateApp';
-import { NamedAction, NamedActionOptions } from '../NamedAction';
+import { ConsoleService } from "../../services/ConsoleService";
+import { FileFactory } from "../../services/file/FileFactory";
+import { FileService } from "../../services/file/FileService";
+import { PackageManagerService } from "../../services/package-manager/PackageManagerService";
+import { StringUtils } from "../../services/StringUtils";
+import { TemplateContext } from "../../services/template/TemplateContext";
+import { TemplateService } from "../../services/template/TemplateService";
+import { AbstractAdapterWithPackageAction } from "../AbstractAdapterWithPackageAction";
+import AddHosting from "../add-hosting/AddHosting";
+import AddRouter from "../add-router/AddRouter";
+import AddUIFramework from "../add-ui-framework/AddUIFramework";
+import { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
+import CreateApp from "../create-app/CreateApp";
+import { NamedAction, NamedActionOptions } from "../NamedAction";
 
 export type CreateComponentOptions = NamedActionOptions & {
   name?: string;
@@ -26,8 +27,8 @@ export type CreateComponentOptions = NamedActionOptions & {
 
 @injectable()
 export default class CreateComponent implements NamedAction<CreateComponentOptions> {
-  protected static defaultPackage = '@reactionable/core';
-  protected static templateNamespace = 'create-component';
+  protected static defaultPackage = "@reactionable/core";
+  protected static templateNamespace = "create-component";
 
   constructor(
     @inject(new LazyServiceIdentifer(() => AddUIFramework))
@@ -47,17 +48,17 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
   ) {}
 
   getName(): string {
-    return 'Create a new component';
+    return "Create a new component";
   }
 
   async run({ realpath, name, ...options }: CreateComponentOptions): Promise<void> {
     if (!name) {
       const answer = await prompts([
         {
-          type: 'text',
-          name: 'name',
+          type: "text",
+          name: "name",
           message: "What's the component name?",
-          validate: (input) => (input.trim().length ? true : 'Component name is required'),
+          validate: (input) => (input.trim().length ? true : "Component name is required"),
           format: (input) => this.formatName(input),
         },
       ]);
@@ -76,8 +77,8 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     realpath,
     componentDirPath,
     name,
-    componentTemplate = 'standalone/Standalone.tsx',
-    testComponentTemplate = 'standalone/Standalone.test.tsx',
+    componentTemplate = "standalone/Standalone.tsx",
+    testComponentTemplate = "standalone/Standalone.test.tsx",
     templateContext = {},
   }: {
     realpath: string;
@@ -87,13 +88,13 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     testComponentTemplate?: string;
     templateContext?: TemplateContext;
   }): Promise<string> {
-    let componentFilename = name + '.tsx';
+    let componentFilename = name + ".tsx";
 
     if (!componentDirPath) {
       componentDirPath = resolve(
         realpath,
         (await this.getCreateAppAdapter(realpath)).getLibDirectoryPath(),
-        'components',
+        "components",
         StringUtils.hyphenize(name)
       );
     } else if (extname(componentDirPath)) {
@@ -114,13 +115,13 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     // Get enabled UI framework
     const projectName = await this.packageManagerService.getPackageName(
       realpath,
-      'capitalizeWords'
+      "capitalizeWords"
     );
     const uiPackage = await this.getUIPackage(realpath);
     const routerPackage = await this.getRouterPackage(realpath);
     const hostingPackage = await this.getHostingPackage(realpath);
 
-    const testComponentFilename = componentFilename.split('.').slice(0, -1).join('.') + '.test.tsx';
+    const testComponentFilename = componentFilename.split(".").slice(0, -1).join(".") + ".test.tsx";
     const context = {
       ...templateContext,
       componentName: name,

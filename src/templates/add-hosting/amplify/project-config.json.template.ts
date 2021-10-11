@@ -1,13 +1,13 @@
 export default `{
-    "projectName": {{{projectName}}},
+    "projectName": <%= it.projectName %>,
     "frontend": "javascript",
     "javascript": {
         "framework": "react",
         "config": {
             "SourceDir": "src",
             "DistributionDir": "build",
-            "BuildCommand": "{{packageManager}} build",
-            "StartCommand": "{{packageManager}} start"
+            "BuildCommand": "<%= it.packageManager %> build",
+            "StartCommand": "<%= it.packageManager %> start"
         }
     },
     "providers": [

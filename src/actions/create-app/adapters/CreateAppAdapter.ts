@@ -1,43 +1,43 @@
-import { basename, dirname, join, relative, resolve } from 'path';
+import { basename, dirname, join, relative, resolve } from "path";
 
-import { red } from 'chalk';
-import { LazyServiceIdentifer, inject, injectable } from 'inversify';
-import prompts from 'prompts';
+import { red } from "chalk";
+import { LazyServiceIdentifer, inject, injectable } from "inversify";
+import prompts from "prompts";
 
-import { CliService } from '../../../services/CliService';
-import { ConsoleService } from '../../../services/ConsoleService';
-import { FileFactory } from '../../../services/file/FileFactory';
-import { FileService } from '../../../services/file/FileService';
-import { TypescriptFile } from '../../../services/file/TypescriptFile';
-import { TypescriptImport } from '../../../services/file/TypescriptImport';
+import { CliService } from "../../../services/CliService";
+import { ConsoleService } from "../../../services/ConsoleService";
+import { FileFactory } from "../../../services/file/FileFactory";
+import { FileService } from "../../../services/file/FileService";
+import { TypescriptFile } from "../../../services/file/TypescriptFile";
+import { TypescriptImport } from "../../../services/file/TypescriptImport";
 import {
   PackageManagerService,
   PackageManagerType,
-} from '../../../services/package-manager/PackageManagerService';
-import { TemplateService } from '../../../services/TemplateService';
-import { AbstractAdapterAction, AdapterActionOptions } from '../../AbstractAdapterAction';
-import { AdapterAction } from '../../AdapterAction';
-import AddHosting from '../../add-hosting/AddHosting';
-import AddUIFramework from '../../add-ui-framework/AddUIFramework';
-import AddVersioning from '../../add-versioning/AddVersioning';
-import CreateComponent from '../../create-component/CreateComponent';
-import GenerateReadme from '../../generate-readme/GenerateReadme';
+} from "../../../services/package-manager/PackageManagerService";
+import { TemplateService } from "../../../services/template/TemplateService";
+import { AbstractAdapterAction, AdapterActionOptions } from "../../AbstractAdapterAction";
+import { AdapterAction } from "../../AdapterAction";
+import AddHosting from "../../add-hosting/AddHosting";
+import AddUIFramework from "../../add-ui-framework/AddUIFramework";
+import AddVersioning from "../../add-versioning/AddVersioning";
+import CreateComponent from "../../create-component/CreateComponent";
+import GenerateReadme from "../../generate-readme/GenerateReadme";
 
 export type CreateAppAdapterOptions = AdapterActionOptions;
 
-export type CreateAppAdapter<
-  O extends CreateAppAdapterOptions = CreateAppAdapterOptions
-> = AdapterAction<O> & {
-  getTemplateNamespace(): string;
-  getEntrypointFilePath(): string;
-  getAppFilePath(): string;
-  getLibDirectoryPath(): string;
-};
+export type CreateAppAdapter<O extends CreateAppAdapterOptions = CreateAppAdapterOptions> =
+  AdapterAction<O> & {
+    getTemplateNamespace(): string;
+    getEntrypointFilePath(): string;
+    getAppFilePath(): string;
+    getLibDirectoryPath(): string;
+  };
 
 @injectable()
 export abstract class AbstractCreateAppAdapter
   extends AbstractAdapterAction
-  implements CreateAppAdapter {
+  implements CreateAppAdapter
+{
   /**
    * Define the namespace to be used for generating files from templates
    */
@@ -149,9 +149,9 @@ export abstract class AbstractCreateAppAdapter
       if (shouldPrompt) {
         const { override } = await prompts([
           {
-            type: 'confirm',
-            name: 'override',
-            message: `Directory "${realpath}" exists already, ${red('override it?')}`,
+            type: "confirm",
+            name: "override",
+            message: `Directory "${realpath}" exists already, ${red("override it?")}`,
           },
         ]);
 
@@ -179,17 +179,17 @@ export abstract class AbstractCreateAppAdapter
    * @param realpath
    */
   async addTsDevTools(realpath: string): Promise<void> {
-    this.consoleService.info('Add ts-dev-tools...');
+    this.consoleService.info("Add ts-dev-tools...");
 
-    await this.packageManagerService.installPackages(realpath, ['@ts-dev-tools/react'], true, true);
-    await this.packageManagerService.execPackageManagerCmd(realpath, 'ts-dev-tools install');
+    await this.packageManagerService.installPackages(realpath, ["@ts-dev-tools/react"], true, true);
+    await this.packageManagerService.execPackageManagerCmd(realpath, "ts-dev-tools install");
     this.consoleService.success(`ts-dev-tools configuration has been installed`);
   }
 
   async addSass(realpath: string): Promise<void> {
     // Add Saas
-    this.consoleService.info('Adding Sass...');
-    await this.packageManagerService.installPackages(realpath, ['sass']);
+    this.consoleService.info("Adding Sass...");
+    await this.packageManagerService.installPackages(realpath, ["sass"]);
 
     this.consoleService.success(`Sass has been added in "${realpath}"`);
   }
@@ -199,19 +199,19 @@ export abstract class AbstractCreateAppAdapter
    * @param realpath
    */
   async addI18n(realpath: string): Promise<void> {
-    this.consoleService.info('Add i18n configuration...');
-    const i18nPath = resolve(realpath, this.getLibDirectoryPath(), 'i18n');
-    await this.templateService.renderTemplate(realpath, 'i18n', {
+    this.consoleService.info("Add i18n configuration...");
+    const i18nPath = resolve(realpath, this.getLibDirectoryPath(), "i18n");
+    await this.templateService.renderTemplate(realpath, "i18n", {
       i18nPath,
       projectName: JSON.stringify(
-        await this.packageManagerService.getPackageName(realpath, 'capitalizeWords')
+        await this.packageManagerService.getPackageName(realpath, "capitalizeWords")
       ),
       hostingPackage: await this.createComponent.getHostingPackage(realpath),
     });
 
     // Import and add translations as i18n ressources
     const entrypointPath = resolve(realpath, this.getEntrypointFilePath());
-    const importPath = join('.', relative(entrypointPath, i18nPath));
+    const importPath = join(".", relative(entrypointPath, i18nPath));
     await this.fileFactory
       .fromFile<TypescriptFile>(entrypointPath)
       .setImports([
@@ -238,7 +238,7 @@ export abstract class AbstractCreateAppAdapter
         this.consoleService.error(
           `Unable to create app, install a package manager like ${this.packageManagerService
             .getAvailablePackageManagers()
-            .join(' or ')}`
+            .join(" or ")}`
         );
         return;
 
@@ -249,9 +249,9 @@ export abstract class AbstractCreateAppAdapter
         // Prompts user to choose package manager
         const result = await prompts([
           {
-            name: 'packageManager',
-            message: 'Wich package manager do you want to use?',
-            type: 'select',
+            name: "packageManager",
+            message: "Wich package manager do you want to use?",
+            type: "select",
             choices: [
               ...availablePackageManagers.map((packageManager) => ({
                 title: packageManager,
