@@ -40,7 +40,6 @@ const ListTestEntities = lazy(() => import(\\"./list-test-entities/ListTestEntit
 
 const ReadTestEntity = lazy(() => import(\\"./read-test-entity/ReadTestEntity\\"));
 
-
 type ITestEntitiesProps = unknown;
 
 
@@ -48,12 +47,14 @@ const TestEntities = (props: PropsWithChildren<ITestEntitiesProps>): ReactElemen
   const { t } = useTranslation();
   
   return <>
+    
+    
     <Crud<ITestEntityData>
-      name=\\"TestEntity\\"
-      listComponent={ ListTestEntities }
-      readComponent={ ReadTestEntity }
-      {...props}
-    />
+name=\\"TestEntity\\"
+listComponent={ ListTestEntities }
+readComponent={ ReadTestEntity }
+{...props}
+/>
   </>;
 };
 
@@ -163,24 +164,25 @@ type ICreateTestEntityProps = {
 
 const CreateTestEntity = (props: PropsWithChildren<ICreateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
-    const {
-    onCreate,
-    initialValues,
-    validationSchema,
-    formChildren,
-  } = useTestEntitiesConfig();
+  const {
+  onCreate,
+  initialValues,
+  validationSchema,
+  formChildren,
+} = useTestEntitiesConfig();
 
-  const form = {
-    title: t(\\"Create a new test entity\\"),
-    onSubmit: onCreate,
-    initialValues,
-    validationSchema,
-    children: formChildren,
-    successMessage: \\"TestEntity has been successfully created\\",
-    onSuccess: props.onSuccess,
-  };
-
+const form = {
+  title: t(\\"Create a new test entity\\"),
+  onSubmit: onCreate,
+  initialValues,
+  validationSchema,
+  children: formChildren,
+  successMessage: \\"TestEntity has been successfully created\\",
+  onSuccess: props.onSuccess,
+};
   return <>
+    
+    
     <Create<ITestEntityValues, ITestEntityData> modal form={form}>{props.children}</Create>
   </>;
 };
@@ -231,21 +233,23 @@ type IDeleteTestEntityProps = {
   label?: boolean;
 };
 
+
 const DeleteTestEntity = (props: PropsWithChildren<IDeleteTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
   const { id, label, ...deleteProps} = props;
-  const { onDelete } = useTestEntitiesConfig();
-
+const { onDelete } = useTestEntitiesConfig();
   return <>
+    
+    
     <Delete
-      {...deleteProps}
-      title={t(\\"Delete test entity\\")}
-      confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
-      successMessage={t(\\"The test entity has been deleted\\")}
-      onConfirm={() => onDelete(id)}
-    >
-      {label ? t(\\"Delete test entity\\") : undefined}
-    </Delete>
+{...deleteProps}
+title={t(\\"Delete test entity\\")}
+confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
+successMessage={t(\\"The test entity has been deleted\\")}
+onConfirm={() => onDelete(id)}
+>
+{label ? t(\\"Delete test entity\\") : undefined}
+</Delete>
   </>;
 };
 
@@ -294,6 +298,23 @@ const CreateTestEntity = lazy(() => import(\\"../create-test-entity/CreateTestEn
 const DeleteTestEntity = lazy(() => import(\\"../delete-test-entity/DeleteTestEntity\\"));
 
 
+type IGoToTestEntityLinkProps = { 
+  data: ITestEntityData;
+}
+
+
+const GoToTestEntityLink = ({ data, children }: PropsWithChildren<IGoToTestEntityLinkProps>): ReactElement => {
+  const match = useRouteMatch();
+  const href = generatePath(
+    match.path + \\":testEntitiesId\\", 
+    { ...match.params, testEntitiesId: data.id }
+  );
+  const title = t(\\"Go to test entity \\\\\\"{{ label }}\\\\\\"\\", data);
+
+  return <Link href={href} title={title}>{data.label}</Link>;
+}
+
+
 type ITestEntityItemProps = { 
   data: ITestEntityData;
   refetch: () => void;
@@ -302,29 +323,21 @@ type ITestEntityItemProps = {
 
 const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
   const { t } = useTranslation(\\"testEntities\\");
-  const match = useRouteMatch();
 
   return <tr key={\\"testEntity-\\" + data.id}>
     <td>
-      <Link
-      href={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
-        title={t(\\"Go to test entity \\\\\\"{{label}}\\\\\\"\\", data)}
-      >{data.label}</Link>
+      <GoToTestEntityLink data={data}>{data.label}</GoToEntityLink>
     </td>
     <td>
-      <Link
-        href={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
-        title={t(\\"Go to test entity \\\\\\"{{label}}\\\\\\"\\", data)}
-      >{t(\\"Go to test entity \\\\\\"{{label}}\\\\\\"\\", data)}</Link>
+      <GoToTestEntityLink data={data}>{t(\\"Go to test entity \\\\\\"{{ label }}\\\\\\"\\", data)}</Link>
       <Suspense>
         <DeleteTestEntity id={data.id} onSuccess={refetch}>
-          {t(\\"Delete test entity \\\\\\"{{label}}\\\\\\"\\", data)}
+          {t(\\"Delete test entity \\\\\\"{{ label }}\\\\\\"\\", data)}
         </DeleteTestEntity>
       </Suspense>
     </td>
   </tr>;
 };
-
 
 type IListTestEntitiesProps = unknown;
 
@@ -333,30 +346,29 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
   const { t } = useTranslation();
   const { useList } = useTestEntitiesConfig();
   const listProps = useList();
-
   return <>
     <Head>
-      <title>{t(\\"Tests\\")} - {t(\\"List test entities\\")}</title>
-      <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
+        <title>{t(\\"Tests\\")} - {t(\\"List test entities\\")}</title>
+        <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
     </Head>
     <h1>{t(\\"List test entities\\")}</h1>
     <ListTable<ITestEntityData>
-      {...listProps}
-      head={[t(\\"Label\\"), t(\\"Actions\\")]}
-      noData={<>
-        <br /> <br />
-        {t(\\"You don't have any test entities yet.\\")}
-        <br />
-        {t(\\"Click the button to create a new test entity\\")}
-        <br /><br />
-        <Suspense>
-          <CreateTestEntity onSuccess={listProps.refetch}>
-            <Link href=\\"#\\">{t(\\"Create a new test entity\\")}</Link>
-          </CreateTestEntity>
-        </Suspense>
-      </>}
-      >
-      {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</ListTable>
+  {...listProps}
+  head={[t(\\"Label\\"), t(\\"Actions\\")]}
+  noData={<>
+    <br /> <br />
+    {t(\\"You don't have any test entities yet.\\")}
+    <br />
+    {t(\\"Click the button to create a new test entity\\")}
+    <br /><br />
+    <Suspense>
+      <CreateTestEntity onSuccess={listProps.refetch}>
+        <Link href=\\"#\\">{t(\\"Create a new test entity\\")}</Link>
+      </CreateTestEntity>
+    </Suspense>
+  </>}
+  >
+  {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</ListTable>
   </>;
 };
 
@@ -414,21 +426,20 @@ const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItem
 
   return <>
     <Head>
-      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
-      <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
+      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{ label }}\\", data)}</title>
+      <meta name=\\"description\\" content={t(\\"Test entity - {{ label }}\\", data)} />
     </Head>
-    <h1>{t(\\"Test entity - {{label}}\\", data)}</h1>
+    <h1>{t(\\"Test entity - {{ label }}\\", data)}</h1>
     <Suspense>
       <UpdateTestEntity
         onSuccess={refetch}
         initialValues={data}
       >
-        <Link href=\\"#\\">{ t(\\"Update test entity \\\\\\"{{label}}\\\\\\"\\", data) }</Link>
+        <Link href=\\"#\\">{ t(\\"Update test entity \\\\\\"{{ label }}\\\\\\"\\", data) }</Link>
       </UpdateTestEntity>
     </Suspense>
   </>;
 };
-
 
 type IReadTestEntityProps = unknown;
 
@@ -437,14 +448,16 @@ const ReadTestEntity = (props: PropsWithChildren<IReadTestEntityProps>): ReactEl
   const { t } = useTranslation();
   const matchParams = useRouteMatch().params;
 
-  const { useRead } = useTestEntitiesConfig();
-  const readProps = useRead({
-    id: matchParams.testEntityId,
-  });
+const { useRead } = useTestEntitiesConfig();
+const readProps = useRead({
+  id: matchParams.testEntityId,
+});
 
   return <>
+    
+    
     <Read<ITestEntityData> {...readProps}>
-  {(props) => <ReadTestEntityItem {...props} refetch={readProps.refetch} />}
+{(props) => <ReadTestEntityItem {...props} refetch={readProps.refetch} />}
 </Read>
   </>;
 };
@@ -498,36 +511,37 @@ type IUpdateTestEntityProps = {
 const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
   const matchParams = useRouteMatch().params;
-  const {
-    onUpdate,
-    initialValues,
-    validationSchema,
-    formChildren,
-  } = useTestEntitiesConfig();
+const {
+  onUpdate,
+  initialValues,
+  validationSchema,
+  formChildren,
+} = useTestEntitiesConfig();
 
-  const safeInitialValues: ITestEntityValues & { id: ITestEntityData[\\"id\\"] } = {
-    ...initialValues,
-    id: matchParams.testEntityId as ITestEntityData[\\"id\\"],
-  };
+const safeInitialValues: ITestEntityValues & { id: ITestEntityData[\\"id\\"] } = {
+  ...initialValues,
+  id: matchParams.testEntityId as ITestEntityData[\\"id\\"],
+};
 
-  Object.keys(safeInitialValues).forEach(value => {
-    const key = value as keyof ITestEntityValues;
-    if (props.initialValues[key]) {
-      safeInitialValues[key] = props.initialValues[key] as ITestEntityValues[keyof ITestEntityValues];
-    }
-  });
+Object.keys(safeInitialValues).forEach(value => {
+  const key = value as keyof ITestEntityValues;
+  if (props.initialValues[key]) {
+    safeInitialValues[key] = props.initialValues[key] as ITestEntityValues[keyof ITestEntityValues];
+  }
+});
 
-  const form = {
-    title: t(\\"Update test entity \\\\\\"{{label}}\\\\\\"\\", safeInitialValues),
-    onSubmit: onUpdate,
-    initialValues: safeInitialValues,
-    validationSchema,
-    children: formChildren,
-    successMessage: \\"TestEntity has been successfully updated\\",
-    onSuccess: props.onSuccess,
-  };
-
+const form = {
+  title: t(\\"Update test entity \\\\\\"{{ label }}\\\\\\"\\", safeInitialValues),
+  onSubmit: onUpdate,
+  initialValues: safeInitialValues,
+  validationSchema,
+  children: formChildren,
+  successMessage: \\"TestEntity has been successfully updated\\",
+  onSuccess: props.onSuccess,
+};
   return <>
+    
+    
     <Update<ITestEntityValues, ITestEntityData> modal form={form}>{props.children}</Update>
   </>;
 };
@@ -569,14 +583,14 @@ exports[`createCrudComponent Run for a NextJs project should create crud compone
   \\"Delete test entity\\": \\"Delete test entity\\",
   \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
   \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"List test entities\\": \\"List test entities\\",
   \\"List test entities description\\": \\"List test entities description\\",
   \\"You don\\\\\\"t have any test entities yet.\\": \\"You don\\\\\\"t have any test entities yet.\\",
   \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Test entity - {{ label  }}\\": \\"Test entity - {{ label  }}\\",
+  \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"TestEntity has been successfully updated\\": \\"TestEntity has been successfully updated\\"
 }"
 `;
@@ -591,14 +605,14 @@ exports[`createCrudComponent Run for a NextJs project should create crud compone
   \\"Delete test entity\\": \\"Supprimer test entity\\",
   \\"Are you sure you want to delete this test entity ?\\": \\"Êtes-vous sûr de vouloir supprimer cet test entity ?\\",
   \\"The test entity has been deleted\\": \\"Le test entity a été supprimé\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Aller à l'test entity \\\\\\"{{label}}\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Supprimer l'test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Aller à l'test entity \\\\\\"{{ label  }}\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Supprimer l'test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"List test entities\\": \\"Liste des test entities\\",
   \\"List test entities description\\": \\"Description de la listes des test entities\\",
   \\"You don\\\\\\"t have any test entities yet.\\": \\"Vous n'avez pas encore de test entities.\\",
   \\"Click the button to create a new test entity\\": \\"Cliquez sur le bouton pour créer un nouveau test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Modifierl l'test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Test entity - {{ label }}\\": \\"Test entity - {{ label }}\\",
+  \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Modifierl l'test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"TestEntity has been successfully updated\\": \\"L'TestEntity a été modifié avec succès\\"
 }"
 `;
@@ -643,7 +657,6 @@ const ListTestEntities = lazy(() => import(\\"./list-test-entities/ListTestEntit
 
 const ReadTestEntity = lazy(() => import(\\"./read-test-entity/ReadTestEntity\\"));
 
-
 type ITestEntitiesProps = unknown;
 
 
@@ -651,12 +664,14 @@ const TestEntities = (props: PropsWithChildren<ITestEntitiesProps>): ReactElemen
   const { t } = useTranslation();
   
   return <>
+    
+    
     <Crud<ITestEntityData>
-      name=\\"TestEntity\\"
-      listComponent={ ListTestEntities }
-      readComponent={ ReadTestEntity }
-      {...props}
-    />
+name=\\"TestEntity\\"
+listComponent={ ListTestEntities }
+readComponent={ ReadTestEntity }
+{...props}
+/>
   </>;
 };
 
@@ -766,24 +781,25 @@ type ICreateTestEntityProps = {
 
 const CreateTestEntity = (props: PropsWithChildren<ICreateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
-    const {
-    onCreate,
-    initialValues,
-    validationSchema,
-    formChildren,
-  } = useTestEntitiesConfig();
+  const {
+  onCreate,
+  initialValues,
+  validationSchema,
+  formChildren,
+} = useTestEntitiesConfig();
 
-  const form = {
-    title: t(\\"Create a new test entity\\"),
-    onSubmit: onCreate,
-    initialValues,
-    validationSchema,
-    children: formChildren,
-    successMessage: \\"TestEntity has been successfully created\\",
-    onSuccess: props.onSuccess,
-  };
-
+const form = {
+  title: t(\\"Create a new test entity\\"),
+  onSubmit: onCreate,
+  initialValues,
+  validationSchema,
+  children: formChildren,
+  successMessage: \\"TestEntity has been successfully created\\",
+  onSuccess: props.onSuccess,
+};
   return <>
+    
+    
     <Create<ITestEntityValues, ITestEntityData> modal form={form}>{props.children}</Create>
   </>;
 };
@@ -834,21 +850,23 @@ type IDeleteTestEntityProps = {
   label?: boolean;
 };
 
+
 const DeleteTestEntity = (props: PropsWithChildren<IDeleteTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
   const { id, label, ...deleteProps} = props;
-  const { onDelete } = useTestEntitiesConfig();
-
+const { onDelete } = useTestEntitiesConfig();
   return <>
+    
+    
     <Delete
-      {...deleteProps}
-      title={t(\\"Delete test entity\\")}
-      confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
-      successMessage={t(\\"The test entity has been deleted\\")}
-      onConfirm={() => onDelete(id)}
-    >
-      {label ? t(\\"Delete test entity\\") : undefined}
-    </Delete>
+{...deleteProps}
+title={t(\\"Delete test entity\\")}
+confirmationMessage={t(\\"Are you sure you want to delete this test entity ?\\")}
+successMessage={t(\\"The test entity has been deleted\\")}
+onConfirm={() => onDelete(id)}
+>
+{label ? t(\\"Delete test entity\\") : undefined}
+</Delete>
   </>;
 };
 
@@ -897,6 +915,23 @@ const CreateTestEntity = lazy(() => import(\\"../create-test-entity/CreateTestEn
 const DeleteTestEntity = lazy(() => import(\\"../delete-test-entity/DeleteTestEntity\\"));
 
 
+type IGoToTestEntityLinkProps = { 
+  data: ITestEntityData;
+}
+
+
+const GoToTestEntityLink = ({ data, children }: PropsWithChildren<IGoToTestEntityLinkProps>): ReactElement => {
+  const match = useRouteMatch();
+  const href = generatePath(
+    match.path + \\":testEntitiesId\\", 
+    { ...match.params, testEntitiesId: data.id }
+  );
+  const title = t(\\"Go to test entity \\\\\\"{{ label }}\\\\\\"\\", data);
+
+  return <Link href={href} title={title}>{data.label}</Link>;
+}
+
+
 type ITestEntityItemProps = { 
   data: ITestEntityData;
   refetch: () => void;
@@ -905,29 +940,21 @@ type ITestEntityItemProps = {
 
 const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
   const { t } = useTranslation(\\"testEntities\\");
-  const match = useRouteMatch();
 
   return <tr key={\\"testEntity-\\" + data.id}>
     <td>
-      <Link
-      href={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
-        title={t(\\"Go to test entity \\\\\\"{{label}}\\\\\\"\\", data)}
-      >{data.label}</Link>
+      <GoToTestEntityLink data={data}>{data.label}</GoToEntityLink>
     </td>
     <td>
-      <Link
-        href={generatePath(\`\${match.path}/:testEntitiesId\`, { ...match.params, testEntitiesId: data.id })}
-        title={t(\\"Go to test entity \\\\\\"{{label}}\\\\\\"\\", data)}
-      >{t(\\"Go to test entity \\\\\\"{{label}}\\\\\\"\\", data)}</Link>
+      <GoToTestEntityLink data={data}>{t(\\"Go to test entity \\\\\\"{{ label }}\\\\\\"\\", data)}</Link>
       <Suspense>
         <DeleteTestEntity id={data.id} onSuccess={refetch}>
-          {t(\\"Delete test entity \\\\\\"{{label}}\\\\\\"\\", data)}
+          {t(\\"Delete test entity \\\\\\"{{ label }}\\\\\\"\\", data)}
         </DeleteTestEntity>
       </Suspense>
     </td>
   </tr>;
 };
-
 
 type IListTestEntitiesProps = unknown;
 
@@ -936,30 +963,29 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
   const { t } = useTranslation();
   const { useList } = useTestEntitiesConfig();
   const listProps = useList();
-
   return <>
     <Head>
-      <title>{t(\\"Tests\\")} - {t(\\"List test entities\\")}</title>
-      <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
+        <title>{t(\\"Tests\\")} - {t(\\"List test entities\\")}</title>
+        <meta name=\\"description\\" content={t(\\"List test entities description\\")} />
     </Head>
     <h1>{t(\\"List test entities\\")}</h1>
     <ListTable<ITestEntityData>
-      {...listProps}
-      head={[t(\\"Label\\"), t(\\"Actions\\")]}
-      noData={<>
-        <br /> <br />
-        {t(\\"You don't have any test entities yet.\\")}
-        <br />
-        {t(\\"Click the button to create a new test entity\\")}
-        <br /><br />
-        <Suspense>
-          <CreateTestEntity onSuccess={listProps.refetch}>
-            <Link href=\\"#\\">{t(\\"Create a new test entity\\")}</Link>
-          </CreateTestEntity>
-        </Suspense>
-      </>}
-      >
-      {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</ListTable>
+  {...listProps}
+  head={[t(\\"Label\\"), t(\\"Actions\\")]}
+  noData={<>
+    <br /> <br />
+    {t(\\"You don't have any test entities yet.\\")}
+    <br />
+    {t(\\"Click the button to create a new test entity\\")}
+    <br /><br />
+    <Suspense>
+      <CreateTestEntity onSuccess={listProps.refetch}>
+        <Link href=\\"#\\">{t(\\"Create a new test entity\\")}</Link>
+      </CreateTestEntity>
+    </Suspense>
+  </>}
+  >
+  {(data) => <ListTestEntitiesItem data={data} refetch={listProps.refetch} />}</ListTable>
   </>;
 };
 
@@ -1017,21 +1043,20 @@ const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItem
 
   return <>
     <Head>
-      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{label}}\\", data)}</title>
-      <meta name=\\"description\\" content={t(\\"Test entity - {{label}}\\", data)} />
+      <title>{t(\\"Tests\\", { ns: \\"common\\" })} - {t(\\"Test entity - {{ label }}\\", data)}</title>
+      <meta name=\\"description\\" content={t(\\"Test entity - {{ label }}\\", data)} />
     </Head>
-    <h1>{t(\\"Test entity - {{label}}\\", data)}</h1>
+    <h1>{t(\\"Test entity - {{ label }}\\", data)}</h1>
     <Suspense>
       <UpdateTestEntity
         onSuccess={refetch}
         initialValues={data}
       >
-        <Link href=\\"#\\">{ t(\\"Update test entity \\\\\\"{{label}}\\\\\\"\\", data) }</Link>
+        <Link href=\\"#\\">{ t(\\"Update test entity \\\\\\"{{ label }}\\\\\\"\\", data) }</Link>
       </UpdateTestEntity>
     </Suspense>
   </>;
 };
-
 
 type IReadTestEntityProps = unknown;
 
@@ -1040,14 +1065,16 @@ const ReadTestEntity = (props: PropsWithChildren<IReadTestEntityProps>): ReactEl
   const { t } = useTranslation();
   const matchParams = useRouteMatch().params;
 
-  const { useRead } = useTestEntitiesConfig();
-  const readProps = useRead({
-    id: matchParams.testEntityId,
-  });
+const { useRead } = useTestEntitiesConfig();
+const readProps = useRead({
+  id: matchParams.testEntityId,
+});
 
   return <>
+    
+    
     <Read<ITestEntityData> {...readProps}>
-  {(props) => <ReadTestEntityItem {...props} refetch={readProps.refetch} />}
+{(props) => <ReadTestEntityItem {...props} refetch={readProps.refetch} />}
 </Read>
   </>;
 };
@@ -1101,36 +1128,37 @@ type IUpdateTestEntityProps = {
 const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
   const matchParams = useRouteMatch().params;
-  const {
-    onUpdate,
-    initialValues,
-    validationSchema,
-    formChildren,
-  } = useTestEntitiesConfig();
+const {
+  onUpdate,
+  initialValues,
+  validationSchema,
+  formChildren,
+} = useTestEntitiesConfig();
 
-  const safeInitialValues: ITestEntityValues & { id: ITestEntityData[\\"id\\"] } = {
-    ...initialValues,
-    id: matchParams.testEntityId as ITestEntityData[\\"id\\"],
-  };
+const safeInitialValues: ITestEntityValues & { id: ITestEntityData[\\"id\\"] } = {
+  ...initialValues,
+  id: matchParams.testEntityId as ITestEntityData[\\"id\\"],
+};
 
-  Object.keys(safeInitialValues).forEach(value => {
-    const key = value as keyof ITestEntityValues;
-    if (props.initialValues[key]) {
-      safeInitialValues[key] = props.initialValues[key] as ITestEntityValues[keyof ITestEntityValues];
-    }
-  });
+Object.keys(safeInitialValues).forEach(value => {
+  const key = value as keyof ITestEntityValues;
+  if (props.initialValues[key]) {
+    safeInitialValues[key] = props.initialValues[key] as ITestEntityValues[keyof ITestEntityValues];
+  }
+});
 
-  const form = {
-    title: t(\\"Update test entity \\\\\\"{{label}}\\\\\\"\\", safeInitialValues),
-    onSubmit: onUpdate,
-    initialValues: safeInitialValues,
-    validationSchema,
-    children: formChildren,
-    successMessage: \\"TestEntity has been successfully updated\\",
-    onSuccess: props.onSuccess,
-  };
-
+const form = {
+  title: t(\\"Update test entity \\\\\\"{{ label }}\\\\\\"\\", safeInitialValues),
+  onSubmit: onUpdate,
+  initialValues: safeInitialValues,
+  validationSchema,
+  children: formChildren,
+  successMessage: \\"TestEntity has been successfully updated\\",
+  onSuccess: props.onSuccess,
+};
   return <>
+    
+    
     <Update<ITestEntityValues, ITestEntityData> modal form={form}>{props.children}</Update>
   </>;
 };
@@ -1172,14 +1200,14 @@ exports[`createCrudComponent Run for a React project should create crud componen
   \\"Delete test entity\\": \\"Delete test entity\\",
   \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
   \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"List test entities\\": \\"List test entities\\",
   \\"List test entities description\\": \\"List test entities description\\",
   \\"You don\\\\\\"t have any test entities yet.\\": \\"You don\\\\\\"t have any test entities yet.\\",
   \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Test entity - {{ label  }}\\": \\"Test entity - {{ label  }}\\",
+  \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"TestEntity has been successfully updated\\": \\"TestEntity has been successfully updated\\"
 }"
 `;
@@ -1194,14 +1222,14 @@ exports[`createCrudComponent Run for a React project should create crud componen
   \\"Delete test entity\\": \\"Supprimer test entity\\",
   \\"Are you sure you want to delete this test entity ?\\": \\"Êtes-vous sûr de vouloir supprimer cet test entity ?\\",
   \\"The test entity has been deleted\\": \\"Le test entity a été supprimé\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Aller à l'test entity \\\\\\"{{label}}\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Supprimer l'test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Aller à l'test entity \\\\\\"{{ label  }}\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Supprimer l'test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"List test entities\\": \\"Liste des test entities\\",
   \\"List test entities description\\": \\"Description de la listes des test entities\\",
   \\"You don\\\\\\"t have any test entities yet.\\": \\"Vous n'avez pas encore de test entities.\\",
   \\"Click the button to create a new test entity\\": \\"Cliquez sur le bouton pour créer un nouveau test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Modifierl l'test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Test entity - {{ label }}\\": \\"Test entity - {{ label }}\\",
+  \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Modifierl l'test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"TestEntity has been successfully updated\\": \\"L'TestEntity a été modifié avec succès\\"
 }"
 `;

@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`templateService renderTemplate should create a file from given namespace 1`] = `
-"import { initializeI18n } from '';
+"import { initializeI18n } from '@reactionable/core';
 import enCommon from './locales/en/common.json';
 import frCommon from './locales/fr/common.json';
 
 const resources = {
-  en: { 
+  en: {
     common: enCommon,
   },
-  fr: { 
+  fr: {
     common: frCommon,
   },
 };
@@ -25,9 +25,9 @@ exports[`templateService renderTemplate should create a file from given namespac
 `;
 
 exports[`templateService renderTemplate should create a file from given namespace having nested config: TestEntitiesConfig.tsx 1`] = `
-"import { FormField, IUseCrudConfigResult } from '';
-import { useList, useRead, useTranslation } from '@reactionable/core';
+"import { useList, useRead, useTranslation } from '@reactionable/core';
 import React from 'react';
+import { FormField, IUseCrudConfigResult } from 'undefined';
 import { string } from 'yup';
 
 export type ITestEntityData = {
@@ -93,14 +93,14 @@ exports[`templateService renderTemplate should create a file from given namespac
   \\"Delete test entity\\": \\"Delete test entity\\",
   \\"Are you sure you want to delete this test entity ?\\": \\"Are you sure you want to delete this test entity ?\\",
   \\"The test entity has been deleted\\": \\"The test entity has been deleted\\",
-  \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\": \\"Go to test entity \\\\\\"{{label}}\\\\\\"\\",
-  \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\": \\"Delete test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Go to test entity \\\\\\"{{ label  }}\\\\\\"\\",
+  \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Delete test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"List test entities\\": \\"List test entities\\",
   \\"List test entities description\\": \\"List test entities description\\",
   \\"You don\\\\\\"t have any test entities yet.\\": \\"You don\\\\\\"t have any test entities yet.\\",
   \\"Click the button to create a new test entity\\": \\"Click the button to create a new test entity\\",
-  \\"Test entity - {{label}}\\": \\"Test entity - {{label}}\\",
-  \\"Update test entity \\\\\\"{{label}}\\\\\\"\\": \\"Update test entity \\\\\\"{{label}}\\\\\\"\\",
+  \\"Test entity - {{ label  }}\\": \\"Test entity - {{ label  }}\\",
+  \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\": \\"Update test entity \\\\\\"{{ label  }}\\\\\\"\\",
   \\"TestEntity has been successfully updated\\": \\"TestEntity has been successfully updated\\"
 }"
 `;

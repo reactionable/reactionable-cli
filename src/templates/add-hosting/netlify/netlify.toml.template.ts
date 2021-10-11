@@ -1,5 +1,5 @@
 export default `[build.environment]
-  NODE_VERSION = "{{{nodeVersion}}}"
+  NODE_VERSION = "<%= it.nodeVersion %>"
 
 # Build command
 [build]
@@ -15,8 +15,8 @@ export default `[build.environment]
 
 # Production dns redirects
 [[redirects]]
-  from = "https://{{{projectBranch}}}--{{{projectName}}}.netlify.com/*"
-  to = "https://{{{projectName}}}.netlify.com/:splat"
+  from = "https://<%= it.projectBranch %>--<%= it.projectName %>.netlify.com/*"
+  to = "https://<%= it.projectName %>.netlify.com/:splat"
   status = 301
   force = true
 

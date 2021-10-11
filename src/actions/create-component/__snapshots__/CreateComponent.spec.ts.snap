@@ -141,6 +141,60 @@ describe(\\"App\\", () => {
 });"
 `;
 
+exports[`createComponent run should create expected components files for a NextJs project 1`] = `
+"import { Head, useTranslation } from '@reactionable/core';
+import React, { PropsWithChildren, ReactElement } from 'react';
+
+type ITestComponentProps = unknown;
+
+
+const TestComponent = (props: PropsWithChildren<ITestComponentProps>): ReactElement => {
+  const { t } = useTranslation();
+  
+  return <>
+    <Head>
+        <title>{t(\\"Tests\\")} - {t(\\"Test component\\")}</title>
+        <meta name=\\"description\\" content={t(\\"Test component description\\")} />
+    </Head>
+    <h1>{t(\\"Test component\\")}</h1>
+    
+  </>;
+};
+
+export default TestComponent;"
+`;
+
+exports[`createComponent run should create expected components files for a NextJs project 2`] = `
+"import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
+import { TestWrapper, i18nTestInstance } from '@reactionable/core';
+import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
+import { render } from '@testing-library/react';
+import React from 'react';
+import TestComponent from './TestComponent';
+
+describe(\\"TestComponent\\", () => {
+
+    let identity: IIdentityProviderProps;
+    let ui: IUIProviderProps;
+
+    beforeAll(async () => {
+        await i18nTestInstance();
+        identity = useIdentityProviderProps();
+        ui = useUIProviderProps();
+    });
+
+    it(\\"renders without crashing\\", () => {
+        const result = render(
+            <TestWrapper identity={identity} ui={ui}>
+                <TestComponent />
+            </TestWrapper>
+        );
+
+        expect(result).toBeTruthy();
+    });
+});"
+`;
+
 exports[`createComponent run should create expected components files for a React project 1`] = `
 "import { Head, useTranslation } from '@reactionable/core';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -153,8 +207,8 @@ const TestComponent = (props: PropsWithChildren<ITestComponentProps>): ReactElem
   
   return <>
     <Head>
-      <title>{t(\\"Tests\\")} - {t(\\"Test component\\")}</title>
-      <meta name=\\"description\\" content={t(\\"Test component description\\")} />
+        <title>{t(\\"Tests\\")} - {t(\\"Test component\\")}</title>
+        <meta name=\\"description\\" content={t(\\"Test component description\\")} />
     </Head>
     <h1>{t(\\"Test component\\")}</h1>
     

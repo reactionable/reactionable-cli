@@ -1,13 +1,13 @@
-export default `import { initializeI18n } from '{{ hostingPackage }}';
+export default `import { initializeI18n } from '<%= it.hostingPackage %>';
 
 import enCommon from './locales/en/common.json';
 import frCommon from './locales/fr/common.json';
 
 const resources = {
-  en: { 
+  en: {
     common: enCommon,
   },
-  fr: { 
+  fr: {
     common: frCommon,
   },
 };

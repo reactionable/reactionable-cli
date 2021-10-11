@@ -1,21 +1,20 @@
-export default `import React, { PropsWithChildren, ReactElement } from "react";
+export default `
+import React, { PropsWithChildren, ReactElement } from "react";
 import { useTranslation } from "@reactionable/core";
-{{#> imports-head-block}}{{!-- Custom imports could be added. --}}import { Head } from "{{ routerPackage }}";{{/imports-head-block}}
-{{#> imports-block}}{{!-- Custom imports could be added. --}}{{/imports-block}}
-{{#> props-block}}
-type I{{componentName}}Props = unknown;
-{{/props-block}}
+<%= it.block('importsHead','import { Head } from "' + it.routerPackage + '";') %>
+<%= it.block('imports') %>
+<%= it.block('props', "type I" + it.componentName + "Props = unknown;") %>
 
-const {{componentName}} = (props: PropsWithChildren<I{{componentName}}Props>): ReactElement => {
+const <%= it.componentName %> = (props: PropsWithChildren<I<%= it.componentName %>Props>): ReactElement => {
   const { t } = useTranslation();
-  {{#> pre-render-block}}{{!-- Custom pre render script could be added. --}}{{/pre-render-block}}
-  return <>{{#> head-block}}
-    <Head>
-      <title>{t("{{projectName}}")} - {t("{{capitalize (decamelize componentName)}}")}</title>
-      <meta name="description" content={t("{{#> description-block}}{{capitalize (decamelize componentName)}} description{{/description-block}}")} />
-    </Head>
-    {{/head-block}}{{#> render-block-title}}<h1>{t("{{capitalize (decamelize componentName)}}")}</h1>{{/render-block-title}}
-    {{#> render-block}}{{!-- Custom render content could be added. --}}{{/render-block}}
+  <%= it.block('preRender') %>
+  return <>
+    <%= it.block('head', \`<Head>
+        <title>{t("<%= it.projectName %>")} - {t("<%= it.capitalize(it.decamelize(it.componentName)) %>")}</title>
+        <meta name="description" content={t("<%= it.descriptionBlock ? it.descriptionBlock : it.capitalize(it.decamelize(it.componentName)) + " description" %>")} />
+    </Head>\`) %>
+    <%= it.block('renderTitle', '<h1>{t("' + it.capitalize(it.decamelize(it.componentName)) + '")}</h1>') %>
+    <%= it.block('render') %>
   </>;
 };
-export default {{componentName}};`;
+export default <%= it.componentName %>;`;

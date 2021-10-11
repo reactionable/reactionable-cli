@@ -1,16 +1,16 @@
-import { inject, injectable } from 'inversify';
-import { parse } from 'js-ini';
-import parseGitRemote from 'parse-github-url';
-import { Result } from 'parse-github-url';
-import prompts from 'prompts';
-import { which } from 'shelljs';
+import { inject, injectable } from "inversify";
+import { parse } from "js-ini";
+import parseGitRemote from "parse-github-url";
+import { Result } from "parse-github-url";
+import prompts from "prompts";
+import { which } from "shelljs";
 
-import { CliService } from '../CliService';
-import { ConsoleService } from '../ConsoleService';
-import { PackageManagerService } from '../package-manager/PackageManagerService';
+import { CliService } from "../CliService";
+import { ConsoleService } from "../ConsoleService";
+import { PackageManagerService } from "../package-manager/PackageManagerService";
 
 export type GitConfig = {
-  'remote.origin.url': string;
+  "remote.origin.url": string;
 };
 
 @injectable()
@@ -37,10 +37,10 @@ export class GitService {
 
   async isAGitRepository(dirPath: string): Promise<boolean> {
     try {
-      const result = await this.execGitCmd('rev-parse --is-inside-work-tree', dirPath, true);
-      return result.trim() === 'true';
+      const result = await this.execGitCmd("rev-parse --is-inside-work-tree", dirPath, true);
+      return result.trim() === "true";
     } catch (error) {
-      if (error.toString().indexOf('not a git repository') !== -1) {
+      if (`${error}`.indexOf("not a git repository") !== -1) {
         return false;
       }
       throw error;
@@ -51,13 +51,13 @@ export class GitService {
     if (await this.isAGitRepository(dirPath)) {
       return;
     }
-    this.consoleService.info('Initilize Git...');
-    await this.execGitCmd('init', dirPath);
+    this.consoleService.info("Initilize Git...");
+    await this.execGitCmd("init", dirPath);
     this.consoleService.success(`Git has been initialized in "${dirPath}"`);
   }
 
   async getGitCurrentBranch(dirPath: string, defaultBranch: string): Promise<string> {
-    let branch = await this.execGitCmd('name-rev --name-only HEAD', dirPath, true);
+    let branch = await this.execGitCmd("name-rev --name-only HEAD", dirPath, true);
     if (branch) {
       branch = branch.trim();
     }
@@ -68,12 +68,12 @@ export class GitService {
   async getGitRemoteOriginUrl(dirPath: string, parsed: false): Promise<string | null>;
   async getGitRemoteOriginUrl(dirPath: string, parsed = false): Promise<string | Result | null> {
     const config = await this.getGitConfig(dirPath);
-    const url = config['remote.origin.url'];
+    const url = config["remote.origin.url"];
     if (!parsed) {
       return url || null;
     }
     if (!url) {
-      throw new Error('Unable to parse undefined git remote origin url');
+      throw new Error("Unable to parse undefined git remote origin url");
     }
     return this.parseGitRemoteUrl(url);
   }
@@ -96,12 +96,12 @@ export class GitService {
     commitMessageType: string
   ): Promise<void> {
     // Determine if Git working directory is clean
-    const status = await this.execGitCmd(['status', '--porcelain'], realpath, true);
+    const status = await this.execGitCmd(["status", "--porcelain"], realpath, true);
     if (!status) {
       return;
     }
 
-    this.consoleService.info('Commit files...');
+    this.consoleService.info("Commit files...");
 
     const defaultCommitMessage = await this.getCommitMessage(
       realpath,
@@ -111,18 +111,18 @@ export class GitService {
 
     const answer = await prompts([
       {
-        type: 'text',
-        name: 'commitMessage',
+        type: "text",
+        name: "commitMessage",
         initial: defaultCommitMessage,
-        message: 'Commit message',
+        message: "Commit message",
       },
     ]);
 
     commitMessage = answer.commitMessage;
-    await this.execGitCmd(['fetch', '--all'], realpath);
-    await this.execGitCmd(['add', '.'], realpath);
-    await this.execGitCmd(['commit', '-am', `"${commitMessage}"`], realpath);
-    this.consoleService.success('Files have been commited');
+    await this.execGitCmd(["fetch", "--all"], realpath);
+    await this.execGitCmd(["add", "."], realpath);
+    await this.execGitCmd(["commit", "-am", `"${commitMessage}"`], realpath);
+    this.consoleService.success("Files have been commited");
   }
 
   private async getCommitMessage(
@@ -137,7 +137,7 @@ export class GitService {
     if (isMonorepoPackage) {
       const projectName = await this.packageManagerService.getPackageName(
         realpath,
-        'hyphenize',
+        "hyphenize",
         false
       );
       commitPrefix += `(${projectName})`;
@@ -147,14 +147,14 @@ export class GitService {
   }
 
   private getGitCmd(): string | null {
-    if (which('git')) {
-      return 'git';
+    if (which("git")) {
+      return "git";
     }
     return null;
   }
 
   private async getGitConfig(dirPath: string): Promise<GitConfig> {
-    const config = await this.execGitCmd('config --local --list', dirPath, true);
+    const config = await this.execGitCmd("config --local --list", dirPath, true);
 
     return parse(config) as GitConfig;
   }

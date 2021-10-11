@@ -1,49 +1,60 @@
-export default `{{#> Component }}
-{{#*inline "imports-block"}}
-import { Suspense } from "@reactionable/core";
-import { useRouteMatch } from "{{ routerPackage }}";
-import { Link, Read  } from "{{ uiPackage }}";
+export default `<%
+
+const imports = \`import { Suspense } from "@reactionable/core";
+import { useRouteMatch } from "<%= it.routerPackage %>";
+import { Link, Read  } from "<%= it.uiPackage %>";
 import { lazy } from "react";
 
-import { I{{ entityName }}Data, use{{ entitiesName }}Config } from "../{{ entitiesName }}Config";
+import { I<%= it.entityName %>Data, use<%= it.entitiesName %>Config } from "../<%= it.entitiesName %>Config";
 
-const Update{{ entityName }} = lazy(() => import("../update-{{hyphenize entityName }}/Update{{ entityName }}"));
+const Update<%= it.entityName %> = lazy(() => import("../update-<%= it.hyphenize(it.entityName) %>/Update<%= it.entityName %>"));
 
-type I{{entityName}}ItemProps = { 
-  data: I{{ entityName }}Data;
+type I<%= it.entityName %>ItemProps = { 
+  data: I<%= it.entityName %>Data;
   refetch: () => void;
 }
 
-const {{componentName}}Item = ({ data, refetch }: PropsWithChildren<I{{entityName}}ItemProps>): ReactElement => {
-  const { t } = useTranslation("{{decapitalize entitiesName }}");
+const <%= it.componentName %>Item = ({ data, refetch }: PropsWithChildren<I<%= it.entityName %>ItemProps>): ReactElement => {
+  const { t } = useTranslation("<%= it.decapitalize(it.entitiesName) %>");
 
   return <>
     <Head>
-      <title>{t("{{projectName}}", { ns: "common" })} - {t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)}</title>
-      <meta name="description" content={t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)} />
+      <title>{t("<%= it.projectName %>", { ns: "common" })} - {t("<%= it.capitalize(it.decamelize(it.entityName)) %> - {{ label }}", data)}</title>
+      <meta name="description" content={t("<%= it.capitalize(it.decamelize(it.entityName)) %> - {{ label }}", data)} />
     </Head>
-    <h1>{t("{{capitalize (decamelize entityName)}} - \\{{label}}", data)}</h1>
+    <h1>{t("<%= it.capitalize(it.decamelize(it.entityName)) %> - {{ label }}", data)}</h1>
     <Suspense>
-      <Update{{ entityName }}
+      <Update<%= it.entityName %>
         onSuccess={refetch}
         initialValues={data}
       >
-        <Link href="#">{ t("Update {{decamelize entityName }} \\"\\{{label}}\\"", data) }</Link>
-      </Update{{ entityName }}>
+        <Link href="#">{ t("Update <%= it.decamelize(it.entityName) %> \\\\"{{ label }}\\\\"", data) }</Link>
+      </Update<%= it.entityName %>>
     </Suspense>
   </>;
-};
-{{/inline}}
-{{#*inline "head-block"}}{{/inline}}
-{{#*inline "pre-render-block"}}const matchParams = useRouteMatch().params;
+};\`;
 
-  const { useRead } = use{{ entitiesName }}Config();
-  const readProps = useRead({
-    id: matchParams.{{decapitalize entityName }}Id,
-  });
-{{/inline}}
-{{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Read<I{{ entityName }}Data> {...readProps}>
-  {(props) => <{{componentName}}Item {...props} refetch={readProps.refetch} />}
-</Read>{{/inline}}
-{{/Component}}`;
+const preRender = \`const matchParams = useRouteMatch().params;
+
+const { useRead } = use<%= it.entitiesName %>Config();
+const readProps = useRead({
+  id: matchParams.<%= it.decapitalize(it.entityName) %>Id,
+});
+\`;
+
+const render = \`<Read<I<%= it.entityName %>Data> {...readProps}>
+{(props) => <<%= it.componentName %>Item {...props} refetch={readProps.refetch} />}
+</Read>\`;
+
+%>
+
+<%= include("Component", {
+  ...it,
+  blocks: {
+    imports,
+    head: null,
+    renderTitle: null,
+    preRender,
+    render
+  }
+}) %>`;

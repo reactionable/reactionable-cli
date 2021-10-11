@@ -5,10 +5,10 @@ import {
   Statement,
   SyntaxKind,
   createSourceFile,
-} from 'typescript';
+} from "typescript";
 
-import { StdFile } from './StdFile';
-import { ITypescriptImport, ITypescriptImportModules, TypescriptImport } from './TypescriptImport';
+import { StdFile } from "./StdFile";
+import { ITypescriptImport, ITypescriptImportModules, TypescriptImport } from "./TypescriptImport";
 
 export class TypescriptFile extends StdFile {
   protected imports?: Array<TypescriptImport>;
@@ -33,16 +33,20 @@ export class TypescriptFile extends StdFile {
       }
     }
 
-    return this.getContent();
+    try {
+      return this.getContent();
+    } catch (error) {
+      throw new Error('An error occurred while parsing content "' + content + '", ' + error);
+    }
   }
 
   protected parseTypescriptContent(content: string): NodeArray<Statement> {
-    const sourceFile = createSourceFile(this.file ?? 'tmp-file.ts', content, ScriptTarget.ES2020);
+    const sourceFile = createSourceFile(this.file ?? "tmp-file.ts", content, ScriptTarget.ES2020);
     return sourceFile.statements;
   }
 
   protected parseImportDeclaration(bodyItem: ImportDeclaration): void {
-    const packageName = bodyItem.moduleSpecifier['text'];
+    const packageName = bodyItem.moduleSpecifier["text"];
     // File import. I.e: import './index.scss';
     if (!bodyItem.importClause) {
       this.addImports([
@@ -88,7 +92,7 @@ export class TypescriptFile extends StdFile {
           const propertyName = element?.propertyName?.escapedText?.toString();
           const elementName = element.name.escapedText.toString();
           const moduleName: string = propertyName ?? elementName;
-          modules[moduleName] = propertyName ? elementName : '';
+          modules[moduleName] = propertyName ? elementName : "";
         }
         this.addImports([new TypescriptImport(packageName, modules)]);
         break;
@@ -104,9 +108,9 @@ export class TypescriptFile extends StdFile {
         .filter((line) => !!line.length);
     }
 
-    return [importLines.join('\n'), (this.declarations || []).join('\n')]
+    return [importLines.join("\n"), (this.declarations || []).join("\n")]
       .map((value) => value.trim())
-      .join('\n\n')
+      .join("\n\n")
       .trim();
   }
 

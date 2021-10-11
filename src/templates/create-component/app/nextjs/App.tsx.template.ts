@@ -5,15 +5,15 @@ import { useRouterProviderProps, IRouterProviderProps } from "@reactionable/next
 import {
   useIdentityProviderProps,
   IIdentityProviderProps,
-} from "{{ hostingPackage }}";
+} from "<%= it.hostingPackage %>";
 import {
   useUIProviderProps,
   IUIProviderProps,
-} from "{{ uiPackage }}";
+} from "<%= it.uiPackage %>";
 import "../styles/globals.css";
 import "../lib/i18n/i18n";
 
-const {{componentName}} = ({ Component, pageProps }: AppProps): ReactElement => {
+const <%= it.componentName %> = ({ Component, pageProps }: AppProps): ReactElement => {
   // Configure app
   const appConfig: IAppProps<
     IIdentityProviderProps,
@@ -31,4 +31,4 @@ const {{componentName}} = ({ Component, pageProps }: AppProps): ReactElement => 
     </CoreApp>
   );
 };
-export default {{componentName}};`;
+export default <%= it.componentName %>;`;

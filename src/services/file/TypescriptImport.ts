@@ -14,8 +14,8 @@ export interface ITypescriptImport {
 export type ITypescriptImportModules = { [key: string]: string };
 
 export class TypescriptImport {
-  static readonly globImport = '*';
-  static readonly defaultImport = 'default';
+  static readonly globImport = "*";
+  static readonly defaultImport = "default";
 
   constructor(public packageName: string, public modules: ITypescriptImportModules) {}
 
@@ -49,24 +49,24 @@ export class TypescriptImport {
         parsedPodules,
         TypescriptImport.parseImportModule(brakesMatches[1])
       );
-      modules = modules.replace(brakesMatches[0], '').trim();
+      modules = modules.replace(brakesMatches[0], "").trim();
     }
     if (modules.length) {
       parsedPodules = Object.assign(
         parsedPodules,
-        TypescriptImport.parseImportModule(modules, 'default')
+        TypescriptImport.parseImportModule(modules, "default")
       );
     }
     return parsedPodules;
   }
 
-  private static parseImportModule(importModule: string, defaultAs = ''): ITypescriptImportModules {
+  private static parseImportModule(importModule: string, defaultAs = ""): ITypescriptImportModules {
     const parsedPodules: ITypescriptImportModules = {};
-    for (const modulePart of importModule.trim().split(',')) {
+    for (const modulePart of importModule.trim().split(",")) {
       if (!modulePart.length) {
         continue;
       }
-      const moduleParts = modulePart.trim().split('as');
+      const moduleParts = modulePart.trim().split("as");
       parsedPodules[moduleParts[0].trim()] =
         moduleParts.length === 1 ? defaultAs : moduleParts[1].trim();
     }
@@ -88,8 +88,8 @@ export class TypescriptImport {
   }
 
   toString(): string {
-    let defaultImport = '';
-    let globImport = '';
+    let defaultImport = "";
+    let globImport = "";
     const brakesImports: string[] = [];
 
     const orderedModules: ITypescriptImportModules = {};
@@ -121,7 +121,7 @@ export class TypescriptImport {
 
       let brakesImport = moduleName;
       if (this.modules[moduleName].length) {
-        brakesImport += ' as ' + this.modules[moduleName];
+        brakesImport += " as " + this.modules[moduleName];
       }
       brakesImports.push(brakesImport);
     }
@@ -129,14 +129,14 @@ export class TypescriptImport {
     let imports = defaultImport;
 
     if (globImport) {
-      imports += `${imports.length > 0 ? ', ' : ''}${TypescriptImport.globImport} as ${globImport}`;
+      imports += `${imports.length > 0 ? ", " : ""}${TypescriptImport.globImport} as ${globImport}`;
     }
     if (brakesImports.length) {
-      imports += `${imports.length > 0 ? ', ' : ''}{ ${brakesImports.join(', ')} }`;
+      imports += `${imports.length > 0 ? ", " : ""}{ ${brakesImports.join(", ")} }`;
     }
 
     if (!imports.length) {
-      return '';
+      return "";
     }
 
     if (imports === defaultImport && defaultImport === TypescriptImport.defaultImport) {

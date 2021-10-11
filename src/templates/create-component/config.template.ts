@@ -1,6 +1,6 @@
 export default `{
-    "{{componentDirname}}": {
-        "{{componentFilename}}": "{{componentTemplate}}",
-        "{{testComponentFilename}}": "{{testComponentTemplate}}"
+    "<%= it.componentDirname %>": {
+        "<%= it.componentFilename %>": "<%= it.componentTemplate %>",
+        "<%= it.testComponentFilename %>": "<%= it.testComponentTemplate %>"
     }
 }`;

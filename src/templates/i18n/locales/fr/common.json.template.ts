@@ -1,3 +1,3 @@
 export default `{
-    "{{ projectName }}": "{{ projectName }}"
+    "<%= it.projectName %>": "<%= it.projectName %>"
 }`;

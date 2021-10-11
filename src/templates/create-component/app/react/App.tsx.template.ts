@@ -4,12 +4,12 @@ import { useRouterProviderProps, IRouterProviderProps } from "@reactionable/rout
 import {
   useIdentityProviderProps,
   IIdentityProviderProps,
-} from "{{ hostingPackage }}";
+} from "<%= it.hostingPackage %>";
 import {
   useUIProviderProps,
   IUIProviderProps,
   IUseLayoutProps,
-} from "{{ uiPackage }}";
+} from "<%= it.uiPackage %>";
 import "./App.scss";
 import "./i18n/i18n";
 
@@ -17,7 +17,7 @@ import "./i18n/i18n";
 const HomeComponent = lazy(() => import("./components/home/Home"));
 const NotFoundComponent = lazy(() => import("./components/not-found/NotFound"));
 
-const {{componentName}} = (): ReactElement => {
+const <%= it.componentName %> = (): ReactElement => {
   const { t } = useTranslation();
 
   // Configure app
@@ -32,10 +32,10 @@ const {{componentName}} = (): ReactElement => {
     NotFoundComponent,
     layout: {
       header: {
-        brand: t("{{projectName}}"),
+        brand: t("<%= it.projectName %>"),
       },
       footer: {
-        brand: t("{{projectName}}"),
+        brand: t("<%= it.projectName %>"),
       },
     },
     router: useRouterProviderProps(),
@@ -45,4 +45,4 @@ const {{componentName}} = (): ReactElement => {
 
   return <CoreApp {...appConfig} />;
 };
-export default {{componentName}};`;
+export default <%= it.componentName %>;`;

@@ -1,27 +1,39 @@
-export default `{{#> Component }}
-{{#*inline "imports-head-block"}}{{/inline}}
-{{#*inline "imports-block"}}
-import { Delete, IDeleteProps } from "{{ uiPackage }}";
+export default `<%
 
-import { I{{ entityName }}Data, use{{ entitiesName }}Config } from "../{{ entitiesName }}Config";
-{{/inline}}
-{{#*inline "props-block"}}type IDelete{{ entityName }}Props = {
+const imports = \`import { Delete, IDeleteProps } from "<%= it.uiPackage %>";
+
+import { I<%= it.entityName %>Data, use<%= it.entitiesName %>Config } from "../<%= it.entitiesName %>Config";\`;
+
+const props = \`type IDelete<%= it.entityName %>Props = {
   id: string; 
-  onSuccess?: IDeleteProps<I{{ entityName }}Data>["onSuccess"];
+  onSuccess?: IDeleteProps<I<%= it.entityName %>Data>["onSuccess"];
   label?: boolean;
-};{{/inline}}
-{{#*inline "head-block"}}{{/inline}}
-{{#*inline "pre-render-block"}}const { id, label, ...deleteProps} = props;
-  const { onDelete } = use{{ entitiesName }}Config();
-{{/inline}}
-{{#*inline "render-block-title"}}{{/inline}}
-{{#*inline "render-block"}}<Delete
-      {...deleteProps}
-      title={t("Delete {{decamelize entityName }}")}
-      confirmationMessage={t("Are you sure you want to delete this {{decamelize entityName }} ?")}
-      successMessage={t("The {{decamelize entityName }} has been deleted")}
-      onConfirm={() => onDelete(id)}
-    >
-      {label ? t("Delete {{decamelize entityName }}") : undefined}
-    </Delete>{{/inline}}
-{{/Component}}`;
+};\`;
+
+const preRender = \`const { id, label, ...deleteProps} = props;
+const { onDelete } = use<%= it.entitiesName %>Config();\`;
+
+const render = \`<Delete
+{...deleteProps}
+title={t("Delete <%=it.decamelize(it.entityName) %>")}
+confirmationMessage={t("Are you sure you want to delete this <%=it.decamelize(it.entityName) %> ?")}
+successMessage={t("The <%= it.decamelize(it.entityName) %> has been deleted")}
+onConfirm={() => onDelete(id)}
+>
+{label ? t("Delete <%= it.decamelize(it.entityName) %>") : undefined}
+</Delete>\`;
+
+%>
+
+<%= include("Component", {
+  ...it,
+  blocks: {
+    importsHead: null,
+    imports,
+    props,
+    head: null,
+    renderTitle: null,
+    preRender,
+    render
+  }
+}) %>`;
