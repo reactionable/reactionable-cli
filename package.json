@@ -7,13 +7,13 @@
     "reactionable": "./bin/reactionable"
   },
   "scripts": {
-    "start": "yarn link && yarn build && tsc --watch",
+    "start": "yarn link && tsc --watch",
     "prebuild": "rimraf ./dist",
     "build": "tsc",
     "build:doc": "rimraf -rf build/docs && typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "jest",
-    "test:coverage": "yarn test --coverage",
+    "test:ci": "yarn test --coverage",
     "prepare": "ts-dev-tools install"
   },
   "repository": {
