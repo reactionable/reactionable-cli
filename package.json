@@ -57,7 +57,7 @@
     "@types/parse-github-url": "^1.0.0",
     "@types/prompts": "^2.0.14",
     "@types/shelljs": "^0.8.10",
-    "@types/tmp": "^0.2.2",
+    "@types/tmp": "^0.2.3",
     "fs-extra": "^10.0.0",
     "jest-serializer-html": "^7.1.0",
     "mock-fs": "^5.1.2",
