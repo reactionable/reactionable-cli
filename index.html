@@ -1,439 +1,75 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@reactionable/cli</title>
-	<meta name="description" content="Documentation for @reactionable/cli">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script async src="assets/js/search.js" id="search-script"></script>
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">@reactionable/cli</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<h1>@reactionable/cli</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<p align="center">
-					<a href="#" target="_blank"><img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/24311480-3008-11eb-90e4-4a6cbf9c6197" width="600"></a>
-					<br/><br/>
-					<a href="https://github.com/reactionable/reactionable-cli/actions?query=workflow%3A%22Continuous+Integration%22" target="_blank"><img alt="Continuous integration" src="https://github.com/reactionable/reactionable-cli/workflows/Continuous%20Integration/badge.svg"></a>
-					<a href="https://codecov.io/gh/reactionable/reactionable-cli" target="_blank"><img alt="Coverage Status" src="https://codecov.io/gh/reactionable/reactionable-cli/branch/master/graph/badge.svg"></a>
-					<a href="https://www.npmjs.com/package/@reactionable/cli" target="_blank"><img alt="Version" src="https://img.shields.io/npm/v/@reactionable/cli.svg"></a>
-					<a href="https://github.com/reactionable/reactionable-cli#readme" target="_blank"><img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" /></a>
-					<a href="https://github.com/reactionable/reactionable/blob/master/LICENSE" target="_blank"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
-					<a href="CONTRIBUTING.md" target="_blank"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
-					<a href="https://github.com/sponsors/neilime"><img src="https://img.shields.io/badge/%E2%9D%A4-Sponsor-ff69b4" alt="Sponsor"></a>
-				</p>
-				<a href="#🏠-homepage" id="🏠-homepage" style="color: inherit; text-decoration: none;">
-					<h3>🏠 <a href="https://reactionable.github.io/reactionable-cli">Homepage</a></h3>
-				</a>
-				<a href="#🧾-documentation" id="🧾-documentation" style="color: inherit; text-decoration: none;">
-					<h3>🧾 <a href="https://reactionable.github.io/reactionable-cli/docs">Documentation</a></h3>
-				</a>
-				<a href="#helping-project" id="helping-project" style="color: inherit; text-decoration: none;">
-					<h2>Helping Project</h2>
-				</a>
-				<p>❤️ If this project helps you reduce time to develop and/or you want to help the maintainer of this project. You can <a href="https://github.com/sponsors/neilime">sponsor</a> him. Thank you !</p>
-				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
-					<h2>Contributing</h2>
-				</a>
-				<p>👍 If you wish to contribute to <strong>Reactionable</strong>, please read the <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> file, PRs are Welcome !</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<a href="#with-npx" id="with-npx" style="color: inherit; text-decoration: none;">
-					<h3>With npx</h3>
-				</a>
-				<pre><code class="language-sh"><span style="color: #000000">npx @reactionable/cli run</span>
-</code></pre>
-				<a href="#as-global-package" id="as-global-package" style="color: inherit; text-decoration: none;">
-					<h3>As global package</h3>
-				</a>
-				<pre><code class="language-sh"><span style="color: #000000">npm install -g @reactionable/cli</span>
-<span style="color: #000000">reactionable run</span>
-</code></pre>
-				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
-					<h2>Development</h2>
-				</a>
-				<a href="#use-local-version-of-cli" id="use-local-version-of-cli" style="color: inherit; text-decoration: none;">
-					<h3>Use local version of cli</h3>
-				</a>
-				<p>In <code>reactionable-cli</code> directory:</p>
-				<pre><code class="language-sh"><span style="color: #000000">npm link</span>
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@reactionable/cli</title><meta name="description" content="Documentation for @reactionable/cli"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@reactionable/cli</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> @reactionable/cli</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography"><p align="center">
+  <a href="#" target="_blank"><img alt="Welcome to @reactionable/cli 👋" src="https://repository-images.githubusercontent.com/215311972/24311480-3008-11eb-90e4-4a6cbf9c6197" width="600"></a>
+  <br/><br/>
+  <a href="https://github.com/reactionable/reactionable-cli/actions?query=workflow%3A%22Continuous+Integration%22" target="_blank"><img alt="Continuous integration" src="https://github.com/reactionable/reactionable-cli/workflows/Continuous%20Integration/badge.svg"></a>
+  <a href="https://codecov.io/gh/reactionable/reactionable-cli" target="_blank"><img alt="Coverage Status" src="https://codecov.io/gh/reactionable/reactionable-cli/branch/master/graph/badge.svg"></a>
+  <a href="https://www.npmjs.com/package/@reactionable/cli" target="_blank"><img alt="Version" src="https://img.shields.io/npm/v/@reactionable/cli.svg"></a>
+  <a href="https://github.com/reactionable/reactionable-cli#readme" target="_blank"><img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" /></a>
+  <a href="https://github.com/reactionable/reactionable/blob/master/LICENSE" target="_blank"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
+  <a href="CONTRIBUTING.md" target="_blank"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://github.com/sponsors/neilime"><img src="https://img.shields.io/badge/%E2%9D%A4-Sponsor-ff69b4" alt="Sponsor"></a>
+</p>
 
-<span style="color: #008000"># or</span>
 
-<span style="color: #000000">yarn link</span>
+<a href="#🏠-homepage" id="🏠-homepage" style="color: inherit; text-decoration: none;">
+  <h3>🏠 <a href="https://reactionable.github.io/reactionable-cli">Homepage</a></h3>
+</a>
+
+<a href="#🧾-documentation" id="🧾-documentation" style="color: inherit; text-decoration: none;">
+  <h3>🧾 <a href="https://reactionable.github.io/reactionable-cli/docs">Documentation</a></h3>
+</a>
+
+<a href="#helping-project" id="helping-project" style="color: inherit; text-decoration: none;">
+  <h2>Helping Project</h2>
+</a>
+<p>❤️ If this project helps you reduce time to develop and/or you want to help the maintainer of this project. You can <a href="https://github.com/sponsors/neilime">sponsor</a> him. Thank you !</p>
+
+<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+  <h2>Contributing</h2>
+</a>
+<p>👍 If you wish to contribute to <strong>Reactionable</strong>, please read the <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> file, PRs are Welcome !</p>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+
+<a href="#with-npx" id="with-npx" style="color: inherit; text-decoration: none;">
+  <h3>With npx</h3>
+</a>
+<pre><code class="language-sh"><span class="hl-0">npx @reactionable/cli run</span>
 </code></pre>
-				<a href="#author" id="author" style="color: inherit; text-decoration: none;">
-					<h2>Author</h2>
-				</a>
-				<p>👤 <strong>ESCEMI <a href="mailto:contact@escemi.com">contact@escemi.com</a></strong></p>
-				<ul>
-					<li>Website: <a href="https://www.escemi.com">https://www.escemi.com</a></li>
-					<li>Sponsor: <a href="https://github.com/sponsors/neilime">https://github.com/sponsors/neilime</a></li>
-					<li>Github: <a href="https://github.com/reactionable">@reactionable</a></li>
-					<li>LinkedIn: <a href="https://linkedin.com/in/https://www.linkedin.com/company/escemi">@https://www.linkedin.com/company/escemi</a></li>
-				</ul>
-				<a href="#📝-license" id="📝-license" style="color: inherit; text-decoration: none;">
-					<h2>📝 License</h2>
-				</a>
-				<p>Copyright © 2020 <a href="https://www.escemi.com">ESCEMI <a href="mailto:contact@escemi.com">contact@escemi.com</a></a>.<br />
-				This project is <a href="https://github.com/reactionable/reactionable-cli/blob/master/LICENSE">MIT</a> licensed.</p>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="modules.html">Exports</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_abstractactionwithadapters.html">actions/<wbr>Abstract<wbr>Action<wbr>With<wbr>Adapters</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_abstractadapteraction.html">actions/<wbr>Abstract<wbr>Adapter<wbr>Action</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_abstractadapterwithpackageaction.html">actions/<wbr>Abstract<wbr>Adapter<wbr>With<wbr>Package<wbr>Action</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_abstractcommitableactionwithadapters.html">actions/<wbr>Abstract<wbr>Commitable<wbr>Action<wbr>With<wbr>Adapters</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_adapteraction.html">actions/<wbr>Adapter<wbr>Action</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_namedaction.html">actions/<wbr>Named<wbr>Action</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_realpathaction.html">actions/<wbr>Realpath<wbr>Action</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_runnableaction.html">actions/<wbr>Runnable<wbr>Action</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_hosting_addhosting.html">actions/add-<wbr>hosting/<wbr>Add<wbr>Hosting</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_hosting_adapters_hostingadapter.html">actions/add-<wbr>hosting/adapters/<wbr>Hosting<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_hosting_adapters_amplify_amplify.html">actions/add-<wbr>hosting/adapters/amplify/<wbr>Amplify</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_hosting_adapters_netlify_netlify.html">actions/add-<wbr>hosting/adapters/netlify/<wbr>Netlify</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_hosting_container.html">actions/add-<wbr>hosting/container</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_router_addrouter.html">actions/add-<wbr>router/<wbr>Add<wbr>Router</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_router_adapters_nextjs.html">actions/add-<wbr>router/adapters/<wbr>Next<wbr>Js</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_router_adapters_routeradapter.html">actions/add-<wbr>router/adapters/<wbr>Router<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_router_adapters_routerdom.html">actions/add-<wbr>router/adapters/<wbr>Router<wbr>Dom</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_router_container.html">actions/add-<wbr>router/container</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_ui_framework_adduiframework.html">actions/add-<wbr>ui-<wbr>framework/<wbr>AddUIFramework</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_ui_framework_adapters_uibootstrap.html">actions/add-<wbr>ui-<wbr>framework/adapters/UIBootstrap</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_ui_framework_adapters_uiframeworkadapter.html">actions/add-<wbr>ui-<wbr>framework/adapters/UIFramework<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_ui_framework_adapters_uimaterial.html">actions/add-<wbr>ui-<wbr>framework/adapters/UIMaterial</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_ui_framework_container.html">actions/add-<wbr>ui-<wbr>framework/container</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_versioning_addversioning.html">actions/add-<wbr>versioning/<wbr>Add<wbr>Versioning</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_versioning_versioningadapter.html">actions/add-<wbr>versioning/<wbr>Versioning<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_versioning_adapters_abstractversioning.html">actions/add-<wbr>versioning/adapters/<wbr>Abstract<wbr>Versioning</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_versioning_adapters_github_github.html">actions/add-<wbr>versioning/adapters/github/<wbr>Github</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_add_versioning_container.html">actions/add-<wbr>versioning/container</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_app_createapp.html">actions/create-<wbr>app/<wbr>Create<wbr>App</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_app_adapters_createappadapter.html">actions/create-<wbr>app/adapters/<wbr>Create<wbr>App<wbr>Adapter</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_app_adapters_create_next_app_createnextapp.html">actions/create-<wbr>app/adapters/create-<wbr>next-<wbr>app/<wbr>Create<wbr>Next<wbr>App</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_app_adapters_create_react_app_createreactapp.html">actions/create-<wbr>app/adapters/create-<wbr>react-<wbr>app/<wbr>Create<wbr>React<wbr>App</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_app_container.html">actions/create-<wbr>app/container</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_component_createcomponent.html">actions/create-<wbr>component/<wbr>Create<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_create_component_createcrudcomponent.html">actions/create-<wbr>component/<wbr>Create<wbr>Crud<wbr>Component</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_generate_favicons_generatefavicons.html">actions/generate-<wbr>favicons/<wbr>Generate<wbr>Favicons</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/actions_generate_readme_generatereadme.html">actions/generate-<wbr>readme/<wbr>Generate<wbr>Readme</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/cli_cli.html">cli/<wbr>Cli</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/container.html">container</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_cliservice.html">services/<wbr>Cli<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_consoleservice.html">services/<wbr>Console<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_stringutils.html">services/<wbr>String<wbr>Utils</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_templateservice.html">services/<wbr>Template<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_filediffservice.html">services/file/<wbr>File<wbr>Diff<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_filefactory.html">services/file/<wbr>File<wbr>Factory</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_fileservice.html">services/file/<wbr>File<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_jsonfile.html">services/file/<wbr>Json<wbr>File</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_reactcomponentfile.html">services/file/<wbr>React<wbr>Component<wbr>File</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_stdfile.html">services/file/<wbr>Std<wbr>File</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_tomlfile.html">services/file/<wbr>Toml<wbr>File</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_typescriptfile.html">services/file/<wbr>Typescript<wbr>File</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_file_typescriptimport.html">services/file/<wbr>Typescript<wbr>Import</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_git_gitservice.html">services/git/<wbr>Git<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_package_manager_packagemanagerservice.html">services/package-<wbr>manager/<wbr>Package<wbr>Manager<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_package_manager_adapters_abstractpackagemanager.html">services/package-<wbr>manager/adapters/<wbr>Abstract<wbr>Package<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_package_manager_adapters_ipackagemanager.html">services/package-<wbr>manager/adapters/IPackage<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_package_manager_adapters_npmpackagemanager.html">services/package-<wbr>manager/adapters/<wbr>Npm<wbr>Package<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/services_package_manager_adapters_yarnpackagemanager.html">services/package-<wbr>manager/adapters/<wbr>Yarn<wbr>Package<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_add_hosting_amplify_backend_config_json_template.html">templates/add-<wbr>hosting/amplify/backend-<wbr>config.json.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_add_hosting_amplify_config_template.html">templates/add-<wbr>hosting/amplify/config.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_add_hosting_amplify_project_config_json_template.html">templates/add-<wbr>hosting/amplify/project-<wbr>config.json.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_add_hosting_netlify_netlify_toml_template.html">templates/add-<wbr>hosting/netlify/netlify.toml.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_app_nextjs_app_tsx_template.html">templates/create-<wbr>component/app/nextjs/<wbr>App.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_app_react_app_tsx_template.html">templates/create-<wbr>component/app/react/<wbr>App.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_config_template.html">templates/create-<wbr>component/config.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_config_tsx_template.html">templates/create-<wbr>component/crud/<wbr>Config.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_crud_tsx_template.html">templates/create-<wbr>component/crud/<wbr>Crud.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_config_template.html">templates/create-<wbr>component/crud/config.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_create_create_tsx_template.html">templates/create-<wbr>component/crud/create/<wbr>Create.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_delete_delete_tsx_template.html">templates/create-<wbr>component/crud/delete/<wbr>Delete.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_list_list_tsx_template.html">templates/create-<wbr>component/crud/list/<wbr>List.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_locales_en_crud_json_template.html">templates/create-<wbr>component/crud/locales/en/crud.json.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_locales_fr_crud_json_template.html">templates/create-<wbr>component/crud/locales/fr/crud.json.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_read_read_tsx_template.html">templates/create-<wbr>component/crud/read/<wbr>Read.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_crud_update_update_tsx_template.html">templates/create-<wbr>component/crud/update/<wbr>Update.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_not_found_notfound_tsx_template.html">templates/create-<wbr>component/not-<wbr>found/<wbr>Not<wbr>Found.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_partials_component_template.html">templates/create-<wbr>component/partials/<wbr>Component.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_partials_componenttest_template.html">templates/create-<wbr>component/partials/<wbr>Component<wbr>Test.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_standalone_standalone_test_tsx_template.html">templates/create-<wbr>component/standalone/<wbr>Standalone.test.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_create_component_standalone_standalone_tsx_template.html">templates/create-<wbr>component/standalone/<wbr>Standalone.tsx.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_i18n_config_template.html">templates/i18n/config.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_i18n_i18n_ts_template.html">templates/i18n/i18n.ts.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_i18n_locales_en_common_json_template.html">templates/i18n/locales/en/common.json.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/templates_i18n_locales_fr_common_json_template.html">templates/i18n/locales/fr/common.json.template</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/tests_mock_cmd.html">tests/mock-<wbr>cmd</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/tests_mock_fs.html">tests/mock-<wbr>fs</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/tests_tmp_dir.html">tests/tmp-<wbr>dir</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+
+<a href="#as-global-package" id="as-global-package" style="color: inherit; text-decoration: none;">
+  <h3>As global package</h3>
+</a>
+<pre><code class="language-sh"><span class="hl-0">npm install -g @reactionable/cli</span><br/><span class="hl-0">reactionable run</span>
+</code></pre>
+
+<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+  <h2>Development</h2>
+</a>
+
+<a href="#use-local-version-of-cli" id="use-local-version-of-cli" style="color: inherit; text-decoration: none;">
+  <h3>Use local version of cli</h3>
+</a>
+<p>In <code>reactionable-cli</code> directory:</p>
+<pre><code class="language-sh"><span class="hl-0">npm link</span><br/><br/><span class="hl-1"># or</span><br/><br/><span class="hl-0">yarn link</span>
+</code></pre>
+
+<a href="#author" id="author" style="color: inherit; text-decoration: none;">
+  <h2>Author</h2>
+</a>
+<p>👤 <strong>ESCEMI <a href="mailto:contact@escemi.com">contact@escemi.com</a></strong></p>
+<ul>
+<li>Website: <a href="https://www.escemi.com">https://www.escemi.com</a></li>
+<li>Sponsor: <a href="https://github.com/sponsors/neilime">https://github.com/sponsors/neilime</a></li>
+<li>Github: <a href="https://github.com/reactionable">@reactionable</a></li>
+<li>LinkedIn: <a href="https://linkedin.com/in/https://www.linkedin.com/company/escemi">@https://www.linkedin.com/company/escemi</a></li>
+</ul>
+
+<a href="#📝-license" id="📝-license" style="color: inherit; text-decoration: none;">
+  <h2>📝 License</h2>
+</a>
+<p>Copyright © 2020 <a href="https://www.escemi.com">ESCEMI <a href="mailto:contact@escemi.com">contact@escemi.com</a></a>.<br />
+This project is <a href="https://github.com/reactionable/reactionable-cli/blob/master/LICENSE">MIT</a> licensed.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
