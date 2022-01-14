@@ -2,6 +2,6 @@
   "entryPoints": ["src"],
   "out": "build/docs",
   "exclude": ["**/node_modules/**", "**/*.spec.ts"],
-  "readme": "",
+  "readme": null,
   "excludePrivate": true
 }

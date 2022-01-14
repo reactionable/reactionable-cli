@@ -10,7 +10,8 @@
     "start": "yarn link && tsc --watch",
     "prebuild": "rimraf ./dist",
     "build": "tsc",
-    "build:doc": "rimraf -rf build/docs && typedoc",
+    "prebuild:doc": "rimraf -rf build/docs",
+    "build:doc": "typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "jest",
     "test:ci": "yarn test --coverage",
@@ -64,8 +65,7 @@
     "mock-spawn": "^0.2.6",
     "rimraf": "^3.0.0",
     "tmp": "^0.2.1",
-    "typedoc": "^0.22.10",
-    "typedoc-plugin-nojekyll": "^1.0.1"
+    "typedoc": "^0.22.10"
   },
   "eslintConfig": {
     "root": true,
