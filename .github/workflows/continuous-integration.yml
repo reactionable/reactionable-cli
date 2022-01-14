@@ -27,6 +27,8 @@ jobs:
     environment: github-pages
     steps:
       - uses: escemi-tech/actions-node@v1.4.0
+        with:
+          token: ${{ secrets.GH_PRIVATE_ACCESS_TOKEN }}
 
       - name: 📖 Build docs
         run: |
