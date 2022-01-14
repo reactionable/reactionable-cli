@@ -27,10 +27,14 @@ jobs:
     environment: github-pages
     steps:
       - uses: escemi-tech/actions-node@v1.4.0
-        with:
-          build: |
-            yarn build
-            yarn build:doc
+
+      - name: 📖 Build docs
+        run: |
+          yarn build:doc
+
+          mkdir -p /tmp
+          cp -R build/docs /tmp/publish
+          cp -R docs /tmp/publish/
 
       - name: 🔖 Prepare release
         run: |
@@ -40,11 +44,7 @@ jobs:
           npx standard-version
 
           echo `git add -A && git commit -m "chore: prepare release"`
-          git push --follow-tags origin main
-
-          mkdir -p /tmp
-          cp -R build/docs /tmp/publish
-          cp -R docs /tmp/publish/
+          git push --follow-tags origin ${{ github.event.repository.default_branch }}
 
       - name: 🌐 Publish Github pages
         uses: peaceiris/actions-gh-pages@v3.8.0
