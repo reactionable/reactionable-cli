@@ -59,7 +59,7 @@
     "@types/prompts": "^2.0.14",
     "@types/shelljs": "^0.8.11",
     "@types/tmp": "^0.2.3",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "jest-serializer-html": "^7.1.0",
     "mock-fs": "^5.1.2",
     "mock-spawn": "^0.2.6",
