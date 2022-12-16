@@ -65,7 +65,7 @@
     "mock-spawn": "^0.2.6",
     "rimraf": "^3.0.0",
     "tmp": "^0.2.1",
-    "typedoc": "^0.23.21"
+    "typedoc": "^0.23.22"
   },
   "eslintConfig": {
     "root": true,
