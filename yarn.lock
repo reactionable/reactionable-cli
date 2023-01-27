@@ -933,10 +933,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ts-dev-tools/core@^1.5.37":
-  version "1.5.37"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.5.37.tgz#b521a7a51a196e9f09286d3e7a268257ea3f57e2"
-  integrity sha512-jimFS1j8HAta8vo8aZpHo2Gv3yLwcuH4aZOmThj9lT8EbbWyhJrrFrMWwQi0/Fazx14TQftc55IzmeTp+C7I6w==
+"@ts-dev-tools/core@^1.5.38":
+  version "1.5.38"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.5.38.tgz#35b12ed8230402be6c052c9ac0a2b4ae4287a3ef"
+  integrity sha512-yNjiEKEhrevN8pLEGtvFK34khqVb2N16+3PzcXtIkO/aglMAKyQBsSiBQzBFGnIk+moxfY50RLLj8rkf/vEiAQ==
   dependencies:
     "@commitlint/cli" "^17.2.0"
     "@commitlint/config-conventional" "^17.2.0"
