@@ -36,7 +36,7 @@
     "@iarna/toml": "^2.2.5",
     "chalk": "^4.1.2",
     "clipanion": "^3.2.0-rc.14",
-    "deepmerge": "^4.2.2",
+    "deepmerge": "^4.3.0",
     "diff": "^5.1.0",
     "eta": "^2.0.0",
     "figlet": "^1.5.2",
