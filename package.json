@@ -42,7 +42,7 @@
     "figlet": "^1.5.2",
     "handlebars": "^4.7.7",
     "inversify": "^6.0.1",
-    "js-ini": "^1.5.1",
+    "js-ini": "^1.6.0",
     "parse-github-url": "^1.0.2",
     "pluralize": "^8.0.0",
     "prompts": "^2.4.2",
