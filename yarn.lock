@@ -1734,10 +1734,10 @@ cli-truncate@^3.1.0:
     slice-ansi "^5.0.0"
     string-width "^5.0.0"
 
-clipanion@^3.2.0-rc.16:
-  version "3.2.0-rc.16"
-  resolved "https://registry.yarnpkg.com/clipanion/-/clipanion-3.2.0-rc.16.tgz#38d44f8593b70dbb71f7ddc204464d1b5a9b50eb"
-  integrity sha512-xF72P8TKJ5NWXn66jb3UPw6MF+emGyH7FQizXjMKDFyI1RGS5mJC5p8eKI3+LQQlBiKQ++GamE+RaZ+tuLaolg==
+clipanion@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/clipanion/-/clipanion-3.2.0.tgz#ea55ce3fe27becb4ddd4915df6fb3de0f9e79a5c"
+  integrity sha512-XaPQiJQZKbyaaDbv5yR/cAt/ORfZfENkr4wGQj+Go/Uf/65ofTQBCPirgWFeJctZW24V3mxrFiEnEmqBflrJYA==
   dependencies:
     typanion "^3.8.0"
 
