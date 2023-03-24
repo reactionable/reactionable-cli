@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@ts-dev-tools/core": "^1.5.38",
-    "@types/diff": "^5.0.2",
+    "@types/diff": "^5.0.3",
     "@types/figlet": "^1.5.5",
     "@types/mock-fs": "^4.13.1",
     "@types/parse-github-url": "^1.0.0",
