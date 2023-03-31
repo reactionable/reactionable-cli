@@ -56,7 +56,7 @@
     "@types/figlet": "^1.5.5",
     "@types/mock-fs": "^4.13.1",
     "@types/parse-github-url": "^1.0.0",
-    "@types/prompts": "^2.4.3",
+    "@types/prompts": "^2.4.4",
     "@types/shelljs": "^0.8.11",
     "@types/tmp": "^0.2.3",
     "fs-extra": "^11.1.1",
