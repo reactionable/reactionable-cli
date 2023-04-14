@@ -48,7 +48,7 @@
     "prompts": "^2.4.2",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.8.5",
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.4"
   },
   "devDependencies": {
     "@ts-dev-tools/core": "^1.5.38",
