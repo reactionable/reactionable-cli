@@ -2390,10 +2390,10 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-eta@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/eta/-/eta-2.2.0.tgz#eb8b5f8c4e8b6306561a455e62cd7492fe3a9b8a"
-  integrity sha512-UVQ72Rqjy/ZKQalzV5dCCJP80GrmPrMxh6NlNf+erV6ObL0ZFkhCstWRawS85z3smdr3d2wXPsZEY7rDPfGd2g==
+eta@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/eta/-/eta-3.0.1.tgz#e7174842a9533c6922e99dd09b422ff9db7af676"
+  integrity sha512-yzx1qWLPVSHhOn0CnoODFtcnTrLlSS4ch/LWHfATwOM4hE8RfrD64aqHvWHUFwq7d1+DhcjM7Iin4L2HJK5egA==
 
 execa@^4.0.0:
   version "4.1.0"
