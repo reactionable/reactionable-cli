@@ -71,7 +71,7 @@ const render = \`<ListTable<I<%= it.entityName %>Data>
 
 %>
 
-<%= include("Component", {
+<%= include("@Component", {
   ...it,
   blocks: {
     imports,

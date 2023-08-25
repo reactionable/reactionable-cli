@@ -1,6 +1,6 @@
 import { sep } from "path";
 
-import * as Eta from "eta";
+import { Eta } from "eta";
 import { TemplateFunction } from "eta/dist/types/compile";
 import { inject, injectable } from "inversify";
 
@@ -11,18 +11,20 @@ import { TemplateAdapterHelper } from "./TemplateAdapterHelper";
 
 @injectable()
 export class EtaAdapter implements TemplateAdapter {
+  private readonly eta: Eta = new Eta({
+    views: this.templateFileService.getTemplateDirectory(),
+    debug: true,
+    cache: true, // Make Eta cache templates
+    autoEscape: false, // Not automatically XML-escape interpolations
+    autoTrim: false, // automatic whitespace trimming,
+  });
+
   private readonly compiledTemplates: Map<string, TemplateFunction> = new Map();
 
   constructor(
     @inject(TemplateFileService) private readonly templateFileService: TemplateFileService,
     @inject(TemplateAdapterHelper) private readonly templateAdapterHelper: TemplateAdapterHelper
-  ) {
-    Eta.configure({
-      cache: true, // Make Eta cache templates
-      autoEscape: false, // Not automatically XML-escape interpolations
-      autoTrim: false, // automatic whitespace trimming,
-    });
-  }
+  ) {}
 
   async renderTemplateString(template: string, context: TemplateContext): Promise<string> {
     const compiledTemplate = await this.getCompiledTemplateString(template, template);
@@ -52,14 +54,14 @@ export class EtaAdapter implements TemplateAdapter {
     compiledTemplate: TemplateFunction,
     context: TemplateContext
   ) {
-    const content = await compiledTemplate(
-      {
-        ...context,
-        ...this.templateAdapterHelper.getHelpers(),
-        render: Eta.render.bind(Eta),
-      },
-      Eta.config
-    );
+    const data = {
+      ...context,
+      ...this.templateAdapterHelper.getHelpers(),
+      render: this.eta.renderString.bind(this.eta),
+    };
+
+    const content = compiledTemplate.apply(this.eta, [data, { async: true }]);
+
     return content;
   }
 
@@ -92,7 +94,7 @@ export class EtaAdapter implements TemplateAdapter {
   ): Promise<TemplateFunction> {
     await this.registerPartials(templateKey, templateContent);
     try {
-      const compiledTemplate = Eta.compile(templateContent, { strict: true });
+      const compiledTemplate = this.eta.compile(templateContent);
 
       if (templateKey) {
         this.compiledTemplates.set(templateKey, compiledTemplate);
@@ -106,7 +108,7 @@ export class EtaAdapter implements TemplateAdapter {
 
   private async registerPartials(templateKey: string, templateContent: string) {
     // Register partials if any
-    const regex = /<%= include\("([a-zA-Z]+)"/gim;
+    const regex = /<%= include\("(@[a-zA-Z]+)"/gim;
     let matches;
     while ((matches = regex.exec(templateContent)) !== null) {
       if (matches.index === regex.lastIndex) {
@@ -114,11 +116,15 @@ export class EtaAdapter implements TemplateAdapter {
       }
       const partialName: string = matches[1];
 
-      if (Eta.templates.get(partialName)) {
+      if (this.eta.templatesSync.get(partialName)) {
         continue;
       }
 
-      const partialTemplateKey = `${templateKey.split(sep)[0]}/partials/${partialName}`;
+      const partialTemplateKey = `${templateKey.split(sep)[0]}/partials/${partialName.replace(
+        "@",
+        ""
+      )}`;
+
       const partialTemplateContent = await this.templateFileService.getTemplateFileContent(
         partialTemplateKey
       );
@@ -128,7 +134,7 @@ export class EtaAdapter implements TemplateAdapter {
         partialTemplateKey
       );
 
-      Eta.templates.define(partialName, compiledTemplate);
+      this.eta.loadTemplate(partialName, compiledTemplate);
     }
   }
 }

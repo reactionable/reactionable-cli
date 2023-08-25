@@ -16,7 +16,7 @@ readComponent={ Read<%= it.entityName %> }
 
 %>
 
-<%= include("Component", {
+<%= include("@Component", {
   ...it,
   blocks: {
     importsHead: null,

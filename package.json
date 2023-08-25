@@ -15,7 +15,8 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "jest",
     "test:ci": "yarn test --coverage",
-    "prepare": "ts-dev-tools install"
+    "prepare": "ts-dev-tools install",
+    "format": "prettier --cache --write '**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,7 @@
     "clipanion": "^3.2.1",
     "deepmerge": "^4.3.1",
     "diff": "^5.1.0",
-    "eta": "^2.2.0",
+    "eta": "^3.1.1",
     "figlet": "^1.6.0",
     "handlebars": "^4.7.8",
     "inversify": "^6.0.1",
@@ -132,6 +133,6 @@
     ]
   },
   "tsDevTools": {
-    "version": "20201024173398-init"
+    "version": "20220617100200-prettier-cache"
   }
 }

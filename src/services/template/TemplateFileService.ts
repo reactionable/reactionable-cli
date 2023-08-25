@@ -8,9 +8,13 @@ import { FileService } from "../file/FileService";
 export class TemplateFileService {
   constructor(@inject(FileService) private readonly fileService: FileService) {}
 
+  getTemplateDirectory(): string {
+    return join(__dirname, "./../../templates");
+  }
+
   async getTemplateFileContent(template: string): Promise<string> {
     const fileExt = extname(__filename);
-    const templatePath = join(__dirname, "./../../templates", template + ".template" + fileExt);
+    const templatePath = join(this.getTemplateDirectory(), template + ".template" + fileExt);
     if (!this.fileService.fileExistsSync(templatePath)) {
       throw new Error(`Template file "${templatePath}" does not exist`);
     }

@@ -1,1 +1,1 @@
-export default `<%= include("ComponentTest", it) %>`;
+export default `<%= include("@ComponentTest", it) %>`;
