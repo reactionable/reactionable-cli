@@ -25,7 +25,7 @@ onConfirm={() => onDelete(id)}
 
 %>
 
-<%= include("Component", {
+<%= include("@Component", {
   ...it,
   blocks: {
     importsHead: null,

@@ -48,7 +48,7 @@ const render = \`<Read<I<%= it.entityName %>Data> {...readProps}>
 
 %>
 
-<%= include("Component", {
+<%= include("@Component", {
   ...it,
   blocks: {
     imports,

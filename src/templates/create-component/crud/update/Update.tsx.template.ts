@@ -44,7 +44,7 @@ const render = \`<Update<I<%= it.entityName %>Values, I<%= it.entityName %>Data>
 
 %>
 
-<%= include("Component", {
+<%= include("@Component", {
   ...it,
   blocks: {
     importsHead: null,
