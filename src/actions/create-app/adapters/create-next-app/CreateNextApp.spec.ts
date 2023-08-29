@@ -1,13 +1,13 @@
-import { join } from 'path';
+import { join } from "path";
 
-import prompts from 'prompts';
+import prompts from "prompts";
 
-import container from '../../../../container';
-import { mockYarnCmd, restoreMockCmd } from '../../../../tests/mock-cmd';
-import { mockDir, mockDirPath, mockYarnDir, restoreMockFs } from '../../../../tests/mock-fs';
-import CreateNextApp from './CreateNextApp';
+import container from "../../../../container";
+import { mockYarnCmd, restoreMockCmd } from "../../../../tests/mock-cmd";
+import { mockDir, mockDirPath, mockYarnDir, restoreMockFs } from "../../../../tests/mock-fs";
+import CreateNextApp from "./CreateNextApp";
 
-describe('CreateNextApp', () => {
+describe("CreateNextApp", () => {
   let createNextApp: CreateNextApp;
 
   beforeAll(() => {
@@ -21,15 +21,15 @@ describe('CreateNextApp', () => {
 
   afterAll(jest.resetAllMocks);
 
-  describe('checkIfAppExistsAlready', () => {
-    it('should return false if the given realpath is not an existing directory', async () => {
+  describe("checkIfAppExistsAlready", () => {
+    it("should return false if the given realpath is not an existing directory", async () => {
       mockDir();
 
-      const result = await createNextApp.checkIfAppExistsAlready(join(mockDirPath, 'app'));
+      const result = await createNextApp.checkIfAppExistsAlready(join(mockDirPath, "app"));
       expect(result).toEqual(false);
     });
 
-    it('should return undefined if user do not want overriding existing directory', async () => {
+    it("should return undefined if user do not want overriding existing directory", async () => {
       mockDir();
 
       prompts.inject([false]);
@@ -37,7 +37,7 @@ describe('CreateNextApp', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should return false if directory exists but do not have expected files', async () => {
+    it("should return false if directory exists but do not have expected files", async () => {
       mockDir();
 
       prompts.inject([true]);
@@ -46,12 +46,12 @@ describe('CreateNextApp', () => {
       expect(result).toEqual(false);
     });
 
-    it('should return true if directory exists and have expected files', async () => {
+    it("should return true if directory exists and have expected files", async () => {
       mockYarnCmd();
       mockYarnDir({
-        'package.json': JSON.stringify({
+        "package.json": JSON.stringify({
           dependencies: {
-            next: '1.0.0',
+            next: "1.0.0",
           },
         }),
       });

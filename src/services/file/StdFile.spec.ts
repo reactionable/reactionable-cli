@@ -1,18 +1,18 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { readFileSync } from "fs";
+import { join } from "path";
 
-import prompts from 'prompts';
+import prompts from "prompts";
 
-import container from '../../container';
-import { mockDir, mockDirPath, restoreMockFs } from '../../tests/mock-fs';
-import { CliService } from '../CliService';
-import { FileDiffService } from './FileDiffService';
-import { FileFactory } from './FileFactory';
-import { FileService } from './FileService';
-import { StdFile } from './StdFile';
+import container from "../../container";
+import { mockDir, mockDirPath, restoreMockFs } from "../../tests/mock-fs";
+import { CliService } from "../CliService";
+import { FileDiffService } from "./FileDiffService";
+import { FileFactory } from "./FileFactory";
+import { FileService } from "./FileService";
+import { StdFile } from "./StdFile";
 
-describe('services - File - StdFile', () => {
-  const fileName = 'test.txt';
+describe("services - File - StdFile", () => {
+  const fileName = "test.txt";
   const filePath = join(mockDirPath, fileName);
 
   let cliService: CliService;
@@ -33,11 +33,11 @@ describe('services - File - StdFile', () => {
 
   afterAll(jest.resetAllMocks);
 
-  describe('saveFile', () => {
-    it('should save a new file', async () => {
+  describe("saveFile", () => {
+    it("should save a new file", async () => {
       mockDir();
 
-      const fileContent = 'test content';
+      const fileContent = "test content";
       const file = new StdFile(
         cliService,
         fileService,
@@ -55,12 +55,12 @@ describe('services - File - StdFile', () => {
       expect(readFileSync(filePath).toString()).toEqual(fileContent);
     });
 
-    it('should override an existing file', async () => {
-      mockDir({ [fileName]: 'test original content' });
+    it("should override an existing file", async () => {
+      mockDir({ [fileName]: "test original content" });
 
-      prompts.inject(['overwrite']);
+      prompts.inject(["overwrite"]);
 
-      const fileContent = 'test new content';
+      const fileContent = "test new content";
       const file = new StdFile(
         cliService,
         fileService,
@@ -77,12 +77,12 @@ describe('services - File - StdFile', () => {
       expect(readFileSync(filePath).toString()).toEqual(fileContent);
     });
 
-    it('should not override an existing file', async () => {
-      const originalContent = 'test original content';
+    it("should not override an existing file", async () => {
+      const originalContent = "test original content";
 
       mockDir({ [fileName]: originalContent });
       expect(readFileSync(filePath).toString()).toEqual(originalContent);
-      prompts.inject(['cancel']);
+      prompts.inject(["cancel"]);
 
       const file = new StdFile(
         cliService,
@@ -91,7 +91,7 @@ describe('services - File - StdFile', () => {
         fileFactory,
         filePath,
         undefined,
-        'test new content'
+        "test new content"
       );
 
       const result = await file.saveFile();
@@ -101,7 +101,7 @@ describe('services - File - StdFile', () => {
     });
 
     // TODO This behaviour must be implemented
-    it.skip('should ask for overriding an existing file only onte time if changes occured in the same place', async () => {
+    it.skip("should ask for overriding an existing file only onte time if changes occured in the same place", async () => {
       const originalContent = `
         line 1 content
         line 2 content
@@ -110,7 +110,7 @@ describe('services - File - StdFile', () => {
       `;
       mockDir({ [fileName]: originalContent });
 
-      prompts.inject(['overwrite']);
+      prompts.inject(["overwrite"]);
 
       let file = new StdFile(
         cliService,
@@ -129,7 +129,7 @@ describe('services - File - StdFile', () => {
       await file.saveFile();
 
       // Mock prompt in case of test failure
-      prompts.inject(['cancel']);
+      prompts.inject(["cancel"]);
 
       const newContent = `
         line 1 content

@@ -1,33 +1,33 @@
-import { dirname, join, resolve } from 'path';
+import { dirname, join, resolve } from "path";
 
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
-import { PackageManagerType } from '../../../../services/package-manager/PackageManagerService';
-import { AbstractCreateAppAdapter } from '../CreateAppAdapter';
+import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
+import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
 
 @injectable()
 export default class CreateNextApp extends AbstractCreateAppAdapter {
-  protected name = 'Create a new NextJs app';
+  protected name = "Create a new NextJs app";
 
   /**
    * Define the namespace to be used for generating files from templates
    */
-  protected namespace = 'nextjs';
+  protected namespace = "nextjs";
 
   /**
    * Define where the application entrypoint file is located
    */
-  protected entrypointPath = 'pages/_app.tsx';
+  protected entrypointPath = "pages/_app.tsx";
 
   /**
    * Define where the main application file is located
    */
-  protected applicationPath = 'pages/_app.tsx';
+  protected applicationPath = "pages/_app.tsx";
 
   /**
    * Define where the lib files are located
    */
-  protected libPath = 'lib';
+  protected libPath = "lib";
 
   async createApp({
     realpath,
@@ -37,8 +37,8 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
     appExistsAlready: boolean;
   }): Promise<void> {
     if (!appExistsAlready) {
-      const hasGitDir = this.fileService.dirExistsSync(resolve(realpath, '.git'));
-      const npxCmd = 'create-next-app';
+      const hasGitDir = this.fileService.dirExistsSync(resolve(realpath, ".git"));
+      const npxCmd = "create-next-app";
       const createAppCmd = this.cliService.getGlobalCmd(npxCmd);
       if (!createAppCmd) {
         return this.consoleService.error(
@@ -52,46 +52,46 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
         return;
       }
 
-      this.consoleService.info('Creating app...');
+      this.consoleService.info("Creating app...");
       const cmdArgs = [createAppCmd, realpath];
       if (packageManager === PackageManagerType.npm) {
-        cmdArgs.push('--use-npm');
+        cmdArgs.push("--use-npm");
       }
       await this.cliService.execCmd(cmdArgs, dirname(realpath));
 
       // Remove created git dir
       if (!hasGitDir) {
-        this.fileService.rmdirSync(resolve(realpath, '.git'));
+        this.fileService.rmdirSync(resolve(realpath, ".git"));
       }
 
       this.consoleService.success(`App has been created in "${realpath}"`);
 
-      this.fileService.touchFileSync(join(realpath, 'tsconfig.json'));
+      this.fileService.touchFileSync(join(realpath, "tsconfig.json"));
       await this.packageManagerService.installPackages(realpath, [
-        'typescript',
-        '@types/react',
-        '@types/node',
+        "typescript",
+        "@types/react",
+        "@types/node",
       ]);
-      await this.packageManagerService.execPackageManagerCmd(realpath, ['next', 'build']);
+      await this.packageManagerService.execPackageManagerCmd(realpath, ["next", "build"]);
     }
 
     // Replace js files
-    this.fileService.replaceFileExtension(resolve(realpath, 'pages/_app.js'), 'tsx');
-    this.fileService.replaceFileExtension(resolve(realpath, 'pages/index.js'), 'tsx');
-    this.fileService.replaceFileExtension(resolve(realpath, 'pages/api/hello.js'), 'ts');
+    this.fileService.replaceFileExtension(resolve(realpath, "pages/_app.js"), "tsx");
+    this.fileService.replaceFileExtension(resolve(realpath, "pages/index.js"), "tsx");
+    this.fileService.replaceFileExtension(resolve(realpath, "pages/api/hello.js"), "ts");
 
-    await this.packageManagerService.uninstallPackages(realpath, ['@types/react', '@types/node']);
-    await this.packageManagerService.installPackages(realpath, ['@reactionable/nextjs']);
+    await this.packageManagerService.uninstallPackages(realpath, ["@types/react", "@types/node"]);
+    await this.packageManagerService.installPackages(realpath, ["@reactionable/nextjs"]);
 
-    this.fileService.mkdirSync(resolve(realpath, this.libPath, 'components'), true);
+    this.fileService.mkdirSync(resolve(realpath, this.libPath, "components"), true);
 
     // Create app components
-    this.consoleService.info('Create base components...');
+    this.consoleService.info("Create base components...");
     await this.createComponent.run({
       realpath,
-      name: 'App',
+      name: "App",
       componentDirPath: resolve(realpath, this.getAppFilePath()),
-      componentTemplate: 'app/nextjs/App.tsx',
+      componentTemplate: "app/nextjs/App.tsx",
     });
     this.consoleService.success(`Base components have been created in "${realpath}"`);
   }
@@ -107,7 +107,7 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
 
     const reactAppExists =
       (await this.packageManagerService.hasPackageJson(realpath)) &&
-      (await this.packageManagerService.hasInstalledPackage(realpath, 'next'));
+      (await this.packageManagerService.hasInstalledPackage(realpath, "next"));
 
     return reactAppExists;
   }
@@ -116,8 +116,8 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
     await super.addSass(realpath);
 
     // Replace css files
-    this.fileService.replaceFileExtension(resolve(realpath, 'styles/globals.css'), 'scss');
-    this.fileService.replaceFileExtension(resolve(realpath, 'styles/Home.module.css'), 'scss');
+    this.fileService.replaceFileExtension(resolve(realpath, "styles/globals.css"), "scss");
+    this.fileService.replaceFileExtension(resolve(realpath, "styles/Home.module.css"), "scss");
 
     await this.fileFactory
       .fromFile(resolve(realpath, this.getAppFilePath()))
@@ -125,7 +125,7 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
       .saveFile();
 
     await this.fileFactory
-      .fromFile(resolve(realpath, 'pages/index.tsx'))
+      .fromFile(resolve(realpath, "pages/index.tsx"))
       .replaceContent(
         /import styles from '\.\.\/styles\/Home\.module\.css'/,
         "import styles from '../styles/Home.module.scss'"

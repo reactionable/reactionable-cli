@@ -1,19 +1,19 @@
-import { inject, injectable } from 'inversify';
+import { inject, injectable } from "inversify";
 
-import { ConsoleService } from '../services/ConsoleService';
-import { GitService } from '../services/git/GitService';
+import { ConsoleService } from "../services/ConsoleService";
+import { GitService } from "../services/git/GitService";
 import {
   AbstractActionWithAdapters,
   ActionWithAdaptersOptions,
-} from './AbstractActionWithAdapters';
-import { AdapterAction } from './AdapterAction';
+} from "./AbstractActionWithAdapters";
+import { AdapterAction } from "./AdapterAction";
 
 export type CommitableActionWithAdaptersOptions = ActionWithAdaptersOptions;
 
 @injectable()
 export abstract class AbstractCommitableActionWithAdapters<
   A extends AdapterAction,
-  O extends CommitableActionWithAdaptersOptions = CommitableActionWithAdaptersOptions
+  O extends CommitableActionWithAdaptersOptions = CommitableActionWithAdaptersOptions,
 > extends AbstractActionWithAdapters<A, O> {
   constructor(
     @inject(GitService) private readonly gitService: GitService,
@@ -38,7 +38,7 @@ export abstract class AbstractCommitableActionWithAdapters<
     await this.gitService.commitFiles(
       options.realpath,
       `adding ${this.getName()} "${adapter.getName()}"`,
-      'feat'
+      "feat"
     );
   }
 }

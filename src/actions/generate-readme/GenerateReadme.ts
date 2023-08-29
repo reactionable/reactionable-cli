@@ -1,10 +1,10 @@
-import { inject, injectable } from 'inversify';
-import prompts from 'prompts';
+import { inject, injectable } from "inversify";
+import prompts from "prompts";
 
-import { CliService } from '../../services/CliService';
-import { ConsoleService } from '../../services/ConsoleService';
-import { GitService } from '../../services/git/GitService';
-import { NamedAction, NamedActionOptions } from '../NamedAction';
+import { CliService } from "../../services/CliService";
+import { ConsoleService } from "../../services/ConsoleService";
+import { GitService } from "../../services/git/GitService";
+import { NamedAction, NamedActionOptions } from "../NamedAction";
 
 type GenerateReadmeOptions = NamedActionOptions & { mustPrompt: boolean };
 
@@ -17,17 +17,17 @@ export default class GenerateReadme implements NamedAction<GenerateReadmeOptions
   ) {}
 
   getName(): string {
-    return 'Generate README.md file';
+    return "Generate README.md file";
   }
 
   async run({ realpath, mustPrompt = false }: GenerateReadmeOptions): Promise<void> {
-    this.consoleService.info('Generating README.md file...');
+    this.consoleService.info("Generating README.md file...");
     if (mustPrompt) {
       const { override } = await prompts([
         {
-          type: 'confirm',
-          name: 'override',
-          message: 'Do you want to generate the README file?',
+          type: "confirm",
+          name: "override",
+          message: "Do you want to generate the README file?",
         },
       ]);
 
@@ -35,19 +35,19 @@ export default class GenerateReadme implements NamedAction<GenerateReadmeOptions
         return;
       }
     }
-    const readmeMdGeneratorCmd = this.cliService.getGlobalCmd('readme-md-generator');
+    const readmeMdGeneratorCmd = this.cliService.getGlobalCmd("readme-md-generator");
     if (!readmeMdGeneratorCmd) {
       return this.consoleService.error(
         'Unable to generate README.md file, install globally "readme-md-generator" or "npx"'
       );
     }
-    await this.cliService.execCmd([readmeMdGeneratorCmd, '-y'], realpath);
+    await this.cliService.execCmd([readmeMdGeneratorCmd, "-y"], realpath);
     this.consoleService.success(`README.md file has been generated in "${realpath}"`);
 
     if (!(await this.gitService.isAGitRepository(realpath))) {
       return;
     }
 
-    await this.gitService.commitFiles(realpath, 'generate README.md file', 'chore');
+    await this.gitService.commitFiles(realpath, "generate README.md file", "chore");
   }
 }

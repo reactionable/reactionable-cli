@@ -1,12 +1,12 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 
-import { Container } from 'inversify';
+import { Container } from "inversify";
 
-import NextJs from './adapters/NextJs';
-import { RouterAdapter } from './adapters/RouterAdapter';
-import RouterDom from './adapters/RouterDom';
+import NextJs from "./adapters/NextJs";
+import { RouterAdapter } from "./adapters/RouterAdapter";
+import RouterDom from "./adapters/RouterDom";
 
-export const AdapterKey = 'RouterAdapter';
+export const AdapterKey = "RouterAdapter";
 
 export function bindRouterAdapters(container: Container): void {
   container.bind<RouterAdapter>(AdapterKey).to(NextJs);

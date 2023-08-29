@@ -9,11 +9,11 @@ import {
   statSync,
   unlinkSync,
   utimesSync,
-} from 'fs';
-import { basename, dirname, extname, resolve } from 'path';
+} from "fs";
+import { basename, dirname, extname, resolve } from "path";
 
-import { injectable } from 'inversify';
-import { mv } from 'shelljs';
+import { injectable } from "inversify";
+import { mv } from "shelljs";
 
 @injectable()
 export class FileService {
@@ -22,7 +22,7 @@ export class FileService {
     try {
       utimesSync(path, time, time);
     } catch (err) {
-      closeSync(openSync(path, 'w'));
+      closeSync(openSync(path, "w"));
     }
   }
 
@@ -68,7 +68,7 @@ export class FileService {
 
     const newFilePath = resolve(
       dirname(filePath),
-      `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s.]+/, '')}`
+      `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s.]+/, "")}`
     );
     mv(filePath, newFilePath);
   }
@@ -99,7 +99,7 @@ export class FileService {
       const filename = resolve(dirpath, filepath);
       const stat = statSync(filename);
 
-      if (filename == '.' || filename == '..') {
+      if (filename == "." || filename == "..") {
         // pass these files
       } else if (stat.isDirectory()) {
         // rmdir recursively

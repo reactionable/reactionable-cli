@@ -1,15 +1,15 @@
-import { readFileSync, statSync } from 'fs';
-import { extname } from 'path';
+import { readFileSync, statSync } from "fs";
+import { extname } from "path";
 
-import { inject, injectable } from 'inversify';
+import { inject, injectable } from "inversify";
 
-import { CliService } from '../CliService';
-import { FileDiffService } from './FileDiffService';
-import { FileService } from './FileService';
-import { JsonFile } from './JsonFile';
-import { StdFile } from './StdFile';
-import { TomlFile } from './TomlFile';
-import { TypescriptFile } from './TypescriptFile';
+import { CliService } from "../CliService";
+import { FileDiffService } from "./FileDiffService";
+import { FileService } from "./FileService";
+import { JsonFile } from "./JsonFile";
+import { StdFile } from "./StdFile";
+import { TomlFile } from "./TomlFile";
+import { TypescriptFile } from "./TypescriptFile";
 
 export enum FileContentType {
   mtime,
@@ -32,7 +32,7 @@ export class FileFactory {
     @inject(CliService) private readonly cliService: CliService
   ) {}
 
-  fromFile<File extends StdFile = StdFile>(file: string, encoding: BufferEncoding = 'utf8'): File {
+  fromFile<File extends StdFile = StdFile>(file: string, encoding: BufferEncoding = "utf8"): File {
     const realpath = this.fileService.assertFileExists(file);
 
     const stat = statSync(file);
@@ -64,7 +64,7 @@ export class FileFactory {
     }
   }
 
-  fromString(content: string, file: string, encoding: BufferEncoding = 'utf8'): StdFile {
+  fromString(content: string, file: string, encoding: BufferEncoding = "utf8"): StdFile {
     const args = [
       this.cliService,
       this.fileService,
@@ -76,12 +76,12 @@ export class FileFactory {
     ] as ConstructorParameters<typeof StdFile>;
 
     switch (extname(file)) {
-      case '.json':
+      case ".json":
         return new JsonFile(...args);
-      case '.toml':
+      case ".toml":
         return new TomlFile(...args);
-      case '.tsx':
-      case '.ts':
+      case ".tsx":
+      case ".ts":
         return new TypescriptFile(...args);
       default:
         return new StdFile(...args);

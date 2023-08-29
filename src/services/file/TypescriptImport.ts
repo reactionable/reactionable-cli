@@ -17,7 +17,10 @@ export class TypescriptImport {
   static readonly globImport = "*";
   static readonly defaultImport = "default";
 
-  constructor(public packageName: string, public modules: ITypescriptImportModules) {}
+  constructor(
+    public packageName: string,
+    public modules: ITypescriptImportModules
+  ) {}
 
   isLocal(): boolean {
     return !!/^\./.exec(this.packageName);

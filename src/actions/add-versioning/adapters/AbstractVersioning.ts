@@ -1,17 +1,18 @@
-import { inject, injectable } from 'inversify';
-import { Result } from 'parse-github-url';
-import prompts from 'prompts';
+import { inject, injectable } from "inversify";
+import { Result } from "parse-github-url";
+import prompts from "prompts";
 
-import { ConsoleService } from '../../../services/ConsoleService';
-import { GitService } from '../../../services/git/GitService';
-import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
-import { AbstractAdapterAction } from '../../AbstractAdapterAction';
-import { VersioningAdapter, VersioningAdapterOptions } from '../VersioningAdapter';
+import { ConsoleService } from "../../../services/ConsoleService";
+import { GitService } from "../../../services/git/GitService";
+import { PackageManagerService } from "../../../services/package-manager/PackageManagerService";
+import { AbstractAdapterAction } from "../../AbstractAdapterAction";
+import { VersioningAdapter, VersioningAdapterOptions } from "../VersioningAdapter";
 
 @injectable()
 export default abstract class AbstractVersioning
   extends AbstractAdapterAction
-  implements VersioningAdapter {
+  implements VersioningAdapter
+{
   constructor(
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
     @inject(PackageManagerService)
@@ -31,32 +32,32 @@ export default abstract class AbstractVersioning
     const gitRemoteOriginUrl = await this.gitService.getGitRemoteOriginUrl(realpath, false);
 
     if (!gitRemoteOriginUrl) {
-      this.consoleService.info('Define git remote url...');
+      this.consoleService.info("Define git remote url...");
 
       const { remoteOriginUrl } = await prompts([
         {
-          type: 'text',
-          name: 'remoteOriginUrl',
-          message: 'Remote origin url (https://gitxxx.com/username/new_repo)',
+          type: "text",
+          name: "remoteOriginUrl",
+          message: "Remote origin url (https://gitxxx.com/username/new_repo)",
           validate: (input) => {
             const result = this.validateGitRemote(input);
-            return typeof result === 'string' ? result : true;
+            return typeof result === "string" ? result : true;
           },
         },
       ]);
 
-      await this.gitService.execGitCmd(['remote', 'add', 'origin', remoteOriginUrl], realpath);
+      await this.gitService.execGitCmd(["remote", "add", "origin", remoteOriginUrl], realpath);
       this.consoleService.info(`Git remote url as been set to "${remoteOriginUrl}"`);
     }
 
     await this.packageManagerService.updatePackageJson(realpath, {
       repository: {
-        type: 'git',
+        type: "git",
         url: `git+${gitRemoteOriginUrl}`,
       },
     });
 
-    return this.gitService.commitFiles(realpath, 'initial commit', 'feat');
+    return this.gitService.commitFiles(realpath, "initial commit", "feat");
   }
 
   validateGitRemote(input: string): string | Result {

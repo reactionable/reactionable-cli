@@ -1,13 +1,13 @@
-import { spawn } from 'child_process';
+import { spawn } from "child_process";
 
-import { bgGreenBright, bgRedBright, greenBright, grey, redBright } from 'chalk';
-import { Change } from 'diff';
-import { inject, injectable } from 'inversify';
-import prompts from 'prompts';
-import { which } from 'shelljs';
+import { bgGreenBright, bgRedBright, greenBright, grey, redBright } from "chalk";
+import { Change } from "diff";
+import { inject, injectable } from "inversify";
+import prompts from "prompts";
+import { which } from "shelljs";
 
-import { ConsoleService } from './ConsoleService';
-import { FileService } from './file/FileService';
+import { ConsoleService } from "./ConsoleService";
+import { FileService } from "./file/FileService";
 
 @injectable()
 export class CliService {
@@ -35,7 +35,7 @@ export class CliService {
 
   execCmd(args: string | string[], cwd?: string, silent = false): Promise<string> {
     if (!args.length) {
-      throw new Error('Command args must not be empty');
+      throw new Error("Command args must not be empty");
     }
 
     if (cwd && !this.fileService.dirExistsSync(cwd)) {
@@ -44,7 +44,7 @@ export class CliService {
 
     let cmd: string;
     if (Array.isArray(args)) {
-      cmd = args.shift() || '';
+      cmd = args.shift() || "";
     } else {
       cmd = args;
       args = [];
@@ -52,16 +52,16 @@ export class CliService {
 
     return new Promise((resolve, reject) => {
       const child = spawn(cmd, args as string[], {
-        stdio: silent ? 'pipe' : 'inherit',
+        stdio: silent ? "pipe" : "inherit",
         shell: true,
         windowsVerbatimArguments: true,
         cwd,
       });
 
-      let output = '';
-      let error = '';
+      let output = "";
+      let error = "";
 
-      child.on('exit', function (code) {
+      child.on("exit", function (code) {
         if (code) {
           return reject(error);
         }
@@ -69,12 +69,12 @@ export class CliService {
       });
 
       if (child.stdout) {
-        child.stdout.on('data', (data) => {
+        child.stdout.on("data", (data) => {
           output += `\n${data}`;
         });
       }
       if (child.stderr) {
-        child.stderr.on('data', (data) => {
+        child.stderr.on("data", (data) => {
           error += `\n${data}`;
         });
       }
@@ -91,22 +91,22 @@ export class CliService {
     while (shouldPrompt) {
       const { action } = await prompts([
         {
-          type: 'select',
-          name: 'action',
+          type: "select",
+          name: "action",
           message: `File "${file}" exists already, what do you want to do?`,
           choices: [
-            { title: 'Show diff', value: 'diff' },
-            { title: 'Overwrite file', value: 'overwrite' },
-            { title: 'Keep original file', value: 'cancel' },
+            { title: "Show diff", value: "diff" },
+            { title: "Overwrite file", value: "overwrite" },
+            { title: "Keep original file", value: "cancel" },
           ],
         },
       ]);
 
-      if (action === 'cancel') {
+      if (action === "cancel") {
         return false;
       }
 
-      if (action === 'overwrite') {
+      if (action === "overwrite") {
         return true;
       }
 
@@ -129,11 +129,11 @@ export class CliService {
             break;
         }
 
-        const value = part.value === '\n' ? ' '.repeat(process.stdout.columns) : part.value;
+        const value = part.value === "\n" ? " ".repeat(process.stdout.columns) : part.value;
         diffMessage += colorFunction(value);
       }
 
-      diffMessage += '\n-----------------------------------------------\n';
+      diffMessage += "\n-----------------------------------------------\n";
 
       this.consoleService.info(diffMessage);
       await this.pause();
@@ -145,7 +145,7 @@ export class CliService {
     const nodeVersionMatch = process.version.match(/^v(\d+\.\d+)/);
 
     if (!nodeVersionMatch) {
-      throw new Error('Unable to retrieve node version');
+      throw new Error("Unable to retrieve node version");
     }
     return nodeVersionMatch[1];
   }
@@ -154,7 +154,7 @@ export class CliService {
     if (this.getCmd(cmd)) {
       return cmd;
     }
-    if (this.getCmd('npx')) {
+    if (this.getCmd("npx")) {
       return `npx ${cmd}`;
     }
     return null;
@@ -162,7 +162,7 @@ export class CliService {
 
   async upgradeGlobalPackage(packageName: string): Promise<void> {
     const outdatedInfo = await this.execCmd(
-      ['npm', 'outdated', '-g', packageName, '--json', '||', 'true'],
+      ["npm", "outdated", "-g", packageName, "--json", "||", "true"],
       undefined,
       true
     );
@@ -173,18 +173,18 @@ export class CliService {
         outdatedData[packageName]?.current &&
         outdatedData[packageName].current !== outdatedData[packageName].latest
       ) {
-        await this.execCmd(['npm', 'install', '-g', packageName], undefined);
+        await this.execCmd(["npm", "install", "-g", packageName], undefined);
       }
     }
   }
 
-  private pause(message = 'Press any key to continue...') {
+  private pause(message = "Press any key to continue...") {
     return new Promise((resolve, reject) => {
       try {
         this.consoleService.info(message);
         process.stdin.setRawMode(true);
         process.stdin.resume();
-        process.stdin.on('data', resolve);
+        process.stdin.on("data", resolve);
       } catch (error) {
         reject(error);
       }

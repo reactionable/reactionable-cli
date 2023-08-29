@@ -1,21 +1,21 @@
-import { readFileSync, writeFileSync } from 'fs';
-import { EOL } from 'os';
+import { readFileSync, writeFileSync } from "fs";
+import { EOL } from "os";
 
-import { CliService } from '../CliService';
-import { FileDiffService } from './FileDiffService';
-import { FileFactory } from './FileFactory';
-import { FileService } from './FileService';
+import { CliService } from "../CliService";
+import { FileDiffService } from "./FileDiffService";
+import { FileFactory } from "./FileFactory";
+import { FileService } from "./FileService";
 
 export class StdFile {
-  protected content = '';
+  protected content = "";
   constructor(
     protected readonly cliService: CliService,
     protected readonly fileService: FileService,
     protected readonly fileDiffService: FileDiffService,
     protected readonly fileFactory: FileFactory,
     protected readonly file: string | null = null,
-    protected readonly encoding: BufferEncoding = 'utf8',
-    content = ''
+    protected readonly encoding: BufferEncoding = "utf8",
+    content = ""
   ) {
     this.setContent(content);
   }
@@ -30,7 +30,7 @@ export class StdFile {
   }
 
   protected fixContentEOL(content: string): string {
-    return content.replace(/(?:\r\n|\r|\n)/g, '\n');
+    return content.replace(/(?:\r\n|\r|\n)/g, "\n");
   }
 
   getContent(): string {
@@ -77,7 +77,7 @@ export class StdFile {
   async saveFile(file: string | null = null, encoding?: BufferEncoding): Promise<this> {
     if (file === null) {
       if (this.file === null) {
-        throw new Error('A file path is mandatory to save file');
+        throw new Error("A file path is mandatory to save file");
       }
       file = this.file;
     }

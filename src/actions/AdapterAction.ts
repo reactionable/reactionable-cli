@@ -1,4 +1,4 @@
-import { RealpathAction, RealpathActionOptions } from './RealpathAction';
+import { RealpathAction, RealpathActionOptions } from "./RealpathAction";
 
 export type AdapterActionOptions = RealpathActionOptions;
 

@@ -1,28 +1,28 @@
-import { join, resolve } from 'path';
+import { join, resolve } from "path";
 
-import { injectable } from 'inversify';
-import { plural, singular } from 'pluralize';
-import prompts from 'prompts';
+import { injectable } from "inversify";
+import { plural, singular } from "pluralize";
+import prompts from "prompts";
 
-import { TypescriptFile } from '../../services/file/TypescriptFile';
-import { TypescriptImport } from '../../services/file/TypescriptImport';
-import { StringUtils } from '../../services/StringUtils';
-import CreateComponent, { CreateComponentOptions } from './CreateComponent';
+import { TypescriptFile } from "../../services/file/TypescriptFile";
+import { TypescriptImport } from "../../services/file/TypescriptImport";
+import { StringUtils } from "../../services/StringUtils";
+import CreateComponent, { CreateComponentOptions } from "./CreateComponent";
 
 @injectable()
 export default class CreateCrudComponent extends CreateComponent {
   getName(): string {
-    return 'Create a new CRUD component';
+    return "Create a new CRUD component";
   }
 
   async run({ realpath, name }: CreateComponentOptions): Promise<void> {
     if (!name) {
       const answer = await prompts([
         {
-          type: 'text',
-          name: 'name',
+          type: "text",
+          name: "name",
           message: "What's the component entity name?",
-          format: (input) => (input.length ? true : 'Component entity name is required'),
+          format: (input) => (input.length ? true : "Component entity name is required"),
         },
       ]);
       name = answer.name as string;
@@ -47,7 +47,7 @@ export default class CreateCrudComponent extends CreateComponent {
     const componentDirPath = await this.createComponent({
       realpath,
       name: entitiesName,
-      componentTemplate: 'crud/Crud.tsx',
+      componentTemplate: "crud/Crud.tsx",
       templateContext,
     });
 
@@ -71,8 +71,8 @@ export default class CreateCrudComponent extends CreateComponent {
     }
 
     // Create config
-    const namespace = join(CreateComponent.templateNamespace, 'crud');
-    const i18nPath = join((await this.getCreateAppAdapter(realpath)).getLibDirectoryPath(), 'i18n');
+    const namespace = join(CreateComponent.templateNamespace, "crud");
+    const i18nPath = join((await this.getCreateAppAdapter(realpath)).getLibDirectoryPath(), "i18n");
     await this.templateService.renderTemplate(realpath, namespace, {
       componentDirPath,
       i18nPath,
@@ -80,7 +80,7 @@ export default class CreateCrudComponent extends CreateComponent {
     });
 
     // Import and add translations as i18n ressources
-    const i18nFilepath = resolve(realpath, i18nPath, 'i18n.ts');
+    const i18nFilepath = resolve(realpath, i18nPath, "i18n.ts");
     const translationNamespace = StringUtils.camelize(entitiesName);
     await this.fileFactory
       .fromFile<TypescriptFile>(i18nFilepath)
@@ -94,8 +94,8 @@ export default class CreateCrudComponent extends CreateComponent {
           modules: { [`fr${entitiesName}`]: TypescriptImport.defaultImport },
         },
       ])
-      .appendContent(`    ${translationNamespace}: en${entitiesName},`, '    common: enCommon,')
-      .appendContent(`    ${translationNamespace}: fr${entitiesName},`, '    common: frCommon,')
+      .appendContent(`    ${translationNamespace}: en${entitiesName},`, "    common: enCommon,")
+      .appendContent(`    ${translationNamespace}: fr${entitiesName},`, "    common: frCommon,")
       .saveFile();
 
     this.consoleService.success(`CRUD component for "${entityName}" has been created`);
