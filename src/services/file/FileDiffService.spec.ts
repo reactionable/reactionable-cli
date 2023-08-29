@@ -1,11 +1,11 @@
-import { join } from 'path';
+import { join } from "path";
 
-import container from '../../container';
-import { mockDir, mockDirPath, restoreMockFs } from '../../tests/mock-fs';
-import { FileDiffService } from './FileDiffService';
+import container from "../../container";
+import { mockDir, mockDirPath, restoreMockFs } from "../../tests/mock-fs";
+import { FileDiffService } from "./FileDiffService";
 
-describe('FileDiffService', () => {
-  const fileName = 'test.txt';
+describe("FileDiffService", () => {
+  const fileName = "test.txt";
   const filePath = join(mockDirPath, fileName);
 
   let service: FileDiffService;
@@ -21,8 +21,8 @@ describe('FileDiffService', () => {
     restoreMockFs();
   });
 
-  describe('getFileContentDiff', () => {
-    it('should retrieve empty diff when file content and new content are the same', () => {
+  describe("getFileContentDiff", () => {
+    it("should retrieve empty diff when file content and new content are the same", () => {
       const originalContent = `line 1 content
 line 2 content
 line 3 content
@@ -35,7 +35,7 @@ line 4 content`;
       expect(diffs).toEqual([]);
     });
 
-    it('should retrieve diffs when file content and new content are different', () => {
+    it("should retrieve diffs when file content and new content are different", () => {
       const originalContent = `line 1 content
 line 2 content
 line 3 content
@@ -53,23 +53,23 @@ line 4 content`;
       expect(diffs).toEqual([
         {
           count: 2,
-          value: 'line 1 content\nline 2 content\n',
+          value: "line 1 content\nline 2 content\n",
         },
         {
           added: undefined,
           count: 1,
           removed: true,
-          value: 'line 3 content\n',
+          value: "line 3 content\n",
         },
         {
           added: true,
           count: 1,
           removed: undefined,
-          value: 'line new content\n',
+          value: "line new content\n",
         },
         {
           count: 1,
-          value: 'line 4 content',
+          value: "line 4 content",
         },
       ]);
     });

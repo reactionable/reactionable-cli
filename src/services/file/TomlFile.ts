@@ -1,7 +1,7 @@
-import { AnyJson, JsonMap, parse, stringify } from '@iarna/toml';
-import { all } from 'deepmerge';
+import { AnyJson, JsonMap, parse, stringify } from "@iarna/toml";
+import { all } from "deepmerge";
 
-import { StdFile } from './StdFile';
+import { StdFile } from "./StdFile";
 
 export class TomlFile extends StdFile {
   protected data?: JsonMap;

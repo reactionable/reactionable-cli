@@ -1,4 +1,4 @@
-import { JsonFileData } from '../../file/JsonFile';
+import { JsonFileData } from "../../file/JsonFile";
 
 export interface PackageJsonDependencies {
   [key: string]: string;
@@ -24,7 +24,7 @@ export interface PackageJson extends JsonFileData {
   };
   husky?: {
     hooks?: {
-      'commit-msg'?: string;
+      "commit-msg"?: string;
     };
   };
   config?: {

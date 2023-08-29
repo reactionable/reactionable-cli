@@ -1,8 +1,8 @@
-import container from '../../container';
-import { DirResult, createTmpDir } from '../../tests/tmp-dir';
-import { GitService } from './GitService';
+import container from "../../container";
+import { DirResult, createTmpDir } from "../../tests/tmp-dir";
+import { GitService } from "./GitService";
 
-describe('gitService', () => {
+describe("gitService", () => {
   let service: GitService;
   let testDir: DirResult;
 
@@ -14,13 +14,13 @@ describe('gitService', () => {
     testDir && testDir.removeCallback();
   });
 
-  describe('isAGitRepository', () => {
-    it('should return true when the given directory path is a git repository', async () => {
+  describe("isAGitRepository", () => {
+    it("should return true when the given directory path is a git repository", async () => {
       const result = await service.isAGitRepository(__dirname);
       expect(result).toEqual(true);
     });
 
-    it('should return false when the given directory path is not a git repository', async () => {
+    it("should return false when the given directory path is not a git repository", async () => {
       testDir = createTmpDir(false);
       const result = await service.isAGitRepository(testDir.name);
       expect(result).toEqual(false);

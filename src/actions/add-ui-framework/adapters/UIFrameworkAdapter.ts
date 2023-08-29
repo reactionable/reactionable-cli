@@ -1,25 +1,26 @@
-import { resolve } from 'path';
+import { resolve } from "path";
 
-import { LazyServiceIdentifer, inject, injectable } from 'inversify';
+import { LazyServiceIdentifer, inject, injectable } from "inversify";
 
-import { ConsoleService } from '../../../services/ConsoleService';
-import { FileFactory } from '../../../services/file/FileFactory';
-import { TypescriptFile } from '../../../services/file/TypescriptFile';
-import { PackageManagerService } from '../../../services/package-manager/PackageManagerService';
+import { ConsoleService } from "../../../services/ConsoleService";
+import { FileFactory } from "../../../services/file/FileFactory";
+import { TypescriptFile } from "../../../services/file/TypescriptFile";
+import { PackageManagerService } from "../../../services/package-manager/PackageManagerService";
 import {
   AbstractAdapterWithPackageAction,
   AdapterWithPackageActionOptions,
-} from '../../AbstractAdapterWithPackageAction';
-import CreateApp from '../../create-app/CreateApp';
+} from "../../AbstractAdapterWithPackageAction";
+import CreateApp from "../../create-app/CreateApp";
 
 export type UIFrameworkAdapter<
-  O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions
+  O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
 > = AbstractAdapterWithPackageAction<O>;
 
 @injectable()
 export abstract class AbstractUIFrameworkAdapter
   extends AbstractAdapterWithPackageAction
-  implements UIFrameworkAdapter {
+  implements UIFrameworkAdapter
+{
   constructor(
     @inject(PackageManagerService)
     packageManagerService: PackageManagerService,
@@ -34,7 +35,7 @@ export abstract class AbstractUIFrameworkAdapter
     await super.run({ realpath });
 
     // Add UI components to existing App components
-    this.consoleService.info('Add UI components to existing components...');
+    this.consoleService.info("Add UI components to existing components...");
     const appFile = await this.getAppFilePath(realpath);
     await this.fileFactory
       .fromFile<TypescriptFile>(appFile)
@@ -43,25 +44,25 @@ export abstract class AbstractUIFrameworkAdapter
           {
             packageName: this.getAdapterPackageName(),
             modules: {
-              IAppProps: '',
-              useUIContextProviderProps: '',
+              IAppProps: "",
+              useUIContextProviderProps: "",
             },
           },
         ],
         [
           {
-            packageName: '@reactionable/core',
+            packageName: "@reactionable/core",
             modules: {
-              IUIContextProviderProps: '',
-              IAppProps: '',
+              IUIContextProviderProps: "",
+              IAppProps: "",
             },
           },
         ]
       )
-      .replaceContent(/ui: undefined,.*$/m, 'ui: useUIContextProviderProps(),')
+      .replaceContent(/ui: undefined,.*$/m, "ui: useUIContextProviderProps(),")
       .saveFile();
 
-    this.consoleService.success('UI components have been added to existing components');
+    this.consoleService.success("UI components have been added to existing components");
   }
 
   protected async getAppFilePath(realpath: string): Promise<string> {

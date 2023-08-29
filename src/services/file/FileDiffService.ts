@@ -1,9 +1,9 @@
-import { realpathSync, statSync } from 'fs';
+import { realpathSync, statSync } from "fs";
 
-import { Change, diffLines } from 'diff';
-import { inject, injectable } from 'inversify';
+import { Change, diffLines } from "diff";
+import { inject, injectable } from "inversify";
 
-import { CliService } from '../CliService';
+import { CliService } from "../CliService";
 
 @injectable()
 export class FileDiffService {

@@ -1,21 +1,21 @@
-import { resolve } from 'path';
+import { resolve } from "path";
 
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
-import { AdapterWithPackageActionOptions } from '../../AbstractAdapterWithPackageAction';
-import { AbstractUIFrameworkAdapter } from './UIFrameworkAdapter';
+import { AdapterWithPackageActionOptions } from "../../AbstractAdapterWithPackageAction";
+import { AbstractUIFrameworkAdapter } from "./UIFrameworkAdapter";
 
 @injectable()
 export default class UIBootstrap extends AbstractUIFrameworkAdapter {
-  protected name = 'UI Bootstrap (React Bootstrap)';
-  protected adapterPackageName = '@reactionable/ui-bootstrap';
+  protected name = "UI Bootstrap (React Bootstrap)";
+  protected adapterPackageName = "@reactionable/ui-bootstrap";
 
   async run({ realpath }: AdapterWithPackageActionOptions): Promise<void> {
     await super.run({ realpath });
 
     // Import style files
-    this.consoleService.info('Import style files...');
-    const mainStyleFile = resolve(realpath, 'src/index.scss');
+    this.consoleService.info("Import style files...");
+    const mainStyleFile = resolve(realpath, "src/index.scss");
 
     await this.fileFactory
       .fromFile(mainStyleFile)

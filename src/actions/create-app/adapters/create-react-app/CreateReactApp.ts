@@ -1,33 +1,33 @@
-import { dirname, resolve } from 'path';
+import { dirname, resolve } from "path";
 
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
-import { PackageManagerType } from '../../../../services/package-manager/PackageManagerService';
-import { AbstractCreateAppAdapter } from '../CreateAppAdapter';
+import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
+import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
 
 @injectable()
 export default class CreateReactApp extends AbstractCreateAppAdapter {
-  protected name = 'Create a new React app';
+  protected name = "Create a new React app";
 
   /**
    * Define the namespace to be used for generating files from templates
    */
-  protected namespace = 'react';
+  protected namespace = "react";
 
   /**
    * Define where the application entrypoint file is located
    */
-  protected entrypointPath = 'src/index.tsx';
+  protected entrypointPath = "src/index.tsx";
 
   /**
    * Define where the main application file is located
    */
-  protected applicationPath = 'src/App.tsx';
+  protected applicationPath = "src/App.tsx";
 
   /**
    * Define where the lib files are located
    */
-  protected libPath = 'src';
+  protected libPath = "src";
 
   async createApp({
     realpath,
@@ -37,7 +37,7 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
     appExistsAlready: boolean;
   }): Promise<void> {
     if (!appExistsAlready) {
-      const createReactAppCmd = this.cliService.getGlobalCmd('create-react-app');
+      const createReactAppCmd = this.cliService.getGlobalCmd("create-react-app");
       if (!createReactAppCmd) {
         return this.consoleService.error(
           'Unable to create app, install globally "create-react-app" or "npx"'
@@ -50,39 +50,39 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
         return;
       }
 
-      this.consoleService.info('Creating app...');
-      const cmdArgs = [createReactAppCmd, realpath, '--template', 'typescript'];
+      this.consoleService.info("Creating app...");
+      const cmdArgs = [createReactAppCmd, realpath, "--template", "typescript"];
       if (packageManager === PackageManagerType.npm) {
-        cmdArgs.push('--use-npm');
+        cmdArgs.push("--use-npm");
       }
       await this.cliService.execCmd(cmdArgs, dirname(realpath));
       this.consoleService.success(`App has been created in "${realpath}"`);
     }
 
-    await this.packageManagerService.installPackages(realpath, ['@reactionable/router-dom']);
+    await this.packageManagerService.installPackages(realpath, ["@reactionable/router-dom"]);
     await this.packageManagerService.installPackages(
       realpath,
-      ['@types/react-helmet', '@types/react-router-dom', '@types/yup'],
+      ["@types/react-helmet", "@types/react-router-dom", "@types/yup"],
       true,
       true
     );
 
-    this.fileService.mkdirSync(resolve(realpath, this.libPath, 'components'), true);
+    this.fileService.mkdirSync(resolve(realpath, this.libPath, "components"), true);
 
     // Create app components
-    this.consoleService.info('Create base components...');
+    this.consoleService.info("Create base components...");
     await this.createComponent.run({
       realpath,
-      name: 'App',
+      name: "App",
       componentDirPath: resolve(realpath, this.getAppFilePath()),
-      componentTemplate: 'app/react/App.tsx',
+      componentTemplate: "app/react/App.tsx",
     });
     await this.createComponent.run({
       realpath,
-      name: 'NotFound',
-      componentTemplate: 'not-found/NotFound.tsx',
+      name: "NotFound",
+      componentTemplate: "not-found/NotFound.tsx",
     });
-    await this.createComponent.run({ realpath, name: 'Home' });
+    await this.createComponent.run({ realpath, name: "Home" });
     this.consoleService.success(`Base components have been created in "${realpath}"`);
   }
 
@@ -97,9 +97,9 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
 
     const reactAppExists =
       (await this.packageManagerService.hasPackageJson(realpath)) &&
-      (await this.packageManagerService.hasInstalledPackage(realpath, 'react')) &&
+      (await this.packageManagerService.hasInstalledPackage(realpath, "react")) &&
       this.fileService.fileExistsSync(
-        resolve(realpath, this.getLibDirectoryPath(), 'react-app-env.d.ts')
+        resolve(realpath, this.getLibDirectoryPath(), "react-app-env.d.ts")
       );
 
     return reactAppExists;
@@ -110,12 +110,12 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
 
     // Replace css files
     this.fileService.replaceFileExtension(
-      resolve(realpath, this.getLibDirectoryPath(), 'index.css'),
-      'scss'
+      resolve(realpath, this.getLibDirectoryPath(), "index.css"),
+      "scss"
     );
     this.fileService.replaceFileExtension(
-      resolve(realpath, this.getLibDirectoryPath(), 'App.css'),
-      'scss'
+      resolve(realpath, this.getLibDirectoryPath(), "App.css"),
+      "scss"
     );
 
     await this.fileFactory

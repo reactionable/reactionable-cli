@@ -1,12 +1,12 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
 import {
   AbstractAdapterWithPackageAction,
   AdapterWithPackageActionOptions,
-} from '../../AbstractAdapterWithPackageAction';
+} from "../../AbstractAdapterWithPackageAction";
 
 export type RouterAdapter<
-  O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions
+  O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
 > = AbstractAdapterWithPackageAction<O>;
 
 @injectable()

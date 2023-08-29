@@ -1,5 +1,5 @@
-import container from '../../../container';
-import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from '../../../tests/mock-cmd';
+import container from "../../../container";
+import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from "../../../tests/mock-cmd";
 import {
   mockDirPath,
   mockMonorepoPackageDirName,
@@ -8,13 +8,13 @@ import {
   mockYarnDir,
   mockYarnMonorepoDir,
   restoreMockFs,
-} from '../../../tests/mock-fs';
-import { CliService } from '../../CliService';
-import { FileFactory } from '../../file/FileFactory';
-import { FileService } from '../../file/FileService';
-import { YarnPackageManager } from '../adapters/YarnPackageManager';
+} from "../../../tests/mock-fs";
+import { CliService } from "../../CliService";
+import { FileFactory } from "../../file/FileFactory";
+import { FileService } from "../../file/FileService";
+import { YarnPackageManager } from "../adapters/YarnPackageManager";
 
-describe('yarnPackageManager', () => {
+describe("yarnPackageManager", () => {
   const cliService = container.get(CliService);
   const fileService = container.get(FileService);
   const fileFactory = container.get(FileFactory);
@@ -31,8 +31,8 @@ describe('yarnPackageManager', () => {
     restoreMockCmd();
   });
 
-  describe('getMonorepoRootPath', () => {
-    it('should retrieve monorepo root path for given directory path', async () => {
+  describe("getMonorepoRootPath", () => {
+    it("should retrieve monorepo root path for given directory path", async () => {
       expect.hasAssertions();
 
       mockYarnMonorepoDir();
@@ -42,7 +42,7 @@ describe('yarnPackageManager', () => {
       expect(result).toStrictEqual(mockDirPath);
     });
 
-    it('should retrieve undefined if given directory path is not a monorepo', async () => {
+    it("should retrieve undefined if given directory path is not a monorepo", async () => {
       expect.hasAssertions();
 
       mockYarnCmd();
@@ -53,8 +53,8 @@ describe('yarnPackageManager', () => {
     });
   });
 
-  describe('isMonorepoPackage', () => {
-    it('should retrieve true if given directory path is a monorepo package', async () => {
+  describe("isMonorepoPackage", () => {
+    it("should retrieve true if given directory path is a monorepo package", async () => {
       expect.hasAssertions();
 
       mockYarnMonorepoDir();
@@ -72,7 +72,7 @@ describe('yarnPackageManager', () => {
       expect(result).toStrictEqual(true);
     });
 
-    it('should retrieve false if given directory path is a monorepo root package', async () => {
+    it("should retrieve false if given directory path is a monorepo root package", async () => {
       expect.hasAssertions();
 
       mockYarnMonorepoDir();
@@ -83,10 +83,10 @@ describe('yarnPackageManager', () => {
       expect(result).toStrictEqual(false);
     });
 
-    it('should retrieve false if given directory path is a not a monorepo', async () => {
+    it("should retrieve false if given directory path is a not a monorepo", async () => {
       expect.hasAssertions();
 
-      mockYarnCmd().mockError('Cannot find the root of your workspace');
+      mockYarnCmd().mockError("Cannot find the root of your workspace");
 
       const result = await adapter.isMonorepoPackage();
 

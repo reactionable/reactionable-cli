@@ -1,14 +1,14 @@
-import { TypescriptImport } from './TypescriptImport';
+import { TypescriptImport } from "./TypescriptImport";
 
-describe('services - File - TypescriptImport', () => {
-  describe('fromString', () => {
+describe("services - File - TypescriptImport", () => {
+  describe("fromString", () => {
     it('should retrieve an instance of TypescriptImport from a given "glob" import string', async () => {
       const importString = `import * as serviceWorker from './serviceWorker';`;
 
       const typescriptImport = TypescriptImport.fromString(importString);
       expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual('./serviceWorker');
-      expect(typescriptImport?.modules).toEqual({ '*': 'serviceWorker' });
+      expect(typescriptImport?.packageName).toEqual("./serviceWorker");
+      expect(typescriptImport?.modules).toEqual({ "*": "serviceWorker" });
       expect(typescriptImport?.toString()).toEqual(importString);
     });
 
@@ -18,8 +18,8 @@ describe('services - File - TypescriptImport', () => {
       const typescriptImport = TypescriptImport.fromString(importString);
 
       expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual('@reactionable/core');
-      expect(typescriptImport?.modules).toEqual({ App: 'CoreApp' });
+      expect(typescriptImport?.packageName).toEqual("@reactionable/core");
+      expect(typescriptImport?.modules).toEqual({ App: "CoreApp" });
       expect(typescriptImport?.toString()).toEqual(importString);
     });
 
@@ -29,21 +29,21 @@ describe('services - File - TypescriptImport', () => {
       const typescriptImport = TypescriptImport.fromString(importString);
 
       expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual('react');
+      expect(typescriptImport?.packageName).toEqual("react");
       expect(typescriptImport?.modules).toEqual({
         React: TypescriptImport.defaultImport,
-        ReactElement: '',
+        ReactElement: "",
       });
       expect(typescriptImport?.toString()).toEqual(importString);
     });
 
-    it('should retrieve an instance of TypescriptImport from given import file string', async () => {
+    it("should retrieve an instance of TypescriptImport from given import file string", async () => {
       const importString = `import './index.scss';`;
 
       const typescriptImport = TypescriptImport.fromString(importString);
 
       expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual('./index.scss');
+      expect(typescriptImport?.packageName).toEqual("./index.scss");
       expect(typescriptImport?.modules).toEqual({
         [TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
       });
@@ -51,10 +51,10 @@ describe('services - File - TypescriptImport', () => {
     });
   });
 
-  describe('toString', () => {
+  describe("toString", () => {
     it('should retrieve a "glob" import string', async () => {
-      const typescriptImport = new TypescriptImport('./serviceWorker', {
-        '*': 'serviceWorker',
+      const typescriptImport = new TypescriptImport("./serviceWorker", {
+        "*": "serviceWorker",
       });
 
       const importString = typescriptImport.toString();
@@ -63,8 +63,8 @@ describe('services - File - TypescriptImport', () => {
     });
 
     it('should retrieve an "aliased" import string', async () => {
-      const typescriptImport = new TypescriptImport('@reactionable/core', {
-        App: 'CoreApp',
+      const typescriptImport = new TypescriptImport("@reactionable/core", {
+        App: "CoreApp",
       });
 
       const importString = typescriptImport.toString();

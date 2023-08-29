@@ -1,5 +1,5 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 
-import { Cli } from './cli/Cli';
+import { Cli } from "./cli/Cli";
 
 new Cli().run();

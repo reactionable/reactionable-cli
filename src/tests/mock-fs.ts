@@ -1,23 +1,23 @@
-import mockFs from 'mock-fs';
-import FileSystem from 'mock-fs/lib/filesystem';
+import mockFs from "mock-fs";
+import FileSystem from "mock-fs/lib/filesystem";
 
 let logsTemp: unknown[][] = [];
 let logMock: jest.SpyInstance | undefined;
 
 function mock(config?: FileSystem.DirectoryItems, options?: FileSystem.Options): void {
   if (!logMock) {
-    logMock = jest.spyOn(console, 'log').mockImplementation((...args) => {
+    logMock = jest.spyOn(console, "log").mockImplementation((...args) => {
       logsTemp.push(args);
     });
   }
   return mockFs(config, options);
 }
 
-export const mockPackageName = 'test-project';
-export const mockDirPath = 'test/dir/path';
+export const mockPackageName = "test-project";
+export const mockDirPath = "test/dir/path";
 
-export const mockMonorepoRootName = 'test-monorepo-project';
-export const mockMonorepoPackageDirName = 'test-package';
+export const mockMonorepoRootName = "test-monorepo-project";
+export const mockMonorepoPackageDirName = "test-package";
 export const mockMonorepoPackageDirPath = `${mockDirPath}/packages/${mockMonorepoPackageDirName}`;
 
 export function mockDir(config?: FileSystem.DirectoryItems, dirPath: string = mockDirPath): void {
@@ -28,18 +28,18 @@ export function mockDir(config?: FileSystem.DirectoryItems, dirPath: string = mo
 
 function packageDirMockConfig(config?: FileSystem.DirectoryItems): FileSystem.DirectoryItems {
   return {
-    'package.json': JSON.stringify({
+    "package.json": JSON.stringify({
       name: mockPackageName,
     }),
     node_modules: {
-      '.bin': {},
+      ".bin": {},
     },
     ...(config || {}),
   };
 }
 
 function yarnDirMockConfig(config?: FileSystem.DirectoryItems): FileSystem.DirectoryItems {
-  return packageDirMockConfig({ 'yarn.lock': '', ...(config || {}) });
+  return packageDirMockConfig({ "yarn.lock": "", ...(config || {}) });
 }
 
 export function mockYarnDir(config?: FileSystem.DirectoryItems, dirPath?: string): void {
@@ -48,9 +48,9 @@ export function mockYarnDir(config?: FileSystem.DirectoryItems, dirPath?: string
 
 function monorepoYarnDirMockConfig(config?: FileSystem.DirectoryItems): FileSystem.DirectoryItems {
   return yarnDirMockConfig({
-    'package.json': JSON.stringify({
+    "package.json": JSON.stringify({
       name: mockMonorepoRootName,
-      workspaces: ['packages/*'],
+      workspaces: ["packages/*"],
     }),
     packages: {
       [mockMonorepoPackageDirName]: yarnDirMockConfig(config),
@@ -63,7 +63,7 @@ export function mockYarnMonorepoDir(config?: FileSystem.DirectoryItems, dirPath?
 }
 
 function npmDirMockConfig(config?: FileSystem.DirectoryItems): FileSystem.DirectoryItems {
-  return packageDirMockConfig({ 'package-lock.json': '', ...(config || {}) });
+  return packageDirMockConfig({ "package-lock.json": "", ...(config || {}) });
 }
 
 export function mockNpmDir(config?: FileSystem.DirectoryItems, dirPath?: string): void {

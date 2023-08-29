@@ -125,9 +125,8 @@ export class EtaAdapter implements TemplateAdapter {
         ""
       )}`;
 
-      const partialTemplateContent = await this.templateFileService.getTemplateFileContent(
-        partialTemplateKey
-      );
+      const partialTemplateContent =
+        await this.templateFileService.getTemplateFileContent(partialTemplateKey);
 
       const compiledTemplate = await this.compileTemplate(
         partialTemplateContent,

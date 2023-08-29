@@ -1,7 +1,7 @@
-import { initializeI18n } from '@reactionable/core';
+import { initializeI18n } from "@reactionable/core";
 
-import enCommon from './locales/en/common.json';
-import frCommon from './locales/fr/common.json';
+import enCommon from "./locales/en/common.json";
+import frCommon from "./locales/fr/common.json";
 
 const resources = {
   en: {

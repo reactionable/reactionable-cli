@@ -1,7 +1,7 @@
-import container from '../container';
-import { CliService } from './CliService';
+import container from "../container";
+import { CliService } from "./CliService";
 
-describe('cliService', () => {
+describe("cliService", () => {
   let service: CliService;
 
   beforeEach(() => {
@@ -14,14 +14,14 @@ describe('cliService', () => {
     container.restore();
   });
 
-  describe('initRunStartDate', () => {
-    it('should initialize a new run start date', async () => {
+  describe("initRunStartDate", () => {
+    it("should initialize a new run start date", async () => {
       const runStartDate = service.initRunStartDate();
       expect(runStartDate).toBeInstanceOf(Date);
     });
   });
-  describe('getRunStartDate', () => {
-    it('should retrieve the initialized run start date', async () => {
+  describe("getRunStartDate", () => {
+    it("should retrieve the initialized run start date", async () => {
       const runStartDate = service.initRunStartDate();
 
       expect(service.getRunStartDate()).toEqual(runStartDate);

@@ -1,21 +1,22 @@
-import { resolve } from 'path';
+import { resolve } from "path";
 
-import { inject } from 'inversify';
-import { which } from 'shelljs';
+import { inject } from "inversify";
+import { which } from "shelljs";
 
-import { CliService } from '../../CliService';
-import { FileFactory } from '../../file/FileFactory';
-import { FileService } from '../../file/FileService';
-import { JsonFile } from '../../file/JsonFile';
-import { PackageManagerType } from '../PackageManagerService';
-import { IPackageManager, PackageJson } from './IPackageManager';
+import { CliService } from "../../CliService";
+import { FileFactory } from "../../file/FileFactory";
+import { FileService } from "../../file/FileService";
+import { JsonFile } from "../../file/JsonFile";
+import { PackageManagerType } from "../PackageManagerService";
+import { IPackageManager, PackageJson } from "./IPackageManager";
 
 export interface MonorepoInfo {
   rootDirectory: string;
 }
 
 export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJson>
-  implements IPackageManager<PJ> {
+  implements IPackageManager<PJ>
+{
   protected abstract type: PackageManagerType;
 
   constructor(
@@ -40,9 +41,9 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
   ): PJ[P] | undefined;
   getPackageJsonData<P extends keyof PJ = keyof PJ>(
     property: P | undefined = undefined,
-    encoding: BufferEncoding = 'utf8'
+    encoding: BufferEncoding = "utf8"
   ): PackageJson | PJ[P] | undefined {
-    const packageJsonPath = resolve(this.realpath, 'package.json');
+    const packageJsonPath = resolve(this.realpath, "package.json");
 
     const file = this.fileFactory.fromFile<JsonFile>(packageJsonPath, encoding);
 
@@ -54,14 +55,14 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
   }
 
   async getNodeModulesDirPath(): Promise<string> {
-    const result = await this.execCmd('bin', true);
-    return resolve(result.trim(), '..');
+    const result = await this.execCmd("bin", true);
+    return resolve(result.trim(), "..");
   }
 
   execCmd(cmd: string | string[], silent = false): Promise<string> {
     if (!which(`${this.type}`)) {
       throw new Error(
-        `Unable to execute command "${Array.from(cmd).join(' ')}", please install "${this.type}"`
+        `Unable to execute command "${Array.from(cmd).join(" ")}", please install "${this.type}"`
       );
     }
 

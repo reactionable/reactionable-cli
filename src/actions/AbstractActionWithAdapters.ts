@@ -1,19 +1,20 @@
-import { red } from 'chalk';
-import { inject, injectable } from 'inversify';
-import prompts from 'prompts';
+import { red } from "chalk";
+import { inject, injectable } from "inversify";
+import prompts from "prompts";
 
-import container from '../container';
-import { ConsoleService } from '../services/ConsoleService';
-import { AdapterAction } from './AdapterAction';
-import { RealpathAction, RealpathActionOptions } from './RealpathAction';
+import container from "../container";
+import { ConsoleService } from "../services/ConsoleService";
+import { AdapterAction } from "./AdapterAction";
+import { RealpathAction, RealpathActionOptions } from "./RealpathAction";
 
 export type ActionWithAdaptersOptions = RealpathActionOptions;
 
 @injectable()
 export abstract class AbstractActionWithAdapters<
   A extends AdapterAction,
-  O extends ActionWithAdaptersOptions = ActionWithAdaptersOptions
-> implements RealpathAction<O> {
+  O extends ActionWithAdaptersOptions = ActionWithAdaptersOptions,
+> implements RealpathAction<O>
+{
   protected abstract name: string;
   protected abstract adapterKey: string;
 
@@ -47,9 +48,9 @@ export abstract class AbstractActionWithAdapters<
     if (adapter) {
       const { override } = await prompts([
         {
-          type: 'confirm',
-          name: 'override',
-          message: `${name} "${adapter.getName()}" is already added, ${red('override it?')}`,
+          type: "confirm",
+          name: "override",
+          message: `${name} "${adapter.getName()}" is already added, ${red("override it?")}`,
         },
       ]);
       if (!override) {
@@ -58,16 +59,16 @@ export abstract class AbstractActionWithAdapters<
     } else {
       const answer = await prompts([
         {
-          name: 'adapter',
+          name: "adapter",
           message: `Wich ${name} do you want to add?`,
-          type: 'select',
+          type: "select",
           choices: [
             ...this.getAdapters().map((adapter) => ({
               title: adapter.getName(),
               value: adapter,
             })),
             {
-              title: 'None',
+              title: "None",
               value: null,
             },
           ],
