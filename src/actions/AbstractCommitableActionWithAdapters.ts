@@ -7,6 +7,7 @@ import {
   ActionWithAdaptersOptions,
 } from "./AbstractActionWithAdapters";
 import { AdapterAction } from "./AdapterAction";
+import { CliService } from "../services/CliService";
 
 export type CommitableActionWithAdaptersOptions = ActionWithAdaptersOptions;
 
@@ -17,9 +18,10 @@ export abstract class AbstractCommitableActionWithAdapters<
 > extends AbstractActionWithAdapters<A, O> {
   constructor(
     @inject(GitService) private readonly gitService: GitService,
-    @inject(ConsoleService) consoleService: ConsoleService
+    @inject(ConsoleService) consoleService: ConsoleService,
+    @inject(CliService) cliService: CliService
   ) {
-    super(consoleService);
+    super(consoleService, cliService);
   }
 
   async run(options: CommitableActionWithAdaptersOptions): Promise<void> {
