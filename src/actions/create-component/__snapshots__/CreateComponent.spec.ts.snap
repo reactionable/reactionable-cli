@@ -40,7 +40,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import App from './App';
 
-describe(\\"App\\", () => {
+describe("App", () => {
 
     let identity: IIdentityProviderProps;
     let ui: IUIProviderProps;
@@ -51,7 +51,7 @@ describe(\\"App\\", () => {
         ui = useUIProviderProps();
     });
 
-    it(\\"renders without crashing\\", () => {
+    it("renders without crashing", () => {
         const result = render(
             <TestWrapper identity={identity} ui={ui}>
                 <App />
@@ -73,9 +73,9 @@ import './App.scss';
 import './i18n/i18n';
 
 // Lazy load these components
-const HomeComponent = lazy(() => import(\\"./components/home/Home\\"));
+const HomeComponent = lazy(() => import("./components/home/Home"));
 
-const NotFoundComponent = lazy(() => import(\\"./components/not-found/NotFound\\"));
+const NotFoundComponent = lazy(() => import("./components/not-found/NotFound"));
 
 
 const App = (): ReactElement => {
@@ -93,10 +93,10 @@ const App = (): ReactElement => {
     NotFoundComponent,
     layout: {
       header: {
-        brand: t(\\"Tests\\"),
+        brand: t("Tests"),
       },
       footer: {
-        brand: t(\\"Tests\\"),
+        brand: t("Tests"),
       },
     },
     router: useRouterProviderProps(),
@@ -118,7 +118,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import App from './App';
 
-describe(\\"App\\", () => {
+describe("App", () => {
 
     let identity: IIdentityProviderProps;
     let ui: IUIProviderProps;
@@ -129,7 +129,7 @@ describe(\\"App\\", () => {
         ui = useUIProviderProps();
     });
 
-    it(\\"renders without crashing\\", () => {
+    it("renders without crashing", () => {
         const result = render(
             <TestWrapper identity={identity} ui={ui}>
                 <App />
@@ -153,10 +153,10 @@ const TestComponent = (props: PropsWithChildren<ITestComponentProps>): ReactElem
   
   return <>
     <Head>
-        <title>{t(\\"Tests\\")} - {t(\\"Test component\\")}</title>
-        <meta name=\\"description\\" content={t(\\"Test component description\\")} />
+        <title>{t("Tests")} - {t("Test component")}</title>
+        <meta name="description" content={t("Test component description")} />
     </Head>
-    <h1>{t(\\"Test component\\")}</h1>
+    <h1>{t("Test component")}</h1>
     
   </>;
 };
@@ -172,7 +172,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import TestComponent from './TestComponent';
 
-describe(\\"TestComponent\\", () => {
+describe("TestComponent", () => {
 
     let identity: IIdentityProviderProps;
     let ui: IUIProviderProps;
@@ -183,7 +183,7 @@ describe(\\"TestComponent\\", () => {
         ui = useUIProviderProps();
     });
 
-    it(\\"renders without crashing\\", () => {
+    it("renders without crashing", () => {
         const result = render(
             <TestWrapper identity={identity} ui={ui}>
                 <TestComponent />
@@ -207,10 +207,10 @@ const TestComponent = (props: PropsWithChildren<ITestComponentProps>): ReactElem
   
   return <>
     <Head>
-        <title>{t(\\"Tests\\")} - {t(\\"Test component\\")}</title>
-        <meta name=\\"description\\" content={t(\\"Test component description\\")} />
+        <title>{t("Tests")} - {t("Test component")}</title>
+        <meta name="description" content={t("Test component description")} />
     </Head>
-    <h1>{t(\\"Test component\\")}</h1>
+    <h1>{t("Test component")}</h1>
     
   </>;
 };
@@ -226,7 +226,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import TestComponent from './TestComponent';
 
-describe(\\"TestComponent\\", () => {
+describe("TestComponent", () => {
 
     let identity: IIdentityProviderProps;
     let ui: IUIProviderProps;
@@ -237,7 +237,7 @@ describe(\\"TestComponent\\", () => {
         ui = useUIProviderProps();
     });
 
-    it(\\"renders without crashing\\", () => {
+    it("renders without crashing", () => {
         const result = render(
             <TestWrapper identity={identity} ui={ui}>
                 <TestComponent />
