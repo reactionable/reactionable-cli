@@ -34,6 +34,17 @@ describe("packageManagerService", () => {
     });
   });
 
+  describe('getPackageManagerCmd', () => {
+    it('should return the correct package manager command for a given directory', async () => {
+      const packageName = "test-package";
+      mockYarnDir({ "package.json": JSON.stringify({ name: packageName }) });
+      mockYarnCmd();
+
+      const cmd = await service.getPackageManagerCmd(mockDirPath);
+      expect(cmd).toEqual('yarn');
+    });
+  });
+
   describe("getPackageName", () => {
     it("should return package name", async () => {
       const packageName = "test-package";

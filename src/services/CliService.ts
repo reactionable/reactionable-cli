@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
 
-import { bgGreenBright, bgRedBright, greenBright, grey, redBright } from "chalk";
+import chalk from "chalk";
 import { Change } from "diff";
 import { inject, injectable } from "inversify";
 import prompts from "prompts";
@@ -81,6 +81,34 @@ export class CliService {
     });
   }
 
+  async promptToContinue(message: string, question: string): Promise<boolean> {
+    const { shouldContinue } = await prompts([
+      {
+        type: "confirm",
+        name: "shouldContinue",
+        message: `${message}, ${chalk.red(question)}`,
+      },
+    ]);
+
+    return shouldContinue;
+  }
+
+  async promptToChoose<Choice>(message: string, choices: Record<string, Choice>): Promise<Choice> {
+    const { choice } = await prompts([
+      {
+        name: "choice",
+        message,
+        type: "select",
+        choices: Object.entries(choices).map(([title, value]) => ({
+          title,
+          value,
+        })),
+      },
+    ]);
+
+    return choice;
+  }
+
   async promptOverwriteFileDiff(file: string, diff: Change[]): Promise<boolean> {
     const hasDiff = diff.some((part) => part.added !== undefined || part.removed !== undefined);
     if (!hasDiff) {
@@ -89,18 +117,14 @@ export class CliService {
 
     const shouldPrompt = true;
     while (shouldPrompt) {
-      const { action } = await prompts([
+      const action = await this.promptToChoose(
+        `File "${file}" exists already, what do you want to do?`,
         {
-          type: "select",
-          name: "action",
-          message: `File "${file}" exists already, what do you want to do?`,
-          choices: [
-            { title: "Show diff", value: "diff" },
-            { title: "Overwrite file", value: "overwrite" },
-            { title: "Keep original file", value: "cancel" },
-          ],
-        },
-      ]);
+          "Show diff": "diff",
+          "Overwrite file": "overwrite",
+          "Keep original file": "cancel",
+        }
+      );
 
       if (action === "cancel") {
         return false;
@@ -119,13 +143,13 @@ export class CliService {
         let colorFunction: (value: string) => string;
         switch (true) {
           case !!part.added:
-            colorFunction = isSpaces ? bgGreenBright : greenBright;
+            colorFunction = isSpaces ? chalk.bgGreenBright : chalk.greenBright;
             break;
           case !!part.removed:
-            colorFunction = isSpaces ? bgRedBright : redBright;
+            colorFunction = isSpaces ? chalk.bgRedBright : chalk.redBright;
             break;
           default:
-            colorFunction = grey;
+            colorFunction = chalk.grey;
             break;
         }
 

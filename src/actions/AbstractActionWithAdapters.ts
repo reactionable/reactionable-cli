@@ -1,11 +1,10 @@
-import { red } from "chalk";
 import { inject, injectable } from "inversify";
-import prompts from "prompts";
 
 import container from "../container";
 import { ConsoleService } from "../services/ConsoleService";
 import { AdapterAction } from "./AdapterAction";
 import { RealpathAction, RealpathActionOptions } from "./RealpathAction";
+import { CliService } from "../services/CliService";
 
 export type ActionWithAdaptersOptions = RealpathActionOptions;
 
@@ -18,7 +17,10 @@ export abstract class AbstractActionWithAdapters<
   protected abstract name: string;
   protected abstract adapterKey: string;
 
-  constructor(@inject(ConsoleService) private readonly consoleService: ConsoleService) {}
+  constructor(
+    @inject(ConsoleService) private readonly consoleService: ConsoleService,
+    @inject(CliService) private readonly cliService: CliService
+  ) {}
 
   getName(): string {
     return this.name;
@@ -46,35 +48,27 @@ export abstract class AbstractActionWithAdapters<
 
     let adapter: A | null = await this.detectAdapter(options.realpath);
     if (adapter) {
-      const { override } = await prompts([
-        {
-          type: "confirm",
-          name: "override",
-          message: `${name} "${adapter.getName()}" is already added, ${red("override it?")}`,
-        },
-      ]);
+      const override = await this.cliService.promptToContinue(
+        `"${adapter.getName()}" is already added`,
+        "override it?"
+      );
+
       if (!override) {
         return;
       }
     } else {
-      const answer = await prompts([
-        {
-          name: "adapter",
-          message: `Wich ${name} do you want to add?`,
-          type: "select",
-          choices: [
-            ...this.getAdapters().map((adapter) => ({
-              title: adapter.getName(),
-              value: adapter,
-            })),
-            {
-              title: "None",
-              value: null,
-            },
-          ],
-        },
-      ]);
-      adapter = answer.adapter;
+      const choices = {
+        ...this.getAdapters().reduce(
+          (choice, adapter) => {
+            choice[adapter.getName()] = adapter;
+            return choice;
+          },
+          {} as Record<string, A>
+        ),
+        None: null,
+      };
+
+      adapter = await this.cliService.promptToChoose(`Wich ${name} do you want to add?`, choices);
     }
 
     if (!adapter) {

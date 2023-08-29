@@ -1,8 +1,6 @@
 import { basename, dirname, join, relative, resolve } from "path";
 
-import { red } from "chalk";
 import { LazyServiceIdentifer, inject, injectable } from "inversify";
-import prompts from "prompts";
 
 import { CliService } from "../../../services/CliService";
 import { ConsoleService } from "../../../services/ConsoleService";
@@ -147,13 +145,10 @@ export abstract class AbstractCreateAppAdapter
   ): Promise<boolean | undefined> {
     if (this.fileService.dirExistsSync(realpath)) {
       if (shouldPrompt) {
-        const { override } = await prompts([
-          {
-            type: "confirm",
-            name: "override",
-            message: `Directory "${realpath}" exists already, ${red("override it?")}`,
-          },
-        ]);
+        const override = await this.cliService.promptToContinue(
+          `Directory "${realpath}" exists already`,
+          "what do you want to do?"
+        );
 
         if (!override) {
           return undefined;
@@ -246,21 +241,16 @@ export abstract class AbstractCreateAppAdapter
         return availablePackageManagers[0];
 
       default: {
-        // Prompts user to choose package manager
-        const result = await prompts([
-          {
-            name: "packageManager",
-            message: "Wich package manager do you want to use?",
-            type: "select",
-            choices: [
-              ...availablePackageManagers.map((packageManager) => ({
-                title: packageManager,
-                value: packageManager,
-              })),
-            ],
-          },
-        ]);
-        return result.packageManager;
+        return await this.cliService.promptToChoose(
+          "Wich package manager do you want to use?",
+          availablePackageManagers.reduce(
+            (choices, packageManager) => {
+              choices[packageManager] = packageManager;
+              return choices;
+            },
+            {} as Record<string, PackageManagerType>
+          )
+        );
       }
     }
   }
