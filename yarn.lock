@@ -1053,9 +1053,9 @@
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
 "@types/parse-github-url@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/parse-github-url/-/parse-github-url-1.0.1.tgz#119bd9b462d3eea1eed3809c87fff0079c2f939d"
-  integrity sha512-A3ijZN6krCXaT7jCRGHwp35DVL9M3zYFWazmYE8YVaqijMpLej2TV5a9lk1BLwaCmWVT7c/9YfsX02IvlC3U5w==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/parse-github-url/-/parse-github-url-1.0.2.tgz#a0529b71a799986fae06ff7aeb4057dcd4e9145d"
+  integrity sha512-Cjm9j2JSFcAOrjaRqguYgzdJ+UYkOAbOKzdFzqvILyKqW/Z9hKXQSWMt3fYEC8AiDL5EXTe1zPtts9dS0gKOWQ==
   dependencies:
     "@types/node" "*"
 
