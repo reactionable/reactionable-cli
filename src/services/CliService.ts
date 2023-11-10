@@ -1,6 +1,5 @@
 import { spawn } from "child_process";
 
-import chalk from "chalk";
 import { Change } from "diff";
 import { inject, injectable } from "inversify";
 import prompts from "prompts";
@@ -8,6 +7,7 @@ import { which } from "shelljs";
 
 import { ConsoleService } from "./ConsoleService";
 import { FileService } from "./file/FileService";
+import { ColorService } from "./ColorService";
 
 @injectable()
 export class CliService {
@@ -15,7 +15,8 @@ export class CliService {
 
   constructor(
     @inject(FileService) private readonly fileService: FileService,
-    @inject(ConsoleService) private readonly consoleService: ConsoleService
+    @inject(ConsoleService) private readonly consoleService: ConsoleService,
+    @inject(ColorService) private readonly colorService: ColorService
   ) {}
 
   getRunStartDate(): Date | undefined {
@@ -86,7 +87,7 @@ export class CliService {
       {
         type: "confirm",
         name: "shouldContinue",
-        message: `${message}, ${chalk.red(question)}`,
+        message: `${message}, ${this.colorService.red(question)}`,
       },
     ]);
 
@@ -140,21 +141,26 @@ export class CliService {
         // green for additions, red for deletions
         // grey for common parts
         const isSpaces = !!part.value.match(/^[\r\n\s]+$/);
-        let colorFunction: (value: string) => string;
+        const value = part.value === "\n" ? " ".repeat(process.stdout.columns) : part.value;
+
+        let coloredValue: string;
         switch (true) {
           case !!part.added:
-            colorFunction = isSpaces ? chalk.bgGreenBright : chalk.greenBright;
+            coloredValue = isSpaces
+              ? this.colorService.greenBright(value)
+              : this.colorService.greenBright(value);
             break;
           case !!part.removed:
-            colorFunction = isSpaces ? chalk.bgRedBright : chalk.redBright;
+            coloredValue = isSpaces
+              ? this.colorService.greenBright(value)
+              : this.colorService.redBright(value);
             break;
           default:
-            colorFunction = chalk.grey;
+            coloredValue = this.colorService.gray(value);
             break;
         }
 
-        const value = part.value === "\n" ? " ".repeat(process.stdout.columns) : part.value;
-        diffMessage += colorFunction(value);
+        diffMessage += coloredValue;
       }
 
       diffMessage += "\n-----------------------------------------------\n";

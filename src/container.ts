@@ -25,6 +25,7 @@ import { PackageManagerService } from "./services/package-manager/PackageManager
 import { bindTemplateAdapters } from "./services/template/container";
 import { TemplateFileService } from "./services/template/TemplateFileService";
 import { TemplateService } from "./services/template/TemplateService";
+import { ColorService } from "./services/ColorService";
 
 const container = new Container({ defaultScope: "Singleton" });
 
@@ -42,6 +43,7 @@ container.bind<FileService>(FileService).toSelf();
 container.bind<FileDiffService>(FileDiffService).toSelf();
 container.bind<FileFactory>(FileFactory).toSelf();
 container.bind<CliService>(CliService).toSelf();
+container.bind<ColorService>(ColorService).toSelf();
 
 // Available root actions
 container.bind<CreateApp>(TYPES.Action).to(CreateApp);
