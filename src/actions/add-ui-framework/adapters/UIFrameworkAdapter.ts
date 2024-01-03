@@ -36,9 +36,9 @@ export abstract class AbstractUIFrameworkAdapter
 
     // Add UI components to existing App components
     this.consoleService.info("Add UI components to existing components...");
-    const appFile = await this.getAppFilePath(realpath);
-    await this.fileFactory
-      .fromFile<TypescriptFile>(appFile)
+    const appFilePath = await this.getAppFilePath(realpath);
+    const appFile = await this.fileFactory.fromFile<TypescriptFile>(appFilePath);
+    appFile
       .setImports(
         [
           {
@@ -59,8 +59,8 @@ export abstract class AbstractUIFrameworkAdapter
           },
         ]
       )
-      .replaceContent(/ui: undefined,.*$/m, "ui: useUIContextProviderProps(),")
-      .saveFile();
+      .replaceContent(/ui: undefined,.*$/m, "ui: useUIContextProviderProps(),");
+    await appFile.saveFile();
 
     this.consoleService.success("UI components have been added to existing components");
   }

@@ -5,6 +5,7 @@ import { LazyServiceIdentifer, inject, injectable } from "inversify";
 import { CliService } from "../../../services/CliService";
 import { ConsoleService } from "../../../services/ConsoleService";
 import { FileFactory } from "../../../services/file/FileFactory";
+import { DirectoryService } from "../../../services/file/DirectoryService";
 import { FileService } from "../../../services/file/FileService";
 import { TypescriptFile } from "../../../services/file/TypescriptFile";
 import { TypescriptImport } from "../../../services/file/TypescriptImport";
@@ -58,6 +59,7 @@ export abstract class AbstractCreateAppAdapter
 
   constructor(
     @inject(FileService) protected readonly fileService: FileService,
+    @inject(DirectoryService) protected readonly directoryService: DirectoryService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
     @inject(new LazyServiceIdentifer(() => AddUIFramework))
     protected readonly addUIFramework: AddUIFramework,
@@ -143,7 +145,8 @@ export abstract class AbstractCreateAppAdapter
     realpath: string,
     shouldPrompt = true
   ): Promise<boolean | undefined> {
-    if (this.fileService.dirExistsSync(realpath)) {
+    const appExists = await this.directoryService.dirExists(realpath);
+    if (appExists) {
       if (shouldPrompt) {
         const override = await this.cliService.promptToContinue(
           `Directory "${realpath}" exists already`,
@@ -159,7 +162,8 @@ export abstract class AbstractCreateAppAdapter
     }
 
     const parentDir = dirname(realpath);
-    if (!this.fileService.dirExistsSync(parentDir)) {
+    const parentDirExists = await this.directoryService.dirExists(parentDir);
+    if (!parentDirExists) {
       this.consoleService.error(
         `Unable to create app "${basename(realpath)}", directory "${parentDir}" does not exist.`
       );
@@ -207,15 +211,14 @@ export abstract class AbstractCreateAppAdapter
     // Import and add translations as i18n ressources
     const entrypointPath = resolve(realpath, this.getEntrypointFilePath());
     const importPath = join(".", relative(entrypointPath, i18nPath));
-    await this.fileFactory
-      .fromFile<TypescriptFile>(entrypointPath)
-      .setImports([
-        {
-          packageName: importPath,
-          modules: { [TypescriptImport.defaultImport]: TypescriptImport.defaultImport },
-        },
-      ])
-      .saveFile();
+    const entrypointFile = await this.fileFactory.fromFile<TypescriptFile>(entrypointPath);
+    entrypointFile.setImports([
+      {
+        packageName: importPath,
+        modules: { [TypescriptImport.defaultImport]: TypescriptImport.defaultImport },
+      },
+    ]);
+    await entrypointFile.saveFile();
 
     this.consoleService.success(
       `I18n configuration has been created in "${resolve(realpath, i18nPath)}"`

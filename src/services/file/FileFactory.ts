@@ -1,4 +1,3 @@
-import { readFileSync, statSync } from "fs";
 import { extname } from "path";
 
 import { inject, injectable } from "inversify";
@@ -10,6 +9,7 @@ import { JsonFile } from "./JsonFile";
 import { StdFile } from "./StdFile";
 import { TomlFile } from "./TomlFile";
 import { TypescriptFile } from "./TypescriptFile";
+import { DirectoryService } from "./DirectoryService";
 
 export enum FileContentType {
   mtime,
@@ -27,32 +27,30 @@ export class FileFactory {
   private cachedFileContents: Map<string, CachedFileContent> = new Map();
 
   constructor(
+    @inject(DirectoryService) private readonly directoryService: DirectoryService,
     @inject(FileService) private readonly fileService: FileService,
     @inject(FileDiffService) private readonly fileDiffService: FileDiffService,
     @inject(CliService) private readonly cliService: CliService
   ) {}
 
-  fromFile<File extends StdFile = StdFile>(file: string, encoding: BufferEncoding = "utf8"): File {
-    const realpath = this.fileService.assertFileExists(file);
-
-    const stat = statSync(file);
-    const realMtime = new Date(
-      Math.max.apply(null, [stat.birthtime.getTime(), stat.mtime.getTime()])
-    );
+  async fromFile<File extends StdFile = StdFile>(
+    file: string,
+    encoding: BufferEncoding = "utf8"
+  ): Promise<File> {
+    const realpath = await this.fileService.getFileRealpath(file);
+    const fileModificationDate = await this.fileService.getFileModificationDate(file);
 
     let content: string | undefined = undefined;
-    if (realMtime) {
-      const cachedContent = this.cachedFileContents.get(realpath);
-      if (cachedContent && cachedContent[FileContentType.mtime] >= realMtime) {
-        content = cachedContent[FileContentType.content];
-      }
+    const cachedContent = this.cachedFileContents.get(realpath);
+    if (cachedContent && cachedContent[FileContentType.mtime] >= fileModificationDate) {
+      content = cachedContent[FileContentType.content];
     }
 
     if (!content) {
-      content = readFileSync(file, { encoding }).toString();
+      content = await this.fileService.getFileContent(file, encoding);
 
       this.cachedFileContents.set(realpath, {
-        [FileContentType.mtime]: realMtime,
+        [FileContentType.mtime]: fileModificationDate,
         [FileContentType.content]: content,
       });
     }
@@ -67,6 +65,7 @@ export class FileFactory {
   fromString(content: string, file: string, encoding: BufferEncoding = "utf8"): StdFile {
     const args = [
       this.cliService,
+      this.directoryService,
       this.fileService,
       this.fileDiffService,
       this,

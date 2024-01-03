@@ -6,7 +6,7 @@ import prompts from "prompts";
 import { which } from "shelljs";
 
 import { ConsoleService } from "./ConsoleService";
-import { FileService } from "./file/FileService";
+import { DirectoryService } from "./file/DirectoryService";
 import { ColorService } from "./ColorService";
 
 @injectable()
@@ -14,7 +14,7 @@ export class CliService {
   private runStartDate: Date | undefined;
 
   constructor(
-    @inject(FileService) private readonly fileService: FileService,
+    @inject(DirectoryService) private readonly directoryService: DirectoryService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
     @inject(ColorService) private readonly colorService: ColorService
   ) {}
@@ -34,12 +34,12 @@ export class CliService {
     return null;
   }
 
-  execCmd(args: string | string[], cwd?: string, silent = false): Promise<string> {
+  async execCmd(args: string | string[], cwd?: string, silent = false): Promise<string> {
     if (!args.length) {
       throw new Error("Command args must not be empty");
     }
 
-    if (cwd && !this.fileService.dirExistsSync(cwd)) {
+    if (cwd && !(await this.directoryService.dirExists(cwd))) {
       throw new Error(`Directory "${cwd}" does not exist`);
     }
 

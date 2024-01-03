@@ -40,6 +40,7 @@ describe("createReactApp", () => {
 
     it("should return false if directory exists but do not have expected files", async () => {
       mockDir();
+      mockYarnCmd();
 
       prompts.inject([true]);
 

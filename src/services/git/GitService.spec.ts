@@ -21,7 +21,7 @@ describe("gitService", () => {
     });
 
     it("should return false when the given directory path is not a git repository", async () => {
-      testDir = createTmpDir(false);
+      testDir = await createTmpDir();
       const result = await service.isAGitRepository(testDir.name);
       expect(result).toEqual(false);
     });

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "fs";
+import { stat, readFile } from "fs/promises";
 import { resolve } from "path";
 
 import container from "../../container";
@@ -31,7 +31,7 @@ describe("createComponent", () => {
     ])(
       "should create expected components files for a %s project",
       async (name, testProjectPath, libPath) => {
-        testDir = createTmpDir(testProjectPath);
+        testDir = await createTmpDir(testProjectPath);
         const testDirPath = testDir.name;
         const componentsDirPath = resolve(testDirPath, libPath, "components");
 
@@ -44,20 +44,20 @@ describe("createComponent", () => {
           componentsDirPath,
           "test-component/TestComponent.tsx"
         );
-        expect(existsSync(expectedComponentFile)).toBe(true);
-        expect(readFileSync(expectedComponentFile, "utf-8")).toMatchSnapshot();
+        expect((await stat(expectedComponentFile)).isFile()).toBe(true);
+        expect(await readFile(expectedComponentFile, "utf-8")).toMatchSnapshot();
 
         const expectedTestComponentFile = resolve(
           componentsDirPath,
           "test-component/TestComponent.test.tsx"
         );
-        expect(existsSync(expectedTestComponentFile)).toBe(true);
-        expect(readFileSync(expectedTestComponentFile, "utf-8")).toMatchSnapshot();
+        expect((await stat(expectedTestComponentFile)).isFile()).toBe(true);
+        expect(await readFile(expectedTestComponentFile, "utf-8")).toMatchSnapshot();
       }
     );
 
     it("should create expected React App component files", async () => {
-      testDir = createTmpDir();
+      testDir = await createTmpDir("test-react-project");
       const testDirPath = testDir.name;
       const expectedAppFile = resolve(testDirPath, "src/App.tsx");
 
@@ -68,16 +68,16 @@ describe("createComponent", () => {
         componentTemplate: "app/react/App.tsx",
       });
 
-      expect(existsSync(expectedAppFile)).toBe(true);
-      expect(readFileSync(expectedAppFile, "utf-8")).toMatchSnapshot();
+      expect((await stat(expectedAppFile)).isFile()).toBe(true);
+      expect(await readFile(expectedAppFile, "utf-8")).toMatchSnapshot();
 
       const expectedTestAppFile = resolve(testDirPath, "src/App.test.tsx");
-      expect(existsSync(expectedTestAppFile)).toBe(true);
-      expect(readFileSync(expectedTestAppFile, "utf-8")).toMatchSnapshot();
+      expect((await stat(expectedTestAppFile)).isFile()).toBe(true);
+      expect(await readFile(expectedTestAppFile, "utf-8")).toMatchSnapshot();
     });
 
     it("should create expected NextJs App component files", async () => {
-      testDir = createTmpDir("test-nextjs-project");
+      testDir = await createTmpDir("test-nextjs-project");
       const testDirPath = testDir.name;
       const expectedAppFile = resolve(testDirPath, "pages/_app.tsx");
 
@@ -88,12 +88,12 @@ describe("createComponent", () => {
         componentTemplate: "app/nextjs/App.tsx",
       });
 
-      expect(existsSync(expectedAppFile)).toBe(true);
-      expect(readFileSync(expectedAppFile, "utf-8")).toMatchSnapshot();
+      expect((await stat(expectedAppFile)).isFile()).toBe(true);
+      expect(await readFile(expectedAppFile, "utf-8")).toMatchSnapshot();
 
       const expectedTestAppFile = resolve(testDirPath, "pages/_app.test.tsx");
-      expect(existsSync(expectedTestAppFile)).toBe(true);
-      expect(readFileSync(expectedTestAppFile, "utf-8")).toMatchSnapshot();
+      expect((await stat(expectedTestAppFile)).isFile()).toBe(true);
+      expect(await readFile(expectedTestAppFile, "utf-8")).toMatchSnapshot();
     });
   });
 });

@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import { join } from "path";
 
 import container from "../../container";
@@ -8,18 +8,21 @@ import { FileDiffService } from "./FileDiffService";
 import { FileFactory } from "./FileFactory";
 import { FileService } from "./FileService";
 import { TypescriptFile } from "./TypescriptFile";
+import { DirectoryService } from "./DirectoryService";
 
 describe("services - File - TypescriptFile", () => {
   const fileName = "test.ts";
   const filePath = join(mockDirPath, fileName);
 
   let cliService: CliService;
+  let directoryService: DirectoryService;
   let fileService: FileService;
   let fileDiffService: FileDiffService;
   let fileFactory: FileFactory;
 
   beforeAll(() => {
     cliService = container.get(CliService);
+    directoryService = container.get(DirectoryService);
     fileService = container.get(FileService);
     fileFactory = container.get(FileFactory);
   });
@@ -33,6 +36,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -49,6 +53,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -65,6 +70,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -81,6 +87,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -97,6 +104,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -113,6 +121,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -129,6 +138,7 @@ describe("services - File - TypescriptFile", () => {
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -156,6 +166,7 @@ serviceWorker.unregister();`;
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -179,8 +190,8 @@ ReactDOM.render(
 
 serviceWorker.unregister();`;
       expect(result.getContent()).toEqual(expectedFileContent);
-      expect(fileService.fileExistsSync(filePath)).toEqual(true);
-      expect(readFileSync(filePath).toString()).toEqual(expectedFileContent);
+      expect(await fileService.fileExists(filePath)).toEqual(true);
+      expect(await readFile(filePath, "utf-8")).toEqual(expectedFileContent);
     });
   });
 
@@ -190,6 +201,7 @@ serviceWorker.unregister();`;
 
       const file = new TypescriptFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,

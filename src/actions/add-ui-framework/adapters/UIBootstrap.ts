@@ -15,17 +15,16 @@ export default class UIBootstrap extends AbstractUIFrameworkAdapter {
 
     // Import style files
     this.consoleService.info("Import style files...");
-    const mainStyleFile = resolve(realpath, "src/index.scss");
+    const mainStyleFilePath = resolve(realpath, "src/index.scss");
 
-    await this.fileFactory
-      .fromFile(mainStyleFile)
-      .appendContent(
-        `// Import Bootstrap and its default variables
+    const mainStyleFile = await this.fileFactory.fromFile(mainStyleFilePath);
+    mainStyleFile.appendContent(
+      `// Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 `
-      )
-      .saveFile();
+    );
+    await mainStyleFile.saveFile();
 
-    this.consoleService.success(`Style files have been imported in "${mainStyleFile}"`);
+    this.consoleService.success(`Style files have been imported in "${mainStyleFilePath}"`);
   }
 }

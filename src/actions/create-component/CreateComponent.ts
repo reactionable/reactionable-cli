@@ -5,7 +5,6 @@ import prompts from "prompts";
 
 import { ConsoleService } from "../../services/ConsoleService";
 import { FileFactory } from "../../services/file/FileFactory";
-import { FileService } from "../../services/file/FileService";
 import { PackageManagerService } from "../../services/package-manager/PackageManagerService";
 import { StringUtils } from "../../services/StringUtils";
 import { TemplateContext } from "../../services/template/TemplateContext";
@@ -17,6 +16,7 @@ import AddUIFramework from "../add-ui-framework/AddUIFramework";
 import { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
 import CreateApp from "../create-app/CreateApp";
 import { NamedAction, NamedActionOptions } from "../NamedAction";
+import { DirectoryService } from "../../services/file/DirectoryService";
 
 export type CreateComponentOptions = NamedActionOptions & {
   name?: string;
@@ -42,7 +42,7 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
     @inject(PackageManagerService)
     protected readonly packageManagerService: PackageManagerService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(FileService) protected readonly fileService: FileService,
+    @inject(DirectoryService) protected readonly directoryService: DirectoryService,
     @inject(TemplateService) protected readonly templateService: TemplateService,
     @inject(FileFactory) protected readonly fileFactory: FileFactory
   ) {}
@@ -104,11 +104,11 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
       componentDirPath = resolve(componentDirPath, StringUtils.hyphenize(name));
     }
 
-    if (!this.fileService.fileDirExistsSync(componentDirPath)) {
+    const componentParentDirPath = dirname(componentDirPath);
+    const componentParentDirExists = await this.directoryService.dirExists(componentParentDirPath);
+    if (!componentParentDirExists) {
       throw new Error(
-        `Unable to create component "${name}" in unexisting directory "${dirname(
-          componentDirPath
-        )}"`
+        `Unable to create component "${name}" in unexisting directory "${componentParentDirPath}"`
       );
     }
 

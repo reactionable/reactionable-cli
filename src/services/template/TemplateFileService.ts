@@ -15,7 +15,8 @@ export class TemplateFileService {
   async getTemplateFileContent(template: string): Promise<string> {
     const fileExt = extname(__filename);
     const templatePath = join(this.getTemplateDirectory(), template + ".template" + fileExt);
-    if (!this.fileService.fileExistsSync(templatePath)) {
+    const templateExists = await this.fileService.fileExists(templatePath);
+    if (!templateExists) {
       throw new Error(`Template file "${templatePath}" does not exist`);
     }
 

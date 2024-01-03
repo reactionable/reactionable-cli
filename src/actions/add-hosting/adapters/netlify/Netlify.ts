@@ -34,7 +34,7 @@ export default class Netlify extends AbstractAdapterAction implements HostingAda
   }
 
   async isEnabled(realpath: string): Promise<boolean> {
-    return this.fileService.fileExistsSync(resolve(realpath, "netlify.toml"));
+    return this.fileService.fileExists(resolve(realpath, "netlify.toml"));
   }
 
   async run({ realpath }: AdapterActionOptions): Promise<void> {
@@ -57,17 +57,16 @@ export default class Netlify extends AbstractAdapterAction implements HostingAda
 
     const netlifyFilePath = resolve(realpath, "netlify.toml");
 
-    await this.fileFactory
-      .fromFile<TomlFile>(netlifyFilePath)
-      .appendContent(
-        await this.templateService.renderTemplateFile("add-hosting/netlify/netlify.toml", {
-          nodeVersion: this.cliService.getNodeVersion(),
-          projectBranch: await this.gitService.getGitCurrentBranch(realpath, "master"),
-          projectPath: realpath,
-          projectName,
-        })
-      )
-      .saveFile();
+    const netlifyFile = await this.fileFactory.fromFile<TomlFile>(netlifyFilePath);
+    netlifyFile.appendContent(
+      await this.templateService.renderTemplateFile("add-hosting/netlify/netlify.toml", {
+        nodeVersion: this.cliService.getNodeVersion(),
+        projectBranch: await this.gitService.getGitCurrentBranch(realpath, "master"),
+        projectPath: realpath,
+        projectName,
+      })
+    );
+    await netlifyFile.saveFile();
 
     // Configure netlify
 

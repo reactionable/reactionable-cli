@@ -1,22 +1,40 @@
 import { resolve } from "path";
 
-import { copySync } from "fs-extra";
-import { DirResult, dirSync, setGracefulCleanup } from "tmp";
+import { copy } from "fs-extra";
+import { DirResult, dir, setGracefulCleanup } from "tmp";
 
 export { DirResult };
 
-export function createTmpDir(copyTestDir: string | false = "test-react-project"): DirResult {
+function getTmpDir(copyTestDir: string | null): Promise<DirResult> {
+  return new Promise((resolve, reject) => {
+    dir(
+      {
+        prefix: "reactionable-cli" + (copyTestDir ? "-" + copyTestDir : ""),
+        unsafeCleanup: true,
+        keep: false,
+      },
+      (err, name, removeCallback) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({
+            name,
+            removeCallback,
+          });
+        }
+      }
+    );
+  });
+}
+
+export async function createTmpDir(copyTestDir: string | null = null): Promise<DirResult> {
   setGracefulCleanup();
 
-  const tmpDir = dirSync({
-    prefix: "reactionable-cli" + (copyTestDir ? "-" + copyTestDir : ""),
-    unsafeCleanup: true,
-    keep: false,
-  });
+  const tmpDir = await getTmpDir(copyTestDir);
 
   if (copyTestDir) {
     const testDirPath = resolve("__tests__", copyTestDir);
-    copySync(testDirPath, tmpDir.name);
+    await copy(testDirPath, tmpDir.name);
   }
 
   return tmpDir;

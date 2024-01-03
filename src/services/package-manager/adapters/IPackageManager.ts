@@ -50,15 +50,15 @@ export interface IPackageManager<PJ extends PackageJson = PackageJson> {
   isMonorepoPackage(): Promise<boolean>;
   getMonorepoRootPath(): Promise<string | undefined>;
 
-  getPackageJsonData(): PJ;
+  getPackageJsonData(): Promise<PJ>;
   getPackageJsonData<P extends keyof PJ = keyof PJ>(
     property: P,
     encoding?: BufferEncoding
-  ): PJ[P] | undefined;
+  ): Promise<PJ[P] | undefined>;
   getPackageJsonData<P extends keyof PJ = keyof PJ>(
     property: P | undefined,
     encoding: BufferEncoding
-  ): PackageJson | PJ[P] | undefined;
+  ): Promise<PackageJson | PJ[P] | undefined>;
 
   execCmd(cmd: string | string[], silent: boolean): Promise<string>;
 }

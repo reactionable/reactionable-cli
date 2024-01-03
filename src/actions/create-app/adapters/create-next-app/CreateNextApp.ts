@@ -37,7 +37,7 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
     appExistsAlready: boolean;
   }): Promise<void> {
     if (!appExistsAlready) {
-      const hasGitDir = this.fileService.dirExistsSync(resolve(realpath, ".git"));
+      const hasGitDir = await this.directoryService.dirExists(resolve(realpath, ".git"));
       const npxCmd = "create-next-app";
       const createAppCmd = this.cliService.getGlobalCmd(npxCmd);
       if (!createAppCmd) {
@@ -61,12 +61,12 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
 
       // Remove created git dir
       if (!hasGitDir) {
-        this.fileService.rmdirSync(resolve(realpath, ".git"));
+        await this.directoryService.removeDir(resolve(realpath, ".git"));
       }
 
       this.consoleService.success(`App has been created in "${realpath}"`);
 
-      this.fileService.touchFileSync(join(realpath, "tsconfig.json"));
+      await this.fileService.touchFile(join(realpath, "tsconfig.json"));
       await this.packageManagerService.installPackages(realpath, [
         "typescript",
         "@types/react",
@@ -83,7 +83,7 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
     await this.packageManagerService.uninstallPackages(realpath, ["@types/react", "@types/node"]);
     await this.packageManagerService.installPackages(realpath, ["@reactionable/nextjs"]);
 
-    this.fileService.mkdirSync(resolve(realpath, this.libPath, "components"), true);
+    await this.directoryService.createDir(resolve(realpath, this.libPath, "components"), true);
 
     // Create app components
     this.consoleService.info("Create base components...");
@@ -119,17 +119,19 @@ export default class CreateNextApp extends AbstractCreateAppAdapter {
     this.fileService.replaceFileExtension(resolve(realpath, "styles/globals.css"), "scss");
     this.fileService.replaceFileExtension(resolve(realpath, "styles/Home.module.css"), "scss");
 
-    await this.fileFactory
-      .fromFile(resolve(realpath, this.getAppFilePath()))
-      .replaceContent(/import '\.\.\/styles\/globals\.css'/, "import '../styles/globals.scss'")
-      .saveFile();
+    const appFile = await this.fileFactory.fromFile(resolve(realpath, this.getAppFilePath()));
 
-    await this.fileFactory
-      .fromFile(resolve(realpath, "pages/index.tsx"))
-      .replaceContent(
-        /import styles from '\.\.\/styles\/Home\.module\.css'/,
-        "import styles from '../styles/Home.module.scss'"
-      )
-      .saveFile();
+    appFile.replaceContent(
+      /import '\.\.\/styles\/globals\.css'/,
+      "import '../styles/globals.scss'"
+    );
+    await appFile.saveFile();
+
+    const indexPageFile = await this.fileFactory.fromFile(resolve(realpath, "pages/index.tsx"));
+    indexPageFile.replaceContent(
+      /import styles from '\.\.\/styles\/Home\.module\.css'/,
+      "import styles from '../styles/Home.module.scss'"
+    );
+    await indexPageFile.saveFile();
   }
 }

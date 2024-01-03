@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import { join } from "path";
 
 import prompts from "prompts";
@@ -10,18 +10,21 @@ import { FileDiffService } from "./FileDiffService";
 import { FileFactory } from "./FileFactory";
 import { FileService } from "./FileService";
 import { StdFile } from "./StdFile";
+import { DirectoryService } from "./DirectoryService";
 
 describe("services - File - StdFile", () => {
   const fileName = "test.txt";
   const filePath = join(mockDirPath, fileName);
 
   let cliService: CliService;
+  let directoryService: DirectoryService;
   let fileService: FileService;
   let fileDiffService: FileDiffService;
   let fileFactory: FileFactory;
 
   beforeAll(() => {
     cliService = container.get(CliService);
+    directoryService = container.get(DirectoryService);
     fileService = container.get(FileService);
     fileDiffService = container.get(FileDiffService);
     fileFactory = container.get(FileFactory);
@@ -40,6 +43,7 @@ describe("services - File - StdFile", () => {
       const fileContent = "test content";
       const file = new StdFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -51,8 +55,8 @@ describe("services - File - StdFile", () => {
       const result = await file.saveFile();
 
       expect(result.getContent()).toEqual(fileContent);
-      expect(fileService.fileExistsSync(filePath)).toEqual(true);
-      expect(readFileSync(filePath).toString()).toEqual(fileContent);
+      expect(await fileService.fileExists(filePath)).toEqual(true);
+      expect(await readFile(filePath, "utf-8")).toEqual(fileContent);
     });
 
     it("should override an existing file", async () => {
@@ -63,6 +67,7 @@ describe("services - File - StdFile", () => {
       const fileContent = "test new content";
       const file = new StdFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -74,18 +79,19 @@ describe("services - File - StdFile", () => {
       const result = await file.saveFile();
 
       expect(result.getContent()).toEqual(fileContent);
-      expect(readFileSync(filePath).toString()).toEqual(fileContent);
+      expect(await readFile(filePath, "utf-8")).toEqual(fileContent);
     });
 
     it("should not override an existing file", async () => {
       const originalContent = "test original content";
 
       mockDir({ [fileName]: originalContent });
-      expect(readFileSync(filePath).toString()).toEqual(originalContent);
+      expect(await readFile(filePath, "utf-8")).toEqual(originalContent);
       prompts.inject(["cancel"]);
 
       const file = new StdFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -97,7 +103,7 @@ describe("services - File - StdFile", () => {
       const result = await file.saveFile();
 
       expect(result.getContent()).toEqual(originalContent);
-      expect(readFileSync(filePath).toString()).toEqual(originalContent);
+      expect(await readFile(filePath, "utf-8")).toEqual(originalContent);
     });
 
     // TODO This behaviour must be implemented
@@ -114,6 +120,7 @@ describe("services - File - StdFile", () => {
 
       let file = new StdFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -140,6 +147,7 @@ describe("services - File - StdFile", () => {
 
       file = new StdFile(
         cliService,
+        directoryService,
         fileService,
         fileDiffService,
         fileFactory,
@@ -151,7 +159,7 @@ describe("services - File - StdFile", () => {
       const result = await file.saveFile();
 
       expect(result.getContent()).toEqual(newContent);
-      expect(readFileSync(filePath).toString()).toEqual(newContent);
+      expect(await readFile(filePath, "utf-8")).toEqual(newContent);
     });
   });
 });
