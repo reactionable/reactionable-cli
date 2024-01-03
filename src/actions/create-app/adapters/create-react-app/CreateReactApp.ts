@@ -67,7 +67,7 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
       true
     );
 
-    this.fileService.mkdirSync(resolve(realpath, this.libPath, "components"), true);
+    await this.directoryService.createDir(resolve(realpath, this.libPath, "components"), true);
 
     // Create app components
     this.consoleService.info("Create base components...");
@@ -98,9 +98,9 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
     const reactAppExists =
       (await this.packageManagerService.hasPackageJson(realpath)) &&
       (await this.packageManagerService.hasInstalledPackage(realpath, "react")) &&
-      this.fileService.fileExistsSync(
+      (await this.fileService.fileExists(
         resolve(realpath, this.getLibDirectoryPath(), "react-app-env.d.ts")
-      );
+      ));
 
     return reactAppExists;
   }
@@ -118,14 +118,16 @@ export default class CreateReactApp extends AbstractCreateAppAdapter {
       "scss"
     );
 
-    await this.fileFactory
-      .fromFile(resolve(realpath, this.getEntrypointFilePath()))
-      .replaceContent(/import '\.\/index\.css';/, "import './index.scss';")
-      .saveFile();
+    const entrypointFile = await this.fileFactory.fromFile(
+      resolve(realpath, this.getEntrypointFilePath())
+    );
 
-    await this.fileFactory
-      .fromFile(resolve(realpath, this.getAppFilePath()))
-      .replaceContent(/import '\.\/App\.css';/, "import './App.scss';")
-      .saveFile();
+    entrypointFile.replaceContent(/import '\.\/index\.css';/, "import './index.scss';");
+    await entrypointFile.saveFile();
+
+    const appFile = await this.fileFactory.fromFile(resolve(realpath, this.getAppFilePath()));
+
+    appFile.replaceContent(/import '\.\/App\.css';/, "import './App.scss';");
+    await appFile.saveFile();
   }
 }

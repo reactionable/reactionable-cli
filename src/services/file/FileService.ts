@@ -1,65 +1,48 @@
-import {
-  closeSync,
-  existsSync,
-  mkdirSync,
-  openSync,
-  readdirSync,
-  realpathSync,
-  rmdirSync,
-  statSync,
-  unlinkSync,
-  utimesSync,
-} from "fs";
+import { open, realpath, stat, utimes, rename, readFile, writeFile } from "fs/promises";
 import { basename, dirname, extname, resolve } from "path";
-
 import { injectable } from "inversify";
-import { mv } from "shelljs";
 
 @injectable()
 export class FileService {
-  touchFileSync(path: string): void {
+  async touchFile(path: string): Promise<void> {
     const time = new Date();
     try {
-      utimesSync(path, time, time);
+      await utimes(path, time, time);
     } catch (err) {
-      closeSync(openSync(path, "w"));
+      const fileHandle = await open(path, "w");
+      await fileHandle.close();
     }
   }
 
-  fileExistsSync(path: string): boolean {
-    if (!existsSync(path)) {
-      return false;
+  async fileExists(path: string): Promise<boolean> {
+    try {
+      const stats = await stat(path);
+      return stats.isFile();
+    } catch (error) {
+      const message = (error as NodeJS.ErrnoException)?.message;
+      if (!message) {
+        throw error;
+      }
+
+      const fileNotFoundExceptions = [
+        "ENOENT: no such file or directory, stat",
+        "ENOENT, no such file or directory",
+      ];
+      if (fileNotFoundExceptions.some((exception) => message.startsWith(exception))) {
+        return false;
+      }
+
+      throw error;
     }
-    return statSync(path).isFile();
   }
 
-  dirExistsSync(path: string): boolean {
-    if (!existsSync(path)) {
-      return false;
-    }
-    return statSync(path).isDirectory();
-  }
-
-  fileDirExistsSync(path: string): boolean {
-    return this.dirExistsSync(dirname(path));
-  }
-
-  assertDirExists(path: string): string {
-    if (!this.dirExistsSync(path)) {
-      throw new Error(`Directory "${path}" does not exist`);
-    }
-    return realpathSync(path);
-  }
-
-  assertFileExists(path: string): string {
-    if (!this.fileExistsSync(path)) {
-      throw new Error(`File "${path}" does not exist`);
-    }
-    return realpathSync(path);
-  }
-
-  replaceFileExtension(filePath: string, newExtension: string, mustExist = false): void {
-    if (!this.fileExistsSync(filePath)) {
+  async replaceFileExtension(
+    filePath: string,
+    newExtension: string,
+    mustExist = false
+  ): Promise<void> {
+    const fileExists = await this.fileExists(filePath);
+    if (!fileExists) {
       if (mustExist) {
         throw new Error(`File "${filePath}" does not exist`);
       }
@@ -70,45 +53,33 @@ export class FileService {
       dirname(filePath),
       `${basename(filePath, extname(filePath))}.${newExtension.replace(/^[\s.]+/, "")}`
     );
-    mv(filePath, newFilePath);
+
+    await rename(filePath, newFilePath);
   }
 
-  mkdirSync(dirpath: string, recursive: boolean): void {
-    if (this.dirExistsSync(dirpath)) {
-      return;
+  async getFileRealpath(path: string): Promise<string> {
+    const fileExists = await this.fileExists(path);
+    if (!fileExists) {
+      throw new Error(`File "${path}" does not exist`);
     }
-
-    if (!this.fileDirExistsSync(dirpath)) {
-      const parentDirectory = dirname(dirpath);
-      if (!recursive) {
-        throw new Error(
-          `Unable to create directory "${dirpath}" in unexisting directory "${parentDirectory}"`
-        );
-      }
-    }
-
-    mkdirSync(dirpath, { recursive });
+    return realpath(path);
   }
 
-  rmdirSync(dirpath: string): void {
-    if (!this.dirExistsSync(dirpath)) {
-      return;
-    }
-    const list = readdirSync(dirpath);
-    for (const filepath of list) {
-      const filename = resolve(dirpath, filepath);
-      const stat = statSync(filename);
+  async getFileCreationDate(path: string): Promise<Date> {
+    return new Date((await stat(path)).birthtime);
+  }
 
-      if (filename == "." || filename == "..") {
-        // pass these files
-      } else if (stat.isDirectory()) {
-        // rmdir recursively
-        this.rmdirSync(filename);
-      } else {
-        // rm filename
-        unlinkSync(filename);
-      }
-    }
-    rmdirSync(dirpath);
+  async getFileModificationDate(path: string): Promise<Date> {
+    const stats = await stat(path);
+    return new Date(Math.max.apply(null, [stats.birthtime.getTime(), stats.mtime.getTime()]));
+  }
+
+  async getFileContent(path: string, encoding: BufferEncoding): Promise<string> {
+    const content = (await readFile(path, { encoding })).toString();
+    return content;
+  }
+
+  async writeFileContent(path: string, content: string, encoding: BufferEncoding): Promise<void> {
+    await writeFile(path, content, encoding);
   }
 }

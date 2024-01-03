@@ -1,4 +1,4 @@
-import { join, resolve } from "path";
+import { join, resolve, dirname } from "path";
 
 import { injectable } from "inversify";
 import { plural, singular } from "pluralize";
@@ -31,9 +31,11 @@ export default class CreateCrudComponent extends CreateComponent {
     const entitiesName = plural(entityName);
     this.consoleService.info(`Create CRUD component for "${entityName}"...`);
 
-    if (!this.fileService.fileDirExistsSync(realpath)) {
+    const parentDirPath = dirname(realpath);
+    const dirExists = await this.directoryService.dirExists(parentDirPath);
+    if (!dirExists) {
       throw new Error(
-        `Unable to create CRUD component for "${entityName}" in unexisting directory "${realpath}`
+        `Unable to create CRUD component for "${entityName}" in unexisting directory "${parentDirPath}`
       );
     }
 
@@ -82,8 +84,8 @@ export default class CreateCrudComponent extends CreateComponent {
     // Import and add translations as i18n ressources
     const i18nFilepath = resolve(realpath, i18nPath, "i18n.ts");
     const translationNamespace = StringUtils.camelize(entitiesName);
-    await this.fileFactory
-      .fromFile<TypescriptFile>(i18nFilepath)
+    const file = await this.fileFactory.fromFile<TypescriptFile>(i18nFilepath);
+    file
       .setImports([
         {
           packageName: `./locales/en/${translationNamespace}.json`,
@@ -95,8 +97,9 @@ export default class CreateCrudComponent extends CreateComponent {
         },
       ])
       .appendContent(`    ${translationNamespace}: en${entitiesName},`, "    common: enCommon,")
-      .appendContent(`    ${translationNamespace}: fr${entitiesName},`, "    common: frCommon,")
-      .saveFile();
+      .appendContent(`    ${translationNamespace}: fr${entitiesName},`, "    common: frCommon,");
+
+    await file.saveFile();
 
     this.consoleService.success(`CRUD component for "${entityName}" has been created`);
   }

@@ -7,7 +7,7 @@ export class NpmPackageManager extends AbstractPackageManager {
   protected type = PackageManagerType.npm;
 
   async isEnabled(): Promise<boolean> {
-    return this.fileService.fileExistsSync(resolve(this.realpath, "package-lock.json"));
+    return this.fileService.fileExists(resolve(this.realpath, "package-lock.json"));
   }
 
   async installPackages(packages: string[], dev: boolean): Promise<string[]> {

@@ -1,4 +1,3 @@
-import { realpathSync } from "fs";
 import { resolve } from "path";
 
 import { PackageManagerType } from "../PackageManagerService";
@@ -17,7 +16,7 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
   protected type = PackageManagerType.yarn;
 
   async isEnabled(): Promise<boolean> {
-    if (this.fileService.fileExistsSync(resolve(this.realpath, "yarn.lock"))) {
+    if (await this.fileService.fileExists(resolve(this.realpath, "yarn.lock"))) {
       return true;
     }
     return this.isMonorepoPackage();
@@ -39,7 +38,7 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
   }
 
   protected async getMonorepoInfos(): Promise<MonorepoInfos | undefined> {
-    const workspacesRootData = this.getPackageJsonData("workspaces");
+    const workspacesRootData = await this.getPackageJsonData("workspaces");
     if (workspacesRootData) {
       return {
         rootDirectory: this.realpath,
@@ -58,7 +57,7 @@ export class YarnPackageManager extends AbstractPackageManager<YarnPackageJson> 
 
         const matches = new RegExp(`(.+)${location}$`).exec(this.realpath);
         if (matches) {
-          return { rootDirectory: realpathSync(matches[1]) };
+          return { rootDirectory: matches[1] };
         }
       }
 

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "fs";
+import { stat, readFile } from "fs/promises";
 import { resolve } from "path";
 
 import prompts from "prompts";
@@ -29,7 +29,7 @@ describe("createCrudComponent", () => {
     let testDirPath: string;
 
     beforeAll(async () => {
-      testDir = createTmpDir(testProjectPath);
+      testDir = await createTmpDir(testProjectPath);
       testDirPath = testDir.name;
 
       prompts.inject(["overwrite"]);
@@ -72,12 +72,11 @@ describe("createCrudComponent", () => {
 
     it.each(expectedFiles.map((value) => [value]))(
       'should create crud component file "%s"',
-      (expectedFile) => {
+      async (expectedFile) => {
         const filePath = resolve(testDirPath, libPath, expectedFile);
 
-        const fileExists = existsSync(filePath);
-        expect(fileExists).toBe(true);
-        expect(readFileSync(filePath, "utf-8")).toMatchSnapshot(expectedFile);
+        expect((await stat(filePath)).isFile()).toBe(true);
+        expect(await readFile(filePath, "utf-8")).toMatchSnapshot(expectedFile);
       }
     );
   });

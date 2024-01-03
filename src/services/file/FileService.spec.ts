@@ -6,7 +6,7 @@ import { FileService } from "./FileService";
 
 const testDirPath = "__tests__/test-react-project";
 
-describe("fileService", () => {
+describe("FileService", () => {
   let testDir: DirResult;
   let service: FileService;
 
@@ -23,156 +23,122 @@ describe("fileService", () => {
 
   describe("touchFile", () => {
     it("should touch a file for the given path", async () => {
-      testDir = createTmpDir(false);
+      testDir = await createTmpDir();
 
       const filepath = resolve(testDir.name, "test.json");
 
-      service.touchFileSync(filepath);
+      await service.touchFile(filepath);
 
-      const dirExists = service.fileExistsSync(filepath);
-      expect(dirExists).toBe(true);
+      const fileExists = await service.fileExists(filepath);
+      expect(fileExists).toBe(true);
     });
 
     it("should touch an existing file for the given path", async () => {
-      testDir = createTmpDir(false);
+      testDir = await createTmpDir();
 
       const filepath = resolve(testDir.name, "test.json");
+      await service.writeFileContent(filepath, "test", "utf8");
+      const fileExists = await service.fileExists(filepath);
+      expect(fileExists).toBe(true);
 
-      service.touchFileSync(filepath);
-      service.touchFileSync(filepath);
+      const modificationDate = await service.getFileModificationDate(filepath);
 
-      const dirExists = service.fileExistsSync(filepath);
-      expect(dirExists).toBe(true);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await service.touchFile(filepath);
+
+      const modificationDateAfterTouch = await service.getFileModificationDate(filepath);
+
+      expect(modificationDateAfterTouch.getTime()).toBeGreaterThan(modificationDate.getTime());
     });
   });
 
-  describe("fileExistsSync", () => {
+  describe("fileExists", () => {
     it("should return true when the given path is an existing file", async () => {
-      const fileExists = service.fileExistsSync(join(testDirPath, "package.json"));
+      const fileExists = await service.fileExists(join(testDirPath, "package.json"));
       expect(fileExists).toBe(true);
     });
+
     it("should return false when the given path is not an existing file", async () => {
-      const fileExists = service.fileExistsSync(join(testDirPath, "unexisting-file.test"));
+      const fileExists = await service.fileExists(join(testDirPath, "unexisting-file.test"));
       expect(fileExists).toBe(false);
-    });
-  });
-
-  describe("dirExistsSync", () => {
-    it("should return true when the given path is an existing directory", async () => {
-      const dirExists = service.dirExistsSync(testDirPath);
-      expect(dirExists).toBe(true);
-    });
-    it("should return false when the given path is not an existing directory", async () => {
-      const dirExists = service.dirExistsSync("/unexisting-directory");
-      expect(dirExists).toBe(false);
-    });
-  });
-
-  describe("fileDirExistsSync", () => {
-    it("should return true when the given path directory exists", async () => {
-      const dirExists = service.fileDirExistsSync(join(testDirPath, "package.json"));
-      expect(dirExists).toBe(true);
-    });
-    it("should return false when the given path directory does not exist", async () => {
-      const dirExists = service.fileDirExistsSync(join("/unexisting-directory", "package.json"));
-      expect(dirExists).toBe(false);
-    });
-  });
-
-  describe("assertDirExists", () => {
-    it("should return the directory realpath when the given path is an existing directory", async () => {
-      const dirRealpath = service.assertDirExists(testDirPath);
-      expect(dirRealpath).toEqual(resolve(testDirPath));
-    });
-    it("should throw an error when the given path is not an existing directory", async () => {
-      const assertDirExistsOperation = () => {
-        service.assertDirExists("/unexisting-directory");
-      };
-      expect(assertDirExistsOperation).toThrow('Directory "/unexisting-directory" does not exist');
-    });
-  });
-
-  describe("assertFileExists", () => {
-    it("should return the fileectory realpath when the given path is an existing file", async () => {
-      const testFilePath = join(testDirPath, "package.json");
-      const fileRealpath = service.assertFileExists(testFilePath);
-      expect(fileRealpath).toEqual(resolve(testFilePath));
-    });
-    it("should throw an error when the given path is not an existing file", async () => {
-      const testFilePath = join("/unexisting-fileectory", "package.json");
-      const assertFileExistsOperation = () => {
-        service.assertFileExists(testFilePath);
-      };
-      expect(assertFileExistsOperation).toThrow(`File "${testFilePath}" does not exist`);
     });
   });
 
   describe("replaceFileExtension", () => {
     it("should not throw an error when the given path is not an existing file", async () => {
       const testFilePath = join("/unexisting-fileectory", "package.json");
-      const result = service.replaceFileExtension(testFilePath, "ts");
+      const result = await service.replaceFileExtension(testFilePath, "ts");
       expect(result).toBeUndefined();
     });
 
     it("should throw an error when the given path is not an existing file but must exist", async () => {
       const testFilePath = join("/unexisting-fileectory", "package.json");
-      const replaceFileExtensionOperation = () => {
-        service.replaceFileExtension(testFilePath, "ts", true);
-      };
-      expect(replaceFileExtensionOperation).toThrow(`File "${testFilePath}" does not exist`);
+
+      const replaceFileExtensionOperation = service.replaceFileExtension(testFilePath, "ts", true);
+
+      await expect(replaceFileExtensionOperation).rejects.toThrow(
+        `File "${testFilePath}" does not exist`
+      );
     });
   });
 
-  describe("mkdirSync", () => {
-    it("should create a directory for the given path", async () => {
-      testDir = createTmpDir(false);
+  describe("getFileRealpath", () => {
+    it("should return the file realpath when the given path is an existing file", async () => {
+      const testFilePath = join(testDirPath, "package.json");
 
-      const dirpath = resolve(testDir.name, "test");
-      service.mkdirSync(dirpath, false);
+      const fileRealpath = await service.getFileRealpath(testFilePath);
 
-      const dirExists = service.dirExistsSync(dirpath);
-      expect(dirExists).toBe(true);
+      expect(fileRealpath).toEqual(resolve(testFilePath));
     });
 
-    it("should create a directory recursively for the given path", async () => {
-      testDir = createTmpDir(false);
+    it("should throw an error when the given path is not an existing file", async () => {
+      const testFilePath = join("/unexisting-fileectory", "package.json");
 
-      const dirpath = resolve(testDir.name, "test1/test2/test3");
-      service.mkdirSync(dirpath, true);
+      const assertFileExistsOperation = service.getFileRealpath(testFilePath);
 
-      const dirExists = service.dirExistsSync(dirpath);
-      expect(dirExists).toBe(true);
-    });
-
-    it("should create a directory for an existing path", async () => {
-      testDir = createTmpDir(false);
-
-      const dirpath = resolve(testDir.name, "test1");
-      service.mkdirSync(dirpath, true);
-
-      let dirExists = service.dirExistsSync(dirpath);
-      expect(dirExists).toBe(true);
-
-      service.mkdirSync(dirpath, true);
-      dirExists = service.dirExistsSync(dirpath);
-      expect(dirExists).toBe(true);
+      await expect(assertFileExistsOperation).rejects.toThrow(
+        `File "${testFilePath}" does not exist`
+      );
     });
   });
 
-  describe("rmdirSync", () => {
-    it("should remove a directory for the given path", async () => {
-      testDir = createTmpDir(false);
+  describe("getFileCreationDate", () => {
+    it("should return the file creation date when the given path is an existing file", async () => {
+      const testFilePath = join(testDirPath, "package.json");
 
-      const dirpath = resolve(testDir.name, "test");
-      service.mkdirSync(dirpath, false);
+      const fileCreationDate = await service.getFileCreationDate(testFilePath);
+      expect(fileCreationDate).toBeInstanceOf(Date);
+    });
+  });
 
-      let dirExists = service.dirExistsSync(dirpath);
-      expect(dirExists).toBe(true);
+  describe("getFileModificationDate", () => {
+    it("should return the file modication date when the given path is an existing file", async () => {
+      const testFilePath = join(testDirPath, "package.json");
 
-      service.rmdirSync(dirpath);
+      const fileCreationDate = await service.getFileModificationDate(testFilePath);
+      expect(fileCreationDate).toBeInstanceOf(Date);
+    });
+  });
 
-      dirExists = service.dirExistsSync(dirpath);
-      expect(dirExists).toBe(false);
+  describe("getFileContent", () => {
+    it("should return the file content when the given path is an existing file", async () => {
+      const testFilePath = join(testDirPath, "package.json");
+
+      const fileContent = await service.getFileContent(testFilePath, "utf8");
+      expect(fileContent).toContain('"name": "tests"');
+    });
+  });
+
+  describe("writeFileContent", () => {
+    it("should write the file content when the given path is an existing file", async () => {
+      testDir = await createTmpDir();
+
+      const filepath = resolve(testDir.name, "test.json");
+
+      await service.writeFileContent(filepath, "test", "utf8");
+
+      const fileContent = await service.getFileContent(filepath, "utf8");
+      expect(fileContent).toBe("test");
     });
   });
 });

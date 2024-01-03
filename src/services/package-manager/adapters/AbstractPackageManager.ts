@@ -34,18 +34,18 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
     return this.type;
   }
 
-  getPackageJsonData(): PJ;
+  getPackageJsonData(): Promise<PJ>;
   getPackageJsonData<P extends keyof PJ = keyof PJ>(
     property: P,
     encoding?: BufferEncoding
-  ): PJ[P] | undefined;
-  getPackageJsonData<P extends keyof PJ = keyof PJ>(
+  ): Promise<PJ[P] | undefined>;
+  async getPackageJsonData<P extends keyof PJ = keyof PJ>(
     property: P | undefined = undefined,
     encoding: BufferEncoding = "utf8"
-  ): PackageJson | PJ[P] | undefined {
+  ): Promise<PackageJson | PJ[P] | undefined> {
     const packageJsonPath = resolve(this.realpath, "package.json");
 
-    const file = this.fileFactory.fromFile<JsonFile>(packageJsonPath, encoding);
+    const file = await this.fileFactory.fromFile<JsonFile>(packageJsonPath, encoding);
 
     if (property) {
       return file.getData<PJ>(property) as PJ[P] | undefined;

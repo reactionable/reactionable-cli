@@ -116,7 +116,7 @@ export class EtaAdapter implements TemplateAdapter {
       }
       const partialName: string = matches[1];
 
-      if (this.eta.templatesSync.get(partialName)) {
+      if (await this.eta.templatesAsync.get(partialName)) {
         continue;
       }
 

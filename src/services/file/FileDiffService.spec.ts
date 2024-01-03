@@ -22,7 +22,7 @@ describe("FileDiffService", () => {
   });
 
   describe("getFileContentDiff", () => {
-    it("should retrieve empty diff when file content and new content are the same", () => {
+    it("should retrieve empty diff when file content and new content are the same", async () => {
       const originalContent = `line 1 content
 line 2 content
 line 3 content
@@ -30,12 +30,12 @@ line 4 content`;
 
       mockDir({ [fileName]: originalContent });
 
-      const diffs = service.getFileContentDiff(filePath, originalContent, originalContent);
+      const diffs = await service.getFileContentDiff(filePath, originalContent, originalContent);
 
       expect(diffs).toEqual([]);
     });
 
-    it("should retrieve diffs when file content and new content are different", () => {
+    it("should retrieve diffs when file content and new content are different", async () => {
       const originalContent = `line 1 content
 line 2 content
 line 3 content
@@ -48,7 +48,7 @@ line 4 content`;
 
       mockDir({ [fileName]: originalContent });
 
-      const diffs = service.getFileContentDiff(filePath, originalContent, newContent);
+      const diffs = await service.getFileContentDiff(filePath, originalContent, newContent);
 
       expect(diffs).toEqual([
         {

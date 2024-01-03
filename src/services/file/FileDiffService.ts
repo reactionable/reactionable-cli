@@ -1,22 +1,27 @@
-import { realpathSync, statSync } from "fs";
-
 import { Change, diffLines } from "diff";
 import { inject, injectable } from "inversify";
 
 import { CliService } from "../CliService";
+import { FileService } from "./FileService";
 
 @injectable()
 export class FileDiffService {
   static overwritedFilesChanges: Map<string, Change[]> = new Map();
 
-  constructor(@inject(CliService) private readonly cliService: CliService) {}
+  constructor(
+    @inject(CliService) private readonly cliService: CliService,
+    @inject(FileService) private readonly fileService: FileService
+  ) {}
 
-  getFileContentDiff(filepath: string, fileContent: string, newFileContent: string): Change[] {
-    const stat = statSync(filepath);
-
+  async getFileContentDiff(
+    filepath: string,
+    fileContent: string,
+    newFileContent: string
+  ): Promise<Change[]> {
     // If file has been created during current process, do not need to check for diffs
     const runStartDate = this.cliService.getRunStartDate();
-    if (runStartDate && stat.birthtime >= runStartDate) {
+    const fileCreationDate = await this.fileService.getFileCreationDate(filepath);
+    if (runStartDate && fileCreationDate >= runStartDate) {
       return [];
     }
 
@@ -28,7 +33,7 @@ export class FileDiffService {
     const changes = diffLines(fileContent, newFileContent);
 
     // Retrieve previous changes
-    const overwritedChanges = this.getOverwritedFilesChanges(filepath);
+    const overwritedChanges = await this.getOverwritedFilesChanges(filepath);
     if (!overwritedChanges) {
       return changes;
     }
@@ -52,11 +57,13 @@ export class FileDiffService {
     return [];
   }
 
-  getOverwritedFilesChanges(filepath: string): Change[] | undefined {
-    return FileDiffService.overwritedFilesChanges.get(realpathSync(filepath));
+  private async getOverwritedFilesChanges(filepath: string): Promise<Change[] | undefined> {
+    const fileRealpath = await this.fileService.getFileRealpath(filepath);
+    return FileDiffService.overwritedFilesChanges.get(fileRealpath);
   }
 
-  setOverwritedFilesChanges(filepath: string, diff: Change[]): void {
-    FileDiffService.overwritedFilesChanges.set(realpathSync(filepath), diff);
+  async setOverwritedFilesChanges(filepath: string, diff: Change[]): Promise<void> {
+    const fileRealpath = await this.fileService.getFileRealpath(filepath);
+    FileDiffService.overwritedFilesChanges.set(fileRealpath, diff);
   }
 }

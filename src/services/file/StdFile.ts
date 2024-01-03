@@ -1,15 +1,17 @@
-import { readFileSync, writeFileSync } from "fs";
+import { dirname } from "path";
 import { EOL } from "os";
 
 import { CliService } from "../CliService";
 import { FileDiffService } from "./FileDiffService";
 import { FileFactory } from "./FileFactory";
+import { DirectoryService } from "./DirectoryService";
 import { FileService } from "./FileService";
 
 export class StdFile {
   protected content = "";
   constructor(
     protected readonly cliService: CliService,
+    protected readonly directoryService: DirectoryService,
     protected readonly fileService: FileService,
     protected readonly fileDiffService: FileDiffService,
     protected readonly fileFactory: FileFactory,
@@ -83,16 +85,21 @@ export class StdFile {
     }
 
     // Check if file directory exist
-    if (!this.fileService.fileDirExistsSync(file)) {
-      throw new Error(`Unable to create file "${file}, parent directory does not exist`);
+    const parentDirPath = dirname(file);
+    const parentDirExists = await this.directoryService.dirExists(parentDirPath);
+    if (!parentDirExists) {
+      throw new Error(
+        `Unable to create file "${file}, parent directory ${parentDirPath} does not exist`
+      );
     }
 
     const newFileContent = this.fixContentEOL(this.getContent()).trim();
-    encoding = encoding === null ? this.encoding : encoding;
+    encoding = encoding ?? this.encoding;
 
-    if (this.fileService.fileExistsSync(file)) {
-      const fileContent = readFileSync(file).toString(encoding);
-      const diff = this.fileDiffService.getFileContentDiff(file, fileContent, newFileContent);
+    const fileExists = await this.fileService.fileExists(file);
+    if (fileExists) {
+      const fileContent = await this.fileService.getFileContent(file, encoding);
+      const diff = await this.fileDiffService.getFileContentDiff(file, fileContent, newFileContent);
 
       if (diff.length) {
         const overwrite = await this.cliService.promptOverwriteFileDiff(file, diff);
@@ -102,11 +109,11 @@ export class StdFile {
           this.setContent(fileContent);
           return this;
         }
-        this.fileDiffService.setOverwritedFilesChanges(file, diff);
+        await this.fileDiffService.setOverwritedFilesChanges(file, diff);
       }
     }
 
-    writeFileSync(file, newFileContent, encoding);
+    await this.fileService.writeFileContent(file, newFileContent, encoding);
     return this;
   }
 }
