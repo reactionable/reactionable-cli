@@ -30,7 +30,7 @@ describe("EtaAdapter", () => {
       const template = "Hello, <%= name %!";
       const context: TemplateContext = { name: "World" };
       await expect(etaAdapter.renderTemplateString(template, context)).rejects.toThrow(
-        /An error occurred while compiling template "Hello, <%= name %!": Eta Error: unclosed tag at line 1 col 8:.*/
+        /An error occurred while compiling template "Hello, <%= name %!": EtaParser Error: unclosed tag at line 1 col 8:.*/
       );
     });
   });
