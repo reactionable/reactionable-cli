@@ -2221,9 +2221,9 @@ esutils@^2.0.2:
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
 eta@^3.1.1:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/eta/-/eta-3.4.0.tgz#0d519b9a3d5ea5eff5513ae5771b5a4c112a9087"
-  integrity sha512-tCsc7WXTjrTx4ZjYLplcqrI3o4mYJ+Z6YspeuGL8tbt/hHoMchwBwtKfwM09svEY86iRapY93vUqQttcNuIO5Q==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/eta/-/eta-3.4.1.tgz#f9ec86e53c1add3dae34f80c36443f3c9229a273"
+  integrity sha512-a5+UIcEuj3wYx3FoXFh05O5GAs10uTd2GTEYlaCALE2Ds03ZkKlAXzHpXA/6ZSZ6Xwka/IuDjFY+wKDmw2RNDg==
 
 eventemitter3@^5.0.1:
   version "5.0.1"
