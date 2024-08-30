@@ -18,7 +18,7 @@ describe("DirectoryService", () => {
 
   afterEach(() => {
     container.restore();
-    testDir && testDir.removeCallback();
+    testDir?.removeCallback();
   });
 
   describe("dirExists", () => {

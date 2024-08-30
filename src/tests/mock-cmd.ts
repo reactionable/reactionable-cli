@@ -20,10 +20,11 @@ function mockCmd(cmd: string): MockedCmd {
     .mockImplementation()
     .mockReturnValue(cmd as ShellString);
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   originalSpawn = require("child_process").spawn;
   spawnMock = mockSpawn();
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   require("child_process").spawn = spawnMock;
 
   return {
@@ -72,7 +73,7 @@ export function mockYarnWorkspacesInfoCmd(
 export function restoreMockCmd(): void {
   jest.restoreAllMocks();
   if (originalSpawn) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require("child_process").spawn = originalSpawn;
     originalSpawn = undefined;
   }

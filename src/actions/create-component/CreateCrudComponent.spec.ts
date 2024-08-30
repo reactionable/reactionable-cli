@@ -39,9 +39,7 @@ describe("createCrudComponent", () => {
       });
     });
 
-    afterAll(() => {
-      testDir && testDir.removeCallback();
-    });
+    afterAll(() => testDir?.removeCallback());
 
     const expectedFiles = [
       // Config

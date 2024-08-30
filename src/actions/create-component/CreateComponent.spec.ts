@@ -14,9 +14,7 @@ describe("createComponent", () => {
     createComponent = container.get(CreateComponent);
   });
 
-  afterEach(() => {
-    testDir && testDir.removeCallback();
-  });
+  afterEach(() => testDir?.removeCallback());
 
   describe("construct", () => {
     it("should be initialized", () => {
