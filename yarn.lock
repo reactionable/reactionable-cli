@@ -822,9 +822,9 @@
     "@sinonjs/commons" "^3.0.0"
 
 "@ts-dev-tools/core@^1.6.1":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.8.0.tgz#977881aef139dec3a96d01d381e340e955110719"
-  integrity sha512-RPXP4a8C0onfhWMDgVtgAKDn/ZP1jUmRhAeZwxrVkQ4AoNM29xYwqdaaCCY+wYYOrK8RRShAGZOPiSQ6QdmHRQ==
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.8.1.tgz#e61a80557d9c3bbfb97e9546e4c870948e4adb36"
+  integrity sha512-VDjuK8bBzSuXrLzd4jgoK0gPYytMQ5S7130iqZmh5oUWx7VAndb1pVv+oWEtA0PJHvXZji0yb9khlF58l3daIA==
   dependencies:
     "@commitlint/cli" "^19.4.0"
     "@commitlint/config-conventional" "^19.0.3"
