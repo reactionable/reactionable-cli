@@ -13,10 +13,11 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     environment: github-pages
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_PRIVATE_ACCESS_TOKEN }}
 
       - uses: hoverkraft-tech/ci-github-nodejs/actions/setup-node@0.6.0
 
@@ -25,37 +26,55 @@ jobs:
           name: build
           path: /
 
-      - name: 🔖 Configure publish
-        env:
-          NPM_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-
-          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-          git config --local user.name "${{ github.actor }}"
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          release-type: node
+          target-branch: main
+          skip-github-release: true
 
       - name: 📦 Publish NPM packages
+        if: ${{ steps.release.outputs.release_created }}
         env:
-          GH_TOKEN: ${{ secrets.GH_PRIVATE_ACCESS_TOKEN }}
-        run: |
-          npx standard-version
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: yarn publish --access public
 
-          echo `git add -A && git commit -m "chore: prepare release"`
-          git push --follow-tags origin ${{ github.event.repository.default_branch }}
+  docs-publish:
+    name: 📖 Publish documentation
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: ci
+    steps:
+      - uses: actions/checkout@v4
 
-          npm publish --access public
-
-      - name: 🌐 Publish to gh-pages
-        run: |
-          mkdir -p /tmp
-          cp -R build/docs /tmp/publish
-          cp -R docs /tmp/publish/
-
-      - name: 🌐 Publish Github pages
-        uses: peaceiris/actions-gh-pages@v4.0.0
+      - uses: actions/download-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /tmp/publish
-          enable_jekyll: true
-          user_name: ${{ github.actor }}
-          user_email: ${{ github.actor }}@users.noreply.github.com
+          name: build
+          path: /
+
+      - run: |
+          mkdir ./_site_tmp
+          echo -e "theme: jekyll-theme-cayman" > ./_site_tmp/_config.yml
+          cp README.md ./_site_tmp/index.md
+          cp -R docs ./_site_tmp/
+          cp -R build/docs ./_site_tmp/typedoc
+
+      - name: ⚙️ Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: _site_tmp
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
