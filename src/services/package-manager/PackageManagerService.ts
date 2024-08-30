@@ -88,16 +88,19 @@ export class PackageManagerService {
       return packagesToInstall;
     }
 
-    verbose && this.consoleService.info(`Installing ${packagesToInstall.join(", ")}...`);
+    if (verbose) {
+      this.consoleService.info(`Installing ${packagesToInstall.join(", ")}...`);
+    }
 
     const installedPackages = await packageManager.installPackages(packagesToInstall, dev);
 
-    verbose &&
+    if (verbose) {
       this.consoleService.success(
         installedPackages.length
           ? `Package(s) "${installedPackages.join(", ")}" have been installed`
           : "no package has been installed"
       );
+    }
     return installedPackages;
   }
 
@@ -109,7 +112,9 @@ export class PackageManagerService {
     const packageManager = await this.getPackageManager(dirPath);
 
     // Remove already installed packges
-    verbose && this.consoleService.info(`Uninstalling ${packages.join(", ")}...`);
+    if (verbose) {
+      this.consoleService.info(`Uninstalling ${packages.join(", ")}...`);
+    }
 
     const packagesToUninstall: string[] = [];
     for (const packageName of packages) {
@@ -130,12 +135,13 @@ export class PackageManagerService {
 
     const uninstalledPackages = await packageManager.uninstallPackages(packagesToUninstall);
 
-    verbose &&
+    if (verbose) {
       this.consoleService.success(
         uninstalledPackages.length
           ? `Package(s) "${uninstalledPackages.join(", ")}" have been uninstalled`
           : "no package has been uninstalled"
       );
+    }
 
     return uninstalledPackages;
   }

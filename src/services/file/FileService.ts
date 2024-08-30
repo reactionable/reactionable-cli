@@ -8,9 +8,11 @@ export class FileService {
     const time = new Date();
     try {
       await utimes(path, time, time);
-    } catch (err) {
-      const fileHandle = await open(path, "w");
-      await fileHandle.close();
+    } catch (error: unknown) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+        const fileHandle = await open(path, "w");
+        await fileHandle.close();
+      }
     }
   }
 

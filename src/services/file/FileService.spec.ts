@@ -18,7 +18,7 @@ describe("FileService", () => {
 
   afterEach(() => {
     container.restore();
-    testDir && testDir.removeCallback();
+    testDir?.removeCallback();
   });
 
   describe("touchFile", () => {

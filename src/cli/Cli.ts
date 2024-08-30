@@ -86,9 +86,8 @@ export class Cli {
 
   async run(): Promise<void> {
     await this.initialize();
-    this.cli &&
-      this.cli.runExit(process.argv.slice(2), {
-        ...Clipanion.defaultContext,
-      });
+    this.cli?.runExit(process.argv.slice(2), {
+      ...Clipanion.defaultContext,
+    });
   }
 }

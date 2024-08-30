@@ -10,9 +10,7 @@ describe("gitService", () => {
     service = container.get(GitService);
   });
 
-  afterEach(() => {
-    testDir && testDir.removeCallback();
-  });
+  afterEach(() => testDir?.removeCallback());
 
   describe("isAGitRepository", () => {
     it("should return true when the given directory path is a git repository", async () => {

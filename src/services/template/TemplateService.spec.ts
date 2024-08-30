@@ -17,7 +17,7 @@ describe("templateService", () => {
 
   afterEach(() => {
     container.restore();
-    testDir && testDir.removeCallback();
+    testDir?.removeCallback();
   });
 
   describe("renderTemplate", () => {
