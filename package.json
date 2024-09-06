@@ -38,7 +38,7 @@
     "clipanion": "^4.0.0-rc.2",
     "colorette": "^2.0.20",
     "deepmerge": "^4.3.1",
-    "diff": "^5.1.0",
+    "diff": "^6.0.0",
     "eta": "^3.1.1",
     "figlet": "^1.7.0",
     "handlebars": "^4.7.8",
