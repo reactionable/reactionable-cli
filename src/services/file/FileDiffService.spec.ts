@@ -52,11 +52,13 @@ line 4 content`;
 
       expect(diffs).toEqual([
         {
+          added: false,
           count: 2,
+          removed: false,
           value: "line 1 content\nline 2 content\n",
         },
         {
-          added: undefined,
+          added: false,
           count: 1,
           removed: true,
           value: "line 3 content\n",
@@ -64,11 +66,13 @@ line 4 content`;
         {
           added: true,
           count: 1,
-          removed: undefined,
+          removed: false,
           value: "line new content\n",
         },
         {
+          added: false,
           count: 1,
+          removed: false,
           value: "line 4 content",
         },
       ]);
