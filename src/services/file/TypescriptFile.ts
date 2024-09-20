@@ -89,7 +89,7 @@ export class TypescriptFile extends StdFile {
         // eslint-disable-next-line no-case-declarations
         const modules: ITypescriptImportModules = {};
         for (const element of namedBindings.elements) {
-          const propertyName = element?.propertyName?.escapedText?.toString();
+          const propertyName = element?.propertyName?.text;
           const elementName = element.name.escapedText.toString();
           const moduleName: string = propertyName ?? elementName;
           modules[moduleName] = propertyName ? elementName : "";
