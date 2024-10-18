@@ -9,7 +9,7 @@ jobs:
       id-token: write
       security-events: write
       contents: read
-    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@0.6.0
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@0.7.0
     with:
       build: |
         {
