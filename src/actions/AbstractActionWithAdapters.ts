@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import container from "../container";
 import { ConsoleService } from "../services/ConsoleService";
@@ -8,7 +8,6 @@ import { CliService } from "../services/CliService";
 
 export type ActionWithAdaptersOptions = RealpathActionOptions;
 
-@injectable()
 export abstract class AbstractActionWithAdapters<
   A extends AdapterAction,
   O extends ActionWithAdaptersOptions = ActionWithAdaptersOptions,

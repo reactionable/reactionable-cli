@@ -1,10 +1,7 @@
-import { injectable } from "inversify";
-
 import { RealpathAction, RealpathActionOptions } from "./RealpathAction";
 
 export type AdapterActionOptions = RealpathActionOptions;
 
-@injectable()
 export abstract class AbstractAdapterAction<O extends AdapterActionOptions = AdapterActionOptions>
   implements RealpathAction<O>
 {

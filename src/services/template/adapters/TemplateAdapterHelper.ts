@@ -1,8 +1,5 @@
-import { injectable } from "inversify";
-
 import { StringUtils } from "../../StringUtils";
 
-@injectable()
 export class TemplateAdapterHelper {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getHelpers(): Record<string, (...args: any[]) => unknown> {

@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import prompts from "prompts";
 
 import { CliService } from "../../services/CliService";
@@ -8,7 +8,6 @@ import { NamedAction, NamedActionOptions } from "../NamedAction";
 
 type GenerateReadmeOptions = NamedActionOptions & { mustPrompt: boolean };
 
-@injectable()
 export default class GenerateReadme implements NamedAction<GenerateReadmeOptions> {
   constructor(
     @inject(CliService) private readonly cliService: CliService,

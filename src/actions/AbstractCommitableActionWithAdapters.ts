@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import { ConsoleService } from "../services/ConsoleService";
 import { GitService } from "../services/git/GitService";
@@ -11,7 +11,6 @@ import { CliService } from "../services/CliService";
 
 export type CommitableActionWithAdaptersOptions = ActionWithAdaptersOptions;
 
-@injectable()
 export abstract class AbstractCommitableActionWithAdapters<
   A extends AdapterAction,
   O extends CommitableActionWithAdaptersOptions = CommitableActionWithAdaptersOptions,

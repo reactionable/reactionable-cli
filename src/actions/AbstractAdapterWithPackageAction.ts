@@ -1,11 +1,10 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import { PackageManagerService } from "../services/package-manager/PackageManagerService";
 import { AbstractAdapterAction, AdapterActionOptions } from "./AbstractAdapterAction";
 
 export type AdapterWithPackageActionOptions = AdapterActionOptions;
 
-@injectable()
 export abstract class AbstractAdapterWithPackageAction<
   O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
 > extends AbstractAdapterAction<O> {

@@ -1,10 +1,8 @@
-import { injectable } from "inversify";
 import { Result } from "parse-github-url";
 
 import { VersioningAdapterOptions } from "../../VersioningAdapter";
 import AbstractVersioning from "../AbstractVersioning";
 
-@injectable()
 export default class Github extends AbstractVersioning {
   protected name = "Github";
 

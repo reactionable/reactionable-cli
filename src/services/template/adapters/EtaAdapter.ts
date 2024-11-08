@@ -2,14 +2,13 @@ import { sep } from "path";
 
 import { Eta } from "eta";
 import { TemplateFunction } from "eta/dist/types/compile";
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import { TemplateContext } from "../TemplateContext";
 import { TemplateFileService } from "../TemplateFileService";
 import { TemplateAdapter } from "./TemplateAdapter";
 import { TemplateAdapterHelper } from "./TemplateAdapterHelper";
 
-@injectable()
 export class EtaAdapter implements TemplateAdapter {
   private readonly eta: Eta = new Eta({
     views: this.templateFileService.getTemplateDirectory(),

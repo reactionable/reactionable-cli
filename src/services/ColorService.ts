@@ -1,7 +1,5 @@
-import { injectable } from "inversify";
 import { gray, green, greenBright, red, redBright, yellow } from "colorette";
 
-@injectable()
 export class ColorService {
   green(value: string) {
     return green(value);

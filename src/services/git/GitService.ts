@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import { parse } from "js-ini";
 import parseGitRemote from "parse-github-url";
 import { Result } from "parse-github-url";
@@ -13,7 +13,6 @@ export type GitConfig = {
   "remote.origin.url": string;
 };
 
-@injectable()
 export class GitService {
   private readonly parsedGitRemoteUrls: Map<string, Result | null> = new Map();
 

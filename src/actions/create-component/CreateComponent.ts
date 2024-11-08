@@ -1,6 +1,6 @@
 import { basename, dirname, extname, resolve } from "path";
 
-import { LazyServiceIdentifer, inject, injectable } from "inversify";
+import { LazyServiceIdentifier, inject } from "inversify";
 import prompts from "prompts";
 
 import { ConsoleService } from "../../services/ConsoleService";
@@ -25,19 +25,18 @@ export type CreateComponentOptions = NamedActionOptions & {
   componentDirPath?: string;
 };
 
-@injectable()
 export default class CreateComponent implements NamedAction<CreateComponentOptions> {
   protected static defaultPackage = "@reactionable/core";
   protected static templateNamespace = "create-component";
 
   constructor(
-    @inject(new LazyServiceIdentifer(() => AddUIFramework))
+    @inject(new LazyServiceIdentifier(() => AddUIFramework))
     private readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifer(() => AddHosting))
+    @inject(new LazyServiceIdentifier(() => AddHosting))
     private readonly addHosting: AddHosting,
-    @inject(new LazyServiceIdentifer(() => AddRouter))
+    @inject(new LazyServiceIdentifier(() => AddRouter))
     private readonly addRouter: AddRouter,
-    @inject(new LazyServiceIdentifer(() => CreateApp))
+    @inject(new LazyServiceIdentifier(() => CreateApp))
     private readonly createApp: CreateApp,
     @inject(PackageManagerService)
     protected readonly packageManagerService: PackageManagerService,

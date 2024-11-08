@@ -1,6 +1,5 @@
 import { join, resolve, dirname } from "path";
 
-import { injectable } from "inversify";
 import { plural, singular } from "pluralize";
 import prompts from "prompts";
 
@@ -9,7 +8,6 @@ import { TypescriptImport } from "../../services/file/TypescriptImport";
 import { StringUtils } from "../../services/StringUtils";
 import CreateComponent, { CreateComponentOptions } from "./CreateComponent";
 
-@injectable()
 export default class CreateCrudComponent extends CreateComponent {
   getName(): string {
     return "Create a new CRUD component";

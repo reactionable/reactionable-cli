@@ -1,10 +1,9 @@
 import { extname, join } from "path";
 
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import { FileService } from "../file/FileService";
 
-@injectable()
 export class TemplateFileService {
   constructor(@inject(FileService) private readonly fileService: FileService) {}
 

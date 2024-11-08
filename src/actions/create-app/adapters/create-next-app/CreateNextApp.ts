@@ -1,11 +1,8 @@
 import { dirname, join, resolve } from "path";
 
-import { injectable } from "inversify";
-
 import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
 import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
 
-@injectable()
 export default class CreateNextApp extends AbstractCreateAppAdapter {
   protected name = "Create a new NextJs app";
 

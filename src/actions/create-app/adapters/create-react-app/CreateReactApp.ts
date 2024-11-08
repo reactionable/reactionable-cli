@@ -1,11 +1,8 @@
 import { dirname, resolve } from "path";
 
-import { injectable } from "inversify";
-
 import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
 import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
 
-@injectable()
 export default class CreateReactApp extends AbstractCreateAppAdapter {
   protected name = "Create a new React app";
 

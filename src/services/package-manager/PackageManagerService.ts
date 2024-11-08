@@ -1,6 +1,6 @@
 import { basename, resolve } from "path";
 
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import { which } from "shelljs";
 
 import { CliService } from "../CliService";
@@ -26,7 +26,6 @@ type AbstractConstructorHelper<T> = (new (...args: unknown[]) => {
   T;
 type AbstractContructorParameters<T> = ConstructorParameters<AbstractConstructorHelper<T>>;
 
-@injectable()
 export class PackageManagerService {
   private readonly packageManagers: Map<string, IPackageManager> = new Map();
 
