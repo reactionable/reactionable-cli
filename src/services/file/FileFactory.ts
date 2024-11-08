@@ -1,6 +1,6 @@
 import { extname } from "path";
 
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import { CliService } from "../CliService";
 import { FileDiffService } from "./FileDiffService";
@@ -22,7 +22,6 @@ export type CachedFileContent = {
   [FileContentType.content]: string;
 };
 
-@injectable()
 export class FileFactory {
   private cachedFileContents: Map<string, CachedFileContent> = new Map();
 

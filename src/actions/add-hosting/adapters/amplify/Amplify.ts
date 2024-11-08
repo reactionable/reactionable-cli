@@ -1,6 +1,6 @@
 import { resolve } from "path";
 
-import { LazyServiceIdentifer, inject, injectable } from "inversify";
+import { LazyServiceIdentifier, inject } from "inversify";
 import prompts from "prompts";
 
 import { CliService } from "../../../../services/CliService";
@@ -48,7 +48,6 @@ type BackendConfig = {
   };
 };
 
-@injectable()
 export default class Amplify extends AbstractAdapterWithPackageAction implements HostingAdapter {
   protected name = "Amplify";
   protected adapterPackageName = "@reactionable/amplify";
@@ -62,7 +61,7 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
     @inject(CliService) private readonly cliService: CliService,
     @inject(GitService) private readonly gitService: GitService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifer(() => CreateApp)) protected readonly createApp: CreateApp
+    @inject(new LazyServiceIdentifier(() => CreateApp)) protected readonly createApp: CreateApp
   ) {
     super(packageManagerService);
   }

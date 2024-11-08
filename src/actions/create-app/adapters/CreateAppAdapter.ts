@@ -1,6 +1,6 @@
 import { basename, dirname, join, relative, resolve } from "path";
 
-import { LazyServiceIdentifer, inject, injectable } from "inversify";
+import { LazyServiceIdentifier, inject } from "inversify";
 
 import { CliService } from "../../../services/CliService";
 import { ConsoleService } from "../../../services/ConsoleService";
@@ -32,7 +32,6 @@ export type CreateAppAdapter<O extends CreateAppAdapterOptions = CreateAppAdapte
     getLibDirectoryPath(): string;
   };
 
-@injectable()
 export abstract class AbstractCreateAppAdapter
   extends AbstractAdapterAction
   implements CreateAppAdapter
@@ -61,9 +60,9 @@ export abstract class AbstractCreateAppAdapter
     @inject(FileService) protected readonly fileService: FileService,
     @inject(DirectoryService) protected readonly directoryService: DirectoryService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifer(() => AddUIFramework))
+    @inject(new LazyServiceIdentifier(() => AddUIFramework))
     protected readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifer(() => AddHosting))
+    @inject(new LazyServiceIdentifier(() => AddHosting))
     protected readonly addHosting: AddHosting,
     @inject(AddVersioning) protected readonly addVersioning: AddVersioning,
     @inject(GenerateReadme) protected readonly generateReadme: GenerateReadme,

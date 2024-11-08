@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import { Result } from "parse-github-url";
 import prompts from "prompts";
 
@@ -8,7 +8,6 @@ import { PackageManagerService } from "../../../services/package-manager/Package
 import { AbstractAdapterAction } from "../../AbstractAdapterAction";
 import { VersioningAdapter, VersioningAdapterOptions } from "../VersioningAdapter";
 
-@injectable()
 export default abstract class AbstractVersioning
   extends AbstractAdapterAction
   implements VersioningAdapter

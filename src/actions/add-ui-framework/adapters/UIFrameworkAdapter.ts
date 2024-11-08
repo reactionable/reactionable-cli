@@ -1,6 +1,6 @@
 import { resolve } from "path";
 
-import { LazyServiceIdentifer, inject, injectable } from "inversify";
+import { LazyServiceIdentifier, inject } from "inversify";
 
 import { ConsoleService } from "../../../services/ConsoleService";
 import { FileFactory } from "../../../services/file/FileFactory";
@@ -16,7 +16,6 @@ export type UIFrameworkAdapter<
   O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
 > = AbstractAdapterWithPackageAction<O>;
 
-@injectable()
 export abstract class AbstractUIFrameworkAdapter
   extends AbstractAdapterWithPackageAction
   implements UIFrameworkAdapter
@@ -26,7 +25,7 @@ export abstract class AbstractUIFrameworkAdapter
     packageManagerService: PackageManagerService,
     @inject(FileFactory) protected readonly fileFactory: FileFactory,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifer(() => CreateApp)) protected readonly createApp: CreateApp
+    @inject(new LazyServiceIdentifier(() => CreateApp)) protected readonly createApp: CreateApp
   ) {
     super(packageManagerService);
   }

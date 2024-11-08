@@ -1,8 +1,6 @@
 import { mkdir, readdir, realpath, rmdir, stat, unlink } from "fs/promises";
 import { dirname, resolve } from "path";
-import { injectable } from "inversify";
 
-@injectable()
 export class DirectoryService {
   async dirExists(path: string): Promise<boolean> {
     try {

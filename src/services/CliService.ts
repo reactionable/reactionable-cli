@@ -1,7 +1,7 @@
 import { spawn } from "child_process";
 
 import { Change } from "diff";
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import prompts from "prompts";
 import { which } from "shelljs";
 
@@ -9,7 +9,6 @@ import { ConsoleService } from "./ConsoleService";
 import { DirectoryService } from "./file/DirectoryService";
 import { ColorService } from "./ColorService";
 
-@injectable()
 export class CliService {
   private runStartDate: Date | undefined;
 

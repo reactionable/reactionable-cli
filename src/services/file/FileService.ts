@@ -1,8 +1,6 @@
 import { open, realpath, stat, utimes, rename, readFile, writeFile } from "fs/promises";
 import { basename, dirname, extname, resolve } from "path";
-import { injectable } from "inversify";
 
-@injectable()
 export class FileService {
   async touchFile(path: string): Promise<void> {
     const time = new Date();

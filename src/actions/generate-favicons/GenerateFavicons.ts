@@ -1,4 +1,4 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import prompts from "prompts";
 
 import { ConsoleService } from "../../services/ConsoleService";
@@ -6,7 +6,6 @@ import { NamedAction, NamedActionOptions } from "../NamedAction";
 
 type GenerateFaviconsOptions = NamedActionOptions & { mustPrompt: boolean };
 
-@injectable()
 export default class GenerateFavicons implements NamedAction<GenerateFaviconsOptions> {
   constructor(@inject(ConsoleService) private readonly consoleService: ConsoleService) {}
 

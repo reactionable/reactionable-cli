@@ -1,7 +1,6 @@
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import { ColorService } from "./ColorService";
 
-@injectable()
 export class ConsoleService {
   constructor(@inject(ColorService) private readonly colorService: ColorService) {}
 

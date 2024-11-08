@@ -1,6 +1,6 @@
 import { dirname, extname, join, resolve } from "path";
 
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 
 import { FileFactory } from "../file/FileFactory";
 import { FileService } from "../file/FileService";
@@ -16,7 +16,6 @@ export type TemplateConfig = {
   [key: string]: TemplateConfigItem;
 };
 
-@injectable()
 export class TemplateService {
   constructor(
     @inject(DirectoryService) private readonly directoryService: DirectoryService,
