@@ -10,20 +10,22 @@ import { TemplateAdapter } from "./TemplateAdapter";
 import { TemplateAdapterHelper } from "./TemplateAdapterHelper";
 
 export class EtaAdapter implements TemplateAdapter {
-  private readonly eta: Eta = new Eta({
-    views: this.templateFileService.getTemplateDirectory(),
-    debug: true,
-    cache: true, // Make Eta cache templates
-    autoEscape: false, // Not automatically XML-escape interpolations
-    autoTrim: false, // automatic whitespace trimming,
-  });
+  private readonly eta: Eta;
 
   private readonly compiledTemplates: Map<string, TemplateFunction> = new Map();
 
   constructor(
     @inject(TemplateFileService) private readonly templateFileService: TemplateFileService,
     @inject(TemplateAdapterHelper) private readonly templateAdapterHelper: TemplateAdapterHelper
-  ) {}
+  ) {
+    this.eta = new Eta({
+      views: this.templateFileService.getTemplateDirectory(),
+      debug: true,
+      cache: true, // Make Eta cache templates
+      autoEscape: false, // Not automatically XML-escape interpolations
+      autoTrim: false, // automatic whitespace trimming,
+    });
+  }
 
   async renderTemplateString(template: string, context: TemplateContext): Promise<string> {
     const compiledTemplate = await this.getCompiledTemplateString(template, template);
