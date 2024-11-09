@@ -11,9 +11,40 @@ import { StdFile } from "./StdFile";
 import { ITypescriptImport, ITypescriptImportModules, TypescriptImport } from "./TypescriptImport";
 
 export class TypescriptFile extends StdFile {
-  protected imports?: Array<TypescriptImport>;
-  protected declarations?: Array<string>;
-  protected defaultDeclaration?: string | null;
+  protected declare imports?: Array<TypescriptImport>;
+  protected declare declarations?: Array<string>;
+  protected declare defaultDeclaration?: string | null;
+
+  setImports(
+    importsToAdd: Array<ITypescriptImport> = [],
+    importsToRemove: Array<ITypescriptImport> = []
+  ): this {
+    const importToAddItems = importsToAdd.map(
+      (importItem) => new TypescriptImport(importItem.packageName, importItem.modules)
+    );
+    const importToRemoveItems = importsToRemove.map(
+      (importItem) => new TypescriptImport(importItem.packageName, importItem.modules)
+    );
+
+    this.addImports(importToAddItems);
+    this.removeImports(importToRemoveItems);
+    return this;
+  }
+
+  getContent(): string {
+    let importLines: string[] = [];
+    if (this.imports) {
+      this.imports.sort(this.sortImports);
+      importLines = this.imports
+        .map((importItem) => importItem.toString())
+        .filter((line) => !!line.length);
+    }
+
+    return [importLines.join("\n"), (this.declarations || []).join("\n")]
+      .map((value) => value.trim())
+      .join("\n\n")
+      .trim();
+  }
 
   protected parseContent(content: string): string {
     this.imports = [];
@@ -29,7 +60,7 @@ export class TypescriptFile extends StdFile {
           this.parseImportDeclaration(bodyItem as ImportDeclaration);
           break;
         default:
-          this.declarations.push(content.substr(bodyItem.pos, bodyItem.end - bodyItem.pos));
+          this.declarations.push(content.substring(bodyItem.pos, bodyItem.end));
       }
     }
 
@@ -97,37 +128,6 @@ export class TypescriptFile extends StdFile {
         this.addImports([new TypescriptImport(packageName, modules)]);
         break;
     }
-  }
-
-  getContent(): string {
-    let importLines: string[] = [];
-    if (this.imports) {
-      this.imports.sort(this.sortImports);
-      importLines = this.imports
-        .map((importItem) => importItem.toString())
-        .filter((line) => !!line.length);
-    }
-
-    return [importLines.join("\n"), (this.declarations || []).join("\n")]
-      .map((value) => value.trim())
-      .join("\n\n")
-      .trim();
-  }
-
-  setImports(
-    importsToAdd: Array<ITypescriptImport> = [],
-    importsToRemove: Array<ITypescriptImport> = []
-  ): this {
-    const importToAddItems = importsToAdd.map(
-      (importItem) => new TypescriptImport(importItem.packageName, importItem.modules)
-    );
-    const importToRemoveItems = importsToRemove.map(
-      (importItem) => new TypescriptImport(importItem.packageName, importItem.modules)
-    );
-
-    this.addImports(importToAddItems);
-    this.removeImports(importToRemoveItems);
-    return this;
   }
 
   protected addImports(imports: TypescriptImport[]): void {

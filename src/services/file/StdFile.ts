@@ -9,6 +9,7 @@ import { FileService } from "./FileService";
 
 export class StdFile {
   protected content = "";
+
   constructor(
     protected readonly cliService: CliService,
     protected readonly directoryService: DirectoryService,

@@ -10,14 +10,10 @@ export interface JsonFileData {
 }
 
 export class JsonFile extends StdFile {
-  protected data?: JsonFileData;
-
-  getContent(): string {
-    return JSON.stringify(this.data, null, "  ");
-  }
+  protected declare data?: JsonFileData;
 
   appendContent(content: string): this {
-    return this.appendData(JSON.parse(content));
+    return this.appendData(this.parseContentToData(content));
   }
 
   appendData(data: JsonFileData): this {
@@ -45,9 +41,13 @@ export class JsonFile extends StdFile {
   }
 
   protected parseContent(content: string): string {
-    content = super.parseContent(content);
+    this.data = this.parseContentToData(super.parseContent(content));
+    return JSON.stringify(this.data, null, "  ");
+  }
+
+  protected parseContentToData(content: string): JsonFileData {
     try {
-      this.data = JSON.parse(content);
+      return JSON.parse(content);
     } catch (error) {
       throw new Error(
         `An error occurred while parsing file content "${this.file}": ${JSON.stringify(
@@ -55,6 +55,5 @@ export class JsonFile extends StdFile {
         )} => "${content.trim()}"`
       );
     }
-    return content;
   }
 }
