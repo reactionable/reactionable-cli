@@ -61,7 +61,11 @@ export class FileFactory {
     }
   }
 
-  fromString(content: string, file: string, encoding: BufferEncoding = "utf8"): StdFile {
+  fromString(
+    content: string,
+    file: string,
+    encoding: BufferEncoding = "utf8"
+  ): StdFile | JsonFile | TomlFile | TypescriptFile {
     const args = [
       this.cliService,
       this.directoryService,

@@ -29,8 +29,9 @@ export class TomlFile extends StdFile {
     return this.setContent(stringify(newData));
   }
 
-  getData(property?: undefined): JsonMap | undefined;
-  getData(property?: string): AnyJson | undefined {
+  getData(): JsonMap | undefined;
+  getData(property: string | undefined): AnyJson | undefined;
+  getData(property: string | undefined = undefined): AnyJson | undefined {
     if (!this.data) {
       return this.data;
     }
