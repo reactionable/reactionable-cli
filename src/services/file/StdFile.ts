@@ -16,7 +16,7 @@ export class StdFile {
     protected readonly fileService: FileService,
     protected readonly fileDiffService: FileDiffService,
     protected readonly fileFactory: FileFactory,
-    protected readonly file: string | null = null,
+    protected readonly filePath: string | null = null,
     protected readonly encoding: BufferEncoding = "utf8",
     content = ""
   ) {
@@ -77,44 +77,54 @@ export class StdFile {
     return this;
   }
 
-  async saveFile(file: string | null = null, encoding?: BufferEncoding): Promise<this> {
-    if (file === null) {
-      if (this.file === null) {
+  async saveFile(filePath: string | null = null, encoding?: BufferEncoding): Promise<this> {
+    if (filePath === null) {
+      if (this.filePath === null) {
         throw new Error("A file path is mandatory to save file");
       }
-      file = this.file;
+      filePath = this.filePath;
     }
 
     // Check if file directory exist
-    const parentDirPath = dirname(file);
+    const parentDirPath = dirname(filePath);
     const parentDirExists = await this.directoryService.dirExists(parentDirPath);
     if (!parentDirExists) {
       throw new Error(
-        `Unable to create file "${file}, parent directory ${parentDirPath} does not exist`
+        `Unable to create file "${filePath}, parent directory ${parentDirPath} does not exist`
       );
     }
 
     const newFileContent = this.fixContentEOL(this.getContent()).trim();
     encoding = encoding ?? this.encoding;
 
-    const fileExists = await this.fileService.fileExists(file);
+    const fileExists = await this.fileService.fileExists(filePath);
     if (fileExists) {
-      const fileContent = await this.fileService.getFileContent(file, encoding);
-      const diff = await this.fileDiffService.getFileContentDiff(file, fileContent, newFileContent);
+      const fileContent = await this.fileService.getFileContent(filePath, encoding);
+      const changes = await this.fileDiffService.getFileContentChanges(
+        filePath,
+        fileContent,
+        newFileContent
+      );
 
-      if (diff.length) {
-        const overwrite = await this.cliService.promptOverwriteFileDiff(file, diff);
+      const shouldPromptOverwrite = await this.fileDiffService.fileNeedsOverwrite(
+        filePath,
+        changes
+      );
+
+      if (shouldPromptOverwrite) {
+        const overwrite = await this.cliService.promptOverwriteFileDiff(filePath, changes);
 
         if (!overwrite) {
           // Do not update file, set real file content
           this.setContent(fileContent);
           return this;
         }
-        await this.fileDiffService.setOverwritedFilesChanges(file, diff);
+
+        await this.fileDiffService.setOverwritedFileChanges(filePath, changes);
       }
     }
 
-    await this.fileService.writeFileContent(file, newFileContent, encoding);
+    await this.fileService.writeFileContent(filePath, newFileContent, encoding);
     return this;
   }
 }

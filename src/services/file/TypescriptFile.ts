@@ -72,7 +72,11 @@ export class TypescriptFile extends StdFile {
   }
 
   protected parseTypescriptContent(content: string): NodeArray<Statement> {
-    const sourceFile = createSourceFile(this.file ?? "tmp-file.ts", content, ScriptTarget.ES2020);
+    const sourceFile = createSourceFile(
+      this.filePath ?? "tmp-file.ts",
+      content,
+      ScriptTarget.ES2020
+    );
     return sourceFile.statements;
   }
 
