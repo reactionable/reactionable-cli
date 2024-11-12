@@ -50,7 +50,7 @@ export class JsonFile extends StdFile {
       return JSON.parse(content);
     } catch (error) {
       throw new Error(
-        `An error occurred while parsing file content "${this.file}": ${JSON.stringify(
+        `An error occurred while parsing file content "${this.filePath}": ${JSON.stringify(
           error instanceof Error ? error.message : error
         )} => "${content.trim()}"`
       );

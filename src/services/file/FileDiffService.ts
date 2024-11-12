@@ -12,7 +12,7 @@ export class FileDiffService {
     @inject(FileService) private readonly fileService: FileService
   ) {}
 
-  async getFileContentDiff(
+  async getFileContentChanges(
     filepath: string,
     fileContent: string,
     newFileContent: string
@@ -29,39 +29,58 @@ export class FileDiffService {
       return [];
     }
 
-    const changes = diffLines(fileContent, newFileContent);
-
-    // Retrieve previous changes
-    const overwritedChanges = await this.getOverwritedFilesChanges(filepath);
-    if (!overwritedChanges) {
-      return changes;
-    }
-
-    // Check if changes occured on past overwrites
-    const hasSomeNewChange = changes.some((change) => {
-      for (const overwritedChange of overwritedChanges) {
-        // TODO: compare changes
-        const changeDiffs = overwritedChange !== change;
-        if (changeDiffs) {
-          return true;
-        }
-      }
-      return false;
-    });
-
-    if (hasSomeNewChange) {
-      return changes;
-    }
-
-    return [];
+    return diffLines(fileContent, newFileContent, { oneChangePerToken: true });
   }
 
-  private async getOverwritedFilesChanges(filepath: string): Promise<Change[] | undefined> {
+  async fileNeedsOverwrite(filePath: string, changes: Change[]): Promise<boolean> {
+    if (!changes.length) {
+      return false;
+    }
+
+    const overwritedChanges = await this.getOverwritedFileChanges(filePath);
+    if (!overwritedChanges) {
+      return true;
+    }
+
+    const nonOverwritedChanges: Change[] = [];
+
+    let currentLine = -1;
+    for (const change of changes) {
+      if (change.count === undefined) {
+        nonOverwritedChanges.push(change);
+        continue;
+      }
+      currentLine += change.count;
+
+      const overwritedChange = this.getOverwritedLineChange(currentLine, overwritedChanges);
+      if (!overwritedChange) {
+        nonOverwritedChanges.push(change);
+      }
+    }
+
+    return nonOverwritedChanges.length > 0;
+  }
+
+  private async getOverwritedFileChanges(filepath: string): Promise<Change[] | undefined> {
     const fileRealpath = await this.fileService.getFileRealpath(filepath);
     return FileDiffService.overwritedFilesChanges.get(fileRealpath);
   }
 
-  async setOverwritedFilesChanges(filepath: string, diff: Change[]): Promise<void> {
+  private getOverwritedLineChange(line: number, changes: Change[]): Change | undefined {
+    let currentLine = -1;
+    for (const change of changes) {
+      if (change.count === undefined) {
+        continue;
+      }
+
+      currentLine += change.count;
+      if (currentLine === line) {
+        return change;
+      }
+    }
+  }
+
+  async setOverwritedFileChanges(filepath: string, diff: Change[]): Promise<void> {
     const fileRealpath = await this.fileService.getFileRealpath(filepath);
     FileDiffService.overwritedFilesChanges.set(fileRealpath, diff);
   }

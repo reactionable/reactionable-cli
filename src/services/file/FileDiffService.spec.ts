@@ -30,7 +30,7 @@ line 4 content`;
 
       mockDir({ [fileName]: originalContent });
 
-      const diffs = await service.getFileContentDiff(filePath, originalContent, originalContent);
+      const diffs = await service.getFileContentChanges(filePath, originalContent, originalContent);
 
       expect(diffs).toEqual([]);
     });
@@ -48,14 +48,20 @@ line 4 content`;
 
       mockDir({ [fileName]: originalContent });
 
-      const diffs = await service.getFileContentDiff(filePath, originalContent, newContent);
+      const diffs = await service.getFileContentChanges(filePath, originalContent, newContent);
 
       expect(diffs).toEqual([
         {
           added: false,
-          count: 2,
+          count: 1,
           removed: false,
-          value: "line 1 content\nline 2 content\n",
+          value: "line 1 content\n",
+        },
+        {
+          added: false,
+          count: 1,
+          removed: false,
+          value: "line 2 content\n",
         },
         {
           added: false,

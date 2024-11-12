@@ -9,6 +9,12 @@ import { ConsoleService } from "./ConsoleService";
 import { DirectoryService } from "./file/DirectoryService";
 import { ColorService } from "./ColorService";
 
+export enum PromptOverwriteChoice {
+  DIFF = "diff",
+  OVERWRITE = "overwrite",
+  CANCEL = "cancel",
+}
+
 export class CliService {
   private runStartDate: Date | undefined;
 
@@ -120,17 +126,17 @@ export class CliService {
       const action = await this.promptToChoose(
         `File "${file}" exists already, what do you want to do?`,
         {
-          "Show diff": "diff",
-          "Overwrite file": "overwrite",
-          "Keep original file": "cancel",
+          "Show diff": PromptOverwriteChoice.DIFF,
+          "Overwrite file": PromptOverwriteChoice.OVERWRITE,
+          "Keep original file": PromptOverwriteChoice.CANCEL,
         }
       );
 
-      if (action === "cancel") {
+      if (action === PromptOverwriteChoice.CANCEL) {
         return false;
       }
 
-      if (action === "overwrite") {
+      if (action === PromptOverwriteChoice.OVERWRITE) {
         return true;
       }
 
