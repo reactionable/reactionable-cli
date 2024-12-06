@@ -504,10 +504,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/object-schema/-/object-schema-2.1.4.tgz#9e69f8bb4031e11df79e03db09f9dbbae1740843"
   integrity sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==
 
-"@gerrit0/mini-shiki@^1.23.2":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@gerrit0/mini-shiki/-/mini-shiki-1.24.0.tgz#0c86f01d1f3c71701bc49763d8bb07498c3d31c2"
-  integrity sha512-eopM3SyeUZQZSBu1VCV8/d1LtJXDd0aMpLjyWpGkjD6ux3sNwoLNeuEb5xmiWVfQvFeMUXa1WTjh06lqm3KETA==
+"@gerrit0/mini-shiki@^1.24.0":
+  version "1.24.1"
+  resolved "https://registry.yarnpkg.com/@gerrit0/mini-shiki/-/mini-shiki-1.24.1.tgz#60ef10f4e2cfac7a9223e10b88c128438aa44fd8"
+  integrity sha512-PNP/Gjv3VqU7z7DjRgO3F9Ok5frTKqtpV+LJW1RzMcr2zpRk0ulhEWnbcNGXzPC7BZyWMIHrkfQX2GZRfxrn6Q==
   dependencies:
     "@shikijs/engine-oniguruma" "^1.24.0"
     "@shikijs/types" "^1.24.0"
@@ -865,9 +865,9 @@
     "@sinonjs/commons" "^3.0.0"
 
 "@ts-dev-tools/core@^1.6.1":
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.8.5.tgz#c749f0f0bef0d0b7ace64c0e2fd85728d5a46fea"
-  integrity sha512-7P4XIpnrQg+gE6dFkJRFQqqO8hBE6c19/g6XMIEeppuz/WJJfrx3zgbKdvkcCsHA8Cdo92XVYjuimWtLTwIn5A==
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.8.6.tgz#a22c367eb7106f05bc55147f91888805e0cd1249"
+  integrity sha512-Zjj334F8ujr5zgqOdeDAWBJF4ZZ+VNIdRyEjOY85v6T3hm2Ale/yLQyXBARpagHKRyIIF+cF8Lxrmx8jT8bQ2A==
   dependencies:
     "@commitlint/cli" "^19.4.0"
     "@commitlint/config-conventional" "^19.0.3"
@@ -4072,11 +4072,11 @@ type-fest@^0.21.3:
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
 
 typedoc@^0.27.1:
-  version "0.27.1"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.1.tgz#fe7590c5682ca0f20c283850cf3e21a43b1d8e44"
-  integrity sha512-cbFtNFpkCtHAHRvMnCDdtM2+xhO2uiJAcw4ooLmVMuaY9yLJswKvi6wOwPZgTnKKnm/HKpO/Ub6DVk4KRf/vRg==
+  version "0.27.3"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.3.tgz#0fad232181ce0ac7eda27fe78e56a4b863e1fe59"
+  integrity sha512-oWT7zDS5oIaxYL5yOikBX4cL99CpNAZn6mI24JZQxsYuIHbtguSSwJ7zThuzNNwSE0wqhlfTSd99HgqKu2aQXQ==
   dependencies:
-    "@gerrit0/mini-shiki" "^1.23.2"
+    "@gerrit0/mini-shiki" "^1.24.0"
     lunr "^2.3.9"
     markdown-it "^14.1.0"
     minimatch "^9.0.5"
