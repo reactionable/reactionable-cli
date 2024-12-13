@@ -24,6 +24,7 @@ describe("services - File - TypescriptFile", () => {
     cliService = container.get(CliService);
     directoryService = container.get(DirectoryService);
     fileService = container.get(FileService);
+    fileDiffService = container.get(FileDiffService);
     fileFactory = container.get(FileFactory);
   });
 
