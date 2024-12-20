@@ -865,9 +865,9 @@
     "@sinonjs/commons" "^3.0.0"
 
 "@ts-dev-tools/core@^1.6.1":
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.8.6.tgz#a22c367eb7106f05bc55147f91888805e0cd1249"
-  integrity sha512-Zjj334F8ujr5zgqOdeDAWBJF4ZZ+VNIdRyEjOY85v6T3hm2Ale/yLQyXBARpagHKRyIIF+cF8Lxrmx8jT8bQ2A==
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.8.7.tgz#a903ae3de5f2e44fbb148446059da1fec1962bd5"
+  integrity sha512-pLHu60gnlt5FHTBUAAuVHCDAU8TzaSYMMwXHLT/xKxaVRFNH2/BV56n2I0BjN0zAw0gfvN8eB18EsJxqJYMz7w==
   dependencies:
     "@commitlint/cli" "^19.4.0"
     "@commitlint/config-conventional" "^19.0.3"
@@ -4072,9 +4072,9 @@ type-fest@^0.21.3:
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
 
 typedoc@^0.27.1:
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.4.tgz#45be59ccf9383d3c52f4a96636d823345c6ff0e6"
-  integrity sha512-wXPQs1AYC2Crk+1XFpNuutLIkNWleokZf1UNf/X8w9KsMnirkvT+LzxTXDvfF6ug3TSLf3Xu5ZXRKGfoXPX7IA==
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.5.tgz#a86c89589213d7b36301eeafb4ddf6ad9dfd1ab3"
+  integrity sha512-x+fhKJtTg4ozXwKayh/ek4wxZQI/+2hmZUdO2i2NGDBRUflDble70z+ewHod3d4gRpXSO6fnlnjbDTnJk7HlkQ==
   dependencies:
     "@gerrit0/mini-shiki" "^1.24.0"
     lunr "^2.3.9"
