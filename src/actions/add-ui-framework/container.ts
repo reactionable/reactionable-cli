@@ -2,9 +2,9 @@ import "reflect-metadata";
 
 import { Container } from "inversify";
 
-import UIBootstrap from "./adapters/UIBootstrap";
+import UIBootstrap from "./adapters/ui-bootstrap/UIBootstrap";
 import { UIFrameworkAdapter } from "./adapters/UIFrameworkAdapter";
-import UIMaterial from "./adapters/UIMaterial";
+import UIMaterial from "./adapters/ui-material/UIMaterial";
 
 export const AdapterKey = "UIFrameworkAdapter";
 

@@ -1,4 +1,4 @@
-import { inject } from "inversify";
+import { inject, ServiceIdentifier } from "inversify";
 
 import container from "../container";
 import { ConsoleService } from "../services/ConsoleService";
@@ -14,7 +14,7 @@ export abstract class AbstractActionWithAdapters<
 > implements RealpathAction<O>
 {
   protected abstract name: string;
-  protected abstract adapterKey: string;
+  protected abstract adapterIdentifier: ServiceIdentifier<A>;
 
   constructor(
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
@@ -26,7 +26,7 @@ export abstract class AbstractActionWithAdapters<
   }
 
   protected getAdapters(): A[] {
-    return container.getAll<A>(this.adapterKey);
+    return container.getAll<A>(this.adapterIdentifier);
   }
 
   async detectAdapter(realpath: string): Promise<A | null> {

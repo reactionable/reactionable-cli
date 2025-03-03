@@ -4,5 +4,5 @@ import { AdapterKey } from "./container";
 
 export default class AddHosting extends AbstractCommitableActionWithAdapters<HostingAdapter> {
   protected name = "Hosting";
-  protected adapterKey = AdapterKey;
+  protected adapterIdentifier = AdapterKey;
 }

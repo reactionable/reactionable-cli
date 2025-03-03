@@ -1,7 +1,7 @@
 import { error, info } from "console";
 import { resolve } from "path";
 
-import { inject } from "inversify";
+import { inject, injectFromBase } from "inversify";
 import prompts from "prompts";
 
 import { CliService } from "../../../../services/CliService";
@@ -16,6 +16,7 @@ import { TemplateService } from "../../../../services/template/TemplateService";
 import { AbstractAdapterAction, AdapterActionOptions } from "../../../AbstractAdapterAction";
 import { HostingAdapter } from "../HostingAdapter";
 
+@injectFromBase()
 export default class Netlify extends AbstractAdapterAction implements HostingAdapter {
   protected name = "Netlify (https://docs.netlify.com)";
 

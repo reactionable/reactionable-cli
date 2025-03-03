@@ -1,6 +1,6 @@
 import { resolve } from "path";
 
-import { LazyServiceIdentifier, inject } from "inversify";
+import { LazyServiceIdentifier, inject, injectFromBase } from "inversify";
 import prompts from "prompts";
 
 import { CliService } from "../../../../services/CliService";
@@ -48,6 +48,7 @@ type BackendConfig = {
   };
 };
 
+@injectFromBase()
 export default class Amplify extends AbstractAdapterWithPackageAction implements HostingAdapter {
   protected name = "Amplify";
   protected adapterPackageName = "@reactionable/amplify";
