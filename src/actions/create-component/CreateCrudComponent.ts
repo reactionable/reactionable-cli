@@ -7,7 +7,9 @@ import { TypescriptFile } from "../../services/file/TypescriptFile";
 import { TypescriptImport } from "../../services/file/TypescriptImport";
 import { StringUtils } from "../../services/StringUtils";
 import CreateComponent, { CreateComponentOptions } from "./CreateComponent";
+import { injectFromBase } from "inversify";
 
+@injectFromBase()
 export default class CreateCrudComponent extends CreateComponent {
   getName(): string {
     return "Create a new CRUD component";

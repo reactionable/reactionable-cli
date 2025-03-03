@@ -2,7 +2,9 @@ import { dirname, resolve } from "path";
 
 import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
 import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
+import { injectFromBase } from "inversify";
 
+@injectFromBase()
 export default class CreateReactApp extends AbstractCreateAppAdapter {
   protected name = "Create a new React app";
 

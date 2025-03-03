@@ -9,6 +9,7 @@ import container from "../container";
 import { CliService } from "../services/CliService";
 import { ConsoleService } from "../services/ConsoleService";
 import { PackageManagerService } from "../services/package-manager/PackageManagerService";
+import { ActionIdentifier } from "../actions/container";
 
 // run [-v,--verbose] [--name ARG]
 class RunCommand extends Command {
@@ -29,7 +30,7 @@ class RunCommand extends Command {
           message: "What do you want to do?",
           type: "select",
           choices: [
-            ...container.getAll<NamedAction>("Action").map((action) => ({
+            ...container.getAll<NamedAction>(ActionIdentifier).map((action) => ({
               title: action.getName(),
               value: action,
             })),

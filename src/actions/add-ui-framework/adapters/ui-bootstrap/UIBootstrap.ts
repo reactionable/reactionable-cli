@@ -1,8 +1,10 @@
 import { resolve } from "path";
 
-import { AdapterWithPackageActionOptions } from "../../AbstractAdapterWithPackageAction";
-import { AbstractUIFrameworkAdapter } from "./UIFrameworkAdapter";
+import { AdapterWithPackageActionOptions } from "../../../AbstractAdapterWithPackageAction";
+import { AbstractUIFrameworkAdapter } from "../UIFrameworkAdapter";
+import { injectFromBase } from "inversify";
 
+@injectFromBase()
 export default class UIBootstrap extends AbstractUIFrameworkAdapter {
   protected name = "UI Bootstrap (React Bootstrap)";
   protected adapterPackageName = "@reactionable/ui-bootstrap";

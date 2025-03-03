@@ -2,9 +2,9 @@ import "reflect-metadata";
 
 import { Container } from "inversify";
 
-import NextJs from "./adapters/NextJs";
+import NextJs from "./adapters/next-js/NextJs";
 import { RouterAdapter } from "./adapters/RouterAdapter";
-import RouterDom from "./adapters/RouterDom";
+import RouterDom from "./adapters/router-dom/RouterDom";
 
 export const AdapterKey = "RouterAdapter";
 
