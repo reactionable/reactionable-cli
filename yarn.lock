@@ -949,9 +949,9 @@
     "@sinonjs/commons" "^3.0.0"
 
 "@ts-dev-tools/core@^1.6.1":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.9.0.tgz#974a7abc4fb5da2cd01a05ca49d37a0b6d9c89bf"
-  integrity sha512-pa2eOyjAOfdFIWHyLpg8BThgIqPuz9tLBzqYl9jhJ4NR1SiV35Le7AxVlyI/x4MENLR1VZ2O8rqBIBLI3klzqg==
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.9.1.tgz#136f2e0c418b5ede97d9500a24be4dbe111afad7"
+  integrity sha512-2BzflHQULywPpS2J3qE5ymtPbPHQY+45RYX/MxY6s8oFECSzlsqM9ko5k2Ub8EG7fdTtNiueaijDV7Vqv1RO1A==
   dependencies:
     "@commitlint/cli" "^19.4.0"
     "@commitlint/config-conventional" "^19.0.3"
