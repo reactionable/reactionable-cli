@@ -87,6 +87,18 @@ describe("packageManagerService", () => {
     });
   });
 
+  describe("getPackageVersion", () => {
+    it("should return package version", async () => {
+      const packageVersion = "1.0.0";
+      mockYarnDir({
+        "package.json": JSON.stringify({ version: packageVersion }),
+      });
+      mockYarnCmd();
+      const result = await service.getPackageVersion(mockDirPath);
+      expect(result).toEqual(packageVersion);
+    });
+  });
+
   describe("hasInstalledPackage", () => {
     const packageName = "test-package";
     it("should return false if given package is not installed", async () => {
