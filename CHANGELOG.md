@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/reactionable/reactionable-cli/compare/v1.2.15...v1.3.0) (2025-08-21)
+
+
+### Features
+
+* use es2022 ([d4c3679](https://github.com/reactionable/reactionable-cli/commit/d4c3679022cc98900e1b842eedaedeea58735079))
+
+
+### Bug Fixes
+
+* **file:** handle file diff overwrite properly ([4381e66](https://github.com/reactionable/reactionable-cli/commit/4381e66a277791758d0996137a6eb56cb4226fc6))
+
 ### 1.2.15 (2024-08-30)
 
 ### 1.2.14 (2022-01-21)
