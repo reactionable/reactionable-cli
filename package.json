@@ -49,11 +49,11 @@
     "prompts": "^2.4.2",
     "reflect-metadata": "^0.2.1",
     "shelljs": "^0.10.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@ts-dev-tools/core": "^1.6.1",
-    "@types/diff": "^7.0.0",
+    "@types/diff": "^8.0.0",
     "@types/figlet": "^1.5.8",
     "@types/mock-fs": "^4.13.4",
     "@types/parse-github-url": "^1.0.3",
@@ -71,7 +71,10 @@
   "prettier": {
     "semi": true,
     "printWidth": 100,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "plugins": [
+      "@prettier/plugin-oxc"
+    ]
   },
   "commitlint": {
     "extends": [
@@ -109,6 +112,6 @@
     ]
   },
   "tsDevTools": {
-    "version": "20240617094000-config-nx-scopes"
+    "version": "20250623095500-add-prettier-oxc"
   }
 }
