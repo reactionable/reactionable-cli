@@ -60,13 +60,13 @@
     "@types/prompts": "^2.4.9",
     "@types/shelljs": "^0.8.15",
     "@types/tmp": "^0.2.6",
-    "fs-extra": "^11.2.0",
+    "fs-extra": "^11.3.2",
     "jest-serializer-html": "^7.1.0",
     "mock-fs": "^5.2.0",
     "mock-spawn": "^0.2.6",
     "rimraf": "^6.0.1",
     "tmp": "^0.2.1",
-    "typedoc": "^0.28.12"
+    "typedoc": "^0.28.13"
   },
   "prettier": {
     "semi": true,
