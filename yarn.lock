@@ -2263,10 +2263,12 @@ fb-watchman@^2.0.2:
   dependencies:
     bser "2.1.1"
 
-figlet@^1.7.0:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/figlet/-/figlet-1.8.2.tgz#26f7d710a3bcff735a1afe5c6042c5361e1f2a55"
-  integrity sha512-iPCpE9B/rOcjewIzDnagP9F2eySzGeHReX8WlrZQJkqFBk2wvq8gY0c6U6Hd2y9HnX1LQcYSeP7aEHoPt6sVKQ==
+figlet@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/figlet/-/figlet-1.9.3.tgz#d30906aa6017608e924e7fb82ca6c11802f55680"
+  integrity sha512-majPgOpVtrZN1iyNGbsUP6bOtZ6eaJgg5HHh0vFvm5DJhh8dc+FJpOC4GABvMZ/A7XHAJUuJujhgUY/2jPWgMA==
+  dependencies:
+    commander "^14.0.0"
 
 file-entry-cache@^8.0.0:
   version "8.0.0"
