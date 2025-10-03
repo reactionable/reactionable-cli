@@ -52,7 +52,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.9.6",
+    "@ts-dev-tools/core": "^1.9.7",
     "@types/diff": "^8.0.0",
     "@types/figlet": "^1.5.8",
     "@types/mock-fs": "^4.13.4",
