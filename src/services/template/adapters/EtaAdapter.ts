@@ -1,13 +1,15 @@
 import { sep } from "path";
 
-import { Eta } from "eta";
-import { TemplateFunction } from "eta/dist/types/compile";
+import { Eta, type Options } from "eta";
 import { inject } from "inversify";
 
 import { TemplateContext } from "../TemplateContext";
 import { TemplateFileService } from "../TemplateFileService";
 import { TemplateAdapter } from "./TemplateAdapter";
 import { TemplateAdapterHelper } from "./TemplateAdapterHelper";
+
+// TemplateFunction type is not exported in eta v4, so we get it from the compile method return type
+type TemplateFunction = ReturnType<Eta["compile"]>;
 
 export class EtaAdapter implements TemplateAdapter {
   private readonly eta: Eta;

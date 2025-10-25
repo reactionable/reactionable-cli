@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntities.test.tsx": components/test-entities/TestEntities.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';

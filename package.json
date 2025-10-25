@@ -2,6 +2,7 @@
   "name": "@reactionable/cli",
   "version": "1.3.0",
   "description": "Reactionable cli",
+  "type": "module",
   "main": "dist/index.js",
   "bin": {
     "reactionable": "./bin/reactionable"
@@ -13,8 +14,8 @@
     "prebuild:doc": "rimraf -rf build/docs",
     "build:doc": "typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "test": "jest",
-    "test:ci": "yarn test --coverage",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "test:ci": "NODE_OPTIONS='--experimental-vm-modules' yarn test --coverage",
     "prepare": "ts-dev-tools install",
     "format": "prettier --cache --write '**/*.ts'"
   },
@@ -39,7 +40,7 @@
     "colorette": "^2.0.20",
     "deepmerge": "^4.3.1",
     "diff": "^8.0.1",
-    "eta": "^3.1.1",
+    "eta": "^4.0.1",
     "figlet": "^1.9.3",
     "handlebars": "^4.7.8",
     "inversify": "^7.10.3",
@@ -93,8 +94,11 @@
     }
   },
   "jest": {
-    "preset": "ts-jest",
+    "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "testMatch": [
       "**/?(*.)+(spec|test).+(ts|tsx|js)"
     ],
@@ -104,8 +108,21 @@
     "setupFiles": [
       "./src/container.ts"
     ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
     "transform": {
-      "\\.template$": "<rootDir>/__tests__/template-preprocessor.js"
+      "\\.template$": "<rootDir>/__tests__/template-preprocessor.cjs",
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true,
+          "tsconfig": {
+            "module": "ES2022",
+            "moduleResolution": "node"
+          }
+        }
+      ]
     },
     "snapshotSerializers": [
       "jest-serializer-html"
