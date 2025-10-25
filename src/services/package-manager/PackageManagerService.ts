@@ -3,9 +3,6 @@ import { basename, resolve } from "path";
 import { inject } from "inversify";
 import shelljs from "shelljs";
 
-const { which } = shelljs;
-
-
 import { CliService } from "../CliService";
 import { ConsoleService } from "../ConsoleService";
 import { FileFactory } from "../file/FileFactory";
@@ -46,7 +43,7 @@ export class PackageManagerService {
   getAvailablePackageManagers = (): PackageManagerType[] => {
     const packageManagers: PackageManagerType[] = [];
     for (const packageManager in PackageManagerType) {
-      if (which(packageManager)) {
+      if (shelljs.which(packageManager)) {
         packageManagers.push(packageManager as PackageManagerType);
       }
     }

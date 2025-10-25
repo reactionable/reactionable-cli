@@ -1,7 +1,10 @@
+// Mock child_process before any imports
+import { jest } from "@jest/globals";
+jest.mock("child_process");
+
 import { join } from "path";
 
 import prompts from "prompts";
-import { jest } from "@jest/globals";
 
 import container from "../../../../container";
 import { mockYarnCmd, restoreMockCmd } from "../../../../tests/mock-cmd";

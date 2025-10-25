@@ -1,3 +1,7 @@
+// Mock child_process before any imports
+import { jest } from "@jest/globals";
+jest.mock("child_process");
+
 import container from "../../container";
 import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from "../../tests/mock-cmd";
 import {
