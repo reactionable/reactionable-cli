@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import { cwd } from "process";
-import * as child_process from "child_process";
+import { __setMockSpawn } from "../../__mocks__/child_process.js";
 
 import mockSpawn from "mock-spawn";
 import shelljs from "shelljs";
@@ -8,7 +8,6 @@ import type { ShellString as ShellStringType } from "shelljs";
 import { jest } from "@jest/globals";
 
 let spawnMock;
-let spawnSpy;
 
 export type MockedCmd = {
   mockResult: (stdin: string) => void;
@@ -16,17 +15,15 @@ export type MockedCmd = {
 };
 
 function mockCmd(cmd: string): MockedCmd {
-  jest.mock("shelljs");
-
   jest
     .spyOn(shelljs, "which")
     .mockImplementation(() => cmd as ShellStringType);
 
   spawnMock = mockSpawn();
-
-  // Mock the spawn function using jest.spyOn
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  spawnSpy = jest.spyOn(child_process, "spawn").mockImplementation(spawnMock as any);
+  __setMockSpawn(spawnMock);
+  
+  // Set a default empty response to prevent hangs
+  spawnMock.setDefault(spawnMock.simple(0, ""));
 
   return {
     mockResult: (stdin: string) => {
@@ -36,6 +33,11 @@ function mockCmd(cmd: string): MockedCmd {
       spawnMock.setDefault(spawnMock.simple(1, undefined, stderr));
     },
   };
+}
+
+// Export the mock for use in tests
+export function getMockSpawn() {
+  return spawnMock;
 }
 
 export function mockYarnCmd(): MockedCmd {
@@ -72,9 +74,6 @@ export function mockYarnWorkspacesInfoCmd(
 }
 
 export function restoreMockCmd(): void {
-  if (spawnSpy) {
-    spawnSpy.mockRestore();
-    spawnSpy = undefined;
-  }
+  __setMockSpawn(null);
   jest.restoreAllMocks();
 }

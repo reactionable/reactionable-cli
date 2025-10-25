@@ -3,9 +3,6 @@ import { resolve } from "path";
 import { inject } from "inversify";
 import shelljs from "shelljs";
 
-const { which } = shelljs;
-
-
 import { CliService } from "../../CliService";
 import { FileFactory } from "../../file/FileFactory";
 import { FileService } from "../../file/FileService";
@@ -63,7 +60,7 @@ export abstract class AbstractPackageManager<PJ extends PackageJson = PackageJso
   }
 
   execCmd(cmd: string | string[], silent = false): Promise<string> {
-    if (!which(`${this.type}`)) {
+    if (!shelljs.which(`${this.type}`)) {
       throw new Error(
         `Unable to execute command "${Array.from(cmd).join(" ")}", please install "${this.type}"`
       );

@@ -5,9 +5,6 @@ import { Result } from "parse-github-url";
 import prompts from "prompts";
 import shelljs from "shelljs";
 
-const { which } = shelljs;
-
-
 import { CliService } from "../CliService";
 import { ConsoleService } from "../ConsoleService";
 import { PackageManagerService } from "../package-manager/PackageManagerService";
@@ -149,7 +146,7 @@ export class GitService {
   }
 
   private getGitCmd(): string | null {
-    if (which("git")) {
+    if (shelljs.which("git")) {
       return "git";
     }
     return null;

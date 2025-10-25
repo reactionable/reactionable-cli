@@ -5,9 +5,6 @@ import { inject } from "inversify";
 import prompts from "prompts";
 import shelljs from "shelljs";
 
-const { which } = shelljs;
-
-
 import { ConsoleService } from "./ConsoleService";
 import { DirectoryService } from "./file/DirectoryService";
 import { ColorService } from "./ColorService";
@@ -36,7 +33,7 @@ export class CliService {
   }
 
   getCmd(cmd: string): string | null {
-    if (which(cmd)) {
+    if (shelljs.which(cmd)) {
       return cmd;
     }
     return null;
