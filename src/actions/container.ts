@@ -15,15 +15,30 @@ import GenerateReadme from "./generate-readme/GenerateReadme";
 
 export const ActionIdentifier = Symbol("Action");
 
+// Service identifiers to avoid circular dependencies in ESM
+export const CreateAppIdentifier = Symbol.for("CreateApp");
+export const AddUIFrameworkIdentifier = Symbol.for("AddUIFramework");
+export const AddHostingIdentifier = Symbol.for("AddHosting");
+export const AddRouterIdentifier = Symbol.for("AddRouter");
+
 export function bindActions(container: Container): void {
   // Available root actions - bind in dependency order
+  // Use both class and symbol identifiers to support lazy loading
+  container.bind<AddUIFramework>(AddUIFrameworkIdentifier).to(AddUIFramework);
   container.bind<AddUIFramework>(AddUIFramework).toSelf();
+  
+  container.bind<AddRouter>(AddRouterIdentifier).to(AddRouter);
   container.bind<AddRouter>(AddRouter).toSelf();
+  
   container.bind<AddVersioning>(AddVersioning).toSelf();
+  
+  container.bind<AddHosting>(AddHostingIdentifier).to(AddHosting);
   container.bind<AddHosting>(AddHosting).toSelf();
   
+  container.bind<CreateApp>(CreateAppIdentifier).to(CreateApp);
   container.bind<CreateApp>(ActionIdentifier).to(CreateApp);
   container.bind<CreateApp>(CreateApp).toSelf();
+  
   container.bind<CreateComponent>(ActionIdentifier).to(CreateComponent);
   container.bind<CreateComponent>(CreateComponent).toSelf();
   container.bind<CreateCrudComponent>(ActionIdentifier).to(CreateCrudComponent);

@@ -10,7 +10,8 @@ import {
   AbstractAdapterWithPackageAction,
   AdapterWithPackageActionOptions,
 } from "../../AbstractAdapterWithPackageAction";
-import CreateApp from "../../create-app/CreateApp";
+import type CreateApp from "../../create-app/CreateApp";
+import { CreateAppIdentifier } from "../../container";
 
 export type UIFrameworkAdapter<
   O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
@@ -25,7 +26,7 @@ export abstract class AbstractUIFrameworkAdapter
     packageManagerService: PackageManagerService,
     @inject(FileFactory) protected readonly fileFactory: FileFactory,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifier(() => CreateApp)) protected readonly createApp: CreateApp
+    @inject(new LazyServiceIdentifier(() => CreateAppIdentifier)) protected readonly createApp: CreateApp
   ) {
     super(packageManagerService);
   }

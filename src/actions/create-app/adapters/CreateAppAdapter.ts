@@ -16,11 +16,12 @@ import {
 import { TemplateService } from "../../../services/template/TemplateService";
 import { AbstractAdapterAction, AdapterActionOptions } from "../../AbstractAdapterAction";
 import { AdapterAction } from "../../AdapterAction";
-import AddHosting from "../../add-hosting/AddHosting";
-import AddUIFramework from "../../add-ui-framework/AddUIFramework";
+import type AddHosting from "../../add-hosting/AddHosting";
+import type AddUIFramework from "../../add-ui-framework/AddUIFramework";
 import AddVersioning from "../../add-versioning/AddVersioning";
 import CreateComponent from "../../create-component/CreateComponent";
 import GenerateReadme from "../../generate-readme/GenerateReadme";
+import { AddUIFrameworkIdentifier, AddHostingIdentifier } from "../../container";
 
 export type CreateAppAdapterOptions = AdapterActionOptions;
 
@@ -60,9 +61,9 @@ export abstract class AbstractCreateAppAdapter
     @inject(FileService) protected readonly fileService: FileService,
     @inject(DirectoryService) protected readonly directoryService: DirectoryService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifier(() => AddUIFramework))
+    @inject(new LazyServiceIdentifier(() => AddUIFrameworkIdentifier))
     protected readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifier(() => AddHosting))
+    @inject(new LazyServiceIdentifier(() => AddHostingIdentifier))
     protected readonly addHosting: AddHosting,
     @inject(AddVersioning) protected readonly addVersioning: AddVersioning,
     @inject(GenerateReadme) protected readonly generateReadme: GenerateReadme,

@@ -23,7 +23,7 @@ describe("ConsoleService", () => {
     it("should write an info message to stdout", () => {
       const message = "This is an info message";
       const expectedOutput = `\n${colorService.yellow("→ ")}${message}\n`;
-      const writeSpy = jest.spyOn(process.stdout, "write").mockImplementation();
+      const writeSpy = jest.spyOn(process.stdout, "write").mockImplementation(() => true);
 
       consoleService.info(message);
 
@@ -36,7 +36,7 @@ describe("ConsoleService", () => {
     it("should write a success message to stdout", () => {
       const message = "This is a success message";
       const expectedOutput = `${colorService.green("✓ ")}${message}\n`;
-      const writeSpy = jest.spyOn(process.stdout, "write").mockImplementation();
+      const writeSpy = jest.spyOn(process.stdout, "write").mockImplementation(() => true);
 
       consoleService.success(message);
 
@@ -49,7 +49,7 @@ describe("ConsoleService", () => {
     it("should write a string error message to stderr", () => {
       const errorMessage = "This is a string error message";
       const expectedOutput = `\n${colorService.red(`⚠ ${errorMessage}`)}\n`;
-      const writeSpy = jest.spyOn(process.stderr, "write").mockImplementation();
+      const writeSpy = jest.spyOn(process.stderr, "write").mockImplementation(() => true);
 
       consoleService.error(errorMessage);
 
@@ -62,7 +62,7 @@ describe("ConsoleService", () => {
       const expectedOutput = `\n${colorService.red(`⚠ [${error.name}] ${error.message}`)}\n${
         error.stack
       }\n`;
-      const writeSpy = jest.spyOn(process.stderr, "write").mockImplementation();
+      const writeSpy = jest.spyOn(process.stderr, "write").mockImplementation(() => true);
 
       consoleService.error(error);
 
@@ -73,7 +73,7 @@ describe("ConsoleService", () => {
     it("should write a JSON error message to stderr", () => {
       const error = { message: "This is a JSON error message" };
       const expectedOutput = `\n${colorService.red(`⚠ `)}${JSON.stringify(error)}\n`;
-      const writeSpy = jest.spyOn(process.stderr, "write").mockImplementation();
+      const writeSpy = jest.spyOn(process.stderr, "write").mockImplementation(() => true);
 
       consoleService.error(error);
 
