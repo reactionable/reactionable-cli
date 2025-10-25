@@ -1,4 +1,6 @@
 import { resolve } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 import { Builtins, Cli as Clipanion, Command } from "clipanion";
 import { textSync } from "figlet";
@@ -10,6 +12,9 @@ import { CliService } from "../services/CliService";
 import { ConsoleService } from "../services/ConsoleService";
 import { PackageManagerService } from "../services/package-manager/PackageManagerService";
 import { ActionIdentifier } from "../actions/container";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // run [-v,--verbose] [--name ARG]
 class RunCommand extends Command {

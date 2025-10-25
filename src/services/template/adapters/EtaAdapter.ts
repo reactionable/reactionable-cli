@@ -1,6 +1,6 @@
 import { sep } from "path";
 
-import { Eta, type Options } from "eta";
+import { Eta } from "eta";
 import { inject } from "inversify";
 
 import { TemplateContext } from "../TemplateContext";

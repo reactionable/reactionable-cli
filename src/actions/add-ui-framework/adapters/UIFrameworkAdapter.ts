@@ -1,5 +1,4 @@
 import { resolve } from "path";
-import { createRequire } from "module";
 
 import { LazyServiceIdentifier, inject } from "inversify";
 
@@ -11,21 +10,7 @@ import {
   AbstractAdapterWithPackageAction,
   AdapterWithPackageActionOptions,
 } from "../../AbstractAdapterWithPackageAction";
-import type CreateApp from "../../create-app/CreateApp";
-
-// Use CommonJS require to load CreateApp to avoid ESM circular dependency issues
-const require = createRequire(import.meta.url);
-
-// Lazy getter function to avoid circular dependency with CreateApp in ESM
-let _CreateApp: typeof CreateApp | null = null;
-function getCreateApp(): typeof CreateApp {
-  if (!_CreateApp) {
-    // Load using CommonJS require which handles circular dependencies better
-    const loaded = require("../../create-app/CreateApp");
-    _CreateApp = loaded.default || loaded;
-  }
-  return _CreateApp as typeof CreateApp;
-}
+import CreateApp from "../../create-app/CreateApp";
 
 export type UIFrameworkAdapter<
   O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
@@ -40,7 +25,7 @@ export abstract class AbstractUIFrameworkAdapter
     packageManagerService: PackageManagerService,
     @inject(FileFactory) protected readonly fileFactory: FileFactory,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifier(() => getCreateApp())) protected readonly createApp: CreateApp
+    @inject(new LazyServiceIdentifier(() => CreateApp)) protected readonly createApp: CreateApp
   ) {
     super(packageManagerService);
   }

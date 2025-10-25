@@ -1,6 +1,12 @@
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
 import container from "../../container";
 import { DirResult, createTmpDir } from "../../tests/tmp-dir";
 import { GitService } from "./GitService";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe("gitService", () => {
   let service: GitService;

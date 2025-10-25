@@ -1,5 +1,4 @@
 import { basename, dirname, join, relative, resolve } from "path";
-import { createRequire } from "module";
 
 import { LazyServiceIdentifier, inject } from "inversify";
 
@@ -17,32 +16,11 @@ import {
 import { TemplateService } from "../../../services/template/TemplateService";
 import { AbstractAdapterAction, AdapterActionOptions } from "../../AbstractAdapterAction";
 import { AdapterAction } from "../../AdapterAction";
-import type AddHosting from "../../add-hosting/AddHosting";
-import type AddUIFramework from "../../add-ui-framework/AddUIFramework";
+import AddHosting from "../../add-hosting/AddHosting";
+import AddUIFramework from "../../add-ui-framework/AddUIFramework";
 import AddVersioning from "../../add-versioning/AddVersioning";
 import CreateComponent from "../../create-component/CreateComponent";
 import GenerateReadme from "../../generate-readme/GenerateReadme";
-
-// Use CommonJS require to load circular dependencies
-const require = createRequire(import.meta.url);
-
-let _AddUIFramework: typeof AddUIFramework | null = null;
-function getAddUIFramework(): typeof AddUIFramework {
-  if (!_AddUIFramework) {
-    const loaded = require("../../add-ui-framework/AddUIFramework");
-    _AddUIFramework = loaded.default || loaded;
-  }
-  return _AddUIFramework as typeof AddUIFramework;
-}
-
-let _AddHosting: typeof AddHosting | null = null;
-function getAddHosting(): typeof AddHosting {
-  if (!_AddHosting) {
-    const loaded = require("../../add-hosting/AddHosting");
-    _AddHosting = loaded.default || loaded;
-  }
-  return _AddHosting as typeof AddHosting;
-}
 
 export type CreateAppAdapterOptions = AdapterActionOptions;
 
@@ -82,9 +60,9 @@ export abstract class AbstractCreateAppAdapter
     @inject(FileService) protected readonly fileService: FileService,
     @inject(DirectoryService) protected readonly directoryService: DirectoryService,
     @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifier(() => getAddUIFramework()))
+    @inject(new LazyServiceIdentifier(() => AddUIFramework))
     protected readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifier(() => getAddHosting()))
+    @inject(new LazyServiceIdentifier(() => AddHosting))
     protected readonly addHosting: AddHosting,
     @inject(AddVersioning) protected readonly addVersioning: AddVersioning,
     @inject(GenerateReadme) protected readonly generateReadme: GenerateReadme,

@@ -1,8 +1,13 @@
 import { extname, join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 import { inject } from "inversify";
 
 import { FileService } from "../file/FileService";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export class TemplateFileService {
   constructor(@inject(FileService) private readonly fileService: FileService) {}
