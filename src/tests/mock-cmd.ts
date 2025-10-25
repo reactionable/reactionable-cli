@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import { cwd } from "process";
-import { __setMockSpawn } from "../../__mocks__/child_process.js";
+import * as child_process from "child_process";
 
 import mockSpawn from "mock-spawn";
 import shelljs from "shelljs";
@@ -20,7 +20,13 @@ function mockCmd(cmd: string): MockedCmd {
     .mockImplementation(() => cmd as ShellStringType);
 
   spawnMock = mockSpawn();
-  __setMockSpawn(spawnMock);
+  
+  // Use the __setMockSpawn function from the mocked module if available
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (typeof (child_process as any).__setMockSpawn === 'function') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (child_process as any).__setMockSpawn(spawnMock);
+  }
   
   // Set a default empty response to prevent hangs
   spawnMock.setDefault(spawnMock.simple(0, ""));
@@ -74,6 +80,11 @@ export function mockYarnWorkspacesInfoCmd(
 }
 
 export function restoreMockCmd(): void {
-  __setMockSpawn(null);
+  // Clear the mock spawn if available
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (typeof (child_process as any).__setMockSpawn === 'function') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (child_process as any).__setMockSpawn(null);
+  }
   jest.restoreAllMocks();
 }

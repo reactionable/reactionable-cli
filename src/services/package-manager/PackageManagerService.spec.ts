@@ -1,6 +1,48 @@
 // Mock child_process before any imports
 import { jest } from "@jest/globals";
-jest.mock("child_process");
+import { EventEmitter } from 'events';
+import type { ChildProcess } from 'child_process';
+
+// Mock child_process with a factory function for ESM compatibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _mockSpawn: any = null;
+jest.mock("child_process", () => {
+  return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    spawn: (...args: any[]): ChildProcess => {
+      if (_mockSpawn) {
+        return _mockSpawn(...args);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const dummyProcess: any = new EventEmitter();
+      dummyProcess.stdout = new EventEmitter();
+      dummyProcess.stderr = new EventEmitter();
+      dummyProcess.stdin = {
+        write: () => true,
+        end: () => {},
+      };
+      dummyProcess.pid = 12345;
+      dummyProcess.kill = () => true;
+      
+      process.nextTick(() => {
+        dummyProcess.stdout.emit('data', Buffer.from(''));
+        dummyProcess.stdout.emit('end');
+        dummyProcess.stderr.emit('end');
+        dummyProcess.emit('exit', 0, null);
+        dummyProcess.emit('close', 0, null);
+      });
+      return dummyProcess as ChildProcess;
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    __setMockSpawn: (mock: any) => { _mockSpawn = mock; },
+    exec: () => {},
+    execFile: () => {},
+    fork: () => {},
+    execSync: () => {},
+    execFileSync: () => {},
+    spawnSync: () => {},
+  };
+});
 
 import container from "../../container";
 import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from "../../tests/mock-cmd";
