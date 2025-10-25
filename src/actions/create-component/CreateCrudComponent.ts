@@ -1,7 +1,10 @@
 import { join, resolve, dirname } from "path";
 
-import { plural, singular } from "pluralize";
+import pluralize from "pluralize";
 import prompts from "prompts";
+
+const { plural, singular } = pluralize;
+
 
 import { TypescriptFile } from "../../services/file/TypescriptFile";
 import { TypescriptImport } from "../../services/file/TypescriptImport";

@@ -3,7 +3,10 @@ import { parse } from "js-ini";
 import parseGitRemote from "parse-github-url";
 import { Result } from "parse-github-url";
 import prompts from "prompts";
-import { which } from "shelljs";
+import shelljs from "shelljs";
+
+const { which } = shelljs;
+
 
 import { CliService } from "../CliService";
 import { ConsoleService } from "../ConsoleService";

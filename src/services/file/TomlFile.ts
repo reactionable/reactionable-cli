@@ -1,5 +1,7 @@
 import { AnyJson, JsonMap, parse, stringify } from "@iarna/toml";
-import { all } from "deepmerge";
+import deepmerge from "deepmerge";
+
+const { all } = deepmerge;
 
 import { StdFile } from "./StdFile";
 

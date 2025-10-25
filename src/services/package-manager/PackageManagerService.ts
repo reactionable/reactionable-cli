@@ -1,7 +1,10 @@
 import { basename, resolve } from "path";
 
 import { inject } from "inversify";
-import { which } from "shelljs";
+import shelljs from "shelljs";
+
+const { which } = shelljs;
+
 
 import { CliService } from "../CliService";
 import { ConsoleService } from "../ConsoleService";
