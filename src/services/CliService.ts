@@ -3,7 +3,10 @@ import { spawn } from "child_process";
 import { Change } from "diff";
 import { inject } from "inversify";
 import prompts from "prompts";
-import { which } from "shelljs";
+import shelljs from "shelljs";
+
+const { which } = shelljs;
+
 
 import { ConsoleService } from "./ConsoleService";
 import { DirectoryService } from "./file/DirectoryService";

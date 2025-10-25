@@ -124,6 +124,9 @@
         }
       ]
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(shelljs|deepmerge|pluralize)/)"
+    ],
     "snapshotSerializers": [
       "jest-serializer-html"
     ]

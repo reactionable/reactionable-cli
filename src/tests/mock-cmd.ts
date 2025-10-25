@@ -2,7 +2,11 @@ import { resolve } from "path";
 import { cwd } from "process";
 
 import mockSpawn from "mock-spawn";
-import shelljs, { ShellString } from "shelljs";
+import shelljs from "shelljs";
+import type { ShellString as ShellStringType } from "shelljs";
+
+const { ShellString } = shelljs;
+
 
 let originalSpawn;
 let spawnMock;
@@ -18,7 +22,7 @@ function mockCmd(cmd: string): MockedCmd {
   jest
     .spyOn(shelljs, "which")
     .mockImplementation()
-    .mockReturnValue(cmd as ShellString);
+    .mockReturnValue(cmd as ShellStringType);
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   originalSpawn = require("child_process").spawn;
