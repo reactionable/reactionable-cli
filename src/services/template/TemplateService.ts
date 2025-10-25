@@ -1,4 +1,5 @@
 import { dirname, extname, join, resolve } from "path";
+import { fileURLToPath } from "url";
 
 import { inject } from "inversify";
 
@@ -9,6 +10,9 @@ import { AdapterKey } from "./container";
 import { TemplateContext } from "./TemplateContext";
 import { TemplateFileService } from "./TemplateFileService";
 import { DirectoryService } from "../file/DirectoryService";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 type TemplateConfigItem = string[] | TemplateConfig | string;
 

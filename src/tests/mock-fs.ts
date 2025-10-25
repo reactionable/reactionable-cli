@@ -1,8 +1,9 @@
 import mockFs from "mock-fs";
 import FileSystem from "mock-fs/lib/filesystem";
+import { jest } from "@jest/globals";
 
 let logsTemp: unknown[][] = [];
-let logMock: jest.SpyInstance | undefined;
+let logMock: ReturnType<typeof jest.spyOn> | undefined;
 
 function mock(config?: FileSystem.DirectoryItems, options?: FileSystem.Options): void {
   if (!logMock) {

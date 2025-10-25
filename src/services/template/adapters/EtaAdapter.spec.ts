@@ -1,8 +1,13 @@
 import { join, resolve } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 import container from "../../../container";
 import { TemplateContext } from "../TemplateContext";
 import { EtaAdapter } from "./EtaAdapter";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe("EtaAdapter", () => {
   let etaAdapter: EtaAdapter;

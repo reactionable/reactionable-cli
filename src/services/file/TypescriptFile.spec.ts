@@ -1,6 +1,8 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 
+import { jest } from "@jest/globals";
+
 import container from "../../container";
 import { mockDir, mockDirPath, restoreMockFs } from "../../tests/mock-fs";
 import { CliService } from "../CliService";

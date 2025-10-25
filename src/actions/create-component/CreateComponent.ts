@@ -1,5 +1,4 @@
 import { basename, dirname, extname, resolve } from "path";
-import { createRequire } from "module";
 
 import { LazyServiceIdentifier, inject } from "inversify";
 import prompts from "prompts";
@@ -11,53 +10,13 @@ import { StringUtils } from "../../services/StringUtils";
 import { TemplateContext } from "../../services/template/TemplateContext";
 import { TemplateService } from "../../services/template/TemplateService";
 import { AbstractAdapterWithPackageAction } from "../AbstractAdapterWithPackageAction";
-import type AddHosting from "../add-hosting/AddHosting";
-import type AddRouter from "../add-router/AddRouter";
-import type AddUIFramework from "../add-ui-framework/AddUIFramework";
+import AddHosting from "../add-hosting/AddHosting";
+import AddRouter from "../add-router/AddRouter";
+import AddUIFramework from "../add-ui-framework/AddUIFramework";
 import { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
-import type CreateApp from "../create-app/CreateApp";
+import CreateApp from "../create-app/CreateApp";
 import { NamedAction, NamedActionOptions } from "../NamedAction";
 import { DirectoryService } from "../../services/file/DirectoryService";
-
-// Use CommonJS require to load circular dependencies
-const require = createRequire(import.meta.url);
-
-let _AddUIFramework: typeof AddUIFramework | null = null;
-function getAddUIFramework(): typeof AddUIFramework {
-  if (!_AddUIFramework) {
-    const loaded = require("../add-ui-framework/AddUIFramework");
-    _AddUIFramework = loaded.default || loaded;
-  }
-  return _AddUIFramework as typeof AddUIFramework;
-}
-
-let _AddHosting: typeof AddHosting | null = null;
-function getAddHosting(): typeof AddHosting {
-  if (!_AddHosting) {
-    const loaded = require("../add-hosting/AddHosting");
-    _AddHosting = loaded.default || loaded;
-  }
-  return _AddHosting as typeof AddHosting;
-}
-
-let _AddRouter: typeof AddRouter | null = null;
-function getAddRouter(): typeof AddRouter {
-  if (!_AddRouter) {
-    const loaded = require("../add-router/AddRouter");
-    _AddRouter = loaded.default || loaded;
-  }
-  return _AddRouter as typeof AddRouter;
-}
-
-let _CreateApp: typeof CreateApp | null = null;
-function getCreateApp(): typeof CreateApp {
-  if (!_CreateApp) {
-    const loaded = require("../create-app/CreateApp");
-    _CreateApp = loaded.default || loaded;
-  }
-  return _CreateApp as typeof CreateApp;
-}
-
 
 export type CreateComponentOptions = NamedActionOptions & {
   name?: string;
@@ -71,13 +30,13 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
   protected static templateNamespace = "create-component";
 
   constructor(
-    @inject(new LazyServiceIdentifier(() => getAddUIFramework()))
+    @inject(new LazyServiceIdentifier(() => AddUIFramework))
     private readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifier(() => getAddHosting()))
+    @inject(new LazyServiceIdentifier(() => AddHosting))
     private readonly addHosting: AddHosting,
-    @inject(new LazyServiceIdentifier(() => getAddRouter()))
+    @inject(new LazyServiceIdentifier(() => AddRouter))
     private readonly addRouter: AddRouter,
-    @inject(new LazyServiceIdentifier(() => getCreateApp()))
+    @inject(new LazyServiceIdentifier(() => CreateApp))
     private readonly createApp: CreateApp,
     @inject(PackageManagerService)
     protected readonly packageManagerService: PackageManagerService,
