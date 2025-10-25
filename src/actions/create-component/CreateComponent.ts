@@ -10,13 +10,14 @@ import { StringUtils } from "../../services/StringUtils";
 import { TemplateContext } from "../../services/template/TemplateContext";
 import { TemplateService } from "../../services/template/TemplateService";
 import { AbstractAdapterWithPackageAction } from "../AbstractAdapterWithPackageAction";
-import AddHosting from "../add-hosting/AddHosting";
-import AddRouter from "../add-router/AddRouter";
-import AddUIFramework from "../add-ui-framework/AddUIFramework";
+import type AddHosting from "../add-hosting/AddHosting";
+import type AddRouter from "../add-router/AddRouter";
+import type AddUIFramework from "../add-ui-framework/AddUIFramework";
 import { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
-import CreateApp from "../create-app/CreateApp";
+import type CreateApp from "../create-app/CreateApp";
 import { NamedAction, NamedActionOptions } from "../NamedAction";
 import { DirectoryService } from "../../services/file/DirectoryService";
+import { AddUIFrameworkIdentifier, AddHostingIdentifier, AddRouterIdentifier, CreateAppIdentifier } from "../container";
 
 export type CreateComponentOptions = NamedActionOptions & {
   name?: string;
@@ -30,13 +31,13 @@ export default class CreateComponent implements NamedAction<CreateComponentOptio
   protected static templateNamespace = "create-component";
 
   constructor(
-    @inject(new LazyServiceIdentifier(() => AddUIFramework))
+    @inject(new LazyServiceIdentifier(() => AddUIFrameworkIdentifier))
     private readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifier(() => AddHosting))
+    @inject(new LazyServiceIdentifier(() => AddHostingIdentifier))
     private readonly addHosting: AddHosting,
-    @inject(new LazyServiceIdentifier(() => AddRouter))
+    @inject(new LazyServiceIdentifier(() => AddRouterIdentifier))
     private readonly addRouter: AddRouter,
-    @inject(new LazyServiceIdentifier(() => CreateApp))
+    @inject(new LazyServiceIdentifier(() => CreateAppIdentifier))
     private readonly createApp: CreateApp,
     @inject(PackageManagerService)
     protected readonly packageManagerService: PackageManagerService,
