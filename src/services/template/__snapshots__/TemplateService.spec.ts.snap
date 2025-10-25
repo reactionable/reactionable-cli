@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`templateService renderTemplate should create a file from given namespace 1`] = `
 "import { initializeI18n } from '@reactionable/core';
