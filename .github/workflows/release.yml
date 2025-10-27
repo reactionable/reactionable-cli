@@ -22,7 +22,7 @@ jobs:
 
       - uses: hoverkraft-tech/ci-github-nodejs/actions/setup-node@0.16.0
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build
           path: /
@@ -53,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build
           path: /
