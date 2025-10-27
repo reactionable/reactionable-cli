@@ -66,5 +66,14 @@ describe("EtaAdapter", () => {
         )}/src/templates/non-existent-template.template.ts" does not exist`
       );
     });
+
+    it("should throw an error if rendering the template file fails", async () => {
+      // Create a template that compiles but fails at render time
+      const template = "<%~ it.nonExistent.property %>";
+      const context: TemplateContext = {};
+      await expect(etaAdapter.renderTemplateString(template, context)).rejects.toThrow(
+        /Cannot read properties of undefined/
+      );
+    });
   });
 });
