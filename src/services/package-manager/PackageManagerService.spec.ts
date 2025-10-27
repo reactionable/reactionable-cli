@@ -1,12 +1,15 @@
-// Mock child_process before any imports
 import { jest } from "@jest/globals";
 import { EventEmitter } from 'events';
 import type { ChildProcess } from 'child_process';
 
-// Mock child_process with a factory function for ESM compatibility
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _mockSpawn: any = null;
-jest.mock("child_process", () => {
+
+// Reset all modules before mocking
+jest.resetModules();
+
+// Use unstable_mockModule for ESM compatibility
+jest.unstable_mockModule("child_process", () => {
   return {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spawn: (...args: any[]): ChildProcess => {
@@ -35,18 +38,18 @@ jest.mock("child_process", () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     __setMockSpawn: (mock: any) => { _mockSpawn = mock; },
-    exec: () => {},
-    execFile: () => {},
-    fork: () => {},
-    execSync: () => {},
-    execFileSync: () => {},
-    spawnSync: () => {},
+    exec: jest.fn(),
+    execFile: jest.fn(),
+    fork: jest.fn(),
+    execSync: jest.fn(),
+    execFileSync: jest.fn(),
+    spawnSync: jest.fn(),
   };
 });
 
-import container from "../../container";
-import { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } from "../../tests/mock-cmd";
-import {
+const container = (await import("../../container")).default;
+const { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } = await import("../../tests/mock-cmd");
+const {
   mockDirPath,
   mockMonorepoPackageDirName,
   mockMonorepoPackageDirPath,
@@ -55,11 +58,11 @@ import {
   mockYarnDir,
   mockYarnMonorepoDir,
   restoreMockFs,
-} from "../../tests/mock-fs";
-import { PackageManagerService, PackageManagerType } from "./PackageManagerService";
+} = await import("../../tests/mock-fs");
+const { PackageManagerService, PackageManagerType } = await import("./PackageManagerService");
 
 describe("packageManagerService", () => {
-  let service: PackageManagerService;
+  let service: InstanceType<typeof PackageManagerService>;
 
   beforeEach(() => {
     // Initialize service before each test to not be confused by cache
