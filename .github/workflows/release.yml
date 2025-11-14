@@ -3,9 +3,16 @@ name: 🚀 Release
 on:
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   ci:
     uses: ./.github/workflows/__shared-ci.yml
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+      security-events: write
     secrets: inherit
 
   release:
@@ -18,16 +25,18 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-      - uses: actions/checkout@v5
-
-      - uses: hoverkraft-tech/ci-github-nodejs/actions/setup-node@0.17.0
-
-      - uses: actions/download-artifact@v6
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          name: build
+          persist-credentials: false
+
+      - uses: hoverkraft-tech/ci-github-nodejs/actions/setup-node@32a69b7b8fd5f7ab7bf656e7e88aa90ad235cf8d # 0.18.0
+
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          artifact-ids: ${{ needs.ci.outputs.build-artifact-id }}
           path: /
 
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         id: release
         with:
           release-type: node
@@ -41,6 +50,7 @@ jobs:
         run: yarn publish --access public
 
   docs-publish:
+    needs: ci
     name: 📖 Publish documentation
     runs-on: ubuntu-latest
     permissions:
@@ -48,34 +58,30 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: ci
+      url: ${{ steps.deploy.outputs.url }}
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
     steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/download-artifact@v6
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          name: build
+          persist-credentials: false
+
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          artifact-ids: ${{ needs.ci.outputs.build-artifact-id }}
           path: /
 
-      - run: |
-          mkdir ./_site_tmp
-          echo -e "theme: jekyll-theme-cayman" > ./_site_tmp/_config.yml
-          cp README.md ./_site_tmp/index.md
-          cp -R docs ./_site_tmp/
-          cp -R build/docs ./_site_tmp/typedoc
-
-      - name: ⚙️ Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - id: deploy
+        uses: hoverkraft-tech/ci-github-publish/actions/deploy/github-pages@ecafdeac18a6a6dcc01058cd53ac7431bedb5c3b # 0.14.1
         with:
-          source: _site_tmp
+          build-path: "docs"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-
-      - name: 🚀 Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  deploy-checks:
+    needs: docs-publish
+    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-checks.yml@ecafdeac18a6a6dcc01058cd53ac7431bedb5c3b # 0.14.1
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      url: ${{ needs.docs-publish.outputs.url }}
+    

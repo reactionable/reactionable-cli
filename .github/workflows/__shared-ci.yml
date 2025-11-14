@@ -2,17 +2,26 @@ name: Internal - Common Continuous Integration tasks
 
 on:
   workflow_call:
+    outputs:
+      build-artifact-id:
+        description: "The IDs of the artifacts produced by the build step"
+        value: ${{ jobs.continuous-integration.outputs.build-artifact-id }}
+
+permissions: {}
 
 jobs:
   continuous-integration:
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@32a69b7b8fd5f7ab7bf656e7e88aa90ad235cf8d # 0.18.0
     permissions:
-      id-token: write
-      security-events: write
       contents: read
-    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@0.17.0
+      id-token: write
+      pull-requests: write
+      security-events: write
     with:
       build: |
         {
           "commands": ["build", "build:doc"],
           "artifact": ["build", "dist"]
         }
+      test: |
+        { "coverage": "codecov" }
