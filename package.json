@@ -14,6 +14,7 @@
     "prebuild:doc": "rimraf -rf build/docs",
     "build:doc": "typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:ci": "yarn lint --output-file eslint-report.json --format json",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "test:ci": "NODE_OPTIONS='--experimental-vm-modules' yarn test --coverage",
     "prepare": "ts-dev-tools install",
