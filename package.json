@@ -54,7 +54,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.9.8",
+    "@ts-dev-tools/core": "^1.9.10",
     "@types/diff": "^8.0.0",
     "@types/figlet": "^1.5.8",
     "@types/mock-fs": "^4.13.4",
@@ -68,7 +68,7 @@
     "mock-spawn": "^0.2.6",
     "rimraf": "^6.1.2",
     "tmp": "^0.2.1",
-    "typedoc": "^0.28.14"
+    "typedoc": "^0.28.15"
   },
   "prettier": {
     "semi": true,
