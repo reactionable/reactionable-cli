@@ -592,10 +592,10 @@
   resolved "https://registry.yarnpkg.com/@inversifyjs/common/-/common-1.5.2.tgz#6836287fef1c25dddbdf6af345a33a6d6caf6835"
   integrity sha512-WlzR9xGadABS9gtgZQ+luoZ8V6qm4Ii6RQfcfC9Ho2SOlE6ZuemFo7PKJvKI0ikm8cmKbU8hw5UK6E4qovH21w==
 
-"@inversifyjs/container@1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@inversifyjs/container/-/container-1.14.1.tgz#9ba7b20b3e5e92397346f74cd9f4cb320afb77b3"
-  integrity sha512-OFSlXXFgEk2zSV4ZCapJeVc0jtN+DxiXB1Szz2AManOFEhFc9uiUFBUJ8XxOy4SuIAYPNNLW55F6owm/birqvg==
+"@inversifyjs/container@1.14.2":
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/@inversifyjs/container/-/container-1.14.2.tgz#9127499786285b164daabf7d44fee8e2c1356a89"
+  integrity sha512-t0pq2ECBEASy3Jw2ps+Q/usOW6wiPRjUeii3qjH4dtyZzF2y7DBlKoajo1wcIXice8EBjJmq+aLgDzu17Hjvkg==
   dependencies:
     "@inversifyjs/common" "1.5.2"
     "@inversifyjs/core" "9.1.1"
@@ -2679,13 +2679,13 @@ ini@4.1.1:
   resolved "https://registry.yarnpkg.com/ini/-/ini-4.1.1.tgz#d95b3d843b1e906e56d6747d5447904ff50ce7a1"
   integrity sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==
 
-inversify@^7.10.4:
-  version "7.10.4"
-  resolved "https://registry.yarnpkg.com/inversify/-/inversify-7.10.4.tgz#41b6595905fbaeaba3ae37416c699495dd6c110b"
-  integrity sha512-slBB4OeGHNR4yxAz/ChzFrFK9QKtZ+P+Ys0aYMv0nYc05eiB5hk1oqlHhgCZ13tiDj4806tF1LW3NQPcJjmipQ==
+inversify@^7.10.5:
+  version "7.10.5"
+  resolved "https://registry.yarnpkg.com/inversify/-/inversify-7.10.5.tgz#f049698e07b052a454ef4feff176c4678729ddbd"
+  integrity sha512-Ob/OlxEmzWP3Jz+VdMEb0D33Avi7M3aFBCHufhjRgvt3Q2YIobQPoKfwHQQOIyqAy+y1AVkX+eFhhhafY/QGIQ==
   dependencies:
     "@inversifyjs/common" "1.5.2"
-    "@inversifyjs/container" "1.14.1"
+    "@inversifyjs/container" "1.14.2"
     "@inversifyjs/core" "9.1.1"
 
 is-arrayish@^0.2.1:
