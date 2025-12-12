@@ -1106,10 +1106,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.1"
 
-"@ts-dev-tools/core@^1.9.10":
-  version "1.9.10"
-  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.9.10.tgz#b6b718a113a6ffb6c344afa9c7c09b8860c27468"
-  integrity sha512-0iexvtF+qQ+1ecWQY3GpaeM92egHw+BUEabmabzB2QiBhcJLpwm91N7oLZjZ0oWpXVL1UQeExNNwi6GGhBzo5g==
+"@ts-dev-tools/core@^1.9.11":
+  version "1.9.11"
+  resolved "https://registry.yarnpkg.com/@ts-dev-tools/core/-/core-1.9.11.tgz#120bc165c45df9413263954ed9e1acc5f3342ed3"
+  integrity sha512-JZFSA1AHN8ASG2myAegk7ovElWpTrkNqz4ZVD0JfQkz4nphjF+PbYhso6HBsBtixvPtxpGX0s7mUBMR1ITm4Gw==
   dependencies:
     "@commitlint/cli" "^20.0.0"
     "@commitlint/config-conventional" "^20.0.0"
