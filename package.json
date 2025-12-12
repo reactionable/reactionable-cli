@@ -44,7 +44,7 @@
     "eta": "^4.4.1",
     "figlet": "^1.9.4",
     "handlebars": "^4.7.8",
-    "inversify": "^7.10.5",
+    "inversify": "^7.10.6",
     "js-ini": "^1.6.0",
     "parse-github-url": "^1.0.2",
     "pluralize": "^8.0.0",
