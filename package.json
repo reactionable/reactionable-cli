@@ -41,7 +41,7 @@
     "colorette": "^2.0.20",
     "deepmerge": "^4.3.1",
     "diff": "^8.0.3",
-    "eta": "^4.5.0",
+    "eta": "^4.5.1",
     "figlet": "^1.10.0",
     "handlebars": "^4.7.8",
     "inversify": "^7.11.0",
