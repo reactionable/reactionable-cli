@@ -35,11 +35,13 @@ export class EtaAdapter implements TemplateAdapter {
       return this.renderCompiledTemplate(compiledTemplate, context);
     } catch (error) {
       throw new Error(
-        `An error occurred while compiling template "${template}": ${
-          error instanceof Error
-            ? error.message.replace("[object Object]", JSON.stringify(context))
-            : error
-        }`
+        `An error occurred while compiling template "${template}": ${error instanceof Error
+          ? error.message.replace("[object Object]", JSON.stringify(context))
+          : error
+        }`,
+        {
+          cause: error,
+        }
       );
     }
   }
@@ -49,7 +51,9 @@ export class EtaAdapter implements TemplateAdapter {
     try {
       return await this.renderCompiledTemplate(compiledTemplate, context);
     } catch (error) {
-      throw new Error(`An error occurred while rendering template "${templateKey}": ${error}`);
+      throw new Error(`An error occurred while rendering template "${templateKey}": ${error}`, {
+        cause: error,
+      });
     }
   }
 
@@ -105,7 +109,9 @@ export class EtaAdapter implements TemplateAdapter {
 
       return compiledTemplate;
     } catch (error) {
-      throw new Error(`An error occurred while compiling template "${templateKey}": ${error}`);
+      throw new Error(`An error occurred while compiling template "${templateKey}": ${error}`, {
+        cause: error,
+      });
     }
   }
 

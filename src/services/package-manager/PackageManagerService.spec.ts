@@ -22,11 +22,11 @@ jest.unstable_mockModule("child_process", () => {
       dummyProcess.stderr = new EventEmitter();
       dummyProcess.stdin = {
         write: () => true,
-        end: () => {},
+        end: () => { },
       };
       dummyProcess.pid = 12345;
       dummyProcess.kill = () => true;
-      
+
       process.nextTick(() => {
         dummyProcess.stdout.emit('data', Buffer.from(''));
         dummyProcess.stdout.emit('end');
@@ -48,12 +48,20 @@ jest.unstable_mockModule("child_process", () => {
 });
 
 const container = (await import("../../container")).default;
-const { mockYarnCmd, mockYarnWorkspacesInfoCmd, restoreMockCmd } = await import("../../tests/mock-cmd");
+const {
+  mockNpmCmd,
+  mockNpmPrefixCmd,
+  mockYarnCmd,
+  mockYarnWorkspacesInfoCmd,
+  restoreMockCmd,
+} = await import("../../tests/mock-cmd");
 const {
   mockDirPath,
   mockMonorepoPackageDirName,
   mockMonorepoPackageDirPath,
   mockMonorepoRootName,
+  mockNpmDir,
+  mockNpmMonorepoDir,
   mockPackageName,
   mockYarnDir,
   mockYarnMonorepoDir,
@@ -92,6 +100,15 @@ describe("packageManagerService", () => {
       const cmd = await service.getPackageManagerCmd(mockDirPath);
       expect(cmd).toEqual('yarn');
     });
+
+    it("should return npm for an npm package", async () => {
+      const packageName = "test-package";
+      mockNpmDir({ "package.json": JSON.stringify({ name: packageName }) });
+      mockNpmCmd();
+
+      const cmd = await service.getPackageManagerCmd(mockDirPath);
+      expect(cmd).toEqual("npm");
+    });
   });
 
   describe("getPackageName", () => {
@@ -108,6 +125,15 @@ describe("packageManagerService", () => {
     it("should return package name for a monorepo package", async () => {
       mockYarnMonorepoDir();
       mockYarnWorkspacesInfoCmd(mockPackageName, mockMonorepoPackageDirName);
+
+      const result = await service.getPackageName(mockMonorepoPackageDirPath);
+
+      expect(result).toEqual(`${mockMonorepoRootName} - ${mockPackageName}`);
+    });
+
+    it("should return package name for an npm monorepo package", async () => {
+      mockNpmMonorepoDir();
+      mockNpmPrefixCmd(mockDirPath);
 
       const result = await service.getPackageName(mockMonorepoPackageDirPath);
 

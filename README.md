@@ -47,10 +47,6 @@ In `reactionable-cli` directory:
 
 ```sh
 npm link
-
-# or
-
-yarn link
 ```
 
 ## Author

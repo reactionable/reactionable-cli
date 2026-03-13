@@ -67,7 +67,9 @@ export class TypescriptFile extends StdFile {
     try {
       return this.getContent();
     } catch (error) {
-      throw new Error('An error occurred while parsing content "' + content + '", ' + error);
+      throw new Error('An error occurred while parsing content "' + content + '", ' + error, {
+        cause: error,
+      });
     }
   }
 

@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export class TemplateFileService {
-  constructor(@inject(FileService) private readonly fileService: FileService) {}
+  constructor(@inject(FileService) private readonly fileService: FileService) { }
 
   getTemplateDirectory(): string {
     return join(__dirname, "./../../templates");
@@ -41,9 +41,11 @@ export class TemplateFileService {
       }
     } catch (error) {
       throw new Error(
-        `An error occurred while importing template file "${templatePath}": ${
-          error instanceof Error ? error.message : error
-        }`
+        `An error occurred while importing template file "${templatePath}": ${error instanceof Error ? error.message : error
+        }`,
+        {
+          cause: error,
+        }
       );
     }
 

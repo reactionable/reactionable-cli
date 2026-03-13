@@ -46,7 +46,10 @@ export class TomlFile extends StdFile {
       throw new Error(
         `An error occurred while parsing file content "${this.filePath}": ${JSON.stringify(
           error instanceof Error ? error.message : error
-        )} => "${content.trim()}"`
+        )} => "${content.trim()}"`,
+        {
+          cause: error,
+        }
       );
     }
   }
