@@ -7,7 +7,10 @@ export class NpmPackageManager extends AbstractPackageManager {
   protected type = PackageManagerType.npm;
 
   async isEnabled(): Promise<boolean> {
-    return this.fileService.fileExists(resolve(this.realpath, "package-lock.json"));
+    if (await this.fileService.fileExists(resolve(this.realpath, "package-lock.json"))) {
+      return true;
+    }
+    return this.isMonorepoPackage();
   }
 
   async installPackages(packages: string[], dev: boolean): Promise<string[]> {
@@ -25,7 +28,16 @@ export class NpmPackageManager extends AbstractPackageManager {
     return packages;
   }
 
-  protected getMonorepoInfos(): Promise<MonorepoInfo | undefined> {
-    throw new Error("Method not implemented.");
+  protected async getMonorepoInfos(): Promise<MonorepoInfo | undefined> {
+    try {
+      const rootDirectory = (await this.execCmd(["prefix"], true)).trim();
+      if (!rootDirectory) {
+        return undefined;
+      }
+
+      return { rootDirectory };
+    } catch {
+      return undefined;
+    }
   }
 }

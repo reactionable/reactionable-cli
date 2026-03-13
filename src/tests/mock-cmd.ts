@@ -17,17 +17,17 @@ export type MockedCmd = {
 function mockCmd(cmd: string): MockedCmd {
   jest
     .spyOn(shelljs, "which")
-    .mockImplementation(() => cmd as ShellStringType);
+    .mockImplementation((binary) => (binary === cmd ? (cmd as ShellStringType) : null));
 
   spawnMock = mockSpawn();
-  
+
   // Use the __setMockSpawn function from the mocked module if available
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (typeof (child_process as any).__setMockSpawn === 'function') {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (child_process as any).__setMockSpawn(spawnMock);
   }
-  
+
   // Set a default empty response to prevent hangs
   spawnMock.setDefault(spawnMock.simple(0, ""));
 
@@ -48,6 +48,10 @@ export function getMockSpawn() {
 
 export function mockYarnCmd(): MockedCmd {
   return mockCmd("yarn");
+}
+
+export function mockNpmCmd(): MockedCmd {
+  return mockCmd("npm");
 }
 
 export function mockYarnBinCmd(mockDirPath: string): MockedCmd {
@@ -77,6 +81,12 @@ export function mockYarnWorkspacesInfoCmd(
   yarnCmdMock.mockResult(JSON.stringify({ data: JSON.stringify(data) }));
 
   return yarnCmdMock;
+}
+
+export function mockNpmPrefixCmd(mockRootPath: string): MockedCmd {
+  const npmCmdMock = mockNpmCmd();
+  npmCmdMock.mockResult(mockRootPath);
+  return npmCmdMock;
 }
 
 export function restoreMockCmd(): void {

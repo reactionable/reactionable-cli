@@ -30,7 +30,7 @@ export class FileFactory {
     @inject(FileService) private readonly fileService: FileService,
     @inject(FileDiffService) private readonly fileDiffService: FileDiffService,
     @inject(CliService) private readonly cliService: CliService
-  ) {}
+  ) { }
 
   async fromFile<File extends StdFile = StdFile>(
     file: string,
@@ -57,7 +57,9 @@ export class FileFactory {
     try {
       return this.fromString(content, file, encoding) as File;
     } catch (error) {
-      throw new Error(`An error occurred while parsing file "${file}": ${JSON.stringify(error)}`);
+      throw new Error(`An error occurred while parsing file "${file}": ${JSON.stringify(error)}`, {
+        cause: error,
+      });
     }
   }
 

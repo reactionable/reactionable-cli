@@ -71,6 +71,22 @@ export function mockNpmDir(config?: FileSystem.DirectoryItems, dirPath?: string)
   return mockDir(npmDirMockConfig(config), dirPath);
 }
 
+function monorepoNpmDirMockConfig(config?: FileSystem.DirectoryItems): FileSystem.DirectoryItems {
+  return npmDirMockConfig({
+    "package.json": JSON.stringify({
+      name: mockMonorepoRootName,
+      workspaces: ["packages/*"],
+    }),
+    packages: {
+      [mockMonorepoPackageDirName]: packageDirMockConfig(config),
+    },
+  });
+}
+
+export function mockNpmMonorepoDir(config?: FileSystem.DirectoryItems, dirPath?: string): void {
+  return mockDir(monorepoNpmDirMockConfig(config), dirPath);
+}
+
 export function restoreMockFs(): void {
   if (logMock) {
     logMock.mockRestore();

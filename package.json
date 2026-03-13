@@ -4,21 +4,23 @@
   "description": "Reactionable cli",
   "type": "module",
   "main": "dist/index.js",
+  "packageManager": "npm@11.6.2",
   "bin": {
     "reactionable": "./bin/reactionable"
   },
   "scripts": {
-    "start": "yarn link && tsc --watch",
+    "start": "npm link && tsc --watch",
     "prebuild": "rimraf ./dist",
     "build": "tsc",
     "prebuild:doc": "rimraf -rf build/docs",
     "build:doc": "typedoc",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "lint:ci": "yarn lint --output-file eslint-report.json --format json",
+    "lint:ci": "npm run lint -- --output-file eslint-report.json --format json",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
-    "test:ci": "NODE_OPTIONS='--experimental-vm-modules' yarn test --coverage",
+    "test:ci": "npm test -- --coverage",
     "prepare": "ts-dev-tools install",
-    "format": "prettier --cache --write '**/*.ts'"
+    "format": "prettier --cache --write '**/*.ts'",
+    "ci": "npm run lint && npm run build && npm run test:ci"
   },
   "repository": {
     "type": "git",
@@ -54,7 +56,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.10.0",
+    "@ts-dev-tools/core": "^1.11.1",
     "@types/diff": "^8.0.0",
     "@types/figlet": "^1.5.8",
     "@types/mock-fs": "^4.13.4",
@@ -62,7 +64,7 @@
     "@types/prompts": "^2.4.9",
     "@types/shelljs": "^0.10.0",
     "@types/tmp": "^0.2.6",
-    "fs-extra": "^11.3.3",
+    "fs-extra": "^11.3.4",
     "jest-serializer-html": "^7.1.0",
     "mock-fs": "^5.2.0",
     "mock-spawn": "^0.2.6",
@@ -74,9 +76,7 @@
     "semi": true,
     "printWidth": 100,
     "trailingComma": "es5",
-    "plugins": [
-      "@prettier/plugin-oxc"
-    ]
+    "plugins": []
   },
   "commitlint": {
     "extends": [
@@ -133,6 +133,6 @@
     ]
   },
   "tsDevTools": {
-    "version": "20250623095500-add-prettier-oxc"
+    "version": "20250623095600-remove-prettier-oxc"
   }
 }

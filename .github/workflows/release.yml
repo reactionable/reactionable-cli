@@ -47,7 +47,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-        run: yarn publish --access public
+        run: npm publish --access public
 
   docs-publish:
     needs: ci
@@ -84,4 +84,3 @@ jobs:
       id-token: write
     with:
       url: ${{ needs.docs-publish.outputs.url }}
-    

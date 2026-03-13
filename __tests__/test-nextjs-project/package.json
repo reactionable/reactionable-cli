@@ -13,6 +13,5 @@
     "next": "*",
     "@reactionable/ui-bootstrap": "*",
     "@reactionable/amplify": "*"
-  },
-  "workspaces": {}
+  }
 }
