@@ -23,28 +23,28 @@ export const AddRouterIdentifier = Symbol.for("AddRouter");
 
 export function bindActions(container: Container): void {
   // Available root actions - bind in dependency order
-  // Use both class and symbol identifiers to support lazy loading
-  container.bind<AddUIFramework>(AddUIFrameworkIdentifier).to(AddUIFramework);
+  // Use alias bindings so class, symbol, and CLI identifiers resolve the same singleton instance.
   container.bind<AddUIFramework>(AddUIFramework).toSelf();
-  
-  container.bind<AddRouter>(AddRouterIdentifier).to(AddRouter);
+  container.bind<AddUIFramework>(AddUIFrameworkIdentifier).toService(AddUIFramework);
+
   container.bind<AddRouter>(AddRouter).toSelf();
-  
+  container.bind<AddRouter>(AddRouterIdentifier).toService(AddRouter);
+
   container.bind<AddVersioning>(AddVersioning).toSelf();
-  
-  container.bind<AddHosting>(AddHostingIdentifier).to(AddHosting);
+
   container.bind<AddHosting>(AddHosting).toSelf();
-  
-  container.bind<CreateApp>(CreateAppIdentifier).to(CreateApp);
-  container.bind<CreateApp>(ActionIdentifier).to(CreateApp);
+  container.bind<AddHosting>(AddHostingIdentifier).toService(AddHosting);
+
   container.bind<CreateApp>(CreateApp).toSelf();
-  
-  container.bind<CreateComponent>(ActionIdentifier).to(CreateComponent);
+  container.bind<CreateApp>(CreateAppIdentifier).toService(CreateApp);
+  container.bind<CreateApp>(ActionIdentifier).toService(CreateApp);
+
   container.bind<CreateComponent>(CreateComponent).toSelf();
-  container.bind<CreateCrudComponent>(ActionIdentifier).to(CreateCrudComponent);
+  container.bind<CreateComponent>(ActionIdentifier).toService(CreateComponent);
   container.bind<CreateCrudComponent>(CreateCrudComponent).toSelf();
-  container.bind<GenerateReadme>(ActionIdentifier).to(GenerateReadme);
+  container.bind<CreateCrudComponent>(ActionIdentifier).toService(CreateCrudComponent);
   container.bind<GenerateReadme>(GenerateReadme).toSelf();
+  container.bind<GenerateReadme>(ActionIdentifier).toService(GenerateReadme);
 
   // Bind adapters
   bindCreateAppAdapters(container);

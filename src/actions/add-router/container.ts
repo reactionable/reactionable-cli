@@ -6,9 +6,9 @@ import NextJs from "./adapters/next-js/NextJs";
 import { RouterAdapter } from "./adapters/RouterAdapter";
 import RouterDom from "./adapters/router-dom/RouterDom";
 
-export const AdapterKey = "RouterAdapter";
+export const AdapterIdentifier = Symbol.for("RouterAdapter");
 
 export function bindRouterAdapters(container: Container): void {
-  container.bind<RouterAdapter>(AdapterKey).to(NextJs);
-  container.bind<RouterAdapter>(AdapterKey).to(RouterDom);
+  container.bind<RouterAdapter>(AdapterIdentifier).to(NextJs);
+  container.bind<RouterAdapter>(AdapterIdentifier).to(RouterDom);
 }

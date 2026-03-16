@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 import { Builtins, Cli as Clipanion, Command } from "clipanion";
-import { textSync } from "figlet";
+import figlet from "figlet";
 import prompts from "prompts";
 
 import { NamedAction } from "../actions/NamedAction";
@@ -79,7 +79,7 @@ export class Cli {
   }
 
   protected getBinaryLabel(): string {
-    return `\n${textSync("Reactionable", {
+    return `\n${figlet.textSync("Reactionable", {
       font: "Small Slant",
       horizontalLayout: "default",
       verticalLayout: "default",
