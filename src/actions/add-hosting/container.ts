@@ -6,9 +6,9 @@ import Amplify from "./adapters/amplify/Amplify";
 import { HostingAdapter } from "./adapters/HostingAdapter";
 import Netlify from "./adapters/netlify/Netlify";
 
-export const AdapterKey = "HostingAdapter";
+export const AdapterIdentifier = Symbol.for("HostingAdapter");
 
 export function bindHostingAdapters(container: Container): void {
-  container.bind<HostingAdapter>(AdapterKey).to(Amplify);
-  container.bind<HostingAdapter>(AdapterKey).to(Netlify);
+  container.bind<HostingAdapter>(AdapterIdentifier).to(Amplify);
+  container.bind<HostingAdapter>(AdapterIdentifier).to(Netlify);
 }

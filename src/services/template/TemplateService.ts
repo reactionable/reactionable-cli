@@ -6,7 +6,7 @@ import { inject } from "inversify";
 import { FileFactory } from "../file/FileFactory";
 import { FileService } from "../file/FileService";
 import { TemplateAdapter } from "./adapters/TemplateAdapter";
-import { AdapterKey } from "./container";
+import { AdapterIdentifier } from "./container";
 import { TemplateContext } from "./TemplateContext";
 import { TemplateFileService } from "./TemplateFileService";
 import { DirectoryService } from "../file/DirectoryService";
@@ -26,8 +26,8 @@ export class TemplateService {
     @inject(FileService) private readonly fileService: FileService,
     @inject(FileFactory) private readonly fileFactory: FileFactory,
     @inject(TemplateFileService) private readonly templateFileService: TemplateFileService,
-    @inject(AdapterKey) private readonly templateAdapter: TemplateAdapter
-  ) {}
+    @inject(AdapterIdentifier) private readonly templateAdapter: TemplateAdapter
+  ) { }
 
   async renderTemplate(
     dirPath: string,

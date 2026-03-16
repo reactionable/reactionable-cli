@@ -9,8 +9,8 @@ import { CreateAppAdapter } from "./adapters/CreateAppAdapter";
 export const AdapterIdentifier = Symbol("CreateAppAdapter");
 
 export function bindCreateAppAdapters(container: Container): void {
-  container.bind<CreateAppAdapter>(AdapterIdentifier).to(CreateReactApp);
   container.bind<CreateReactApp>(CreateReactApp).toSelf();
-  container.bind<CreateAppAdapter>(AdapterIdentifier).to(CreateNextApp);
+  container.bind<CreateAppAdapter>(AdapterIdentifier).toService(CreateReactApp);
   container.bind<CreateNextApp>(CreateNextApp).toSelf();
+  container.bind<CreateAppAdapter>(AdapterIdentifier).toService(CreateNextApp);
 }

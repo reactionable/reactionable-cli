@@ -20,6 +20,7 @@ import {
 } from "../../../AbstractAdapterWithPackageAction";
 import { CreateAppAdapter } from "../../../create-app/adapters/CreateAppAdapter";
 import CreateApp from "../../../create-app/CreateApp";
+import { CreateAppIdentifier } from "../../../container";
 import { HostingAdapter } from "../HostingAdapter";
 
 type ProjectConfig = {
@@ -62,7 +63,8 @@ export default class Amplify extends AbstractAdapterWithPackageAction implements
     @inject(CliService) private readonly cliService: CliService,
     @inject(GitService) private readonly gitService: GitService,
     @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifier(() => CreateApp)) protected readonly createApp: CreateApp
+    @inject(new LazyServiceIdentifier(() => CreateAppIdentifier))
+    protected readonly createApp: CreateApp
   ) {
     super(packageManagerService);
   }
