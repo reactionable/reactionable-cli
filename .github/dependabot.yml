@@ -11,6 +11,12 @@ updates:
     groups:
       development-dependencies:
         dependency-type: development
+        patterns:
+          - "*"
+      production-dependencies:
+        dependency-type: production
+        patterns:
+          - "*"
 
   - package-ecosystem: github-actions
     open-pull-requests-limit: 20
