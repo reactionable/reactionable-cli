@@ -3,7 +3,10 @@ updates:
   - package-ecosystem: npm
     open-pull-requests-limit: 20
     versioning-strategy: increase
-    directory: "/"
+    directories:
+      - "/"
+      - "__tests__/test-react-project"
+      - "__tests__/test-nextjs-project"
     schedule:
       interval: weekly
       day: friday
