@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`createComponent run should create expected NextJs App component files 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
