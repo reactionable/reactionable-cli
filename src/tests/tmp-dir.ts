@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import { basename, resolve } from "path";
 
 import { copy } from "fs-extra";
 import { DirResult, dir, setGracefulCleanup } from "tmp";
@@ -34,7 +34,9 @@ export async function createTmpDir(copyTestDir: string | null = null): Promise<D
 
   if (copyTestDir) {
     const testDirPath = resolve("__tests__", copyTestDir);
-    await copy(testDirPath, tmpDir.name);
+    await copy(testDirPath, tmpDir.name, {
+      filter: (sourcePath) => basename(sourcePath) !== "node_modules",
+    });
   }
 
   return tmpDir;
