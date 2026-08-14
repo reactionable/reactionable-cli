@@ -1,20 +1,19 @@
 import "reflect-metadata";
 
 import { Container } from "inversify";
-
+import { bindActions } from "./actions/container";
 import { CliService } from "./services/CliService";
+import { ColorService } from "./services/ColorService";
 import { ConsoleService } from "./services/ConsoleService";
+import { DirectoryService } from "./services/file/DirectoryService";
 import { FileDiffService } from "./services/file/FileDiffService";
 import { FileFactory } from "./services/file/FileFactory";
 import { FileService } from "./services/file/FileService";
-import { DirectoryService } from "./services/file/DirectoryService";
 import { GitService } from "./services/git/GitService";
 import { PackageManagerService } from "./services/package-manager/PackageManagerService";
 import { bindTemplateAdapters } from "./services/template/container";
 import { TemplateFileService } from "./services/template/TemplateFileService";
 import { TemplateService } from "./services/template/TemplateService";
-import { ColorService } from "./services/ColorService";
-import { bindActions } from "./actions/container";
 
 const container = new Container({ defaultScope: "Singleton" });
 

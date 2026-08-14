@@ -1,75 +1,79 @@
 import { TypescriptImport } from "./TypescriptImport";
 
 describe("services - File - TypescriptImport", () => {
-  describe("fromString", () => {
-    it('should retrieve an instance of TypescriptImport from a given "glob" import string', async () => {
-      const importString = `import * as serviceWorker from './serviceWorker';`;
+	describe("fromString", () => {
+		it('should retrieve an instance of TypescriptImport from a given "glob" import string', async () => {
+			const importString = `import * as serviceWorker from './serviceWorker';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString);
-      expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual("./serviceWorker");
-      expect(typescriptImport?.modules).toEqual({ "*": "serviceWorker" });
-      expect(typescriptImport?.toString()).toEqual(importString);
-    });
+			const typescriptImport = TypescriptImport.fromString(importString);
+			expect(typescriptImport).not.toBeNull();
+			expect(typescriptImport?.packageName).toEqual("./serviceWorker");
+			expect(typescriptImport?.modules).toEqual({ "*": "serviceWorker" });
+			expect(typescriptImport?.toString()).toEqual(importString);
+		});
 
-    it('should retrieve an instance of TypescriptImport from given an "aliased" import string', async () => {
-      const importString = `import { App as CoreApp } from '@reactionable/core';`;
+		it('should retrieve an instance of TypescriptImport from given an "aliased" import string', async () => {
+			const importString = `import { App as CoreApp } from '@reactionable/core';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString);
+			const typescriptImport = TypescriptImport.fromString(importString);
 
-      expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual("@reactionable/core");
-      expect(typescriptImport?.modules).toEqual({ App: "CoreApp" });
-      expect(typescriptImport?.toString()).toEqual(importString);
-    });
+			expect(typescriptImport).not.toBeNull();
+			expect(typescriptImport?.packageName).toEqual("@reactionable/core");
+			expect(typescriptImport?.modules).toEqual({ App: "CoreApp" });
+			expect(typescriptImport?.toString()).toEqual(importString);
+		});
 
-    it('should retrieve an instance of TypescriptImport from given an "named" and default import string', async () => {
-      const importString = `import React, { ReactElement } from 'react';`;
+		it('should retrieve an instance of TypescriptImport from given an "named" and default import string', async () => {
+			const importString = `import React, { ReactElement } from 'react';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString);
+			const typescriptImport = TypescriptImport.fromString(importString);
 
-      expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual("react");
-      expect(typescriptImport?.modules).toEqual({
-        React: TypescriptImport.defaultImport,
-        ReactElement: "",
-      });
-      expect(typescriptImport?.toString()).toEqual(importString);
-    });
+			expect(typescriptImport).not.toBeNull();
+			expect(typescriptImport?.packageName).toEqual("react");
+			expect(typescriptImport?.modules).toEqual({
+				React: TypescriptImport.defaultImport,
+				ReactElement: "",
+			});
+			expect(typescriptImport?.toString()).toEqual(importString);
+		});
 
-    it("should retrieve an instance of TypescriptImport from given import file string", async () => {
-      const importString = `import './index.scss';`;
+		it("should retrieve an instance of TypescriptImport from given import file string", async () => {
+			const importString = `import './index.scss';`;
 
-      const typescriptImport = TypescriptImport.fromString(importString);
+			const typescriptImport = TypescriptImport.fromString(importString);
 
-      expect(typescriptImport).not.toBeNull();
-      expect(typescriptImport?.packageName).toEqual("./index.scss");
-      expect(typescriptImport?.modules).toEqual({
-        [TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
-      });
-      expect(typescriptImport?.toString()).toEqual(importString);
-    });
-  });
+			expect(typescriptImport).not.toBeNull();
+			expect(typescriptImport?.packageName).toEqual("./index.scss");
+			expect(typescriptImport?.modules).toEqual({
+				[TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
+			});
+			expect(typescriptImport?.toString()).toEqual(importString);
+		});
+	});
 
-  describe("toString", () => {
-    it('should retrieve a "glob" import string', async () => {
-      const typescriptImport = new TypescriptImport("./serviceWorker", {
-        "*": "serviceWorker",
-      });
+	describe("toString", () => {
+		it('should retrieve a "glob" import string', async () => {
+			const typescriptImport = new TypescriptImport("./serviceWorker", {
+				"*": "serviceWorker",
+			});
 
-      const importString = typescriptImport.toString();
+			const importString = typescriptImport.toString();
 
-      expect(importString).toEqual(`import * as serviceWorker from './serviceWorker';`);
-    });
+			expect(importString).toEqual(
+				`import * as serviceWorker from './serviceWorker';`,
+			);
+		});
 
-    it('should retrieve an "aliased" import string', async () => {
-      const typescriptImport = new TypescriptImport("@reactionable/core", {
-        App: "CoreApp",
-      });
+		it('should retrieve an "aliased" import string', async () => {
+			const typescriptImport = new TypescriptImport("@reactionable/core", {
+				App: "CoreApp",
+			});
 
-      const importString = typescriptImport.toString();
+			const importString = typescriptImport.toString();
 
-      expect(importString).toEqual(`import { App as CoreApp } from '@reactionable/core';`);
-    });
-  });
+			expect(importString).toEqual(
+				`import { App as CoreApp } from '@reactionable/core';`,
+			);
+		});
+	});
 });

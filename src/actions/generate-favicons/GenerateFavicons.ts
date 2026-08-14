@@ -2,44 +2,57 @@ import { inject } from "inversify";
 import prompts from "prompts";
 
 import { ConsoleService } from "../../services/ConsoleService";
-import { NamedAction, NamedActionOptions } from "../NamedAction";
+import type { NamedAction, NamedActionOptions } from "../NamedAction";
 
 type GenerateFaviconsOptions = NamedActionOptions & { mustPrompt: boolean };
 
-export default class GenerateFavicons implements NamedAction<GenerateFaviconsOptions> {
-  constructor(@inject(ConsoleService) private readonly consoleService: ConsoleService) {}
+export default class GenerateFavicons
+	implements NamedAction<GenerateFaviconsOptions>
+{
+	constructor(
+		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
+	) {}
 
-  getName(): string {
-    return "Generate favicons";
-  }
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-  async run({ realpath, mustPrompt = false }: GenerateFaviconsOptions): Promise<void> {
-    this.consoleService.info("Generating favicons...");
-    if (mustPrompt) {
-      const { confirm } = await prompts([
-        {
-          type: "confirm",
-          name: "confirm",
-          message: "Do you want to generate favicons?",
-        },
-      ]);
+	getName(): string {
+		return "Generate favicons";
+	}
 
-      if (!confirm) {
-        return;
-      }
-    }
+	async run({
+		realpath,
+		mustPrompt = false,
+	}: GenerateFaviconsOptions): Promise<void> {
+		this.consoleService.info("Generating favicons...");
+		if (mustPrompt) {
+			const { confirm } = await prompts([
+				{
+					type: "confirm",
+					name: "confirm",
+					message: "Do you want to generate favicons?",
+				},
+			]);
 
-    await this.executeFavicon();
-    this.consoleService.success(`Favicons have been generated in "${realpath}"`);
-  }
+			if (!confirm) {
+				return;
+			}
+		}
 
-  private async executeFavicon(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
+		await this.executeFavicon();
+		this.consoleService.success(
+			`Favicons have been generated in "${realpath}"`,
+		);
+	}
+
+	private async executeFavicon(): Promise<void> {
+		return new Promise((resolve, reject) => {
+			try {
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
 }

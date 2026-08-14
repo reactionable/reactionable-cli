@@ -1,183 +1,253 @@
-import { basename, dirname, extname, resolve } from "path";
-
-import { LazyServiceIdentifier, inject } from "inversify";
+import { basename, dirname, extname, resolve } from "node:path";
+import { inject, LazyServiceIdentifier } from "inversify";
 import prompts from "prompts";
 
 import { ConsoleService } from "../../services/ConsoleService";
+import { DirectoryService } from "../../services/file/DirectoryService";
 import { FileFactory } from "../../services/file/FileFactory";
 import { PackageManagerService } from "../../services/package-manager/PackageManagerService";
 import { StringUtils } from "../../services/StringUtils";
-import { TemplateContext } from "../../services/template/TemplateContext";
+import type { TemplateContext } from "../../services/template/TemplateContext";
 import { TemplateService } from "../../services/template/TemplateService";
 import { AbstractAdapterWithPackageAction } from "../AbstractAdapterWithPackageAction";
 import type AddHosting from "../add-hosting/AddHosting";
 import type AddRouter from "../add-router/AddRouter";
 import type AddUIFramework from "../add-ui-framework/AddUIFramework";
-import { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
+import {
+	AddHostingIdentifier,
+	AddRouterIdentifier,
+	AddUIFrameworkIdentifier,
+	CreateAppIdentifier,
+} from "../container";
+import type { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
 import type CreateApp from "../create-app/CreateApp";
-import { NamedAction, NamedActionOptions } from "../NamedAction";
-import { DirectoryService } from "../../services/file/DirectoryService";
-import { AddUIFrameworkIdentifier, AddHostingIdentifier, AddRouterIdentifier, CreateAppIdentifier } from "../container";
+import type { NamedAction, NamedActionOptions } from "../NamedAction";
 
 export type CreateComponentOptions = NamedActionOptions & {
-  name?: string;
-  componentTemplate?: string;
-  // Can be the directory folder where to create the component or the file path of an existing component
-  componentDirPath?: string;
+	name?: string;
+	componentTemplate?: string;
+	// Can be the directory folder where to create the component or the file path of an existing component
+	componentDirPath?: string;
 };
 
-export default class CreateComponent implements NamedAction<CreateComponentOptions> {
-  protected static defaultPackage = "@reactionable/core";
-  protected static templateNamespace = "create-component";
+export default class CreateComponent
+	implements NamedAction<CreateComponentOptions>
+{
+	protected static defaultPackage = "@reactionable/core";
+	protected static templateNamespace = "create-component";
 
-  constructor(
-    @inject(new LazyServiceIdentifier(() => AddUIFrameworkIdentifier))
-    private readonly addUIFramework: AddUIFramework,
-    @inject(new LazyServiceIdentifier(() => AddHostingIdentifier))
-    private readonly addHosting: AddHosting,
-    @inject(new LazyServiceIdentifier(() => AddRouterIdentifier))
-    private readonly addRouter: AddRouter,
-    @inject(new LazyServiceIdentifier(() => CreateAppIdentifier))
-    private readonly createApp: CreateApp,
-    @inject(PackageManagerService)
-    protected readonly packageManagerService: PackageManagerService,
-    @inject(ConsoleService) protected readonly consoleService: ConsoleService,
-    @inject(DirectoryService) protected readonly directoryService: DirectoryService,
-    @inject(TemplateService) protected readonly templateService: TemplateService,
-    @inject(FileFactory) protected readonly fileFactory: FileFactory
-  ) {}
+	constructor(
+		@inject(new LazyServiceIdentifier(() => AddUIFrameworkIdentifier))
+		private readonly _addUIFramework: AddUIFramework,
+		@inject(new LazyServiceIdentifier(() => AddHostingIdentifier))
+		private readonly _addHosting: AddHosting,
+		@inject(new LazyServiceIdentifier(() => AddRouterIdentifier))
+		private readonly _addRouter: AddRouter,
+		@inject(new LazyServiceIdentifier(() => CreateAppIdentifier))
+		private readonly _createApp: CreateApp,
+		@inject(PackageManagerService)
+		protected readonly _packageManagerService: PackageManagerService,
+		@inject(ConsoleService) protected readonly _consoleService: ConsoleService,
+		@inject(DirectoryService)
+		protected readonly _directoryService: DirectoryService,
+		@inject(TemplateService)
+		protected readonly _templateService: TemplateService,
+		@inject(FileFactory) protected readonly _fileFactory: FileFactory,
+	) {}
 
-  getName(): string {
-    return "Create a new component";
-  }
+	get addUIFramework(): AddUIFramework {
+		return this._addUIFramework;
+	}
 
-  async run({ realpath, name, ...options }: CreateComponentOptions): Promise<void> {
-    if (!name) {
-      const answer = await prompts([
-        {
-          type: "text",
-          name: "name",
-          message: "What's the component name?",
-          validate: (input) => (input.trim().length ? true : "Component name is required"),
-          format: (input) => this.formatName(input),
-        },
-      ]);
-      name = answer.name as string;
-    }
+	get addHosting(): AddHosting {
+		return this._addHosting;
+	}
 
-    name = this.formatName(name);
-    this.consoleService.info(`Create component "${name}"...`);
+	get addRouter(): AddRouter {
+		return this._addRouter;
+	}
 
-    const componentDirPath = await this.createComponent({ realpath, name, ...options });
+	get createApp(): CreateApp {
+		return this._createApp;
+	}
 
-    this.consoleService.success(`Component "${name}" has been created in "${componentDirPath}"`);
-  }
+	get packageManagerService(): PackageManagerService {
+		return this._packageManagerService;
+	}
 
-  protected async createComponent({
-    realpath,
-    componentDirPath,
-    name,
-    componentTemplate = "standalone/Standalone.tsx",
-    testComponentTemplate = "standalone/Standalone.test.tsx",
-    templateContext = {},
-  }: {
-    realpath: string;
-    name: string;
-    componentDirPath?: string;
-    componentTemplate?: string;
-    testComponentTemplate?: string;
-    templateContext?: TemplateContext;
-  }): Promise<string> {
-    let componentFilename = name + ".tsx";
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-    if (!componentDirPath) {
-      componentDirPath = resolve(
-        realpath,
-        (await this.getCreateAppAdapter(realpath)).getLibDirectoryPath(),
-        "components",
-        StringUtils.hyphenize(name)
-      );
-    } else if (extname(componentDirPath)) {
-      componentFilename = basename(componentDirPath);
-      componentDirPath = dirname(componentDirPath);
-    } else {
-      componentDirPath = resolve(componentDirPath, StringUtils.hyphenize(name));
-    }
+	get directoryService(): DirectoryService {
+		return this._directoryService;
+	}
 
-    const componentParentDirPath = dirname(componentDirPath);
-    const componentParentDirExists = await this.directoryService.dirExists(componentParentDirPath);
-    if (!componentParentDirExists) {
-      throw new Error(
-        `Unable to create component "${name}" in unexisting directory "${componentParentDirPath}"`
-      );
-    }
+	get templateService(): TemplateService {
+		return this._templateService;
+	}
 
-    // Get enabled UI framework
-    const projectName = await this.packageManagerService.getPackageName(
-      realpath,
-      "capitalizeWords"
-    );
-    const uiPackage = await this.getUIPackage(realpath);
-    const routerPackage = await this.getRouterPackage(realpath);
-    const hostingPackage = await this.getHostingPackage(realpath);
+	get fileFactory(): FileFactory {
+		return this._fileFactory;
+	}
 
-    const testComponentFilename = componentFilename.split(".").slice(0, -1).join(".") + ".test.tsx";
-    const context = {
-      ...templateContext,
-      componentName: name,
-      componentDirname: basename(componentDirPath),
-      componentFilename,
-      componentTemplate,
-      testComponentFilename,
-      testComponentTemplate,
-      projectName,
-      uiPackage,
-      hostingPackage,
-      routerPackage,
-    };
+	getName(): string {
+		return "Create a new component";
+	}
 
-    // Create component from template
-    const namespace = CreateComponent.templateNamespace;
-    await this.templateService.renderTemplate(dirname(componentDirPath), namespace, context);
+	async run({
+		realpath,
+		name,
+		...options
+	}: CreateComponentOptions): Promise<void> {
+		if (!name) {
+			const answer = await prompts([
+				{
+					type: "text",
+					name: "name",
+					message: "What's the component name?",
+					validate: (input) =>
+						input.trim().length ? true : "Component name is required",
+					format: (input) => this.formatName(input),
+				},
+			]);
+			name = answer.name as string;
+		}
 
-    return componentDirPath;
-  }
+		name = this.formatName(name);
+		this.consoleService.info(`Create component "${name}"...`);
 
-  protected formatName(name: string): string {
-    return StringUtils.capitalize(StringUtils.camelize(name.trim()));
-  }
+		const componentDirPath = await this.createComponent({
+			realpath,
+			name,
+			...options,
+		});
 
-  protected async getUIPackage(realpath: string): Promise<string> {
-    const uiPackage = (await this.addUIFramework.detectAdapter(realpath))?.getAdapterPackageName();
-    if (uiPackage) {
-      return uiPackage;
-    }
-    return CreateComponent.defaultPackage;
-  }
+		this.consoleService.success(
+			`Component "${name}" has been created in "${componentDirPath}"`,
+		);
+	}
 
-  protected async getRouterPackage(realpath: string): Promise<string> {
-    const routerPackage = (await this.addRouter.detectAdapter(realpath))?.getAdapterPackageName();
-    if (routerPackage) {
-      return routerPackage;
-    }
-    return CreateComponent.defaultPackage;
-  }
+	protected async createComponent({
+		realpath,
+		componentDirPath,
+		name,
+		componentTemplate = "standalone/Standalone.tsx",
+		testComponentTemplate = "standalone/Standalone.test.tsx",
+		templateContext = {},
+	}: {
+		realpath: string;
+		name: string;
+		componentDirPath?: string;
+		componentTemplate?: string;
+		testComponentTemplate?: string;
+		templateContext?: TemplateContext;
+	}): Promise<string> {
+		let componentFilename = `${name}.tsx`;
 
-  public async getHostingPackage(realpath: string): Promise<string> {
-    const hostingAdapter = await this.addHosting.detectAdapter(realpath);
+		if (!componentDirPath) {
+			componentDirPath = resolve(
+				realpath,
+				(await this.getCreateAppAdapter(realpath)).getLibDirectoryPath(),
+				"components",
+				StringUtils.hyphenize(name),
+			);
+		} else if (extname(componentDirPath)) {
+			componentFilename = basename(componentDirPath);
+			componentDirPath = dirname(componentDirPath);
+		} else {
+			componentDirPath = resolve(componentDirPath, StringUtils.hyphenize(name));
+		}
 
-    if (hostingAdapter && hostingAdapter instanceof AbstractAdapterWithPackageAction) {
-      return hostingAdapter.getAdapterPackageName();
-    }
+		const componentParentDirPath = dirname(componentDirPath);
+		const componentParentDirExists = await this.directoryService.dirExists(
+			componentParentDirPath,
+		);
+		if (!componentParentDirExists) {
+			throw new Error(
+				`Unable to create component "${name}" in unexisting directory "${componentParentDirPath}"`,
+			);
+		}
 
-    return CreateComponent.defaultPackage;
-  }
+		// Get enabled UI framework
+		const projectName = await this.packageManagerService.getPackageName(
+			realpath,
+			"capitalizeWords",
+		);
+		const uiPackage = await this.getUIPackage(realpath);
+		const routerPackage = await this.getRouterPackage(realpath);
+		const hostingPackage = await this.getHostingPackage(realpath);
 
-  protected async getCreateAppAdapter(realpath: string): Promise<CreateAppAdapter> {
-    const adapter = await this.createApp.detectAdapter(realpath);
-    if (!adapter) {
-      throw new Error(`Unable to detect app type for given path "${realpath}"`);
-    }
-    return adapter;
-  }
+		const testComponentFilename = `${componentFilename.split(".").slice(0, -1).join(".")}.test.tsx`;
+		const context = {
+			...templateContext,
+			componentName: name,
+			componentDirname: basename(componentDirPath),
+			componentFilename,
+			componentTemplate,
+			testComponentFilename,
+			testComponentTemplate,
+			projectName,
+			uiPackage,
+			hostingPackage,
+			routerPackage,
+		};
+
+		// Create component from template
+		const namespace = CreateComponent.templateNamespace;
+		await this.templateService.renderTemplate(
+			dirname(componentDirPath),
+			namespace,
+			context,
+		);
+
+		return componentDirPath;
+	}
+
+	protected formatName(name: string): string {
+		return StringUtils.capitalize(StringUtils.camelize(name.trim()));
+	}
+
+	protected async getUIPackage(realpath: string): Promise<string> {
+		const uiPackage = (
+			await this.addUIFramework.detectAdapter(realpath)
+		)?.getAdapterPackageName();
+		if (uiPackage) {
+			return uiPackage;
+		}
+		return CreateComponent.defaultPackage;
+	}
+
+	protected async getRouterPackage(realpath: string): Promise<string> {
+		const routerPackage = (
+			await this.addRouter.detectAdapter(realpath)
+		)?.getAdapterPackageName();
+		if (routerPackage) {
+			return routerPackage;
+		}
+		return CreateComponent.defaultPackage;
+	}
+
+	public async getHostingPackage(realpath: string): Promise<string> {
+		const hostingAdapter = await this.addHosting.detectAdapter(realpath);
+
+		if (
+			hostingAdapter &&
+			hostingAdapter instanceof AbstractAdapterWithPackageAction
+		) {
+			return hostingAdapter.getAdapterPackageName();
+		}
+
+		return CreateComponent.defaultPackage;
+	}
+
+	protected async getCreateAppAdapter(
+		realpath: string,
+	): Promise<CreateAppAdapter> {
+		const adapter = await this.createApp.detectAdapter(realpath);
+		if (!adapter) {
+			throw new Error(`Unable to detect app type for given path "${realpath}"`);
+		}
+		return adapter;
+	}
 }

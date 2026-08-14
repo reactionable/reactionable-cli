@@ -1,14 +1,14 @@
 import { injectFromBase } from "inversify";
 import {
-  AbstractAdapterWithPackageAction,
-  AdapterWithPackageActionOptions,
+	AbstractAdapterWithPackageAction,
+	type AdapterWithPackageActionOptions,
 } from "../../AbstractAdapterWithPackageAction";
 
 export type RouterAdapter<
-  O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
+	O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,
 > = AbstractAdapterWithPackageAction<O>;
 
 @injectFromBase()
 export abstract class AbstractRouterAdapter
-  extends AbstractAdapterWithPackageAction
-  implements RouterAdapter {}
+	extends AbstractAdapterWithPackageAction
+	implements RouterAdapter {}

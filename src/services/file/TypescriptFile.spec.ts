@@ -1,162 +1,205 @@
-import { readFile } from "fs/promises";
-import { join } from "path";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
-import { jest } from "@jest/globals";
+import { afterAll, describe, expect, it, vi } from "vitest";
 
 import container from "../../container";
 import { mockDir, mockDirPath, restoreMockFs } from "../../tests/mock-fs";
 import { CliService } from "../CliService";
+import { DirectoryService } from "./DirectoryService";
 import { FileDiffService } from "./FileDiffService";
 import { FileFactory } from "./FileFactory";
 import { FileService } from "./FileService";
 import { TypescriptFile } from "./TypescriptFile";
-import { DirectoryService } from "./DirectoryService";
 
 describe("services - File - TypescriptFile", () => {
-  const fileName = "test.ts";
-  const filePath = join(mockDirPath, fileName);
+	const fileName = "test.ts";
+	const filePath = join(mockDirPath, fileName);
 
-  let cliService: CliService;
-  let directoryService: DirectoryService;
-  let fileService: FileService;
-  let fileDiffService: FileDiffService;
-  let fileFactory: FileFactory;
+	let cliService: CliService;
+	let directoryService: DirectoryService;
+	let fileService: FileService;
+	let fileDiffService: FileDiffService;
+	let fileFactory: FileFactory;
 
-  beforeAll(() => {
-    cliService = container.get(CliService);
-    directoryService = container.get(DirectoryService);
-    fileService = container.get(FileService);
-    fileDiffService = container.get(FileDiffService);
-    fileFactory = container.get(FileFactory);
-  });
+	beforeAll(() => {
+		cliService = container.get(CliService);
+		directoryService = container.get(DirectoryService);
+		fileService = container.get(FileService);
+		fileDiffService = container.get(FileDiffService);
+		fileFactory = container.get(FileFactory);
+	});
 
-  afterEach(restoreMockFs);
-  afterAll(jest.resetAllMocks);
+	afterEach(restoreMockFs);
+	afterAll(() => {
+		vi.restoreAllMocks();
+	});
 
-  describe("getContent", () => {
-    it("should get content not containing imports", () => {
-      const fileContent = `class Test {}`;
+	describe("getContent", () => {
+		it("should get content not containing imports", () => {
+			const fileContent = `class Test {}`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+			expect(file.getContent()).toEqual(fileContent);
+		});
 
-    it("should get content containing file import", () => {
-      const fileContent = `import './index.scss';\n\nclass Test {}`;
+		it("should keep blank lines between top-level declarations", () => {
+			const fileContent = `type Test = string;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+const test = "value";
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+export default test;`;
 
-    it("should get content containing named import", () => {
-      const fileContent = `import React from 'react';\n\nclass Test {}`;
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			expect(file.getContent()).toEqual(fileContent);
+		});
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+		it("should keep lazy declarations adjacent and add a blank line before default export", () => {
+			const fileContent = `const First = lazy(() => import("./first"));
+const Second = lazy(() => import("./second"));
 
-    it("should get content containing default import", () => {
-      const fileContent = `import * as serviceWorker from './serviceWorker';\n\nclass Test {}`;
+export default function Test() {}`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+			expect(file.getContent()).toEqual(fileContent);
+		});
 
-    it("should get content containing default and named import", () => {
-      const fileContent = `import React, { ReactElement } from 'react';\n\nclass Test {}`;
+		it("should get content containing file import", () => {
+			const fileContent = `import './index.scss';\n\nclass Test {}`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+			expect(file.getContent()).toEqual(fileContent);
+		});
 
-    it("should get content containing name binded import", () => {
-      const fileContent = `import { IAppProps } from '@reactionable/core';\n\nclass Test {}`;
+		it("should get content containing named import", () => {
+			const fileContent = `import React from 'react';\n\nclass Test {}`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+			expect(file.getContent()).toEqual(fileContent);
+		});
 
-    it("should get content containing name binded aliased import", () => {
-      const fileContent = `import { App as CoreApp } from '@reactionable/core';\n\nclass Test {}`;
+		it("should get content containing default import", () => {
+			const fileContent = `import * as serviceWorker from './serviceWorker';\n\nclass Test {}`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      expect(file.getContent()).toEqual(fileContent);
-    });
+			expect(file.getContent()).toEqual(fileContent);
+		});
 
-    it("should retrieve saved file content", async () => {
-      mockDir();
+		it("should get content containing default and named import", () => {
+			const fileContent = `import React, { ReactElement } from 'react';\n\nclass Test {}`;
 
-      const fileContent = `import { App as CoreApp, IAppProps } from '@reactionable/core';
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
+
+			expect(file.getContent()).toEqual(fileContent);
+		});
+
+		it("should get content containing name binded import", () => {
+			const fileContent = `import { IAppProps } from '@reactionable/core';\n\nclass Test {}`;
+
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
+
+			expect(file.getContent()).toEqual(fileContent);
+		});
+
+		it("should get content containing name binded aliased import", () => {
+			const fileContent = `import { App as CoreApp } from '@reactionable/core';\n\nclass Test {}`;
+
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
+
+			expect(file.getContent()).toEqual(fileContent);
+		});
+
+		it("should retrieve saved file content", async () => {
+			mockDir();
+
+			const fileContent = `import { App as CoreApp, IAppProps } from '@reactionable/core';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 ReactDOM.render(
@@ -167,20 +210,20 @@ ReactDOM.render(
 );
 serviceWorker.unregister();`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      const result = await file.saveFile();
+			const result = await file.saveFile();
 
-      const expectedFileContent = `import { App as CoreApp, IAppProps } from '@reactionable/core';
+			const expectedFileContent = `import { App as CoreApp, IAppProps } from '@reactionable/core';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
@@ -192,31 +235,33 @@ ReactDOM.render(
 );
 
 serviceWorker.unregister();`;
-      expect(result.getContent()).toEqual(expectedFileContent);
-      expect(await fileService.fileExists(filePath)).toEqual(true);
-      expect(await readFile(filePath, "utf-8")).toEqual(expectedFileContent);
-    });
-  });
+			expect(result.getContent()).toEqual(expectedFileContent);
+			expect(await fileService.fileExists(filePath)).toEqual(true);
+			expect(await readFile(filePath, "utf-8")).toEqual(expectedFileContent);
+		});
+	});
 
-  describe("setImports", () => {
-    it("should add default imports", () => {
-      const fileContent = `class Test {}`;
+	describe("setImports", () => {
+		it("should add default imports", () => {
+			const fileContent = `class Test {}`;
 
-      const file = new TypescriptFile(
-        cliService,
-        directoryService,
-        fileService,
-        fileDiffService,
-        fileFactory,
-        filePath,
-        undefined,
-        fileContent
-      );
+			const file = new TypescriptFile(
+				cliService,
+				directoryService,
+				fileService,
+				fileDiffService,
+				fileFactory,
+				filePath,
+				undefined,
+				fileContent,
+			);
 
-      file.setImports([{ packageName: "test-package", modules: { TestPackage: "default" } }]);
+			file.setImports([
+				{ packageName: "test-package", modules: { TestPackage: "default" } },
+			]);
 
-      const expectedContent = `import TestPackage from 'test-package';\n\nclass Test {}`;
-      expect(file.getContent()).toEqual(expectedContent);
-    });
-  });
+			const expectedContent = `import TestPackage from 'test-package';\n\nclass Test {}`;
+			expect(file.getContent()).toEqual(expectedContent);
+		});
+	});
 });

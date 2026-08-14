@@ -1,79 +1,90 @@
-import { inject, ServiceIdentifier } from "inversify";
+import { inject, type ServiceIdentifier } from "inversify";
 
 import container from "../container";
-import { ConsoleService } from "../services/ConsoleService";
-import { AdapterAction } from "./AdapterAction";
-import { RealpathAction, RealpathActionOptions } from "./RealpathAction";
 import { CliService } from "../services/CliService";
+import { ConsoleService } from "../services/ConsoleService";
+import type { AdapterAction } from "./AdapterAction";
+import type { RealpathAction, RealpathActionOptions } from "./RealpathAction";
 
 export type ActionWithAdaptersOptions = RealpathActionOptions;
 
 export abstract class AbstractActionWithAdapters<
-  A extends AdapterAction,
-  O extends ActionWithAdaptersOptions = ActionWithAdaptersOptions,
+	A extends AdapterAction,
+	O extends ActionWithAdaptersOptions = ActionWithAdaptersOptions,
 > implements RealpathAction<O>
 {
-  protected abstract name: string;
-  protected abstract adapterIdentifier: ServiceIdentifier<A>;
+	protected abstract name: string;
+	protected abstract adapterIdentifier: ServiceIdentifier<A>;
 
-  constructor(
-    @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(CliService) private readonly cliService: CliService
-  ) {}
+	constructor(
+		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
+		@inject(CliService) private readonly _cliService: CliService,
+	) {}
 
-  getName(): string {
-    return this.name;
-  }
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-  protected getAdapters(): A[] {
-    return container.getAll<A>(this.adapterIdentifier);
-  }
+	get cliService(): CliService {
+		return this._cliService;
+	}
 
-  async detectAdapter(realpath: string): Promise<A | null> {
-    const adapters = this.getAdapters();
+	getName(): string {
+		return this.name;
+	}
 
-    for (const adapter of adapters) {
-      if (await adapter.isEnabled(realpath)) {
-        return adapter;
-      }
-    }
-    return null;
-  }
+	protected getAdapters(): A[] {
+		return container.getAll<A>(this.adapterIdentifier);
+	}
 
-  async run(options: ActionWithAdaptersOptions): Promise<void> {
-    const name = this.getName();
+	async detectAdapter(realpath: string): Promise<A | null> {
+		const adapters = this.getAdapters();
 
-    this.consoleService.info(`Adding ${name}...`);
+		for (const adapter of adapters) {
+			if (await adapter.isEnabled(realpath)) {
+				return adapter;
+			}
+		}
+		return null;
+	}
 
-    let adapter: A | null = await this.detectAdapter(options.realpath);
-    if (adapter) {
-      const override = await this.cliService.promptToContinue(
-        `"${adapter.getName()}" is already added`,
-        "override it?"
-      );
+	async run(options: ActionWithAdaptersOptions): Promise<void> {
+		const name = this.getName();
 
-      if (!override) {
-        return;
-      }
-    } else {
-      const choices = {
-        ...this.getAdapters().reduce(
-          (choice, adapter) => {
-            choice[adapter.getName()] = adapter;
-            return choice;
-          },
-          {} as Record<string, A>
-        ),
-        None: null,
-      };
+		this.consoleService.info(`Adding ${name}...`);
 
-      adapter = await this.cliService.promptToChoose(`Wich ${name} do you want to add?`, choices);
-    }
+		let adapter: A | null = await this.detectAdapter(options.realpath);
+		if (adapter) {
+			const override = await this.cliService.promptToContinue(
+				`"${adapter.getName()}" is already added`,
+				"override it?",
+			);
 
-    if (!adapter) {
-      return;
-    }
+			if (!override) {
+				return;
+			}
+		} else {
+			const choices = {
+				...this.getAdapters().reduce(
+					(choice, adapter) => {
+						choice[adapter.getName()] = adapter;
+						return choice;
+					},
+					{} as Record<string, A>,
+				),
+				None: null,
+			};
 
-    await adapter.run(options);
-  }
+			adapter = await this.cliService.promptToChoose(
+				`Wich ${name} do you want to add?`,
+				choices,
+			);
+		}
+
+		if (!adapter) {
+			return;
+		}
+
+		await adapter.run(options);
+	}
 }

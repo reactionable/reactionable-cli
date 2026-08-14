@@ -3,6 +3,7 @@ import React, { PropsWithChildren, ReactElement } from "react";
 import { useTranslation } from "@reactionable/core";
 <%= it.block('importsHead','import { Head } from "' + it.routerPackage + '";') %>
 <%= it.block('imports') %>
+
 <%= it.block('props', "type I" + it.componentName + "Props = unknown;") %>
 
 const <%= it.componentName %> = (props: PropsWithChildren<I<%= it.componentName %>Props>): ReactElement => {
@@ -17,4 +18,5 @@ const <%= it.componentName %> = (props: PropsWithChildren<I<%= it.componentName 
     <%= it.block('render') %>
   </>;
 };
+
 export default <%= it.componentName %>;`;

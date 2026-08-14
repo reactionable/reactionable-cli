@@ -1,228 +1,254 @@
-import { spawn } from "child_process";
+import { spawn } from "node:child_process";
 
-import { Change } from "diff";
+import type { Change } from "diff";
 import { inject } from "inversify";
 import prompts from "prompts";
 import shelljs from "shelljs";
-
+import { ColorService } from "./ColorService";
 import { ConsoleService } from "./ConsoleService";
 import { DirectoryService } from "./file/DirectoryService";
-import { ColorService } from "./ColorService";
 
 export enum PromptOverwriteChoice {
-  DIFF = "diff",
-  OVERWRITE = "overwrite",
-  CANCEL = "cancel",
+	DIFF = "diff",
+	OVERWRITE = "overwrite",
+	CANCEL = "cancel",
 }
 
 export class CliService {
-  private runStartDate: Date | undefined;
+	private runStartDate: Date | undefined;
 
-  constructor(
-    @inject(DirectoryService) private readonly directoryService: DirectoryService,
-    @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(ColorService) private readonly colorService: ColorService
-  ) {}
+	constructor(
+		@inject(DirectoryService)
+		private readonly _directoryService: DirectoryService,
+		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
+		@inject(ColorService) private readonly _colorService: ColorService,
+	) {}
 
-  getRunStartDate(): Date | undefined {
-    return this.runStartDate;
-  }
+	get directoryService(): DirectoryService {
+		return this._directoryService;
+	}
 
-  initRunStartDate(): Date {
-    return (this.runStartDate = new Date());
-  }
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-  getCmd(cmd: string): string | null {
-    if (shelljs.which(cmd)) {
-      return cmd;
-    }
-    return null;
-  }
+	get colorService(): ColorService {
+		return this._colorService;
+	}
 
-  async execCmd(args: string | string[], cwd?: string, silent = false): Promise<string> {
-    if (!args.length) {
-      throw new Error("Command args must not be empty");
-    }
+	getRunStartDate(): Date | undefined {
+		return this.runStartDate;
+	}
 
-    if (cwd && !(await this.directoryService.dirExists(cwd))) {
-      throw new Error(`Directory "${cwd}" does not exist`);
-    }
+	initRunStartDate(): Date {
+		this.runStartDate = new Date();
+		return this.runStartDate;
+	}
 
-    let cmd: string;
-    if (Array.isArray(args)) {
-      cmd = args.shift() || "";
-    } else {
-      cmd = args;
-      args = [];
-    }
+	getCmd(cmd: string): string | null {
+		if (shelljs.which(cmd)) {
+			return cmd;
+		}
+		return null;
+	}
 
-    return new Promise((resolve, reject) => {
-      const child = spawn(cmd, args as string[], {
-        stdio: silent ? "pipe" : "inherit",
-        shell: true,
-        windowsVerbatimArguments: true,
-        cwd,
-      });
+	async execCmd(
+		args: string | string[],
+		cwd?: string,
+		silent = false,
+	): Promise<string> {
+		if (!args.length) {
+			throw new Error("Command args must not be empty");
+		}
 
-      let output = "";
-      let error = "";
+		if (cwd && !(await this.directoryService.dirExists(cwd))) {
+			throw new Error(`Directory "${cwd}" does not exist`);
+		}
 
-      child.on("exit", function (code) {
-        if (code) {
-          return reject(error);
-        }
-        resolve(output);
-      });
+		let cmd: string;
+		if (Array.isArray(args)) {
+			cmd = args.shift() || "";
+		} else {
+			cmd = args;
+			args = [];
+		}
 
-      if (child.stdout) {
-        child.stdout.on("data", (data) => {
-          output += `\n${data}`;
-        });
-      }
-      if (child.stderr) {
-        child.stderr.on("data", (data) => {
-          error += `\n${data}`;
-        });
-      }
-    });
-  }
+		return new Promise((resolve, reject) => {
+			const child = spawn(cmd, args as string[], {
+				stdio: silent ? "pipe" : "inherit",
+				shell: true,
+				windowsVerbatimArguments: true,
+				cwd,
+			});
 
-  async promptToContinue(message: string, question: string): Promise<boolean> {
-    const { shouldContinue } = await prompts([
-      {
-        type: "confirm",
-        name: "shouldContinue",
-        message: `${message}, ${this.colorService.red(question)}`,
-      },
-    ]);
+			let output = "";
+			let error = "";
 
-    return shouldContinue;
-  }
+			child.on("exit", (code) => {
+				if (code) {
+					return reject(error);
+				}
+				resolve(output);
+			});
 
-  async promptToChoose<Choice>(message: string, choices: Record<string, Choice>): Promise<Choice> {
-    const { choice } = await prompts([
-      {
-        name: "choice",
-        message,
-        type: "select",
-        choices: Object.entries(choices).map(([title, value]) => ({
-          title,
-          value,
-        })),
-      },
-    ]);
+			if (child.stdout) {
+				child.stdout.on("data", (data) => {
+					output += `\n${data}`;
+				});
+			}
+			if (child.stderr) {
+				child.stderr.on("data", (data) => {
+					error += `\n${data}`;
+				});
+			}
+		});
+	}
 
-    return choice;
-  }
+	async promptToContinue(message: string, question: string): Promise<boolean> {
+		const { shouldContinue } = await prompts([
+			{
+				type: "confirm",
+				name: "shouldContinue",
+				message: `${message}, ${this.colorService.red(question)}`,
+			},
+		]);
 
-  async promptOverwriteFileDiff(file: string, diff: Change[]): Promise<boolean> {
-    const hasDiff = diff.some((part) => part.added !== undefined || part.removed !== undefined);
-    if (!hasDiff) {
-      return false;
-    }
+		return shouldContinue;
+	}
 
-    const shouldPrompt = true;
-    while (shouldPrompt) {
-      const action = await this.promptToChoose(
-        `File "${file}" exists already, what do you want to do?`,
-        {
-          "Show diff": PromptOverwriteChoice.DIFF,
-          "Overwrite file": PromptOverwriteChoice.OVERWRITE,
-          "Keep original file": PromptOverwriteChoice.CANCEL,
-        }
-      );
+	async promptToChoose<Choice>(
+		message: string,
+		choices: Record<string, Choice>,
+	): Promise<Choice> {
+		const { choice } = await prompts([
+			{
+				name: "choice",
+				message,
+				type: "select",
+				choices: Object.entries(choices).map(([title, value]) => ({
+					title,
+					value,
+				})),
+			},
+		]);
 
-      if (action === PromptOverwriteChoice.CANCEL) {
-        return false;
-      }
+		return choice;
+	}
 
-      if (action === PromptOverwriteChoice.OVERWRITE) {
-        return true;
-      }
+	async promptOverwriteFileDiff(
+		file: string,
+		diff: Change[],
+	): Promise<boolean> {
+		const hasDiff = diff.some(
+			(part) => part.added !== undefined || part.removed !== undefined,
+		);
+		if (!hasDiff) {
+			return false;
+		}
 
-      // Compare diff
-      let diffMessage = `File ${file} diff:\n-----------------------------------------------\n`;
-      for (const part of diff) {
-        // green for additions, red for deletions
-        // grey for common parts
-        const isSpaces = !!part.value.match(/^[\r\n\s]+$/);
-        const value = part.value === "\n" ? " ".repeat(process.stdout.columns) : part.value;
+		const shouldPrompt = true;
+		while (shouldPrompt) {
+			const action = await this.promptToChoose(
+				`File "${file}" exists already, what do you want to do?`,
+				{
+					"Show diff": PromptOverwriteChoice.DIFF,
+					"Overwrite file": PromptOverwriteChoice.OVERWRITE,
+					"Keep original file": PromptOverwriteChoice.CANCEL,
+				},
+			);
 
-        let coloredValue: string;
-        switch (true) {
-          case !!part.added:
-            coloredValue = isSpaces
-              ? this.colorService.greenBright(value)
-              : this.colorService.greenBright(value);
-            break;
-          case !!part.removed:
-            coloredValue = isSpaces
-              ? this.colorService.greenBright(value)
-              : this.colorService.redBright(value);
-            break;
-          default:
-            coloredValue = this.colorService.gray(value);
-            break;
-        }
+			if (action === PromptOverwriteChoice.CANCEL) {
+				return false;
+			}
 
-        diffMessage += coloredValue;
-      }
+			if (action === PromptOverwriteChoice.OVERWRITE) {
+				return true;
+			}
 
-      diffMessage += "\n-----------------------------------------------\n";
+			// Compare diff
+			let diffMessage = `File ${file} diff:\n-----------------------------------------------\n`;
+			for (const part of diff) {
+				// green for additions, red for deletions
+				// grey for common parts
+				const isSpaces = !!part.value.match(/^[\r\n\s]+$/);
+				const value =
+					part.value === "\n" ? " ".repeat(process.stdout.columns) : part.value;
 
-      this.consoleService.info(diffMessage);
-      await this.pause();
-    }
-    return false;
-  }
+				let coloredValue: string;
+				switch (true) {
+					case !!part.added:
+						coloredValue = isSpaces
+							? this.colorService.greenBright(value)
+							: this.colorService.greenBright(value);
+						break;
+					case !!part.removed:
+						coloredValue = isSpaces
+							? this.colorService.greenBright(value)
+							: this.colorService.redBright(value);
+						break;
+					default:
+						coloredValue = this.colorService.gray(value);
+						break;
+				}
 
-  getNodeVersion(): string {
-    const nodeVersionMatch = process.version.match(/^v(\d+\.\d+)/);
+				diffMessage += coloredValue;
+			}
 
-    if (!nodeVersionMatch) {
-      throw new Error("Unable to retrieve node version");
-    }
-    return nodeVersionMatch[1];
-  }
+			diffMessage += "\n-----------------------------------------------\n";
 
-  getGlobalCmd(cmd: string): string | null {
-    if (this.getCmd(cmd)) {
-      return cmd;
-    }
-    if (this.getCmd("npx")) {
-      return `npx ${cmd}`;
-    }
-    return null;
-  }
+			this.consoleService.info(diffMessage);
+			await this.pause();
+		}
+		return false;
+	}
 
-  async upgradeGlobalPackage(packageName: string): Promise<void> {
-    const outdatedInfo = await this.execCmd(
-      ["npm", "outdated", "-g", packageName, "--json", "||", "true"],
-      undefined,
-      true
-    );
+	getNodeVersion(): string {
+		const nodeVersionMatch = process.version.match(/^v(\d+\.\d+)/);
 
-    if (outdatedInfo) {
-      const outdatedData = JSON.parse(outdatedInfo);
-      if (
-        outdatedData[packageName]?.current &&
-        outdatedData[packageName].current !== outdatedData[packageName].latest
-      ) {
-        await this.execCmd(["npm", "install", "-g", packageName], undefined);
-      }
-    }
-  }
+		if (!nodeVersionMatch) {
+			throw new Error("Unable to retrieve node version");
+		}
+		return nodeVersionMatch[1];
+	}
 
-  private pause(message = "Press any key to continue...") {
-    return new Promise((resolve, reject) => {
-      try {
-        this.consoleService.info(message);
-        process.stdin.setRawMode(true);
-        process.stdin.resume();
-        process.stdin.on("data", resolve);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
+	getGlobalCmd(cmd: string): string | null {
+		if (this.getCmd(cmd)) {
+			return cmd;
+		}
+		if (this.getCmd("npx")) {
+			return `npx ${cmd}`;
+		}
+		return null;
+	}
+
+	async upgradeGlobalPackage(packageName: string): Promise<void> {
+		const outdatedInfo = await this.execCmd(
+			["npm", "outdated", "-g", packageName, "--json", "||", "true"],
+			undefined,
+			true,
+		);
+
+		if (outdatedInfo) {
+			const outdatedData = JSON.parse(outdatedInfo);
+			if (
+				outdatedData[packageName]?.current &&
+				outdatedData[packageName].current !== outdatedData[packageName].latest
+			) {
+				await this.execCmd(["npm", "install", "-g", packageName], undefined);
+			}
+		}
+	}
+
+	private pause(message = "Press any key to continue...") {
+		return new Promise((resolve, reject) => {
+			try {
+				this.consoleService.info(message);
+				process.stdin.setRawMode(true);
+				process.stdin.resume();
+				process.stdin.on("data", resolve);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
 }

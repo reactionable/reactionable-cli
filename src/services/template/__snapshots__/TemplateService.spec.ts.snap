@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`templateService renderTemplate should create a file from given namespace 1`] = `
+exports[`templateService > renderTemplate > should create a file from given namespace 1`] = `
 "import { initializeI18n } from '@reactionable/core';
 import enCommon from './locales/en/common.json';
 import frCommon from './locales/fr/common.json';
@@ -14,17 +14,16 @@ const resources = {
   },
 };
 
-
 initializeI18n({ resources });"
 `;
 
-exports[`templateService renderTemplate should create a file from given namespace 2`] = `
+exports[`templateService > renderTemplate > should create a file from given namespace 2`] = `
 "{
   "test-project": "test-project"
 }"
 `;
 
-exports[`templateService renderTemplate should create a file from given namespace having nested config: TestEntitiesConfig.tsx 1`] = `
+exports[`templateService > renderTemplate > should create a file from given namespace having nested config > TestEntitiesConfig.tsx 1`] = `
 "import { useList, useRead, useTranslation } from '@reactionable/core';
 import React from 'react';
 import { FormField, IUseCrudConfigResult } from 'undefined';
@@ -35,9 +34,7 @@ export type ITestEntityData = {
   label: string;
 };
 
-
 export type ITestEntityValues = Omit<ITestEntityData, "id">;
-
 
 const FormChildren = () => {
   const { t } = useTranslation("testEntities");
@@ -48,7 +45,6 @@ const FormChildren = () => {
     </>
   );
 };
-
 
 export const useTestEntitiesConfig = (): IUseCrudConfigResult<
   ITestEntityValues,
@@ -83,7 +79,7 @@ export const useTestEntitiesConfig = (): IUseCrudConfigResult<
 };"
 `;
 
-exports[`templateService renderTemplate should create a file from given namespace having nested config: testEntities.json 1`] = `
+exports[`templateService > renderTemplate > should create a file from given namespace having nested config > testEntities.json 1`] = `
 "{
   "Test entity label must be at least 1 characters": "Test entity label must be at least 1 characters",
   "Test entity label is required": "Test entity label is required",

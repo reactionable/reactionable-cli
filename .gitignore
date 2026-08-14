@@ -58,3 +58,5 @@ eslint-report.json
 
 /dist
 /build
+package.json
+junit.xml

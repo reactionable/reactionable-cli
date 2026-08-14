@@ -1,7 +1,13 @@
-import { TemplateContext } from "../TemplateContext";
+import type { TemplateContext } from "../TemplateContext";
 
 export interface TemplateAdapter {
-  renderTemplateString(template: string, context: TemplateContext): Promise<string>;
+	renderTemplateString(
+		template: string,
+		context: TemplateContext,
+	): Promise<string>;
 
-  renderTemplateFile(templateKey: string, context: TemplateContext): Promise<string>;
+	renderTemplateFile(
+		templateKey: string,
+		context: TemplateContext,
+	): Promise<string>;
 }
