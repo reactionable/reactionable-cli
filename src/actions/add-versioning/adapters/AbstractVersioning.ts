@@ -1,68 +1,91 @@
 import { inject } from "inversify";
-import { Result } from "parse-github-url";
+import type { Result } from "parse-github-url";
 import prompts from "prompts";
 
 import { ConsoleService } from "../../../services/ConsoleService";
 import { GitService } from "../../../services/git/GitService";
 import { PackageManagerService } from "../../../services/package-manager/PackageManagerService";
 import { AbstractAdapterAction } from "../../AbstractAdapterAction";
-import { VersioningAdapter, VersioningAdapterOptions } from "../VersioningAdapter";
+import type {
+	VersioningAdapter,
+	VersioningAdapterOptions,
+} from "../VersioningAdapter";
 
 export default abstract class AbstractVersioning
-  extends AbstractAdapterAction
-  implements VersioningAdapter
+	extends AbstractAdapterAction
+	implements VersioningAdapter
 {
-  constructor(
-    @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(PackageManagerService)
-    protected readonly packageManagerService: PackageManagerService,
-    @inject(GitService) protected readonly gitService: GitService
-  ) {
-    super();
-  }
+	constructor(
+		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
+		@inject(PackageManagerService)
+		protected readonly _packageManagerService: PackageManagerService,
+		@inject(GitService) protected readonly _gitService: GitService,
+	) {
+		super();
+	}
 
-  async isEnabled(realpath: string): Promise<boolean> {
-    return this.gitService.isAGitRepository(realpath);
-  }
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-  async run({ realpath }: VersioningAdapterOptions): Promise<void> {
-    await this.gitService.initializeGit(realpath);
+	get packageManagerService(): PackageManagerService {
+		return this._packageManagerService;
+	}
 
-    const gitRemoteOriginUrl = await this.gitService.getGitRemoteOriginUrl(realpath, false);
+	get gitService(): GitService {
+		return this._gitService;
+	}
 
-    if (!gitRemoteOriginUrl) {
-      this.consoleService.info("Define git remote url...");
+	async isEnabled(realpath: string): Promise<boolean> {
+		return this.gitService.isAGitRepository(realpath);
+	}
 
-      const { remoteOriginUrl } = await prompts([
-        {
-          type: "text",
-          name: "remoteOriginUrl",
-          message: "Remote origin url (https://gitxxx.com/username/new_repo)",
-          validate: (input) => {
-            const result = this.validateGitRemote(input);
-            return typeof result === "string" ? result : true;
-          },
-        },
-      ]);
+	async run({ realpath }: VersioningAdapterOptions): Promise<void> {
+		await this.gitService.initializeGit(realpath);
 
-      await this.gitService.execGitCmd(["remote", "add", "origin", remoteOriginUrl], realpath);
-      this.consoleService.info(`Git remote url as been set to "${remoteOriginUrl}"`);
-    }
+		const gitRemoteOriginUrl = await this.gitService.getGitRemoteOriginUrl(
+			realpath,
+			false,
+		);
 
-    await this.packageManagerService.updatePackageJson(realpath, {
-      repository: {
-        type: "git",
-        url: `git+${gitRemoteOriginUrl}`,
-      },
-    });
+		if (!gitRemoteOriginUrl) {
+			this.consoleService.info("Define git remote url...");
 
-    return this.gitService.commitFiles(realpath, "initial commit", "feat");
-  }
+			const { remoteOriginUrl } = await prompts([
+				{
+					type: "text",
+					name: "remoteOriginUrl",
+					message: "Remote origin url (https://gitxxx.com/username/new_repo)",
+					validate: (input) => {
+						const result = this.validateGitRemote(input);
+						return typeof result === "string" ? result : true;
+					},
+				},
+			]);
 
-  validateGitRemote(input: string): string | Result {
-    return (
-      this.gitService.parseGitRemoteUrl(input) ||
-      `Could not parse Git remote from given url "${input}"`
-    );
-  }
+			await this.gitService.execGitCmd(
+				["remote", "add", "origin", remoteOriginUrl],
+				realpath,
+			);
+			this.consoleService.info(
+				`Git remote url as been set to "${remoteOriginUrl}"`,
+			);
+		}
+
+		await this.packageManagerService.updatePackageJson(realpath, {
+			repository: {
+				type: "git",
+				url: `git+${gitRemoteOriginUrl}`,
+			},
+		});
+
+		return this.gitService.commitFiles(realpath, "initial commit", "feat");
+	}
+
+	validateGitRemote(input: string): string | Result {
+		return (
+			this.gitService.parseGitRemoteUrl(input) ||
+			`Could not parse Git remote from given url "${input}"`
+		);
+	}
 }

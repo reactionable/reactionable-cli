@@ -1,7 +1,8 @@
-import { RunnableAction, RunnableOptions } from "./RunnableAction";
+import type { RunnableAction, RunnableOptions } from "./RunnableAction";
 
 export interface RealpathActionOptions extends RunnableOptions {
-  realpath: string;
+	realpath: string;
 }
-export type RealpathAction<O extends RealpathActionOptions = RealpathActionOptions> =
-  RunnableAction<O>;
+export type RealpathAction<
+	O extends RealpathActionOptions = RealpathActionOptions,
+> = RunnableAction<O>;

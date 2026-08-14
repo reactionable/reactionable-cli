@@ -1,87 +1,95 @@
-import { join } from "path";
+import { join } from "node:path";
 
 import container from "../../container";
 import { mockDir, mockDirPath, restoreMockFs } from "../../tests/mock-fs";
 import { FileDiffService } from "./FileDiffService";
 
 describe("FileDiffService", () => {
-  const fileName = "test.txt";
-  const filePath = join(mockDirPath, fileName);
+	const fileName = "test.txt";
+	const filePath = join(mockDirPath, fileName);
 
-  let service: FileDiffService;
+	let service: FileDiffService;
 
-  beforeEach(() => {
-    // Initialize service before each test to not be confused by cache
-    container.snapshot();
-    service = container.get(FileDiffService);
-  });
+	beforeEach(() => {
+		// Initialize service before each test to not be confused by cache
+		container.snapshot();
+		service = container.get(FileDiffService);
+	});
 
-  afterEach(() => {
-    container.restore();
-    restoreMockFs();
-  });
+	afterEach(() => {
+		container.restore();
+		restoreMockFs();
+	});
 
-  describe("getFileContentDiff", () => {
-    it("should retrieve empty diff when file content and new content are the same", async () => {
-      const originalContent = `line 1 content
+	describe("getFileContentDiff", () => {
+		it("should retrieve empty diff when file content and new content are the same", async () => {
+			const originalContent = `line 1 content
 line 2 content
 line 3 content
 line 4 content`;
 
-      mockDir({ [fileName]: originalContent });
+			mockDir({ [fileName]: originalContent });
 
-      const diffs = await service.getFileContentChanges(filePath, originalContent, originalContent);
+			const diffs = await service.getFileContentChanges(
+				filePath,
+				originalContent,
+				originalContent,
+			);
 
-      expect(diffs).toEqual([]);
-    });
+			expect(diffs).toEqual([]);
+		});
 
-    it("should retrieve diffs when file content and new content are different", async () => {
-      const originalContent = `line 1 content
+		it("should retrieve diffs when file content and new content are different", async () => {
+			const originalContent = `line 1 content
 line 2 content
 line 3 content
 line 4 content`;
 
-      const newContent = `line 1 content
+			const newContent = `line 1 content
 line 2 content
 line new content
 line 4 content`;
 
-      mockDir({ [fileName]: originalContent });
+			mockDir({ [fileName]: originalContent });
 
-      const diffs = await service.getFileContentChanges(filePath, originalContent, newContent);
+			const diffs = await service.getFileContentChanges(
+				filePath,
+				originalContent,
+				newContent,
+			);
 
-      expect(diffs).toEqual([
-        {
-          added: false,
-          count: 1,
-          removed: false,
-          value: "line 1 content\n",
-        },
-        {
-          added: false,
-          count: 1,
-          removed: false,
-          value: "line 2 content\n",
-        },
-        {
-          added: false,
-          count: 1,
-          removed: true,
-          value: "line 3 content\n",
-        },
-        {
-          added: true,
-          count: 1,
-          removed: false,
-          value: "line new content\n",
-        },
-        {
-          added: false,
-          count: 1,
-          removed: false,
-          value: "line 4 content",
-        },
-      ]);
-    });
-  });
+			expect(diffs).toEqual([
+				{
+					added: false,
+					count: 1,
+					removed: false,
+					value: "line 1 content\n",
+				},
+				{
+					added: false,
+					count: 1,
+					removed: false,
+					value: "line 2 content\n",
+				},
+				{
+					added: false,
+					count: 1,
+					removed: true,
+					value: "line 3 content\n",
+				},
+				{
+					added: true,
+					count: 1,
+					removed: false,
+					value: "line new content\n",
+				},
+				{
+					added: false,
+					count: 1,
+					removed: false,
+					value: "line 4 content",
+				},
+			]);
+		});
+	});
 });

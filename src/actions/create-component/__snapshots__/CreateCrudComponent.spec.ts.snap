@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntities.test.tsx": components/test-entities/TestEntities.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/TestEntities.test.tsx" > components/test-entities/TestEntities.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -31,7 +31,7 @@ describe("TestEntities", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntities.tsx": components/test-entities/TestEntities.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/TestEntities.tsx" > components/test-entities/TestEntities.tsx 1`] = `
 "import { Crud, useTranslation } from '@reactionable/core';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData } from './TestEntitiesConfig';
@@ -41,7 +41,6 @@ const ListTestEntities = lazy(() => import("./list-test-entities/ListTestEntitie
 const ReadTestEntity = lazy(() => import("./read-test-entity/ReadTestEntity"));
 
 type ITestEntitiesProps = unknown;
-
 
 const TestEntities = (props: PropsWithChildren<ITestEntitiesProps>): ReactElement => {
   const { t } = useTranslation();
@@ -61,7 +60,7 @@ readComponent={ ReadTestEntity }
 export default TestEntities;"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/TestEntitiesConfig.tsx": components/test-entities/TestEntitiesConfig.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/TestEntitiesConfig.tsx" > components/test-entities/TestEntitiesConfig.tsx 1`] = `
 "import { useList, useRead, useTranslation } from '@reactionable/core';
 import { FormField, IUseCrudConfigResult } from '@reactionable/ui-bootstrap';
 import React from 'react';
@@ -72,9 +71,7 @@ export type ITestEntityData = {
   label: string;
 };
 
-
 export type ITestEntityValues = Omit<ITestEntityData, "id">;
-
 
 const FormChildren = () => {
   const { t } = useTranslation("testEntities");
@@ -85,7 +82,6 @@ const FormChildren = () => {
     </>
   );
 };
-
 
 export const useTestEntitiesConfig = (): IUseCrudConfigResult<
   ITestEntityValues,
@@ -120,7 +116,7 @@ export const useTestEntitiesConfig = (): IUseCrudConfigResult<
 };"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.test.tsx": components/test-entities/create-test-entity/CreateTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.test.tsx" > components/test-entities/create-test-entity/CreateTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -151,7 +147,7 @@ describe("CreateTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.tsx": components/test-entities/create-test-entity/CreateTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.tsx" > components/test-entities/create-test-entity/CreateTestEntity.tsx 1`] = `
 "import { useTranslation } from '@reactionable/core';
 import { Create, ICreateProps } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -160,7 +156,6 @@ import { ITestEntityData, ITestEntityValues, useTestEntitiesConfig } from '../Te
 type ICreateTestEntityProps = {
   onSuccess?: ICreateProps<ITestEntityValues, ITestEntityData>["form"]["onSuccess"];
 };
-
 
 const CreateTestEntity = (props: PropsWithChildren<ICreateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
@@ -190,7 +185,7 @@ const form = {
 export default CreateTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx" > components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -221,7 +216,7 @@ describe("DeleteTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.tsx" > components/test-entities/delete-test-entity/DeleteTestEntity.tsx 1`] = `
 "import { useTranslation } from '@reactionable/core';
 import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -232,7 +227,6 @@ type IDeleteTestEntityProps = {
   onSuccess?: IDeleteProps<ITestEntityData>["onSuccess"];
   label?: boolean;
 };
-
 
 const DeleteTestEntity = (props: PropsWithChildren<IDeleteTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
@@ -256,7 +250,7 @@ onConfirm={() => onDelete(id)}
 export default DeleteTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.test.tsx": components/test-entities/list-test-entities/ListTestEntities.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/list-test-entities/ListTestEntities.test.tsx" > components/test-entities/list-test-entities/ListTestEntities.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -287,21 +281,18 @@ describe("ListTestEntities", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx": components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx" > components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
 "import { Head, Suspense, generatePath, useRouteMatch, useTranslation } from '@reactionable/core';
 import { Link, ListTable } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData, useTestEntitiesConfig } from '../TestEntitiesConfig';
 
 const CreateTestEntity = lazy(() => import("../create-test-entity/CreateTestEntity"));
-
 const DeleteTestEntity = lazy(() => import("../delete-test-entity/DeleteTestEntity"));
-
 
 type IGoToTestEntityLinkProps = { 
   data: ITestEntityData;
 }
-
 
 const GoToTestEntityLink = ({ data, children }: PropsWithChildren<IGoToTestEntityLinkProps>): ReactElement => {
   const match = useRouteMatch();
@@ -314,12 +305,10 @@ const GoToTestEntityLink = ({ data, children }: PropsWithChildren<IGoToTestEntit
   return <Link href={href} title={title}>{data.label}</Link>;
 }
 
-
 type ITestEntityItemProps = { 
   data: ITestEntityData;
   refetch: () => void;
 }
-
 
 const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
   const { t } = useTranslation("testEntities");
@@ -340,7 +329,6 @@ const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityIt
 };
 
 type IListTestEntitiesProps = unknown;
-
 
 const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): ReactElement => {
   const { t } = useTranslation();
@@ -375,7 +363,7 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
 export default ListTestEntities;"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.test.tsx": components/test-entities/read-test-entity/ReadTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.test.tsx" > components/test-entities/read-test-entity/ReadTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -406,7 +394,7 @@ describe("ReadTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.tsx": components/test-entities/read-test-entity/ReadTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.tsx" > components/test-entities/read-test-entity/ReadTestEntity.tsx 1`] = `
 "import { Head, Suspense, useRouteMatch, useTranslation } from '@reactionable/core';
 import { Link, Read } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
@@ -414,12 +402,10 @@ import { ITestEntityData, useTestEntitiesConfig } from '../TestEntitiesConfig';
 
 const UpdateTestEntity = lazy(() => import("../update-test-entity/UpdateTestEntity"));
 
-
 type ITestEntityItemProps = { 
   data: ITestEntityData;
   refetch: () => void;
 }
-
 
 const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
   const { t } = useTranslation("testEntities");
@@ -443,7 +429,6 @@ const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItem
 
 type IReadTestEntityProps = unknown;
 
-
 const ReadTestEntity = (props: PropsWithChildren<IReadTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
   const matchParams = useRouteMatch().params;
@@ -465,7 +450,7 @@ const readProps = useRead({
 export default ReadTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.test.tsx": components/test-entities/update-test-entity/UpdateTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.test.tsx" > components/test-entities/update-test-entity/UpdateTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -496,7 +481,7 @@ describe("UpdateTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.tsx": components/test-entities/update-test-entity/UpdateTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.tsx" > components/test-entities/update-test-entity/UpdateTestEntity.tsx 1`] = `
 "import { useRouteMatch, useTranslation } from '@reactionable/core';
 import { IUpdateProps, Update } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -506,7 +491,6 @@ type IUpdateTestEntityProps = {
   initialValues: IUpdateProps<ITestEntityValues, ITestEntityData>["form"]["initialValues"];
   onSuccess?: IUpdateProps<ITestEntityValues, ITestEntityData>["form"]["onSuccess"];
 };
-
 
 const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
@@ -549,7 +533,7 @@ const form = {
 export default UpdateTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "i18n/i18n.ts": i18n/i18n.ts 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "i18n/i18n.ts" > i18n/i18n.ts 1`] = `
 "import { initializeI18n } from '@reactionable/core';
 import enCommon from './locales/en/common.json';
 import enTestEntities from './locales/en/testEntities.json';
@@ -557,23 +541,18 @@ import frCommon from './locales/fr/common.json';
 import frTestEntities from './locales/fr/testEntities.json';
 
 const resources = {
-  en: {
-    common: enCommon,
-    testEntities: enTestEntities,
-  },
-  fr: {
-    common: frCommon,
-    testEntities: frTestEntities,
-  },
+	en: {
+		common: enCommon,
+	},
+	fr: {
+		common: frCommon,
+	},
 };
-
-
-
 
 initializeI18n({ resources });"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "i18n/locales/en/testEntities.json": i18n/locales/en/testEntities.json 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "i18n/locales/en/testEntities.json" > i18n/locales/en/testEntities.json 1`] = `
 "{
   "Test entity label must be at least 1 characters": "Test entity label must be at least 1 characters",
   "Test entity label is required": "Test entity label is required",
@@ -595,7 +574,7 @@ exports[`createCrudComponent Run for a NextJs project should create crud compone
 }"
 `;
 
-exports[`createCrudComponent Run for a NextJs project should create crud component file "i18n/locales/fr/testEntities.json": i18n/locales/fr/testEntities.json 1`] = `
+exports[`createCrudComponent > Run for a NextJs project > should create crud component file "i18n/locales/fr/testEntities.json" > i18n/locales/fr/testEntities.json 1`] = `
 "{
   "Test entity label must be at least 1 characters": "Le libellé de l'Test entity doit contenir  au moins 1 charactère",
   "Test entity label is required": "Le libellé de l'Test entity est obligatoire",
@@ -617,7 +596,7 @@ exports[`createCrudComponent Run for a NextJs project should create crud compone
 }"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/TestEntities.test.tsx": components/test-entities/TestEntities.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/TestEntities.test.tsx" > components/test-entities/TestEntities.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -648,7 +627,7 @@ describe("TestEntities", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/TestEntities.tsx": components/test-entities/TestEntities.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/TestEntities.tsx" > components/test-entities/TestEntities.tsx 1`] = `
 "import { Crud, useTranslation } from '@reactionable/core';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData } from './TestEntitiesConfig';
@@ -658,7 +637,6 @@ const ListTestEntities = lazy(() => import("./list-test-entities/ListTestEntitie
 const ReadTestEntity = lazy(() => import("./read-test-entity/ReadTestEntity"));
 
 type ITestEntitiesProps = unknown;
-
 
 const TestEntities = (props: PropsWithChildren<ITestEntitiesProps>): ReactElement => {
   const { t } = useTranslation();
@@ -678,7 +656,7 @@ readComponent={ ReadTestEntity }
 export default TestEntities;"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/TestEntitiesConfig.tsx": components/test-entities/TestEntitiesConfig.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/TestEntitiesConfig.tsx" > components/test-entities/TestEntitiesConfig.tsx 1`] = `
 "import { useList, useRead, useTranslation } from '@reactionable/core';
 import { FormField, IUseCrudConfigResult } from '@reactionable/ui-bootstrap';
 import React from 'react';
@@ -689,9 +667,7 @@ export type ITestEntityData = {
   label: string;
 };
 
-
 export type ITestEntityValues = Omit<ITestEntityData, "id">;
-
 
 const FormChildren = () => {
   const { t } = useTranslation("testEntities");
@@ -702,7 +678,6 @@ const FormChildren = () => {
     </>
   );
 };
-
 
 export const useTestEntitiesConfig = (): IUseCrudConfigResult<
   ITestEntityValues,
@@ -737,7 +712,7 @@ export const useTestEntitiesConfig = (): IUseCrudConfigResult<
 };"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.test.tsx": components/test-entities/create-test-entity/CreateTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.test.tsx" > components/test-entities/create-test-entity/CreateTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -768,7 +743,7 @@ describe("CreateTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.tsx": components/test-entities/create-test-entity/CreateTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/create-test-entity/CreateTestEntity.tsx" > components/test-entities/create-test-entity/CreateTestEntity.tsx 1`] = `
 "import { useTranslation } from '@reactionable/core';
 import { Create, ICreateProps } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -777,7 +752,6 @@ import { ITestEntityData, ITestEntityValues, useTestEntitiesConfig } from '../Te
 type ICreateTestEntityProps = {
   onSuccess?: ICreateProps<ITestEntityValues, ITestEntityData>["form"]["onSuccess"];
 };
-
 
 const CreateTestEntity = (props: PropsWithChildren<ICreateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
@@ -807,7 +781,7 @@ const form = {
 export default CreateTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx" > components/test-entities/delete-test-entity/DeleteTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -838,7 +812,7 @@ describe("DeleteTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.tsx": components/test-entities/delete-test-entity/DeleteTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/delete-test-entity/DeleteTestEntity.tsx" > components/test-entities/delete-test-entity/DeleteTestEntity.tsx 1`] = `
 "import { useTranslation } from '@reactionable/core';
 import { Delete, IDeleteProps } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -849,7 +823,6 @@ type IDeleteTestEntityProps = {
   onSuccess?: IDeleteProps<ITestEntityData>["onSuccess"];
   label?: boolean;
 };
-
 
 const DeleteTestEntity = (props: PropsWithChildren<IDeleteTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
@@ -873,7 +846,7 @@ onConfirm={() => onDelete(id)}
 export default DeleteTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.test.tsx": components/test-entities/list-test-entities/ListTestEntities.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/list-test-entities/ListTestEntities.test.tsx" > components/test-entities/list-test-entities/ListTestEntities.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -904,21 +877,18 @@ describe("ListTestEntities", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx": components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/list-test-entities/ListTestEntities.tsx" > components/test-entities/list-test-entities/ListTestEntities.tsx 1`] = `
 "import { Head, Suspense, generatePath, useRouteMatch, useTranslation } from '@reactionable/core';
 import { Link, ListTable } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
 import { ITestEntityData, useTestEntitiesConfig } from '../TestEntitiesConfig';
 
 const CreateTestEntity = lazy(() => import("../create-test-entity/CreateTestEntity"));
-
 const DeleteTestEntity = lazy(() => import("../delete-test-entity/DeleteTestEntity"));
-
 
 type IGoToTestEntityLinkProps = { 
   data: ITestEntityData;
 }
-
 
 const GoToTestEntityLink = ({ data, children }: PropsWithChildren<IGoToTestEntityLinkProps>): ReactElement => {
   const match = useRouteMatch();
@@ -931,12 +901,10 @@ const GoToTestEntityLink = ({ data, children }: PropsWithChildren<IGoToTestEntit
   return <Link href={href} title={title}>{data.label}</Link>;
 }
 
-
 type ITestEntityItemProps = { 
   data: ITestEntityData;
   refetch: () => void;
 }
-
 
 const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
   const { t } = useTranslation("testEntities");
@@ -957,7 +925,6 @@ const ListTestEntitiesItem = ({ data, refetch }: PropsWithChildren<ITestEntityIt
 };
 
 type IListTestEntitiesProps = unknown;
-
 
 const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): ReactElement => {
   const { t } = useTranslation();
@@ -992,7 +959,7 @@ const ListTestEntities = (props: PropsWithChildren<IListTestEntitiesProps>): Rea
 export default ListTestEntities;"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.test.tsx": components/test-entities/read-test-entity/ReadTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.test.tsx" > components/test-entities/read-test-entity/ReadTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -1023,7 +990,7 @@ describe("ReadTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.tsx": components/test-entities/read-test-entity/ReadTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/read-test-entity/ReadTestEntity.tsx" > components/test-entities/read-test-entity/ReadTestEntity.tsx 1`] = `
 "import { Head, Suspense, useRouteMatch, useTranslation } from '@reactionable/core';
 import { Link, Read } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement, lazy } from 'react';
@@ -1031,12 +998,10 @@ import { ITestEntityData, useTestEntitiesConfig } from '../TestEntitiesConfig';
 
 const UpdateTestEntity = lazy(() => import("../update-test-entity/UpdateTestEntity"));
 
-
 type ITestEntityItemProps = { 
   data: ITestEntityData;
   refetch: () => void;
 }
-
 
 const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItemProps>): ReactElement => {
   const { t } = useTranslation("testEntities");
@@ -1060,7 +1025,6 @@ const ReadTestEntityItem = ({ data, refetch }: PropsWithChildren<ITestEntityItem
 
 type IReadTestEntityProps = unknown;
 
-
 const ReadTestEntity = (props: PropsWithChildren<IReadTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
   const matchParams = useRouteMatch().params;
@@ -1082,7 +1046,7 @@ const readProps = useRead({
 export default ReadTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.test.tsx": components/test-entities/update-test-entity/UpdateTestEntity.test.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.test.tsx" > components/test-entities/update-test-entity/UpdateTestEntity.test.tsx 1`] = `
 "import { IIdentityProviderProps, useIdentityProviderProps } from '@reactionable/amplify';
 import { TestWrapper, i18nTestInstance } from '@reactionable/core';
 import { IUIProviderProps, useUIProviderProps } from '@reactionable/ui-bootstrap';
@@ -1113,7 +1077,7 @@ describe("UpdateTestEntity", () => {
 });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.tsx": components/test-entities/update-test-entity/UpdateTestEntity.tsx 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "components/test-entities/update-test-entity/UpdateTestEntity.tsx" > components/test-entities/update-test-entity/UpdateTestEntity.tsx 1`] = `
 "import { useRouteMatch, useTranslation } from '@reactionable/core';
 import { IUpdateProps, Update } from '@reactionable/ui-bootstrap';
 import React, { PropsWithChildren, ReactElement } from 'react';
@@ -1123,7 +1087,6 @@ type IUpdateTestEntityProps = {
   initialValues: IUpdateProps<ITestEntityValues, ITestEntityData>["form"]["initialValues"];
   onSuccess?: IUpdateProps<ITestEntityValues, ITestEntityData>["form"]["onSuccess"];
 };
-
 
 const UpdateTestEntity = (props: PropsWithChildren<IUpdateTestEntityProps>): ReactElement => {
   const { t } = useTranslation();
@@ -1166,7 +1129,7 @@ const form = {
 export default UpdateTestEntity;"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "i18n/i18n.ts": i18n/i18n.ts 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "i18n/i18n.ts" > i18n/i18n.ts 1`] = `
 "import { initializeI18n } from '@reactionable/core';
 import enCommon from './locales/en/common.json';
 import enTestEntities from './locales/en/testEntities.json';
@@ -1174,23 +1137,18 @@ import frCommon from './locales/fr/common.json';
 import frTestEntities from './locales/fr/testEntities.json';
 
 const resources = {
-  en: {
-    common: enCommon,
-    testEntities: enTestEntities,
-  },
-  fr: {
-    common: frCommon,
-    testEntities: frTestEntities,
-  },
+	en: {
+		common: enCommon,
+	},
+	fr: {
+		common: frCommon,
+	},
 };
-
-
-
 
 initializeI18n({ resources });"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "i18n/locales/en/testEntities.json": i18n/locales/en/testEntities.json 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "i18n/locales/en/testEntities.json" > i18n/locales/en/testEntities.json 1`] = `
 "{
   "Test entity label must be at least 1 characters": "Test entity label must be at least 1 characters",
   "Test entity label is required": "Test entity label is required",
@@ -1212,7 +1170,7 @@ exports[`createCrudComponent Run for a React project should create crud componen
 }"
 `;
 
-exports[`createCrudComponent Run for a React project should create crud component file "i18n/locales/fr/testEntities.json": i18n/locales/fr/testEntities.json 1`] = `
+exports[`createCrudComponent > Run for a React project > should create crud component file "i18n/locales/fr/testEntities.json" > i18n/locales/fr/testEntities.json 1`] = `
 "{
   "Test entity label must be at least 1 characters": "Le libellé de l'Test entity doit contenir  au moins 1 charactère",
   "Test entity label is required": "Le libellé de l'Test entity est obligatoire",

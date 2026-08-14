@@ -2,7 +2,8 @@ export default `<%
 
 const imports = \`import { Delete, IDeleteProps } from "<%= it.uiPackage %>";
 
-import { I<%= it.entityName %>Data, use<%= it.entitiesName %>Config } from "../<%= it.entitiesName %>Config";\`;
+import { I<%= it.entityName %>Data, use<%= it.entitiesName %>Config } from "../<%= it.entitiesName %>Config";
+\`;
 
 const props = \`type IDelete<%= it.entityName %>Props = {
   id: string; 

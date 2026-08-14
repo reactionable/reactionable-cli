@@ -6,7 +6,8 @@ import {
   I<%= it.entityName %>Values, 
   I<%= it.entityName %>Data, 
   use<%= it.entitiesName %>Config
-} from "../<%= it.entitiesName %>Config";\`;
+} from "../<%= it.entitiesName %>Config";
+\`;
 
 const props = \`type ICreate<%= it.entityName %>Props = {
   onSuccess?: ICreateProps<I<%= it.entityName %>Values, I<%= it.entityName %>Data>["form"]["onSuccess"];

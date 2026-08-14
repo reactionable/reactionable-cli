@@ -3,7 +3,8 @@ export default `<%
 const imports = \`import { useRouteMatch } from "<%= it.routerPackage %>";
 import { Update, IUpdateProps } from "<%= it.uiPackage %>";
 
-import { I<%= it.entityName %>Values, I<%= it.entityName %>Data, use<%= it.entitiesName %>Config } from "../<%= it.entitiesName %>Config";\`;
+import { I<%= it.entityName %>Values, I<%= it.entityName %>Data, use<%= it.entitiesName %>Config } from "../<%= it.entitiesName %>Config";
+\`;
 
 const props = \`type IUpdate<%= it.entityName %>Props = {
   initialValues: IUpdateProps<I<%= it.entityName %>Values, I<%= it.entityName %>Data>["form"]["initialValues"];

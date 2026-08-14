@@ -1,15 +1,13 @@
-import { dirname, extname, join, resolve } from "path";
-import { fileURLToPath } from "url";
-
+import { dirname, extname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { inject } from "inversify";
-
+import { DirectoryService } from "../file/DirectoryService";
 import { FileFactory } from "../file/FileFactory";
 import { FileService } from "../file/FileService";
-import { TemplateAdapter } from "./adapters/TemplateAdapter";
+import type { TemplateAdapter } from "./adapters/TemplateAdapter";
 import { AdapterIdentifier } from "./container";
-import { TemplateContext } from "./TemplateContext";
+import type { TemplateContext } from "./TemplateContext";
 import { TemplateFileService } from "./TemplateFileService";
-import { DirectoryService } from "../file/DirectoryService";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,111 +15,180 @@ const __dirname = dirname(__filename);
 type TemplateConfigItem = string[] | TemplateConfig | string;
 
 export type TemplateConfig = {
-  [key: string]: TemplateConfigItem;
+	[key: string]: TemplateConfigItem;
 };
 
 export class TemplateService {
-  constructor(
-    @inject(DirectoryService) private readonly directoryService: DirectoryService,
-    @inject(FileService) private readonly fileService: FileService,
-    @inject(FileFactory) private readonly fileFactory: FileFactory,
-    @inject(TemplateFileService) private readonly templateFileService: TemplateFileService,
-    @inject(AdapterIdentifier) private readonly templateAdapter: TemplateAdapter
-  ) { }
+	constructor(
+		@inject(DirectoryService)
+		private readonly _directoryService: DirectoryService,
+		@inject(FileService) private readonly _fileService: FileService,
+		@inject(FileFactory) private readonly _fileFactory: FileFactory,
+		@inject(TemplateFileService)
+		private readonly _templateFileService: TemplateFileService,
+		@inject(AdapterIdentifier)
+		private readonly _templateAdapter: TemplateAdapter,
+	) {}
 
-  async renderTemplate(
-    dirPath: string,
-    namespace: string,
-    context: TemplateContext = {}
-  ): Promise<void> {
-    const dirRealpath = await this.directoryService.getDirRealpath(dirPath);
+	get directoryService(): DirectoryService {
+		return this._directoryService;
+	}
 
-    const config: TemplateConfig = await this.getTemplateConfig(namespace, context);
-    return this.renderTemplateFromConfig(dirRealpath, namespace, context, config);
-  }
+	get fileService(): FileService {
+		return this._fileService;
+	}
 
-  async renderTemplateFile(templateKey: string, context: TemplateContext): Promise<string> {
-    return this.templateAdapter.renderTemplateFile(templateKey, context);
-  }
+	get fileFactory(): FileFactory {
+		return this._fileFactory;
+	}
 
-  /**
-   * Render the template file(s) form given config
-   */
-  private async renderTemplateFromConfig(
-    dirPath: string,
-    namespace: string,
-    context: TemplateContext,
-    config: TemplateConfigItem
-  ): Promise<void> {
-    if (Array.isArray(config)) {
-      for (const filePath of config) {
-        await this.renderTemplateFromConfig(dirPath, namespace, context, filePath);
-      }
-      return;
-    }
+	get templateFileService(): TemplateFileService {
+		return this._templateFileService;
+	}
 
-    if (typeof config === "object") {
-      for (const dir of Object.keys(config)) {
-        const currentPath = resolve(dirPath, dir);
-        await this.renderTemplateFromConfig(currentPath, namespace, context, config[dir]);
-      }
-      return;
-    }
+	get templateAdapter(): TemplateAdapter {
+		return this._templateAdapter;
+	}
 
-    const currentNamespace = join(namespace, config);
-    const currentPath = extname(dirPath) ? dirPath : join(dirPath, config);
-    const currentBaseDirPath = dirname(currentPath);
+	async renderTemplate(
+		dirPath: string,
+		namespace: string,
+		context: TemplateContext = {},
+	): Promise<void> {
+		const dirRealpath = await this.directoryService.getDirRealpath(dirPath);
 
-    const currentBaseDirExists = await this.directoryService.dirExists(currentBaseDirPath);
-    if (!currentBaseDirExists) {
-      await this.directoryService.createDir(currentBaseDirPath, true);
-    }
+		const config: TemplateConfig = await this.getTemplateConfig(
+			namespace,
+			context,
+		);
+		return this.renderTemplateFromConfig(
+			dirRealpath,
+			namespace,
+			context,
+			config,
+		);
+	}
 
-    const templateKey = await this.getTemplateKey(dirPath, currentPath, currentNamespace);
+	async renderTemplateFile(
+		templateKey: string,
+		context: TemplateContext,
+	): Promise<string> {
+		return this.templateAdapter.renderTemplateFile(templateKey, context);
+	}
 
-    await this.createFileFromTemplate(currentPath, templateKey, context);
-  }
+	/**
+	 * Render the template file(s) form given config
+	 */
+	private async renderTemplateFromConfig(
+		dirPath: string,
+		namespace: string,
+		context: TemplateContext,
+		config: TemplateConfigItem,
+	): Promise<void> {
+		if (Array.isArray(config)) {
+			for (const filePath of config) {
+				await this.renderTemplateFromConfig(
+					dirPath,
+					namespace,
+					context,
+					filePath,
+				);
+			}
+			return;
+		}
 
-  async getTemplateConfig(namespace: string, context: TemplateContext): Promise<TemplateConfig> {
-    const templateKey = join(namespace, "config");
-    const templateContent = await this.templateFileService.getTemplateFileContent(templateKey);
-    const content = await this.templateAdapter.renderTemplateString(templateContent, context);
-    const templateConfig = JSON.parse(content);
-    return templateConfig;
-  }
+		if (typeof config === "object") {
+			for (const dir of Object.keys(config)) {
+				const currentPath = resolve(dirPath, dir);
+				await this.renderTemplateFromConfig(
+					currentPath,
+					namespace,
+					context,
+					config[dir],
+				);
+			}
+			return;
+		}
 
-  async getTemplateKey(dirPath: string, filepath: string, namespace: string): Promise<string> {
-    // Namespace is the template key
-    if (extname(namespace)) {
-      return namespace;
-    }
+		const currentNamespace = join(namespace, config);
+		const currentPath = extname(dirPath) ? dirPath : join(dirPath, config);
+		const currentBaseDirPath = dirname(currentPath);
 
-    const templateKey = join(namespace, filepath.replace(dirPath, ""));
-    const templatePath = join(__dirname, "./../templates", templateKey + ".template");
-    const templateExists = await this.fileService.fileExists(templatePath);
-    if (!templateExists) {
-      throw new Error(`Template file "${templatePath}" does not exist`);
-    }
+		const currentBaseDirExists =
+			await this.directoryService.dirExists(currentBaseDirPath);
+		if (!currentBaseDirExists) {
+			await this.directoryService.createDir(currentBaseDirPath, true);
+		}
 
-    return templateKey;
-  }
+		const templateKey = await this.getTemplateKey(
+			dirPath,
+			currentPath,
+			currentNamespace,
+		);
 
-  async createFileFromTemplate(
-    filePath: string,
-    templateKey: string,
-    context: TemplateContext,
-    encoding: BufferEncoding = "utf8"
-  ): Promise<void> {
-    const parentDir = dirname(filePath);
-    const parentDirExists = await this.directoryService.dirExists(parentDir);
-    if (!parentDirExists) {
-      throw new Error(
-        `Unable to create file "${filePath}", directory "${parentDir}" does not exist`
-      );
-    }
+		await this.createFileFromTemplate(currentPath, templateKey, context);
+	}
 
-    const fileContent = await this.templateAdapter.renderTemplateFile(templateKey, context);
+	async getTemplateConfig(
+		namespace: string,
+		context: TemplateContext,
+	): Promise<TemplateConfig> {
+		const templateKey = join(namespace, "config");
+		const templateContent =
+			await this.templateFileService.getTemplateFileContent(templateKey);
+		const content = await this.templateAdapter.renderTemplateString(
+			templateContent,
+			context,
+		);
+		const templateConfig = JSON.parse(content);
+		return templateConfig;
+	}
 
-    await this.fileFactory.fromString(fileContent, filePath, encoding).saveFile();
-  }
+	async getTemplateKey(
+		dirPath: string,
+		filepath: string,
+		namespace: string,
+	): Promise<string> {
+		// Namespace is the template key
+		if (extname(namespace)) {
+			return namespace;
+		}
+
+		const templateKey = join(namespace, filepath.replace(dirPath, ""));
+		const templatePath = join(
+			__dirname,
+			"./../templates",
+			`${templateKey}.template`,
+		);
+		const templateExists = await this.fileService.fileExists(templatePath);
+		if (!templateExists) {
+			throw new Error(`Template file "${templatePath}" does not exist`);
+		}
+
+		return templateKey;
+	}
+
+	async createFileFromTemplate(
+		filePath: string,
+		templateKey: string,
+		context: TemplateContext,
+		encoding: BufferEncoding = "utf8",
+	): Promise<void> {
+		const parentDir = dirname(filePath);
+		const parentDirExists = await this.directoryService.dirExists(parentDir);
+		if (!parentDirExists) {
+			throw new Error(
+				`Unable to create file "${filePath}", directory "${parentDir}" does not exist`,
+			);
+		}
+
+		const fileContent = await this.templateAdapter.renderTemplateFile(
+			templateKey,
+			context,
+		);
+
+		await this.fileFactory
+			.fromString(fileContent, filePath, encoding)
+			.saveFile();
+	}
 }

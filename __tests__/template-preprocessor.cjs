@@ -1,6 +1,6 @@
 // preprocessor.js
 module.exports = {
-    process(src) {
-      return `${src}`;
-    },
-  };
+	process(src) {
+		return `${src}`;
+	},
+};

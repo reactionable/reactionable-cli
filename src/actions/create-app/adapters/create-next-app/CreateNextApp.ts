@@ -1,136 +1,172 @@
-import { dirname, join, resolve } from "path";
-
+import { dirname, join, resolve } from "node:path";
+import { injectFromBase } from "inversify";
 import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
 import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
-import { injectFromBase } from "inversify";
 
 @injectFromBase()
 export default class CreateNextApp extends AbstractCreateAppAdapter {
-  protected name = "Create a new NextJs app";
+	protected name = "Create a new NextJs app";
 
-  /**
-   * Define the namespace to be used for generating files from templates
-   */
-  protected namespace = "nextjs";
+	/**
+	 * Define the namespace to be used for generating files from templates
+	 */
+	protected namespace = "nextjs";
 
-  /**
-   * Define where the application entrypoint file is located
-   */
-  protected entrypointPath = "pages/_app.tsx";
+	/**
+	 * Define where the application entrypoint file is located
+	 */
+	protected entrypointPath = "pages/_app.tsx";
 
-  /**
-   * Define where the main application file is located
-   */
-  protected applicationPath = "pages/_app.tsx";
+	/**
+	 * Define where the main application file is located
+	 */
+	protected applicationPath = "pages/_app.tsx";
 
-  /**
-   * Define where the lib files are located
-   */
-  protected libPath = "lib";
+	/**
+	 * Define where the lib files are located
+	 */
+	protected libPath = "lib";
 
-  async createApp({
-    realpath,
-    appExistsAlready,
-  }: {
-    realpath: string;
-    appExistsAlready: boolean;
-  }): Promise<void> {
-    if (!appExistsAlready) {
-      const hasGitDir = await this.directoryService.dirExists(resolve(realpath, ".git"));
-      const npxCmd = "create-next-app";
-      const createAppCmd = this.cliService.getGlobalCmd(npxCmd);
-      if (!createAppCmd) {
-        return this.consoleService.error(
-          `Unable to create app, install globally "${npxCmd}" or "npx"`
-        );
-      }
+	async createApp({
+		realpath,
+		appExistsAlready,
+	}: {
+		realpath: string;
+		appExistsAlready: boolean;
+	}): Promise<void> {
+		if (!appExistsAlready) {
+			const hasGitDir = await this.directoryService.dirExists(
+				resolve(realpath, ".git"),
+			);
+			const npxCmd = "create-next-app";
+			const createAppCmd = this.cliService.getGlobalCmd(npxCmd);
+			if (!createAppCmd) {
+				return this.consoleService.error(
+					`Unable to create app, install globally "${npxCmd}" or "npx"`,
+				);
+			}
 
-      // Create app
-      const packageManager = await this.choosePackageManager();
-      if (!packageManager) {
-        return;
-      }
+			// Create app
+			const packageManager = await this.choosePackageManager();
+			if (!packageManager) {
+				return;
+			}
 
-      this.consoleService.info("Creating app...");
-      const cmdArgs = [createAppCmd, realpath];
-      if (packageManager === PackageManagerType.npm) {
-        cmdArgs.push("--use-npm");
-      }
-      await this.cliService.execCmd(cmdArgs, dirname(realpath));
+			this.consoleService.info("Creating app...");
+			const cmdArgs = [createAppCmd, realpath];
+			if (packageManager === PackageManagerType.npm) {
+				cmdArgs.push("--use-npm");
+			}
+			await this.cliService.execCmd(cmdArgs, dirname(realpath));
 
-      // Remove created git dir
-      if (!hasGitDir) {
-        await this.directoryService.removeDir(resolve(realpath, ".git"));
-      }
+			// Remove created git dir
+			if (!hasGitDir) {
+				await this.directoryService.removeDir(resolve(realpath, ".git"));
+			}
 
-      this.consoleService.success(`App has been created in "${realpath}"`);
+			this.consoleService.success(`App has been created in "${realpath}"`);
 
-      await this.fileService.touchFile(join(realpath, "tsconfig.json"));
-      await this.packageManagerService.installPackages(realpath, [
-        "typescript",
-        "@types/react",
-        "@types/node",
-      ]);
-      await this.packageManagerService.execPackageManagerCmd(realpath, ["next", "build"]);
-    }
+			await this.fileService.touchFile(join(realpath, "tsconfig.json"));
+			await this.packageManagerService.installPackages(realpath, [
+				"typescript",
+				"@types/react",
+				"@types/node",
+			]);
+			await this.packageManagerService.execPackageManagerCmd(realpath, [
+				"next",
+				"build",
+			]);
+		}
 
-    // Replace js files
-    this.fileService.replaceFileExtension(resolve(realpath, "pages/_app.js"), "tsx");
-    this.fileService.replaceFileExtension(resolve(realpath, "pages/index.js"), "tsx");
-    this.fileService.replaceFileExtension(resolve(realpath, "pages/api/hello.js"), "ts");
+		// Replace js files
+		this.fileService.replaceFileExtension(
+			resolve(realpath, "pages/_app.js"),
+			"tsx",
+		);
+		this.fileService.replaceFileExtension(
+			resolve(realpath, "pages/index.js"),
+			"tsx",
+		);
+		this.fileService.replaceFileExtension(
+			resolve(realpath, "pages/api/hello.js"),
+			"ts",
+		);
 
-    await this.packageManagerService.uninstallPackages(realpath, ["@types/react", "@types/node"]);
-    await this.packageManagerService.installPackages(realpath, ["@reactionable/nextjs"]);
+		await this.packageManagerService.uninstallPackages(realpath, [
+			"@types/react",
+			"@types/node",
+		]);
+		await this.packageManagerService.installPackages(realpath, [
+			"@reactionable/nextjs",
+		]);
 
-    await this.directoryService.createDir(resolve(realpath, this.libPath, "components"), true);
+		await this.directoryService.createDir(
+			resolve(realpath, this.libPath, "components"),
+			true,
+		);
 
-    // Create app components
-    this.consoleService.info("Create base components...");
-    await this.createComponent.run({
-      realpath,
-      name: "App",
-      componentDirPath: resolve(realpath, this.getAppFilePath()),
-      componentTemplate: "app/nextjs/App.tsx",
-    });
-    this.consoleService.success(`Base components have been created in "${realpath}"`);
-  }
+		// Create app components
+		this.consoleService.info("Create base components...");
+		await this.createComponent.run({
+			realpath,
+			name: "App",
+			componentDirPath: resolve(realpath, this.getAppFilePath()),
+			componentTemplate: "app/nextjs/App.tsx",
+		});
+		this.consoleService.success(
+			`Base components have been created in "${realpath}"`,
+		);
+	}
 
-  async checkIfAppExistsAlready(
-    realpath: string,
-    shouldPrompt = true
-  ): Promise<boolean | undefined> {
-    const appExists = await super.checkIfAppExistsAlready(realpath, shouldPrompt);
-    if (!appExists) {
-      return appExists;
-    }
+	async checkIfAppExistsAlready(
+		realpath: string,
+		shouldPrompt = true,
+	): Promise<boolean | undefined> {
+		const appExists = await super.checkIfAppExistsAlready(
+			realpath,
+			shouldPrompt,
+		);
+		if (!appExists) {
+			return appExists;
+		}
 
-    const reactAppExists =
-      (await this.packageManagerService.hasPackageJson(realpath)) &&
-      (await this.packageManagerService.hasInstalledPackage(realpath, "next"));
+		const reactAppExists =
+			(await this.packageManagerService.hasPackageJson(realpath)) &&
+			(await this.packageManagerService.hasInstalledPackage(realpath, "next"));
 
-    return reactAppExists;
-  }
+		return reactAppExists;
+	}
 
-  async addSass(realpath: string): Promise<void> {
-    await super.addSass(realpath);
+	async addSass(realpath: string): Promise<void> {
+		await super.addSass(realpath);
 
-    // Replace css files
-    this.fileService.replaceFileExtension(resolve(realpath, "styles/globals.css"), "scss");
-    this.fileService.replaceFileExtension(resolve(realpath, "styles/Home.module.css"), "scss");
+		// Replace css files
+		this.fileService.replaceFileExtension(
+			resolve(realpath, "styles/globals.css"),
+			"scss",
+		);
+		this.fileService.replaceFileExtension(
+			resolve(realpath, "styles/Home.module.css"),
+			"scss",
+		);
 
-    const appFile = await this.fileFactory.fromFile(resolve(realpath, this.getAppFilePath()));
+		const appFile = await this.fileFactory.fromFile(
+			resolve(realpath, this.getAppFilePath()),
+		);
 
-    appFile.replaceContent(
-      /import '\.\.\/styles\/globals\.css'/,
-      "import '../styles/globals.scss'"
-    );
-    await appFile.saveFile();
+		appFile.replaceContent(
+			/import '\.\.\/styles\/globals\.css'/,
+			"import '../styles/globals.scss'",
+		);
+		await appFile.saveFile();
 
-    const indexPageFile = await this.fileFactory.fromFile(resolve(realpath, "pages/index.tsx"));
-    indexPageFile.replaceContent(
-      /import styles from '\.\.\/styles\/Home\.module\.css'/,
-      "import styles from '../styles/Home.module.scss'"
-    );
-    await indexPageFile.saveFile();
-  }
+		const indexPageFile = await this.fileFactory.fromFile(
+			resolve(realpath, "pages/index.tsx"),
+		);
+		indexPageFile.replaceContent(
+			/import styles from '\.\.\/styles\/Home\.module\.css'/,
+			"import styles from '../styles/Home.module.scss'",
+		);
+		await indexPageFile.saveFile();
+	}
 }

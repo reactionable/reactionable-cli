@@ -1,94 +1,117 @@
-import { extname } from "path";
-
+import { extname } from "node:path";
 import { inject } from "inversify";
 
 import { CliService } from "../CliService";
+import { DirectoryService } from "./DirectoryService";
 import { FileDiffService } from "./FileDiffService";
 import { FileService } from "./FileService";
 import { JsonFile } from "./JsonFile";
 import { StdFile } from "./StdFile";
 import { TomlFile } from "./TomlFile";
 import { TypescriptFile } from "./TypescriptFile";
-import { DirectoryService } from "./DirectoryService";
 
 export enum FileContentType {
-  mtime,
-  content,
-  lines,
+	mtime,
+	content,
+	lines,
 }
 
 export type CachedFileContent = {
-  [FileContentType.mtime]: Date;
-  [FileContentType.content]: string;
+	[FileContentType.mtime]: Date;
+	[FileContentType.content]: string;
 };
 
 export class FileFactory {
-  private cachedFileContents: Map<string, CachedFileContent> = new Map();
+	private cachedFileContents: Map<string, CachedFileContent> = new Map();
 
-  constructor(
-    @inject(DirectoryService) private readonly directoryService: DirectoryService,
-    @inject(FileService) private readonly fileService: FileService,
-    @inject(FileDiffService) private readonly fileDiffService: FileDiffService,
-    @inject(CliService) private readonly cliService: CliService
-  ) { }
+	constructor(
+		@inject(DirectoryService)
+		private readonly _directoryService: DirectoryService,
+		@inject(FileService) private readonly _fileService: FileService,
+		@inject(FileDiffService) private readonly _fileDiffService: FileDiffService,
+		@inject(CliService) private readonly _cliService: CliService,
+	) {}
 
-  async fromFile<File extends StdFile = StdFile>(
-    file: string,
-    encoding: BufferEncoding = "utf8"
-  ): Promise<File> {
-    const realpath = await this.fileService.getFileRealpath(file);
-    const fileModificationDate = await this.fileService.getFileModificationDate(file);
+	get directoryService(): DirectoryService {
+		return this._directoryService;
+	}
 
-    let content: string | undefined = undefined;
-    const cachedContent = this.cachedFileContents.get(realpath);
-    if (cachedContent && cachedContent[FileContentType.mtime] >= fileModificationDate) {
-      content = cachedContent[FileContentType.content];
-    }
+	get fileService(): FileService {
+		return this._fileService;
+	}
 
-    if (!content) {
-      content = await this.fileService.getFileContent(file, encoding);
+	get fileDiffService(): FileDiffService {
+		return this._fileDiffService;
+	}
 
-      this.cachedFileContents.set(realpath, {
-        [FileContentType.mtime]: fileModificationDate,
-        [FileContentType.content]: content,
-      });
-    }
+	get cliService(): CliService {
+		return this._cliService;
+	}
 
-    try {
-      return this.fromString(content, file, encoding) as File;
-    } catch (error) {
-      throw new Error(`An error occurred while parsing file "${file}": ${JSON.stringify(error)}`, {
-        cause: error,
-      });
-    }
-  }
+	async fromFile<File extends StdFile = StdFile>(
+		file: string,
+		encoding: BufferEncoding = "utf8",
+	): Promise<File> {
+		const realpath = await this.fileService.getFileRealpath(file);
+		const fileModificationDate =
+			await this.fileService.getFileModificationDate(file);
 
-  fromString(
-    content: string,
-    file: string,
-    encoding: BufferEncoding = "utf8"
-  ): StdFile | JsonFile | TomlFile | TypescriptFile {
-    const args = [
-      this.cliService,
-      this.directoryService,
-      this.fileService,
-      this.fileDiffService,
-      this,
-      file,
-      encoding,
-      content,
-    ] as ConstructorParameters<typeof StdFile>;
+		let content: string | undefined;
+		const cachedContent = this.cachedFileContents.get(realpath);
+		if (
+			cachedContent &&
+			cachedContent[FileContentType.mtime] >= fileModificationDate
+		) {
+			content = cachedContent[FileContentType.content];
+		}
 
-    switch (extname(file)) {
-      case ".json":
-        return new JsonFile(...args);
-      case ".toml":
-        return new TomlFile(...args);
-      case ".tsx":
-      case ".ts":
-        return new TypescriptFile(...args);
-      default:
-        return new StdFile(...args);
-    }
-  }
+		if (!content) {
+			content = await this.fileService.getFileContent(file, encoding);
+
+			this.cachedFileContents.set(realpath, {
+				[FileContentType.mtime]: fileModificationDate,
+				[FileContentType.content]: content,
+			});
+		}
+
+		try {
+			return this.fromString(content, file, encoding) as File;
+		} catch (error) {
+			throw new Error(
+				`An error occurred while parsing file "${file}": ${JSON.stringify(error)}`,
+				{
+					cause: error,
+				},
+			);
+		}
+	}
+
+	fromString(
+		content: string,
+		file: string,
+		encoding: BufferEncoding = "utf8",
+	): StdFile | JsonFile | TomlFile | TypescriptFile {
+		const args = [
+			this.cliService,
+			this.directoryService,
+			this.fileService,
+			this.fileDiffService,
+			this,
+			file,
+			encoding,
+			content,
+		] as ConstructorParameters<typeof StdFile>;
+
+		switch (extname(file)) {
+			case ".json":
+				return new JsonFile(...args);
+			case ".toml":
+				return new TomlFile(...args);
+			case ".tsx":
+			case ".ts":
+				return new TypescriptFile(...args);
+			default:
+				return new StdFile(...args);
+		}
+	}
 }

@@ -1,272 +1,323 @@
-import { basename, resolve } from "path";
-
+import { basename, resolve } from "node:path";
 import { inject } from "inversify";
 import shelljs from "shelljs";
 
 import { CliService } from "../CliService";
 import { ConsoleService } from "../ConsoleService";
+import { DirectoryService } from "../file/DirectoryService";
 import { FileFactory } from "../file/FileFactory";
 import { FileService } from "../file/FileService";
-import { JsonFile } from "../file/JsonFile";
-import { StringUtils, StringUtilsMethod, StringUtilsMethods } from "../StringUtils";
-import { AbstractPackageManager } from "./adapters/AbstractPackageManager";
-import { IPackageManager, PackageJson } from "./adapters/IPackageManager";
+import type { JsonFile } from "../file/JsonFile";
+import {
+	StringUtils,
+	type StringUtilsMethod,
+	type StringUtilsMethods,
+} from "../StringUtils";
+import type { AbstractPackageManager } from "./adapters/AbstractPackageManager";
+import type { IPackageManager, PackageJson } from "./adapters/IPackageManager";
 import { NpmPackageManager } from "./adapters/NpmPackageManager";
 import { YarnPackageManager } from "./adapters/YarnPackageManager";
-import { DirectoryService } from "../file/DirectoryService";
 
 export enum PackageManagerType {
-  yarn = "yarn",
-  npm = "npm",
+	yarn = "yarn",
+	npm = "npm",
 }
 
-type AbstractConstructorHelper<T> = (new (...args: unknown[]) => {
-  [x: string]: unknown;
+type AbstractConstructorHelper<T> = (new (
+	...args: unknown[]
+) => {
+	[x: string]: unknown;
 }) &
-  T;
-type AbstractContructorParameters<T> = ConstructorParameters<AbstractConstructorHelper<T>>;
+	T;
+type AbstractContructorParameters<T> = ConstructorParameters<
+	AbstractConstructorHelper<T>
+>;
 
 export class PackageManagerService {
-  private readonly packageManagers: Map<string, IPackageManager> = new Map();
+	private readonly packageManagers: Map<string, IPackageManager> = new Map();
 
-  constructor(
-    @inject(DirectoryService) private readonly directoryService: DirectoryService,
-    @inject(FileService) private readonly fileService: FileService,
-    @inject(FileFactory) private readonly fileFactory: FileFactory,
-    @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(CliService) private readonly cliService: CliService
-  ) {}
+	constructor(
+		@inject(DirectoryService)
+		private readonly _directoryService: DirectoryService,
+		@inject(FileService) private readonly _fileService: FileService,
+		@inject(FileFactory) private readonly _fileFactory: FileFactory,
+		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
+		@inject(CliService) private readonly _cliService: CliService,
+	) {}
 
-  /**
-   * Retrieve all package manager types available for this runtime
-   */
-  getAvailablePackageManagers = (): PackageManagerType[] => {
-    const packageManagers: PackageManagerType[] = [];
-    for (const packageManager in PackageManagerType) {
-      if (shelljs.which(packageManager)) {
-        packageManagers.push(packageManager as PackageManagerType);
-      }
-    }
-    return packageManagers;
-  };
+	get directoryService(): DirectoryService {
+		return this._directoryService;
+	}
 
-  async getPackageManagerCmd(realpath: string): Promise<string> {
-    return (await this.getPackageManager(realpath)).getCmd();
-  }
+	get fileService(): FileService {
+		return this._fileService;
+	}
 
-  async execPackageManagerCmd(
-    realpath: string,
-    cmd: string | string[],
-    silent = false
-  ): Promise<string> {
-    return (await this.getPackageManager(realpath)).execCmd(cmd, silent);
-  }
+	get fileFactory(): FileFactory {
+		return this._fileFactory;
+	}
 
-  async isMonorepoPackage(realpath: string): Promise<boolean> {
-    return (await this.getPackageManager(realpath)).isMonorepoPackage();
-  }
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-  async installPackages(
-    dirPath: string,
-    packages: string[] = [],
-    verbose = true,
-    dev = false
-  ): Promise<string[]> {
-    const packageManager = await this.getPackageManager(dirPath);
+	get cliService(): CliService {
+		return this._cliService;
+	}
 
-    // Remove already installed packges
-    const packagesToInstall: string[] = [];
-    for (const packageName of packages) {
-      const packageIsInstalled = await this.hasInstalledPackage(dirPath, packageName, dev);
-      if (!packageIsInstalled) {
-        packagesToInstall.push(packageName);
-      }
-    }
+	/**
+	 * Retrieve all package manager types available for this runtime
+	 */
+	getAvailablePackageManagers = (): PackageManagerType[] => {
+		const packageManagers: PackageManagerType[] = [];
+		for (const packageManager in PackageManagerType) {
+			if (shelljs.which(packageManager)) {
+				packageManagers.push(packageManager as PackageManagerType);
+			}
+		}
+		return packageManagers;
+	};
 
-    if (!packagesToInstall.length) {
-      return packagesToInstall;
-    }
+	async getPackageManagerCmd(realpath: string): Promise<string> {
+		return (await this.getPackageManager(realpath)).getCmd();
+	}
 
-    if (verbose) {
-      this.consoleService.info(`Installing ${packagesToInstall.join(", ")}...`);
-    }
+	async execPackageManagerCmd(
+		realpath: string,
+		cmd: string | string[],
+		silent = false,
+	): Promise<string> {
+		return (await this.getPackageManager(realpath)).execCmd(cmd, silent);
+	}
 
-    const installedPackages = await packageManager.installPackages(packagesToInstall, dev);
+	async isMonorepoPackage(realpath: string): Promise<boolean> {
+		return (await this.getPackageManager(realpath)).isMonorepoPackage();
+	}
 
-    if (verbose) {
-      this.consoleService.success(
-        installedPackages.length
-          ? `Package(s) "${installedPackages.join(", ")}" have been installed`
-          : "no package has been installed"
-      );
-    }
-    return installedPackages;
-  }
+	async installPackages(
+		dirPath: string,
+		packages: string[] = [],
+		verbose = true,
+		dev = false,
+	): Promise<string[]> {
+		const packageManager = await this.getPackageManager(dirPath);
 
-  async uninstallPackages(
-    dirPath: string,
-    packages: string[] = [],
-    verbose = true
-  ): Promise<string[]> {
-    const packageManager = await this.getPackageManager(dirPath);
+		// Remove already installed packges
+		const packagesToInstall: string[] = [];
+		for (const packageName of packages) {
+			const packageIsInstalled = await this.hasInstalledPackage(
+				dirPath,
+				packageName,
+				dev,
+			);
+			if (!packageIsInstalled) {
+				packagesToInstall.push(packageName);
+			}
+		}
 
-    // Remove already installed packges
-    if (verbose) {
-      this.consoleService.info(`Uninstalling ${packages.join(", ")}...`);
-    }
+		if (!packagesToInstall.length) {
+			return packagesToInstall;
+		}
 
-    const packagesToUninstall: string[] = [];
-    for (const packageName of packages) {
-      let packageIsInstalled = await this.hasInstalledPackage(dirPath, packageName);
+		if (verbose) {
+			this.consoleService.info(`Installing ${packagesToInstall.join(", ")}...`);
+		}
 
-      if (!packageIsInstalled) {
-        packageIsInstalled = await this.hasInstalledPackage(dirPath, packageName, true);
-      }
+		const installedPackages = await packageManager.installPackages(
+			packagesToInstall,
+			dev,
+		);
 
-      if (packageIsInstalled) {
-        packagesToUninstall.push(packageName);
-      }
-    }
+		if (verbose) {
+			this.consoleService.success(
+				installedPackages.length
+					? `Package(s) "${installedPackages.join(", ")}" have been installed`
+					: "no package has been installed",
+			);
+		}
+		return installedPackages;
+	}
 
-    if (!packagesToUninstall.length) {
-      return packagesToUninstall;
-    }
+	async uninstallPackages(
+		dirPath: string,
+		packages: string[] = [],
+		verbose = true,
+	): Promise<string[]> {
+		const packageManager = await this.getPackageManager(dirPath);
 
-    const uninstalledPackages = await packageManager.uninstallPackages(packagesToUninstall);
+		// Remove already installed packges
+		if (verbose) {
+			this.consoleService.info(`Uninstalling ${packages.join(", ")}...`);
+		}
 
-    if (verbose) {
-      this.consoleService.success(
-        uninstalledPackages.length
-          ? `Package(s) "${uninstalledPackages.join(", ")}" have been uninstalled`
-          : "no package has been uninstalled"
-      );
-    }
+		const packagesToUninstall: string[] = [];
+		for (const packageName of packages) {
+			let packageIsInstalled = await this.hasInstalledPackage(
+				dirPath,
+				packageName,
+			);
 
-    return uninstalledPackages;
-  }
+			if (!packageIsInstalled) {
+				packageIsInstalled = await this.hasInstalledPackage(
+					dirPath,
+					packageName,
+					true,
+				);
+			}
 
-  async hasInstalledPackage(
-    dirPath: string,
-    packageName: string,
-    dev = false,
-    encoding: BufferEncoding = "utf8"
-  ): Promise<boolean> {
-    const packageManager = await this.getPackageManager(dirPath);
-    const installedPackages = await packageManager.getPackageJsonData(
-      dev ? "devDependencies" : "dependencies",
-      encoding
-    );
+			if (packageIsInstalled) {
+				packagesToUninstall.push(packageName);
+			}
+		}
 
-    return !!(installedPackages && installedPackages[packageName]);
-  }
+		if (!packagesToUninstall.length) {
+			return packagesToUninstall;
+		}
 
-  async hasPackageJson(dirPath: string): Promise<boolean> {
-    return !!(await this.getPackageJsonPath(dirPath));
-  }
+		const uninstalledPackages =
+			await packageManager.uninstallPackages(packagesToUninstall);
 
-  async getPackageName(
-    dirPath: string,
-    format?: StringUtilsMethods,
-    fullName = true
-  ): Promise<string> {
-    const packageManager = await this.getPackageManager(dirPath);
+		if (verbose) {
+			this.consoleService.success(
+				uninstalledPackages.length
+					? `Package(s) "${uninstalledPackages.join(", ")}" have been uninstalled`
+					: "no package has been uninstalled",
+			);
+		}
 
-    let packageName = (await packageManager.getPackageJsonData("name")) || basename(dirPath);
+		return uninstalledPackages;
+	}
 
-    if (fullName) {
-      const isMonorepoPackage = await packageManager.isMonorepoPackage();
+	async hasInstalledPackage(
+		dirPath: string,
+		packageName: string,
+		dev = false,
+		encoding: BufferEncoding = "utf8",
+	): Promise<boolean> {
+		const packageManager = await this.getPackageManager(dirPath);
+		const installedPackages = await packageManager.getPackageJsonData(
+			dev ? "devDependencies" : "dependencies",
+			encoding,
+		);
 
-      if (isMonorepoPackage) {
-        const monorepoRootPath = await packageManager.getMonorepoRootPath();
-        if (monorepoRootPath) {
-          const rootPackageManager = await this.getPackageManager(monorepoRootPath);
+		return !!installedPackages?.[packageName];
+	}
 
-          const rootPackageName =
-            (await rootPackageManager.getPackageJsonData("name")) || basename(monorepoRootPath);
+	async hasPackageJson(dirPath: string): Promise<boolean> {
+		return !!(await this.getPackageJsonPath(dirPath));
+	}
 
-          packageName = `${rootPackageName} - ${packageName}`;
-        }
-      }
-    }
+	async getPackageName(
+		dirPath: string,
+		format?: StringUtilsMethods,
+		fullName = true,
+	): Promise<string> {
+		const packageManager = await this.getPackageManager(dirPath);
 
-    return format ? (StringUtils[format] as StringUtilsMethod)(packageName) : packageName;
-  }
+		let packageName =
+			(await packageManager.getPackageJsonData("name")) || basename(dirPath);
 
-  async getPackageVersion(dirPath: string): Promise<string | undefined> {
-    const packageManager = await this.getPackageManager(dirPath);
-    return packageManager.getPackageJsonData("version");
-  }
+		if (fullName) {
+			const isMonorepoPackage = await packageManager.isMonorepoPackage();
 
-  async updatePackageJson(dirPath: string, data: Partial<PackageJson>): Promise<void> {
-    const packageJsonPath = await this.assertPackageJsonExists(dirPath);
+			if (isMonorepoPackage) {
+				const monorepoRootPath = await packageManager.getMonorepoRootPath();
+				if (monorepoRootPath) {
+					const rootPackageManager =
+						await this.getPackageManager(monorepoRootPath);
 
-    const file = await this.fileFactory.fromFile<JsonFile>(packageJsonPath);
-    file.appendData(data);
-    await file.saveFile();
-  }
+					const rootPackageName =
+						(await rootPackageManager.getPackageJsonData("name")) ||
+						basename(monorepoRootPath);
 
-  private async getPackageManager(dirPath: string): Promise<IPackageManager> {
-    let packageManager = this.packageManagers.get(dirPath);
-    if (packageManager) {
-      return packageManager;
-    }
+					packageName = `${rootPackageName} - ${packageName}`;
+				}
+			}
+		}
 
-    const realpath = await this.directoryService.getDirRealpath(dirPath);
-    packageManager = this.packageManagers.get(realpath);
-    if (packageManager) {
-      return packageManager;
-    }
+		return format
+			? (StringUtils[format] as StringUtilsMethod)(packageName)
+			: packageName;
+	}
 
-    const args: AbstractContructorParameters<typeof AbstractPackageManager> = [
-      this.cliService,
-      this.fileService,
-      this.fileFactory,
-      realpath,
-    ];
+	async getPackageVersion(dirPath: string): Promise<string | undefined> {
+		const packageManager = await this.getPackageManager(dirPath);
+		return packageManager.getPackageJsonData("version");
+	}
 
-    const availablePackageManagers = this.getAvailablePackageManagers();
+	async updatePackageJson(
+		dirPath: string,
+		data: Partial<PackageJson>,
+	): Promise<void> {
+		const packageJsonPath = await this.assertPackageJsonExists(dirPath);
 
-    for (const packageManagerType of availablePackageManagers) {
-      packageManager = undefined;
+		const file = await this.fileFactory.fromFile<JsonFile>(packageJsonPath);
+		file.appendData(data);
+		await file.saveFile();
+	}
 
-      switch (packageManagerType) {
-        case PackageManagerType.npm:
-          packageManager = new NpmPackageManager(...args);
-          break;
-        case PackageManagerType.yarn:
-          packageManager = new YarnPackageManager(...args);
-          break;
-      }
+	private async getPackageManager(dirPath: string): Promise<IPackageManager> {
+		let packageManager = this.packageManagers.get(dirPath);
+		if (packageManager) {
+			return packageManager;
+		}
 
-      const isEnabled = await packageManager.isEnabled();
-      if (isEnabled) {
-        break;
-      }
-    }
+		const realpath = await this.directoryService.getDirRealpath(dirPath);
+		packageManager = this.packageManagers.get(realpath);
+		if (packageManager) {
+			return packageManager;
+		}
 
-    if (!packageManager) {
-      throw new Error(`No package manager found for directory ${realpath}`);
-    }
+		const args: AbstractContructorParameters<typeof AbstractPackageManager> = [
+			this.cliService,
+			this.fileService,
+			this.fileFactory,
+			realpath,
+		];
 
-    this.packageManagers.set(dirPath, packageManager);
-    this.packageManagers.set(realpath, packageManager);
-    return packageManager;
-  }
+		const availablePackageManagers = this.getAvailablePackageManagers();
 
-  private async getPackageJsonPath(dirPath: string): Promise<string | null> {
-    const packageJsonPath = resolve(dirPath, "package.json");
+		for (const packageManagerType of availablePackageManagers) {
+			packageManager = undefined;
 
-    if (await this.fileService.fileExists(packageJsonPath)) {
-      return packageJsonPath;
-    }
-    return null;
-  }
+			switch (packageManagerType) {
+				case PackageManagerType.npm:
+					packageManager = new NpmPackageManager(...args);
+					break;
+				case PackageManagerType.yarn:
+					packageManager = new YarnPackageManager(...args);
+					break;
+			}
 
-  private async assertPackageJsonExists(dirPath: string): Promise<string> {
-    const packageJsonPath = await this.getPackageJsonPath(dirPath);
-    if (!packageJsonPath) {
-      throw new Error(`package.json does not exist in directory "${dirPath}"`);
-    }
-    return packageJsonPath;
-  }
+			const isEnabled = await packageManager.isEnabled();
+			if (isEnabled) {
+				break;
+			}
+		}
+
+		if (!packageManager) {
+			throw new Error(`No package manager found for directory ${realpath}`);
+		}
+
+		this.packageManagers.set(dirPath, packageManager);
+		this.packageManagers.set(realpath, packageManager);
+		return packageManager;
+	}
+
+	private async getPackageJsonPath(dirPath: string): Promise<string | null> {
+		const packageJsonPath = resolve(dirPath, "package.json");
+
+		if (await this.fileService.fileExists(packageJsonPath)) {
+			return packageJsonPath;
+		}
+		return null;
+	}
+
+	private async assertPackageJsonExists(dirPath: string): Promise<string> {
+		const packageJsonPath = await this.getPackageJsonPath(dirPath);
+		if (!packageJsonPath) {
+			throw new Error(`package.json does not exist in directory "${dirPath}"`);
+		}
+		return packageJsonPath;
+	}
 }

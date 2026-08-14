@@ -1,353 +1,427 @@
-import { resolve } from "path";
-
-import { LazyServiceIdentifier, inject, injectFromBase } from "inversify";
+import { resolve } from "node:path";
+import { inject, injectFromBase, LazyServiceIdentifier } from "inversify";
 import prompts from "prompts";
 
 import { CliService } from "../../../../services/CliService";
 import { ConsoleService } from "../../../../services/ConsoleService";
 import { FileFactory } from "../../../../services/file/FileFactory";
 import { FileService } from "../../../../services/file/FileService";
-import { JsonFile } from "../../../../services/file/JsonFile";
-import { TypescriptFile } from "../../../../services/file/TypescriptFile";
+import type { JsonFile } from "../../../../services/file/JsonFile";
+import type { TypescriptFile } from "../../../../services/file/TypescriptFile";
 import { TypescriptImport } from "../../../../services/file/TypescriptImport";
 import { GitService } from "../../../../services/git/GitService";
 import { PackageManagerService } from "../../../../services/package-manager/PackageManagerService";
 import { StringUtils } from "../../../../services/StringUtils";
 import { TemplateService } from "../../../../services/template/TemplateService";
 import {
-  AbstractAdapterWithPackageAction,
-  AdapterWithPackageActionOptions,
+	AbstractAdapterWithPackageAction,
+	type AdapterWithPackageActionOptions,
 } from "../../../AbstractAdapterWithPackageAction";
-import { CreateAppAdapter } from "../../../create-app/adapters/CreateAppAdapter";
-import CreateApp from "../../../create-app/CreateApp";
 import { CreateAppIdentifier } from "../../../container";
-import { HostingAdapter } from "../HostingAdapter";
+import type { CreateAppAdapter } from "../../../create-app/adapters/CreateAppAdapter";
+import type CreateApp from "../../../create-app/CreateApp";
+import type { HostingAdapter } from "../HostingAdapter";
 
 type ProjectConfig = {
-  projectName: string;
+	projectName: string;
 };
 
 type BackendConfig = {
-  auth?: {
-    [key: string]: {
-      service: string;
-      providerPlugin: string;
-    };
-  };
-  api?: {
-    [key: string]: {
-      service: string;
-      providerPlugin: string;
-    };
-  };
-  hosting: {
-    amplifyhosting: {
-      service: string;
-      providerPlugin: string;
-      type: string;
-    };
-  };
+	auth?: {
+		[key: string]: {
+			service: string;
+			providerPlugin: string;
+		};
+	};
+	api?: {
+		[key: string]: {
+			service: string;
+			providerPlugin: string;
+		};
+	};
+	hosting: {
+		amplifyhosting: {
+			service: string;
+			providerPlugin: string;
+			type: string;
+		};
+	};
 };
 
 @injectFromBase()
-export default class Amplify extends AbstractAdapterWithPackageAction implements HostingAdapter {
-  protected name = "Amplify";
-  protected adapterPackageName = "@reactionable/amplify";
+export default class Amplify
+	extends AbstractAdapterWithPackageAction
+	implements HostingAdapter
+{
+	protected name = "Amplify";
+	protected adapterPackageName = "@reactionable/amplify";
 
-  constructor(
-    @inject(PackageManagerService)
-    protected readonly packageManagerService: PackageManagerService,
-    @inject(FileService) private readonly fileService: FileService,
-    @inject(FileFactory) private readonly fileFactory: FileFactory,
-    @inject(TemplateService) private readonly templateService: TemplateService,
-    @inject(CliService) private readonly cliService: CliService,
-    @inject(GitService) private readonly gitService: GitService,
-    @inject(ConsoleService) private readonly consoleService: ConsoleService,
-    @inject(new LazyServiceIdentifier(() => CreateAppIdentifier))
-    protected readonly createApp: CreateApp
-  ) {
-    super(packageManagerService);
-  }
+	constructor(
+		@inject(PackageManagerService)
+		protected readonly _packageManagerService: PackageManagerService,
+		@inject(FileService) private readonly _fileService: FileService,
+		@inject(FileFactory) private readonly _fileFactory: FileFactory,
+		@inject(TemplateService) private readonly _templateService: TemplateService,
+		@inject(CliService) private readonly _cliService: CliService,
+		@inject(GitService) private readonly _gitService: GitService,
+		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
+		@inject(new LazyServiceIdentifier(() => CreateAppIdentifier))
+		protected readonly _createApp: CreateApp,
+	) {
+		super(_packageManagerService);
+	}
 
-  async run({ realpath }: AdapterWithPackageActionOptions): Promise<void> {
-    await super.run({ realpath });
+	get fileService(): FileService {
+		return this._fileService;
+	}
 
-    // Add amplify config in App component
-    this.consoleService.info("Add amplify config in App component...");
+	get fileFactory(): FileFactory {
+		return this._fileFactory;
+	}
 
-    // Add amplify default configuration files
-    this.consoleService.info("Prepare Amplify configuration...");
-    const projectBranch = await this.gitService.getGitCurrentBranch(realpath, "master");
+	get templateService(): TemplateService {
+		return this._templateService;
+	}
 
-    let projectName = await this.getProjectName(realpath);
-    if (!projectName) {
-      const response = await prompts([
-        {
-          type: "text",
-          name: "projectName",
-          initial: await this.packageManagerService.getPackageName(realpath, "camelize"),
-          message: "Enter a name for the amplify project",
-          format: (value) => StringUtils.camelize(value),
-        },
-      ]);
-      projectName = response.projectName;
-    }
+	get cliService(): CliService {
+		return this._cliService;
+	}
 
-    await this.templateService.renderTemplate(realpath, "add-hosting/amplify", {
-      projectBranch: JSON.stringify(projectBranch),
-      projectPath: JSON.stringify(realpath),
-      projectName: JSON.stringify(projectName),
-      packageManager: await this.packageManagerService.getPackageManagerCmd(realpath),
-    });
+	get gitService(): GitService {
+		return this._gitService;
+	}
 
-    // Configure amplify
-    if (!this.getAmplifyCmd()) {
-      return this.consoleService.error(
-        'Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"'
-      );
-    }
+	get consoleService(): ConsoleService {
+		return this._consoleService;
+	}
 
-    this.consoleService.info("Configure Amplify...");
+	get createApp(): CreateApp {
+		return this._createApp;
+	}
 
-    // Amplify config
-    const amplifyConfig = {
-      envName: projectBranch,
-    };
-    const awsCloudFormation = {
-      useProfile: true,
-      profileName: "default",
-    };
-    await this.execAmplifyCmd(
-      [
-        "init",
-        "--amplify",
-        JSON.stringify(JSON.stringify(amplifyConfig)),
-        "--awscloudformation",
-        JSON.stringify(JSON.stringify(awsCloudFormation)),
-      ],
-      realpath
-    );
+	async run({ realpath }: AdapterWithPackageActionOptions): Promise<void> {
+		await super.run({ realpath });
 
-    await this.addAuth(realpath);
-    await this.addApi(realpath);
-    await this.addHosting(realpath);
+		// Add amplify config in App component
+		this.consoleService.info("Add amplify config in App component...");
 
-    const appFilePath = await this.getAppFilePath(realpath);
-    const appFile = await this.fileFactory.fromFile<TypescriptFile>(appFilePath);
-    appFile.setImports(
-      [
-        {
-          packageName: "@reactionable/amplify",
-          modules: { IIdentityContextProviderProps: "" },
-        },
-      ],
-      [
-        {
-          packageName: "@reactionable/core",
-          modules: { IIdentityContextProviderProps: "" },
-        },
-      ]
-    );
-    await appFile.saveFile();
+		// Add amplify default configuration files
+		this.consoleService.info("Prepare Amplify configuration...");
+		const projectBranch = await this.gitService.getGitCurrentBranch(
+			realpath,
+			"master",
+		);
 
-    const entrypointFilePath = await this.getEntrypointFilePath(realpath);
-    const entrypointFile = await this.fileFactory.fromFile<TypescriptFile>(entrypointFilePath);
-    entrypointFile
-      .setImports([
-        { packageName: "aws-amplify", modules: { Amplify: TypescriptImport.defaultImport } },
-        { packageName: "./aws-exports", modules: { awsconfig: TypescriptImport.defaultImport } },
-        {
-          packageName: "@aws-amplify/ui/dist/style.css",
-          modules: { [TypescriptImport.defaultImport]: TypescriptImport.defaultImport },
-        },
-      ])
-      .appendContent("Amplify.configure(awsconfig);", "import './index.scss';");
+		let projectName = await this.getProjectName(realpath);
+		if (!projectName) {
+			const response = await prompts([
+				{
+					type: "text",
+					name: "projectName",
+					initial: await this.packageManagerService.getPackageName(
+						realpath,
+						"camelize",
+					),
+					message: "Enter a name for the amplify project",
+					format: (value) => StringUtils.camelize(value),
+				},
+			]);
+			projectName = response.projectName;
+		}
 
-    await entrypointFile.saveFile();
+		await this.templateService.renderTemplate(realpath, "add-hosting/amplify", {
+			projectBranch: JSON.stringify(projectBranch),
+			projectPath: JSON.stringify(realpath),
+			projectName: JSON.stringify(projectName),
+			packageManager:
+				await this.packageManagerService.getPackageManagerCmd(realpath),
+		});
 
-    const i18nFilepath = resolve(
-      realpath,
-      await this.getLibDirectoryPath(realpath),
-      "i18n/i18n.ts"
-    );
+		// Configure amplify
+		if (!this.getAmplifyCmd()) {
+			return this.consoleService.error(
+				'Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"',
+			);
+		}
 
-    const i18nFile = await this.fileFactory.fromFile<TypescriptFile>(i18nFilepath);
-    i18nFile.setImports(
-      [
-        {
-          packageName: "@reactionable/amplify",
-          modules: { initializeI18n: "" },
-        },
-      ],
-      [
-        {
-          packageName: "@reactionable/core",
-          modules: { initializeI18n: "" },
-        },
-      ]
-    );
+		this.consoleService.info("Configure Amplify...");
 
-    await i18nFile.saveFile();
+		// Amplify config
+		const amplifyConfig = {
+			envName: projectBranch,
+		};
+		const awsCloudFormation = {
+			useProfile: true,
+			profileName: "default",
+		};
+		await this.execAmplifyCmd(
+			[
+				"init",
+				"--amplify",
+				JSON.stringify(JSON.stringify(amplifyConfig)),
+				"--awscloudformation",
+				JSON.stringify(JSON.stringify(awsCloudFormation)),
+			],
+			realpath,
+		);
 
-    await this.packageManagerService.installPackages(realpath, ["concurrently"], false, true);
-    await this.packageManagerService.updatePackageJson(realpath, {
-      scripts: {
-        start: 'concurrently "amplify mock" "yarn react-scripts start"',
-      },
-    });
+		await this.addAuth(realpath);
+		await this.addApi(realpath);
+		await this.addHosting(realpath);
 
-    this.consoleService.success(`Amplify has been configured in "${realpath}"`);
-  }
+		const appFilePath = await this.getAppFilePath(realpath);
+		const appFile =
+			await this.fileFactory.fromFile<TypescriptFile>(appFilePath);
+		appFile.setImports(
+			[
+				{
+					packageName: "@reactionable/amplify",
+					modules: { IIdentityContextProviderProps: "" },
+				},
+			],
+			[
+				{
+					packageName: "@reactionable/core",
+					modules: { IIdentityContextProviderProps: "" },
+				},
+			],
+		);
+		await appFile.saveFile();
 
-  private async getCreateAppAdapter(realpath: string): Promise<CreateAppAdapter> {
-    const adapter = await this.createApp.detectAdapter(realpath);
-    if (!adapter) {
-      throw new Error(`Unable to detect app type for given path "${realpath}"`);
-    }
-    return adapter;
-  }
+		const entrypointFilePath = await this.getEntrypointFilePath(realpath);
+		const entrypointFile =
+			await this.fileFactory.fromFile<TypescriptFile>(entrypointFilePath);
+		entrypointFile
+			.setImports([
+				{
+					packageName: "aws-amplify",
+					modules: { Amplify: TypescriptImport.defaultImport },
+				},
+				{
+					packageName: "./aws-exports",
+					modules: { awsconfig: TypescriptImport.defaultImport },
+				},
+				{
+					packageName: "@aws-amplify/ui/dist/style.css",
+					modules: {
+						[TypescriptImport.defaultImport]: TypescriptImport.defaultImport,
+					},
+				},
+			])
+			.appendContent("Amplify.configure(awsconfig);", "import './index.scss';");
 
-  private async getAppFilePath(realpath: string): Promise<string> {
-    const adapter = await this.getCreateAppAdapter(realpath);
-    return resolve(realpath, adapter.getAppFilePath());
-  }
+		await entrypointFile.saveFile();
 
-  private async getEntrypointFilePath(realpath: string): Promise<string> {
-    const adapter = await this.getCreateAppAdapter(realpath);
-    return resolve(realpath, adapter.getEntrypointFilePath());
-  }
+		const i18nFilepath = resolve(
+			realpath,
+			await this.getLibDirectoryPath(realpath),
+			"i18n/i18n.ts",
+		);
 
-  private async getLibDirectoryPath(realpath: string): Promise<string> {
-    const adapter = await this.getCreateAppAdapter(realpath);
-    return resolve(realpath, adapter.getLibDirectoryPath());
-  }
+		const i18nFile =
+			await this.fileFactory.fromFile<TypescriptFile>(i18nFilepath);
+		i18nFile.setImports(
+			[
+				{
+					packageName: "@reactionable/amplify",
+					modules: { initializeI18n: "" },
+				},
+			],
+			[
+				{
+					packageName: "@reactionable/core",
+					modules: { initializeI18n: "" },
+				},
+			],
+		);
 
-  private getAmplifyCmd(): string | null {
-    const localAmplifyCmd = this.cliService.getCmd("amplify");
-    if (localAmplifyCmd) {
-      return localAmplifyCmd;
-    }
+		await i18nFile.saveFile();
 
-    return this.cliService.getGlobalCmd("amplify-app");
-  }
+		await this.packageManagerService.installPackages(
+			realpath,
+			["concurrently"],
+			false,
+			true,
+		);
+		await this.packageManagerService.updatePackageJson(realpath, {
+			scripts: {
+				start: 'concurrently "amplify mock" "yarn react-scripts start"',
+			},
+		});
 
-  private async execAmplifyCmd(args: string[], realpath: string, silent?: boolean) {
-    const cmd = this.getAmplifyCmd();
-    if (!cmd) {
-      throw new Error(
-        'Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"'
-      );
-    }
-    if (cmd === "amplify") {
-      await this.cliService.upgradeGlobalPackage("@aws-amplify/cli");
-    }
-    return this.cliService.execCmd([cmd, ...args], realpath, silent);
-  }
+		this.consoleService.success(`Amplify has been configured in "${realpath}"`);
+	}
 
-  private async getProjectName(realpath: string): Promise<string | undefined> {
-    const projectConfigFilePath = resolve(realpath, "amplify/.config/project-config.json");
+	private async getCreateAppAdapter(
+		realpath: string,
+	): Promise<CreateAppAdapter> {
+		const adapter = await this.createApp.detectAdapter(realpath);
+		if (!adapter) {
+			throw new Error(`Unable to detect app type for given path "${realpath}"`);
+		}
+		return adapter;
+	}
 
-    if (!(await this.fileService.fileExists(projectConfigFilePath))) {
-      return undefined;
-    }
+	private async getAppFilePath(realpath: string): Promise<string> {
+		const adapter = await this.getCreateAppAdapter(realpath);
+		return resolve(realpath, adapter.getAppFilePath());
+	}
 
-    const projectConfigFile = await this.fileFactory.fromFile<JsonFile>(projectConfigFilePath);
+	private async getEntrypointFilePath(realpath: string): Promise<string> {
+		const adapter = await this.getCreateAppAdapter(realpath);
+		return resolve(realpath, adapter.getEntrypointFilePath());
+	}
 
-    return projectConfigFile.getData<ProjectConfig>()?.projectName;
-  }
+	private async getLibDirectoryPath(realpath: string): Promise<string> {
+		const adapter = await this.getCreateAppAdapter(realpath);
+		return resolve(realpath, adapter.getLibDirectoryPath());
+	}
 
-  private async getBackendConfig(realpath: string): Promise<BackendConfig | undefined> {
-    const backendConfigFilePath = resolve(realpath, "amplify/backend/backend-config.json");
-    if (!(await this.fileService.fileExists(backendConfigFilePath))) {
-      return undefined;
-    }
+	private getAmplifyCmd(): string | null {
+		const localAmplifyCmd = this.cliService.getCmd("amplify");
+		if (localAmplifyCmd) {
+			return localAmplifyCmd;
+		}
 
-    const backendConfigFile = await this.fileFactory.fromFile<JsonFile>(backendConfigFilePath);
+		return this.cliService.getGlobalCmd("amplify-app");
+	}
 
-    return backendConfigFile.getData<BackendConfig>();
-  }
+	private async execAmplifyCmd(
+		args: string[],
+		realpath: string,
+		silent?: boolean,
+	) {
+		const cmd = this.getAmplifyCmd();
+		if (!cmd) {
+			throw new Error(
+				'Unable to configure Amplify, please install globally "@aws-amplify/cli" or "npx"',
+			);
+		}
+		if (cmd === "amplify") {
+			await this.cliService.upgradeGlobalPackage("@aws-amplify/cli");
+		}
+		return this.cliService.execCmd([cmd, ...args], realpath, silent);
+	}
 
-  private async addAuth(realpath: string) {
-    const backendConfig = await this.getBackendConfig(realpath);
-    const isAuthAdded = !!backendConfig?.auth;
+	private async getProjectName(realpath: string): Promise<string | undefined> {
+		const projectConfigFilePath = resolve(
+			realpath,
+			"amplify/.config/project-config.json",
+		);
 
-    if (!isAuthAdded) {
-      const { addAuth } = await prompts([
-        {
-          type: "confirm",
-          name: "addAuth",
-          message:
-            "Do you want to add Authentication (https://docs.amplify.aws/cli/auth/overview)?",
-        },
-      ]);
+		if (!(await this.fileService.fileExists(projectConfigFilePath))) {
+			return undefined;
+		}
 
-      if (!addAuth) {
-        return;
-      }
+		const projectConfigFile = await this.fileFactory.fromFile<JsonFile>(
+			projectConfigFilePath,
+		);
 
-      this.consoleService.info("Add Amplify authentication...");
-      await this.execAmplifyCmd(["add", "auth"], realpath);
-    }
+		return projectConfigFile.getData<ProjectConfig>()?.projectName;
+	}
 
-    const appFile = await this.fileFactory.fromFile<TypescriptFile>(
-      await this.getAppFilePath(realpath)
-    );
-    appFile
-      .setImports([
-        {
-          packageName: "@reactionable/amplify",
-          modules: {
-            useIdentityContextProviderProps: "",
-            IIdentityContextProviderProps: "",
-          },
-        },
-      ])
-      .replaceContent(/identity: undefined,.*$/m, "identity: useIdentityContextProviderProps(),");
-    appFile.saveFile();
+	private async getBackendConfig(
+		realpath: string,
+	): Promise<BackendConfig | undefined> {
+		const backendConfigFilePath = resolve(
+			realpath,
+			"amplify/backend/backend-config.json",
+		);
+		if (!(await this.fileService.fileExists(backendConfigFilePath))) {
+			return undefined;
+		}
 
-    const entrypointFile = await this.fileFactory.fromFile(
-      await this.getEntrypointFilePath(realpath)
-    );
-    entrypointFile.appendContent(
-      "import '@aws-amplify/ui/dist/style.css';",
-      "import './index.scss';"
-    );
-    await entrypointFile.saveFile();
-  }
+		const backendConfigFile = await this.fileFactory.fromFile<JsonFile>(
+			backendConfigFilePath,
+		);
 
-  private async addApi(realpath: string) {
-    const backendConfig = await this.getBackendConfig(realpath);
-    const isApiAdded = !!backendConfig?.api;
+		return backendConfigFile.getData<BackendConfig>();
+	}
 
-    if (isApiAdded) {
-      return;
-    }
+	private async addAuth(realpath: string) {
+		const backendConfig = await this.getBackendConfig(realpath);
+		const isAuthAdded = !!backendConfig?.auth;
 
-    const { addApi } = await prompts([
-      {
-        type: "confirm",
-        name: "addApi",
-        message: "Do you want to add an API?",
-      },
-    ]);
+		if (!isAuthAdded) {
+			const { addAuth } = await prompts([
+				{
+					type: "confirm",
+					name: "addAuth",
+					message:
+						"Do you want to add Authentication (https://docs.amplify.aws/cli/auth/overview)?",
+				},
+			]);
 
-    if (!addApi) {
-      return;
-    }
+			if (!addAuth) {
+				return;
+			}
 
-    this.consoleService.info("Add Amplify Api...");
-    await this.execAmplifyCmd(["add", "api"], realpath);
-  }
+			this.consoleService.info("Add Amplify authentication...");
+			await this.execAmplifyCmd(["add", "auth"], realpath);
+		}
 
-  private async addHosting(realpath: string) {
-    const backendConfig = await this.getBackendConfig(realpath);
-    const isHostingAdded = !!backendConfig?.hosting?.amplifyhosting;
+		const appFile = await this.fileFactory.fromFile<TypescriptFile>(
+			await this.getAppFilePath(realpath),
+		);
+		appFile
+			.setImports([
+				{
+					packageName: "@reactionable/amplify",
+					modules: {
+						useIdentityContextProviderProps: "",
+						IIdentityContextProviderProps: "",
+					},
+				},
+			])
+			.replaceContent(
+				/identity: undefined,.*$/m,
+				"identity: useIdentityContextProviderProps(),",
+			);
+		appFile.saveFile();
 
-    if (isHostingAdded) {
-      return;
-    }
+		const entrypointFile = await this.fileFactory.fromFile(
+			await this.getEntrypointFilePath(realpath),
+		);
+		entrypointFile.appendContent(
+			"import '@aws-amplify/ui/dist/style.css';",
+			"import './index.scss';",
+		);
+		await entrypointFile.saveFile();
+	}
 
-    this.consoleService.info("Add Amplify hosting...");
-    await this.execAmplifyCmd(["hosting", "add"], realpath);
-  }
+	private async addApi(realpath: string) {
+		const backendConfig = await this.getBackendConfig(realpath);
+		const isApiAdded = !!backendConfig?.api;
+
+		if (isApiAdded) {
+			return;
+		}
+
+		const { addApi } = await prompts([
+			{
+				type: "confirm",
+				name: "addApi",
+				message: "Do you want to add an API?",
+			},
+		]);
+
+		if (!addApi) {
+			return;
+		}
+
+		this.consoleService.info("Add Amplify Api...");
+		await this.execAmplifyCmd(["add", "api"], realpath);
+	}
+
+	private async addHosting(realpath: string) {
+		const backendConfig = await this.getBackendConfig(realpath);
+		const isHostingAdded = !!backendConfig?.hosting?.amplifyhosting;
+
+		if (isHostingAdded) {
+			return;
+		}
+
+		this.consoleService.info("Add Amplify hosting...");
+		await this.execAmplifyCmd(["hosting", "add"], realpath);
+	}
 }
