@@ -60,7 +60,7 @@
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"@ts-dev-tools/core": "^1.13.1",
+		"@ts-dev-tools/core": "^1.13.2",
 		"@types/diff": "^8.0.0",
 		"@types/figlet": "^1.7.0",
 		"@types/mock-fs": "^4.13.4",
