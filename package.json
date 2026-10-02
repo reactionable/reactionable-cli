@@ -68,7 +68,7 @@
 		"@types/prompts": "^2.4.9",
 		"@types/shelljs": "^0.10.0",
 		"@types/tmp": "^0.2.6",
-		"fs-extra": "^11.4.0",
+		"fs-extra": "^11.4.1",
 		"mock-fs": "^5.5.0",
 		"mock-spawn": "^0.2.6",
 		"rimraf": "^6.1.3",
