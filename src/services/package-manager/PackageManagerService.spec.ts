@@ -1,6 +1,7 @@
 import type { ChildProcess } from "node:child_process";
 import { EventEmitter } from "node:events";
 
+import shelljs from "shelljs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,8 +88,36 @@ describe("packageManagerService", () => {
 
 	describe("getAvailablePackageManagers", () => {
 		it("should retrieve installed package managers", () => {
+			vi.spyOn(shelljs, "which").mockImplementation((command) =>
+				shelljs.ShellString(`/usr/bin/${command}`),
+			);
+
 			const result = service.getAvailablePackageManagers();
+
 			expect(result).toEqual([PackageManagerType.yarn, PackageManagerType.npm]);
+		});
+
+		it.each([PackageManagerType.yarn, PackageManagerType.npm])(
+			"should return only %s when it is the only installed package manager",
+			(packageManager) => {
+				vi.spyOn(shelljs, "which").mockImplementation((command) =>
+					command === packageManager
+						? shelljs.ShellString(`/usr/bin/${command}`)
+						: null,
+				);
+
+				const result = service.getAvailablePackageManagers();
+
+				expect(result).toEqual([packageManager]);
+			},
+		);
+
+		it("should return no package managers when none are installed", () => {
+			vi.spyOn(shelljs, "which").mockReturnValue(null);
+
+			const result = service.getAvailablePackageManagers();
+
+			expect(result).toEqual([]);
 		});
 	});
 
