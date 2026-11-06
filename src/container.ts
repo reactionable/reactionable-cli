@@ -1,21 +1,22 @@
 import "reflect-metadata";
 
 import { Container } from "inversify";
-import { bindActions } from "./actions/container";
-import { CliService } from "./services/CliService";
-import { ColorService } from "./services/ColorService";
-import { ConsoleService } from "./services/ConsoleService";
-import { DirectoryService } from "./services/file/DirectoryService";
-import { FileDiffService } from "./services/file/FileDiffService";
-import { FileFactory } from "./services/file/FileFactory";
-import { FileService } from "./services/file/FileService";
-import { GitService } from "./services/git/GitService";
-import { PackageManagerService } from "./services/package-manager/PackageManagerService";
-import { bindTemplateAdapters } from "./services/template/container";
-import { TemplateFileService } from "./services/template/TemplateFileService";
-import { TemplateService } from "./services/template/TemplateService";
+import { bindActions } from "./actions/container.js";
+import { CliService } from "./services/CliService.js";
+import { ColorService } from "./services/ColorService.js";
+import { ConsoleService } from "./services/ConsoleService.js";
+import { DirectoryService } from "./services/file/DirectoryService.js";
+import { FileDiffService } from "./services/file/FileDiffService.js";
+import { FileFactory } from "./services/file/FileFactory.js";
+import { FileService } from "./services/file/FileService.js";
+import { GitService } from "./services/git/GitService.js";
+import { PackageManagerService } from "./services/package-manager/PackageManagerService.js";
+import { bindTemplateAdapters } from "./services/template/container.js";
+import { TemplateFileService } from "./services/template/TemplateFileService.js";
+import { TemplateService } from "./services/template/TemplateService.js";
 
 const container = new Container({ defaultScope: "Singleton" });
+container.bind(Container).toConstantValue(container);
 
 // Services
 container.bind<PackageManagerService>(PackageManagerService).toSelf();

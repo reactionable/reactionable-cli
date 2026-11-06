@@ -1,86 +1,83 @@
-name: 🚀 Release
+name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      force:
+        description: Release the package even without changes
+        type: boolean
+        default: false
+  schedule:
+    - cron: "25 8 * * 1"
 
 permissions: {}
 
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
+
 jobs:
-  ci:
-    uses: ./.github/workflows/__shared-ci.yml
+  prepare:
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/prepare-package-release.yml@fbd3522b68c55a6314aadbededaa487825ba9b35 # 3.0.0
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: read
+    with:
+      release-config: &release-config |
+        name-template: v$RESOLVED_VERSION
+        tag-template: v$RESOLVED_VERSION
+        tag-prefix: v
+      force: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+      github-app-client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+    secrets:
+      github-app-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
+
+  validate:
+    needs: prepare
+    if: needs.prepare.outputs.status == 'ready'
+    uses: $/.github/workflows/__shared-ci.yml
     permissions:
       contents: read
-      id-token: write
+      packages: read
       pull-requests: write
       security-events: write
-    secrets: inherit
+      id-token: write
 
   release:
-    name: 🚀 Release
-    needs: ci
-    runs-on: ubuntu-latest
-    environment: github-pages
+    needs: [prepare, validate]
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/release.yml@fbd3522b68c55a6314aadbededaa487825ba9b35 # 3.0.0
     permissions:
+      actions: read
       contents: write
-      pull-requests: write
-      issues: write
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
+      pull-requests: read
+      id-token: write
+    with:
+      release-config: *release-config
+      packages: ${{ needs.prepare.outputs.packages }}
+      package-tarball-artifact-id: ${{ needs.validate.outputs.package-tarball-artifact-id }}
+      environment: release
+    secrets:
+      changelog-summary: ${{ secrets.CHANGELOG_SUMMARY }}
 
-      - uses: hoverkraft-tech/ci-github-nodejs/actions/setup-node@775ce0902c528062cc94141dd7d13261083b752a # 0.22.0
-
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          artifact-ids: ${{ needs.ci.outputs.build-artifact-id }}
-          path: /
-
-      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
-        id: release
-        with:
-          release-type: node
-          target-branch: main
-          skip-github-release: true
-
-      - name: 📦 Publish NPM packages
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-        run: npm publish --access public
-
-  docs-publish:
-    needs: ci
-    name: 📖 Publish documentation
+  pages:
+    name: Deploy and check documentation
+    needs: [validate, release]
+    if: needs.release.result == 'success'
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.url }}
-    outputs:
-      url: ${{ steps.deploy.outputs.url }}
+      url: ${{ steps.deployment.outputs.url }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - id: deployment
+        uses: hoverkraft-tech/ci-github-publish/actions/deploy/github-pages@4193622a365c0ab0bcbd6645895fd2c3126b72ba # 3.0.2
         with:
-          artifact-ids: ${{ needs.ci.outputs.build-artifact-id }}
-          path: /
-
-      - id: deploy
-        uses: hoverkraft-tech/ci-github-publish/actions/deploy/github-pages@b56be562f38e0e3e712f09691a8fe930aae9db1b # 0.22.0
-        with:
-          build-path: "docs"
-
-  deploy-checks:
-    needs: docs-publish
-    uses: hoverkraft-tech/ci-github-publish/.github/workflows/deploy-checks.yml@b56be562f38e0e3e712f09691a8fe930aae9db1b # 0.22.0
-    permissions:
-      contents: read
-      id-token: write
-    with:
-      url: ${{ needs.docs-publish.outputs.url }}
+          build-artifact-id: ${{ needs.validate.outputs.build-artifact-id }}
+          build-path: build/docs

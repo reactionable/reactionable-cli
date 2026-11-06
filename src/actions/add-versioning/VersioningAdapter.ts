@@ -1,6 +1,6 @@
 import type { Result } from "parse-github-url";
 
-import type { AdapterAction, AdapterActionOptions } from "../AdapterAction";
+import type { AdapterAction, AdapterActionOptions } from "../AdapterAction.js";
 
 export type VersioningAdapterOptions = AdapterActionOptions;
 export interface VersioningAdapter<

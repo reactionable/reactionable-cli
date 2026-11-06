@@ -2,25 +2,25 @@ import { resolve } from "node:path";
 import { inject, injectFromBase, LazyServiceIdentifier } from "inversify";
 import prompts from "prompts";
 
-import { CliService } from "../../../../services/CliService";
-import { ConsoleService } from "../../../../services/ConsoleService";
-import { FileFactory } from "../../../../services/file/FileFactory";
-import { FileService } from "../../../../services/file/FileService";
-import type { JsonFile } from "../../../../services/file/JsonFile";
-import type { TypescriptFile } from "../../../../services/file/TypescriptFile";
-import { TypescriptImport } from "../../../../services/file/TypescriptImport";
-import { GitService } from "../../../../services/git/GitService";
-import { PackageManagerService } from "../../../../services/package-manager/PackageManagerService";
-import { StringUtils } from "../../../../services/StringUtils";
-import { TemplateService } from "../../../../services/template/TemplateService";
+import { CliService } from "../../../../services/CliService.js";
+import { ConsoleService } from "../../../../services/ConsoleService.js";
+import { FileFactory } from "../../../../services/file/FileFactory.js";
+import { FileService } from "../../../../services/file/FileService.js";
+import type { JsonFile } from "../../../../services/file/JsonFile.js";
+import type { TypescriptFile } from "../../../../services/file/TypescriptFile.js";
+import { TypescriptImport } from "../../../../services/file/TypescriptImport.js";
+import { GitService } from "../../../../services/git/GitService.js";
+import { PackageManagerService } from "../../../../services/package-manager/PackageManagerService.js";
+import { StringUtils } from "../../../../services/StringUtils.js";
+import { TemplateService } from "../../../../services/template/TemplateService.js";
 import {
 	AbstractAdapterWithPackageAction,
 	type AdapterWithPackageActionOptions,
-} from "../../../AbstractAdapterWithPackageAction";
-import { CreateAppIdentifier } from "../../../container";
-import type { CreateAppAdapter } from "../../../create-app/adapters/CreateAppAdapter";
-import type CreateApp from "../../../create-app/CreateApp";
-import type { HostingAdapter } from "../HostingAdapter";
+} from "../../../AbstractAdapterWithPackageAction.js";
+import { CreateAppIdentifier } from "../../../container.js";
+import type { CreateAppAdapter } from "../../../create-app/adapters/CreateAppAdapter.js";
+import type CreateApp from "../../../create-app/CreateApp.js";
+import type { HostingAdapter } from "../HostingAdapter.js";
 
 type ProjectConfig = {
 	projectName: string;

@@ -1,10 +1,5 @@
+import { Container } from "inversify";
 import { describe, expect, it, vi } from "vitest";
-
-vi.mock("../container", () => ({
-	default: {
-		getAll: vi.fn(),
-	},
-}));
 
 import {
 	AbstractActionWithAdapters,
@@ -39,16 +34,12 @@ describe("AbstractActionWithAdapters", () => {
 		protected name = "Test action";
 		protected adapterIdentifier = Symbol("TestActionAdapter");
 
-		constructor(
-			private readonly adapters: TestAdapter[],
-			consoleService: any,
-			cliService: any,
-		) {
-			super(consoleService, cliService);
-		}
-
-		protected override getAdapters(): TestAdapter[] {
-			return this.adapters;
+		constructor(adapters: TestAdapter[], consoleService: any, cliService: any) {
+			const container = new Container();
+			super(consoleService, cliService, container);
+			for (const adapter of adapters) {
+				container.bind(this.adapterIdentifier).toConstantValue(adapter);
+			}
 		}
 	}
 
@@ -148,7 +139,7 @@ describe("AbstractCommitableActionWithAdapters", () => {
 			consoleService: any,
 			cliService: any,
 		) {
-			super(gitService, consoleService, cliService);
+			super(gitService, consoleService, cliService, new Container());
 		}
 
 		protected override getAdapters(): TestAdapter[] {

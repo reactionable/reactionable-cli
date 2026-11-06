@@ -2,10 +2,10 @@ import { sep } from "node:path";
 import { Eta } from "eta";
 import { inject } from "inversify";
 
-import type { TemplateContext } from "../TemplateContext";
-import { TemplateFileService } from "../TemplateFileService";
-import type { TemplateAdapter } from "./TemplateAdapter";
-import { TemplateAdapterHelper } from "./TemplateAdapterHelper";
+import type { TemplateContext } from "../TemplateContext.js";
+import { TemplateFileService } from "../TemplateFileService.js";
+import type { TemplateAdapter } from "./TemplateAdapter.js";
+import { TemplateAdapterHelper } from "./TemplateAdapterHelper.js";
 
 // TemplateFunction type is not exported in eta v4, so we get it from the compile method return type
 type TemplateFunction = ReturnType<Eta["compile"]>;

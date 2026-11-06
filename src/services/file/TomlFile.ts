@@ -3,7 +3,7 @@ import deepmerge from "deepmerge";
 
 const { all } = deepmerge;
 
-import { StdFile } from "./StdFile";
+import { StdFile } from "./StdFile.js";
 
 export class TomlFile extends StdFile {
 	protected declare data?: JsonMap;

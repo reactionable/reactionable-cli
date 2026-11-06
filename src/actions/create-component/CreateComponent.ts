@@ -2,26 +2,26 @@ import { basename, dirname, extname, resolve } from "node:path";
 import { inject, LazyServiceIdentifier } from "inversify";
 import prompts from "prompts";
 
-import { ConsoleService } from "../../services/ConsoleService";
-import { DirectoryService } from "../../services/file/DirectoryService";
-import { FileFactory } from "../../services/file/FileFactory";
-import { PackageManagerService } from "../../services/package-manager/PackageManagerService";
-import { StringUtils } from "../../services/StringUtils";
-import type { TemplateContext } from "../../services/template/TemplateContext";
-import { TemplateService } from "../../services/template/TemplateService";
-import { AbstractAdapterWithPackageAction } from "../AbstractAdapterWithPackageAction";
-import type AddHosting from "../add-hosting/AddHosting";
-import type AddRouter from "../add-router/AddRouter";
-import type AddUIFramework from "../add-ui-framework/AddUIFramework";
+import { ConsoleService } from "../../services/ConsoleService.js";
+import { DirectoryService } from "../../services/file/DirectoryService.js";
+import { FileFactory } from "../../services/file/FileFactory.js";
+import { PackageManagerService } from "../../services/package-manager/PackageManagerService.js";
+import { StringUtils } from "../../services/StringUtils.js";
+import type { TemplateContext } from "../../services/template/TemplateContext.js";
+import { TemplateService } from "../../services/template/TemplateService.js";
+import { AbstractAdapterWithPackageAction } from "../AbstractAdapterWithPackageAction.js";
+import type AddHosting from "../add-hosting/AddHosting.js";
+import type AddRouter from "../add-router/AddRouter.js";
+import type AddUIFramework from "../add-ui-framework/AddUIFramework.js";
 import {
 	AddHostingIdentifier,
 	AddRouterIdentifier,
 	AddUIFrameworkIdentifier,
 	CreateAppIdentifier,
-} from "../container";
-import type { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter";
-import type CreateApp from "../create-app/CreateApp";
-import type { NamedAction, NamedActionOptions } from "../NamedAction";
+} from "../container.js";
+import type { CreateAppAdapter } from "../create-app/adapters/CreateAppAdapter.js";
+import type CreateApp from "../create-app/CreateApp.js";
+import type { NamedAction, NamedActionOptions } from "../NamedAction.js";
 
 export type CreateComponentOptions = NamedActionOptions & {
 	name?: string;

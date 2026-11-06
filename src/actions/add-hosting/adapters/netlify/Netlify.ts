@@ -3,20 +3,20 @@ import { resolve } from "node:path";
 import { inject, injectFromBase } from "inversify";
 import prompts from "prompts";
 
-import { CliService } from "../../../../services/CliService";
-import { ConsoleService } from "../../../../services/ConsoleService";
-import { FileFactory } from "../../../../services/file/FileFactory";
-import { FileService } from "../../../../services/file/FileService";
-import type { TomlFile } from "../../../../services/file/TomlFile";
-import { GitService } from "../../../../services/git/GitService";
-import { PackageManagerService } from "../../../../services/package-manager/PackageManagerService";
-import { StringUtils } from "../../../../services/StringUtils";
-import { TemplateService } from "../../../../services/template/TemplateService";
+import { CliService } from "../../../../services/CliService.js";
+import { ConsoleService } from "../../../../services/ConsoleService.js";
+import { FileFactory } from "../../../../services/file/FileFactory.js";
+import { FileService } from "../../../../services/file/FileService.js";
+import type { TomlFile } from "../../../../services/file/TomlFile.js";
+import { GitService } from "../../../../services/git/GitService.js";
+import { PackageManagerService } from "../../../../services/package-manager/PackageManagerService.js";
+import { StringUtils } from "../../../../services/StringUtils.js";
+import { TemplateService } from "../../../../services/template/TemplateService.js";
 import {
 	AbstractAdapterAction,
 	type AdapterActionOptions,
-} from "../../../AbstractAdapterAction";
-import type { HostingAdapter } from "../HostingAdapter";
+} from "../../../AbstractAdapterAction.js";
+import type { HostingAdapter } from "../HostingAdapter.js";
 
 @injectFromBase()
 export default class Netlify

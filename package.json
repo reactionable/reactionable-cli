@@ -82,5 +82,9 @@
 	},
 	"tsDevTools": {
 		"version": "20260604100000-migrate-to-vitest"
-	}
+	},
+	"files": [
+		"bin",
+		"dist"
+	]
 }

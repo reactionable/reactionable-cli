@@ -1,16 +1,16 @@
 import { resolve } from "node:path";
 import { inject, LazyServiceIdentifier } from "inversify";
 
-import { ConsoleService } from "../../../services/ConsoleService";
-import { FileFactory } from "../../../services/file/FileFactory";
-import type { TypescriptFile } from "../../../services/file/TypescriptFile";
-import { PackageManagerService } from "../../../services/package-manager/PackageManagerService";
+import { ConsoleService } from "../../../services/ConsoleService.js";
+import { FileFactory } from "../../../services/file/FileFactory.js";
+import type { TypescriptFile } from "../../../services/file/TypescriptFile.js";
+import { PackageManagerService } from "../../../services/package-manager/PackageManagerService.js";
 import {
 	AbstractAdapterWithPackageAction,
 	type AdapterWithPackageActionOptions,
-} from "../../AbstractAdapterWithPackageAction";
-import { CreateAppIdentifier } from "../../container";
-import type CreateApp from "../../create-app/CreateApp";
+} from "../../AbstractAdapterWithPackageAction.js";
+import { CreateAppIdentifier } from "../../container.js";
+import type CreateApp from "../../create-app/CreateApp.js";
 
 export type UIFrameworkAdapter<
 	O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,

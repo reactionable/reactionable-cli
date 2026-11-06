@@ -1,8 +1,8 @@
 import { type Change, diffLines } from "diff";
 import { inject } from "inversify";
 
-import { CliService } from "../CliService";
-import { FileService } from "./FileService";
+import { CliService } from "../CliService.js";
+import { FileService } from "./FileService.js";
 
 export class FileDiffService {
 	static overwritedFilesChanges: Map<string, Change[]> = new Map();

@@ -1,4 +1,4 @@
-import type { RunnableAction, RunnableOptions } from "./RunnableAction";
+import type { RunnableAction, RunnableOptions } from "./RunnableAction.js";
 
 export interface RealpathActionOptions extends RunnableOptions {
 	realpath: string;

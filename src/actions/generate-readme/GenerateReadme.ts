@@ -1,10 +1,10 @@
 import { inject } from "inversify";
 import prompts from "prompts";
 
-import { CliService } from "../../services/CliService";
-import { ConsoleService } from "../../services/ConsoleService";
-import { GitService } from "../../services/git/GitService";
-import type { NamedAction, NamedActionOptions } from "../NamedAction";
+import { CliService } from "../../services/CliService.js";
+import { ConsoleService } from "../../services/ConsoleService.js";
+import { GitService } from "../../services/git/GitService.js";
+import type { NamedAction, NamedActionOptions } from "../NamedAction.js";
 
 type GenerateReadmeOptions = NamedActionOptions & { mustPrompt: boolean };
 

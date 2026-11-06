@@ -1,7 +1,7 @@
 import { injectFromBase } from "inversify";
-import { AbstractActionWithAdapters } from "../AbstractActionWithAdapters";
-import type { UIFrameworkAdapter } from "./adapters/UIFrameworkAdapter";
-import { AdapterIdentifier } from "./container";
+import { AbstractActionWithAdapters } from "../AbstractActionWithAdapters.js";
+import type { UIFrameworkAdapter } from "./adapters/UIFrameworkAdapter.js";
+import { AdapterIdentifier } from "./container.js";
 
 @injectFromBase()
 export default class AddUIFramework extends AbstractActionWithAdapters<UIFrameworkAdapter> {

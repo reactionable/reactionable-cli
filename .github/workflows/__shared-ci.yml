@@ -3,15 +3,18 @@ name: Internal - Common Continuous Integration tasks
 on:
   workflow_call:
     outputs:
+      package-tarball-artifact-id:
+        description: The package tarball validated by CI
+        value: ${{ jobs.continuous-integration.outputs.package-tarball-artifact-id }}
       build-artifact-id:
-        description: "The IDs of the artifacts produced by the build step"
+        description: Build artifact containing the compiled CLI and documentation
         value: ${{ jobs.continuous-integration.outputs.build-artifact-id }}
 
 permissions: {}
 
 jobs:
   continuous-integration:
-    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@775ce0902c528062cc94141dd7d13261083b752a # 0.22.0
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/continuous-integration.yml@fbd3522b68c55a6314aadbededaa487825ba9b35 # 3.0.0
     permissions:
       contents: read
       id-token: write
@@ -19,6 +22,10 @@ jobs:
       pull-requests: write
       security-events: write
     with:
+      package: |
+        {
+          "tests": "reactionable --help\ntest \"$(reactionable --version)\" = \"$PACKAGE_VERSION\"\ntest -f \"$PACKAGE_INSTALL_PATH/dist/templates/i18n/config.template.js\"\n"
+        }
       build: |
         {
           "commands": ["build", "build:doc"],
