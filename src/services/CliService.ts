@@ -4,9 +4,9 @@ import type { Change } from "diff";
 import { inject } from "inversify";
 import prompts from "prompts";
 import shelljs from "shelljs";
-import { ColorService } from "./ColorService";
-import { ConsoleService } from "./ConsoleService";
-import { DirectoryService } from "./file/DirectoryService";
+import { ColorService } from "./ColorService.js";
+import { ConsoleService } from "./ConsoleService.js";
+import { DirectoryService } from "./file/DirectoryService.js";
 
 export enum PromptOverwriteChoice {
 	DIFF = "diff",

@@ -4,9 +4,9 @@ import parseGitRemote, { type Result } from "parse-github-url";
 import prompts from "prompts";
 import shelljs from "shelljs";
 
-import { CliService } from "../CliService";
-import { ConsoleService } from "../ConsoleService";
-import { PackageManagerService } from "../package-manager/PackageManagerService";
+import { CliService } from "../CliService.js";
+import { ConsoleService } from "../ConsoleService.js";
+import { PackageManagerService } from "../package-manager/PackageManagerService.js";
 
 export type GitConfig = {
 	"remote.origin.url": string;

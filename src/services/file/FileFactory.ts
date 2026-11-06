@@ -1,14 +1,14 @@
 import { extname } from "node:path";
 import { inject } from "inversify";
 
-import { CliService } from "../CliService";
-import { DirectoryService } from "./DirectoryService";
-import { FileDiffService } from "./FileDiffService";
-import { FileService } from "./FileService";
-import { JsonFile } from "./JsonFile";
-import { StdFile } from "./StdFile";
-import { TomlFile } from "./TomlFile";
-import { TypescriptFile } from "./TypescriptFile";
+import { CliService } from "../CliService.js";
+import { DirectoryService } from "./DirectoryService.js";
+import { FileDiffService } from "./FileDiffService.js";
+import { FileService } from "./FileService.js";
+import { JsonFile } from "./JsonFile.js";
+import { StdFile } from "./StdFile.js";
+import { TomlFile } from "./TomlFile.js";
+import { TypescriptFile } from "./TypescriptFile.js";
 
 export enum FileContentType {
 	mtime,

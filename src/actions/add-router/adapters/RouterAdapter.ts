@@ -2,7 +2,7 @@ import { injectFromBase } from "inversify";
 import {
 	AbstractAdapterWithPackageAction,
 	type AdapterWithPackageActionOptions,
-} from "../../AbstractAdapterWithPackageAction";
+} from "../../AbstractAdapterWithPackageAction.js";
 
 export type RouterAdapter<
 	O extends AdapterWithPackageActionOptions = AdapterWithPackageActionOptions,

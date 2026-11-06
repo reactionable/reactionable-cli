@@ -1,5 +1,5 @@
-import type { AdapterActionOptions } from "../../AbstractAdapterAction";
-import type { AdapterAction } from "../../AdapterAction";
+import type { AdapterActionOptions } from "../../AbstractAdapterAction.js";
+import type { AdapterAction } from "../../AdapterAction.js";
 
 export type HostingAdapterOptions = AdapterActionOptions;
 

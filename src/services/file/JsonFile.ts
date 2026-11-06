@@ -2,7 +2,7 @@ import deepmerge from "deepmerge";
 
 const { all } = deepmerge;
 
-import { StdFile } from "./StdFile";
+import { StdFile } from "./StdFile.js";
 
 type JsonArray = boolean[] | number[] | string[] | JsonFileData[] | Date[];
 type AnyJson =

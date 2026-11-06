@@ -1,3 +1,3 @@
-import { TypescriptFile } from "./TypescriptFile";
+import { TypescriptFile } from "./TypescriptFile.js";
 
 export class ReactComponentFile extends TypescriptFile {}

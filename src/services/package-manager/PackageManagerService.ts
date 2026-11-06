@@ -2,21 +2,21 @@ import { basename, resolve } from "node:path";
 import { inject } from "inversify";
 import shelljs from "shelljs";
 
-import { CliService } from "../CliService";
-import { ConsoleService } from "../ConsoleService";
-import { DirectoryService } from "../file/DirectoryService";
-import { FileFactory } from "../file/FileFactory";
-import { FileService } from "../file/FileService";
-import type { JsonFile } from "../file/JsonFile";
+import { CliService } from "../CliService.js";
+import { ConsoleService } from "../ConsoleService.js";
+import { DirectoryService } from "../file/DirectoryService.js";
+import { FileFactory } from "../file/FileFactory.js";
+import { FileService } from "../file/FileService.js";
+import type { JsonFile } from "../file/JsonFile.js";
 import {
 	StringUtils,
 	type StringUtilsMethod,
 	type StringUtilsMethods,
-} from "../StringUtils";
-import type { AbstractPackageManager } from "./adapters/AbstractPackageManager";
-import type { IPackageManager, PackageJson } from "./adapters/IPackageManager";
-import { NpmPackageManager } from "./adapters/NpmPackageManager";
-import { YarnPackageManager } from "./adapters/YarnPackageManager";
+} from "../StringUtils.js";
+import type { AbstractPackageManager } from "./adapters/AbstractPackageManager.js";
+import type { IPackageManager, PackageJson } from "./adapters/IPackageManager.js";
+import { NpmPackageManager } from "./adapters/NpmPackageManager.js";
+import { YarnPackageManager } from "./adapters/YarnPackageManager.js";
 
 export enum PackageManagerType {
 	yarn = "yarn",

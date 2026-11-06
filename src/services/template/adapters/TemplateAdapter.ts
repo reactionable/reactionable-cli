@@ -1,4 +1,4 @@
-import type { TemplateContext } from "../TemplateContext";
+import type { TemplateContext } from "../TemplateContext.js";
 
 export interface TemplateAdapter {
 	renderTemplateString(

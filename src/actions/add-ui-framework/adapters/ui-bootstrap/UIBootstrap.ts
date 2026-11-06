@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { injectFromBase } from "inversify";
-import type { AdapterWithPackageActionOptions } from "../../../AbstractAdapterWithPackageAction";
-import { AbstractUIFrameworkAdapter } from "../UIFrameworkAdapter";
+import type { AdapterWithPackageActionOptions } from "../../../AbstractAdapterWithPackageAction.js";
+import { AbstractUIFrameworkAdapter } from "../UIFrameworkAdapter.js";
 
 @injectFromBase()
 export default class UIBootstrap extends AbstractUIFrameworkAdapter {

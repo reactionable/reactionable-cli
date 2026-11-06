@@ -1,10 +1,10 @@
 import { resolve } from "node:path";
 
-import { PackageManagerType } from "../PackageManagerService";
+import { PackageManagerType } from "../PackageManagerService.js";
 import {
 	AbstractPackageManager,
 	type MonorepoInfo,
-} from "./AbstractPackageManager";
+} from "./AbstractPackageManager.js";
 
 export class NpmPackageManager extends AbstractPackageManager {
 	protected type = PackageManagerType.npm;

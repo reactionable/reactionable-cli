@@ -1,7 +1,7 @@
 import { injectFromBase } from "inversify";
 import type { Result } from "parse-github-url";
-import type { VersioningAdapterOptions } from "../../VersioningAdapter";
-import AbstractVersioning from "../AbstractVersioning";
+import type { VersioningAdapterOptions } from "../../VersioningAdapter.js";
+import AbstractVersioning from "../AbstractVersioning.js";
 
 @injectFromBase()
 export default class Github extends AbstractVersioning {

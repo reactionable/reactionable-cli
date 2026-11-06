@@ -26,10 +26,8 @@ vi.mock("../services/ConsoleService", () => ({
     },
 }));
 
-vi.mock("../services/package-manager/PackageManagerService", () => ({
-    PackageManagerService: class {
-        getPackageVersion = vi.fn().mockResolvedValue("1.2.3");
-    },
+vi.mock("node:fs/promises", () => ({
+    readFile: vi.fn().mockResolvedValue(JSON.stringify({ version: "1.2.3" })),
 }));
 
 vi.mock("figlet", () => ({
@@ -69,15 +67,13 @@ describe("Cli", () => {
         vi.restoreAllMocks();
     });
 
-    it("should initialize the CLI and expose the package version", async () => {
+    it("should expose its installed version without resolving a package manager", async () => {
         const cli = new Cli();
-        vi.mocked(container.get).mockImplementation(() => ({
-            getPackageVersion: vi.fn().mockResolvedValue("1.2.3"),
-        }));
         await (cli as any).initialize();
 
         expect((cli as any).cli).toBeTruthy();
         expect(await (cli as any).getBinaryVersion()).toBe("1.2.3");
+        expect(container.get).not.toHaveBeenCalled();
     });
 
     it("should pass the CLI arguments through to clipanion", async () => {
@@ -85,9 +81,6 @@ describe("Cli", () => {
         const runExit = vi.fn();
         vi.spyOn(cli as any, "initialize").mockResolvedValue();
         (cli as any).cli = { runExit };
-        vi.mocked(container.get).mockImplementation(() => ({
-            getPackageVersion: vi.fn().mockResolvedValue("1.2.3"),
-        }));
 
         process.argv = ["node", "reactionable", "run", "--help"];
         await cli.run();

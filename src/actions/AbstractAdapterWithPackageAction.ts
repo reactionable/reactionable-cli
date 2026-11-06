@@ -1,10 +1,10 @@
 import { inject } from "inversify";
 
-import { PackageManagerService } from "../services/package-manager/PackageManagerService";
+import { PackageManagerService } from "../services/package-manager/PackageManagerService.js";
 import {
 	AbstractAdapterAction,
 	type AdapterActionOptions,
-} from "./AbstractAdapterAction";
+} from "./AbstractAdapterAction.js";
 
 export type AdapterWithPackageActionOptions = AdapterActionOptions;
 

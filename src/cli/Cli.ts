@@ -1,17 +1,13 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { Builtins, Cli as Clipanion, Command } from "clipanion";
 import figlet from "figlet";
 import prompts from "prompts";
-import { ActionIdentifier } from "../actions/container";
-import type { NamedAction } from "../actions/NamedAction";
-import container from "../container";
-import { CliService } from "../services/CliService";
-import { ConsoleService } from "../services/ConsoleService";
-import { PackageManagerService } from "../services/package-manager/PackageManagerService";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { ActionIdentifier } from "../actions/container.js";
+import type { NamedAction } from "../actions/NamedAction.js";
+import container from "../container.js";
+import { CliService } from "../services/CliService.js";
+import { ConsoleService } from "../services/ConsoleService.js";
 
 // run [-v,--verbose] [--name ARG]
 class RunCommand extends Command {
@@ -85,10 +81,12 @@ export class Cli {
 		})}`;
 	}
 
-	protected getBinaryVersion(): Promise<string | undefined> {
-		return container
-			.get(PackageManagerService)
-			.getPackageVersion(resolve(__dirname, "../.."));
+	protected async getBinaryVersion(): Promise<string> {
+		const manifest = await readFile(
+			new URL("../../package.json", import.meta.url),
+			"utf8",
+		);
+		return JSON.parse(manifest).version;
 	}
 
 	async run(): Promise<void> {

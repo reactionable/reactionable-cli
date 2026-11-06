@@ -2,8 +2,8 @@ import "reflect-metadata";
 
 import type { Container } from "inversify";
 
-import { EtaAdapter } from "./adapters/EtaAdapter";
-import { TemplateAdapterHelper } from "./adapters/TemplateAdapterHelper";
+import { EtaAdapter } from "./adapters/EtaAdapter.js";
+import { TemplateAdapterHelper } from "./adapters/TemplateAdapterHelper.js";
 
 export const AdapterIdentifier = Symbol.for("TemplateAdapter");
 
