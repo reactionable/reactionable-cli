@@ -1,8 +1,8 @@
 import { resolve } from "node:path";
 
-import { PackageManagerType } from "../PackageManagerService";
-import { AbstractPackageManager } from "./AbstractPackageManager";
-import type { PackageJson } from "./IPackageManager";
+import { PackageManagerType } from "../PackageManagerService.js";
+import { AbstractPackageManager } from "./AbstractPackageManager.js";
+import type { PackageJson } from "./IPackageManager.js";
 
 export interface YarnPackageJson extends PackageJson {
 	workspaces?: string[];

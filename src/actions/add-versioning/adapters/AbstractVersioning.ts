@@ -2,14 +2,14 @@ import { inject } from "inversify";
 import type { Result } from "parse-github-url";
 import prompts from "prompts";
 
-import { ConsoleService } from "../../../services/ConsoleService";
-import { GitService } from "../../../services/git/GitService";
-import { PackageManagerService } from "../../../services/package-manager/PackageManagerService";
-import { AbstractAdapterAction } from "../../AbstractAdapterAction";
+import { ConsoleService } from "../../../services/ConsoleService.js";
+import { GitService } from "../../../services/git/GitService.js";
+import { PackageManagerService } from "../../../services/package-manager/PackageManagerService.js";
+import { AbstractAdapterAction } from "../../AbstractAdapterAction.js";
 import type {
 	VersioningAdapter,
 	VersioningAdapterOptions,
-} from "../VersioningAdapter";
+} from "../VersioningAdapter.js";
 
 export default abstract class AbstractVersioning
 	extends AbstractAdapterAction

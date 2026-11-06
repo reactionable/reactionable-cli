@@ -1,32 +1,32 @@
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { inject, LazyServiceIdentifier } from "inversify";
 
-import { CliService } from "../../../services/CliService";
-import { ConsoleService } from "../../../services/ConsoleService";
-import { DirectoryService } from "../../../services/file/DirectoryService";
-import { FileFactory } from "../../../services/file/FileFactory";
-import { FileService } from "../../../services/file/FileService";
-import type { TypescriptFile } from "../../../services/file/TypescriptFile";
-import { TypescriptImport } from "../../../services/file/TypescriptImport";
+import { CliService } from "../../../services/CliService.js";
+import { ConsoleService } from "../../../services/ConsoleService.js";
+import { DirectoryService } from "../../../services/file/DirectoryService.js";
+import { FileFactory } from "../../../services/file/FileFactory.js";
+import { FileService } from "../../../services/file/FileService.js";
+import type { TypescriptFile } from "../../../services/file/TypescriptFile.js";
+import { TypescriptImport } from "../../../services/file/TypescriptImport.js";
 import {
 	PackageManagerService,
 	type PackageManagerType,
-} from "../../../services/package-manager/PackageManagerService";
-import { TemplateService } from "../../../services/template/TemplateService";
+} from "../../../services/package-manager/PackageManagerService.js";
+import { TemplateService } from "../../../services/template/TemplateService.js";
 import {
 	AbstractAdapterAction,
 	type AdapterActionOptions,
-} from "../../AbstractAdapterAction";
-import type { AdapterAction } from "../../AdapterAction";
-import type AddHosting from "../../add-hosting/AddHosting";
-import type AddUIFramework from "../../add-ui-framework/AddUIFramework";
-import AddVersioning from "../../add-versioning/AddVersioning";
+} from "../../AbstractAdapterAction.js";
+import type { AdapterAction } from "../../AdapterAction.js";
+import type AddHosting from "../../add-hosting/AddHosting.js";
+import type AddUIFramework from "../../add-ui-framework/AddUIFramework.js";
+import AddVersioning from "../../add-versioning/AddVersioning.js";
 import {
 	AddHostingIdentifier,
 	AddUIFrameworkIdentifier,
-} from "../../container";
-import CreateComponent from "../../create-component/CreateComponent";
-import GenerateReadme from "../../generate-readme/GenerateReadme";
+} from "../../container.js";
+import CreateComponent from "../../create-component/CreateComponent.js";
+import GenerateReadme from "../../generate-readme/GenerateReadme.js";
 
 export type CreateAppAdapterOptions = AdapterActionOptions;
 

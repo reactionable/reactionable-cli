@@ -1,6 +1,6 @@
 import { injectFromBase } from "inversify";
-import { AbstractAdapterWithPackageAction } from "../../../AbstractAdapterWithPackageAction";
-import type { UIFrameworkAdapter } from "../UIFrameworkAdapter";
+import { AbstractAdapterWithPackageAction } from "../../../AbstractAdapterWithPackageAction.js";
+import type { UIFrameworkAdapter } from "../UIFrameworkAdapter.js";
 
 @injectFromBase()
 export default class UIMaterial

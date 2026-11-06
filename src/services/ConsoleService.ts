@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { ColorService } from "./ColorService";
+import { ColorService } from "./ColorService.js";
 
 export class ConsoleService {
 	constructor(

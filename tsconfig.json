@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "ES2022",
+		"module": "NodeNext",
 		"declaration": true,
 		"noImplicitAny": false,
 		"removeComments": true,
@@ -12,8 +12,8 @@
 		"strict": true,
 		"outDir": "./dist",
 		"esModuleInterop": true,
-		"moduleResolution": "bundler"
+		"moduleResolution": "NodeNext"
 	},
 	"include": ["src/**/*"],
-	"exclude": ["__tests__", "dist", "**/*.spec.ts"]
+	"exclude": ["__tests__", "src/tests", "dist", "**/*.spec.ts"]
 }

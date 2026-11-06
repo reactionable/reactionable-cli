@@ -1,17 +1,17 @@
 import type { Container } from "inversify";
-import AddHosting from "./add-hosting/AddHosting";
-import { bindHostingAdapters } from "./add-hosting/container";
-import AddRouter from "./add-router/AddRouter";
-import { bindRouterAdapters } from "./add-router/container";
-import AddUIFramework from "./add-ui-framework/AddUIFramework";
-import { bindUIFrameworkAdapters } from "./add-ui-framework/container";
-import AddVersioning from "./add-versioning/AddVersioning";
-import { bindVersioningAdapters } from "./add-versioning/container";
-import CreateApp from "./create-app/CreateApp";
-import { bindCreateAppAdapters } from "./create-app/container";
-import CreateComponent from "./create-component/CreateComponent";
-import CreateCrudComponent from "./create-component/CreateCrudComponent";
-import GenerateReadme from "./generate-readme/GenerateReadme";
+import AddHosting from "./add-hosting/AddHosting.js";
+import { bindHostingAdapters } from "./add-hosting/container.js";
+import AddRouter from "./add-router/AddRouter.js";
+import { bindRouterAdapters } from "./add-router/container.js";
+import AddUIFramework from "./add-ui-framework/AddUIFramework.js";
+import { bindUIFrameworkAdapters } from "./add-ui-framework/container.js";
+import AddVersioning from "./add-versioning/AddVersioning.js";
+import { bindVersioningAdapters } from "./add-versioning/container.js";
+import CreateApp from "./create-app/CreateApp.js";
+import { bindCreateAppAdapters } from "./create-app/container.js";
+import CreateComponent from "./create-component/CreateComponent.js";
+import CreateCrudComponent from "./create-component/CreateCrudComponent.js";
+import GenerateReadme from "./generate-readme/GenerateReadme.js";
 
 export const ActionIdentifier = Symbol("Action");
 

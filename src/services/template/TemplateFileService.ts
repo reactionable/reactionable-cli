@@ -2,7 +2,7 @@ import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { inject } from "inversify";
 
-import { FileService } from "../file/FileService";
+import { FileService } from "../file/FileService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

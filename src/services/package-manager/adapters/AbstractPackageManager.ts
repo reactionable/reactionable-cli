@@ -2,12 +2,12 @@ import { resolve } from "node:path";
 import { inject } from "inversify";
 import shelljs from "shelljs";
 
-import { CliService } from "../../CliService";
-import { FileFactory } from "../../file/FileFactory";
-import { FileService } from "../../file/FileService";
-import type { JsonFile } from "../../file/JsonFile";
-import type { PackageManagerType } from "../PackageManagerService";
-import type { IPackageManager, PackageJson } from "./IPackageManager";
+import { CliService } from "../../CliService.js";
+import { FileFactory } from "../../file/FileFactory.js";
+import { FileService } from "../../file/FileService.js";
+import type { JsonFile } from "../../file/JsonFile.js";
+import type { PackageManagerType } from "../PackageManagerService.js";
+import type { IPackageManager, PackageJson } from "./IPackageManager.js";
 
 export interface MonorepoInfo {
 	rootDirectory: string;

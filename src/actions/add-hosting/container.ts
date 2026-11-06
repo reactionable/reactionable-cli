@@ -2,9 +2,9 @@ import "reflect-metadata";
 
 import type { Container } from "inversify";
 
-import Amplify from "./adapters/amplify/Amplify";
-import type { HostingAdapter } from "./adapters/HostingAdapter";
-import Netlify from "./adapters/netlify/Netlify";
+import Amplify from "./adapters/amplify/Amplify.js";
+import type { HostingAdapter } from "./adapters/HostingAdapter.js";
+import Netlify from "./adapters/netlify/Netlify.js";
 
 export const AdapterIdentifier = Symbol.for("HostingAdapter");
 
