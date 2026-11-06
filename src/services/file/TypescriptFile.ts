@@ -7,12 +7,12 @@ import {
 	SyntaxKind,
 } from "typescript";
 
-import { StdFile } from "./StdFile";
+import { StdFile } from "./StdFile.js";
 import {
 	type ITypescriptImport,
 	type ITypescriptImportModules,
 	TypescriptImport,
-} from "./TypescriptImport";
+} from "./TypescriptImport.js";
 
 export class TypescriptFile extends StdFile {
 	protected declare imports?: Array<TypescriptImport>;

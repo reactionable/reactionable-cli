@@ -1,5 +1,5 @@
 import { injectFromBase } from "inversify";
-import { AbstractRouterAdapter } from "../RouterAdapter";
+import { AbstractRouterAdapter } from "../RouterAdapter.js";
 
 @injectFromBase()
 export default class RouterDom extends AbstractRouterAdapter {

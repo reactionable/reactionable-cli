@@ -1,10 +1,9 @@
-import { inject, type ServiceIdentifier } from "inversify";
+import { Container, inject, type ServiceIdentifier } from "inversify";
 
-import container from "../container";
-import { CliService } from "../services/CliService";
-import { ConsoleService } from "../services/ConsoleService";
-import type { AdapterAction } from "./AdapterAction";
-import type { RealpathAction, RealpathActionOptions } from "./RealpathAction";
+import { CliService } from "../services/CliService.js";
+import { ConsoleService } from "../services/ConsoleService.js";
+import type { AdapterAction } from "./AdapterAction.js";
+import type { RealpathAction, RealpathActionOptions } from "./RealpathAction.js";
 
 export type ActionWithAdaptersOptions = RealpathActionOptions;
 
@@ -19,6 +18,7 @@ export abstract class AbstractActionWithAdapters<
 	constructor(
 		@inject(ConsoleService) private readonly _consoleService: ConsoleService,
 		@inject(CliService) private readonly _cliService: CliService,
+		@inject(Container) private readonly _container: Container,
 	) {}
 
 	get consoleService(): ConsoleService {
@@ -34,7 +34,7 @@ export abstract class AbstractActionWithAdapters<
 	}
 
 	protected getAdapters(): A[] {
-		return container.getAll<A>(this.adapterIdentifier);
+		return this._container.getAll<A>(this.adapterIdentifier);
 	}
 
 	async detectAdapter(realpath: string): Promise<A | null> {

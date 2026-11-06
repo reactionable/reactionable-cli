@@ -1,6 +1,6 @@
 import { injectFromBase } from "inversify";
-import { AbstractAdapterWithPackageAction } from "../../../AbstractAdapterWithPackageAction";
-import type { RouterAdapter } from "../RouterAdapter";
+import { AbstractAdapterWithPackageAction } from "../../../AbstractAdapterWithPackageAction.js";
+import type { RouterAdapter } from "../RouterAdapter.js";
 
 @injectFromBase()
 export default class NextJs

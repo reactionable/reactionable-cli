@@ -1,7 +1,7 @@
 import { dirname, join, resolve } from "node:path";
 import { injectFromBase } from "inversify";
-import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService";
-import { AbstractCreateAppAdapter } from "../CreateAppAdapter";
+import { PackageManagerType } from "../../../../services/package-manager/PackageManagerService.js";
+import { AbstractCreateAppAdapter } from "../CreateAppAdapter.js";
 
 @injectFromBase()
 export default class CreateNextApp extends AbstractCreateAppAdapter {

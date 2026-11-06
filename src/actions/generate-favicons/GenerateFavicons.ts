@@ -1,8 +1,8 @@
 import { inject } from "inversify";
 import prompts from "prompts";
 
-import { ConsoleService } from "../../services/ConsoleService";
-import type { NamedAction, NamedActionOptions } from "../NamedAction";
+import { ConsoleService } from "../../services/ConsoleService.js";
+import type { NamedAction, NamedActionOptions } from "../NamedAction.js";
 
 type GenerateFaviconsOptions = NamedActionOptions & { mustPrompt: boolean };
 

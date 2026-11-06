@@ -2,9 +2,9 @@ import "reflect-metadata";
 
 import type { Container } from "inversify";
 
-import NextJs from "./adapters/next-js/NextJs";
-import type { RouterAdapter } from "./adapters/RouterAdapter";
-import RouterDom from "./adapters/router-dom/RouterDom";
+import NextJs from "./adapters/next-js/NextJs.js";
+import type { RouterAdapter } from "./adapters/RouterAdapter.js";
+import RouterDom from "./adapters/router-dom/RouterDom.js";
 
 export const AdapterIdentifier = Symbol.for("RouterAdapter");
 

@@ -1,13 +1,13 @@
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { inject } from "inversify";
-import { DirectoryService } from "../file/DirectoryService";
-import { FileFactory } from "../file/FileFactory";
-import { FileService } from "../file/FileService";
-import type { TemplateAdapter } from "./adapters/TemplateAdapter";
-import { AdapterIdentifier } from "./container";
-import type { TemplateContext } from "./TemplateContext";
-import { TemplateFileService } from "./TemplateFileService";
+import { DirectoryService } from "../file/DirectoryService.js";
+import { FileFactory } from "../file/FileFactory.js";
+import { FileService } from "../file/FileService.js";
+import type { TemplateAdapter } from "./adapters/TemplateAdapter.js";
+import { AdapterIdentifier } from "./container.js";
+import type { TemplateContext } from "./TemplateContext.js";
+import { TemplateFileService } from "./TemplateFileService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

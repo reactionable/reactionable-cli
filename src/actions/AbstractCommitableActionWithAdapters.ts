@@ -1,12 +1,12 @@
-import { inject } from "inversify";
-import { CliService } from "../services/CliService";
-import { ConsoleService } from "../services/ConsoleService";
-import { GitService } from "../services/git/GitService";
+import { Container, inject } from "inversify";
+import { CliService } from "../services/CliService.js";
+import { ConsoleService } from "../services/ConsoleService.js";
+import { GitService } from "../services/git/GitService.js";
 import {
 	AbstractActionWithAdapters,
 	type ActionWithAdaptersOptions,
-} from "./AbstractActionWithAdapters";
-import type { AdapterAction } from "./AdapterAction";
+} from "./AbstractActionWithAdapters.js";
+import type { AdapterAction } from "./AdapterAction.js";
 
 export type CommitableActionWithAdaptersOptions = ActionWithAdaptersOptions;
 
@@ -19,8 +19,9 @@ export abstract class AbstractCommitableActionWithAdapters<
 		@inject(GitService) private readonly _gitService: GitService,
 		@inject(ConsoleService) consoleService: ConsoleService,
 		@inject(CliService) cliService: CliService,
+		@inject(Container) container: Container,
 	) {
-		super(consoleService, cliService);
+		super(consoleService, cliService, container);
 	}
 
 	get gitService(): GitService {

@@ -1,4 +1,4 @@
-import type { JsonFileData } from "../../file/JsonFile";
+import type { JsonFileData } from "../../file/JsonFile.js";
 
 export interface PackageJsonDependencies {
 	[key: string]: string;

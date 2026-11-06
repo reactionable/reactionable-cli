@@ -1,11 +1,11 @@
 import { EOL } from "node:os";
 import { dirname } from "node:path";
 
-import type { CliService } from "../CliService";
-import type { DirectoryService } from "./DirectoryService";
-import type { FileDiffService } from "./FileDiffService";
-import type { FileFactory } from "./FileFactory";
-import type { FileService } from "./FileService";
+import type { CliService } from "../CliService.js";
+import type { DirectoryService } from "./DirectoryService.js";
+import type { FileDiffService } from "./FileDiffService.js";
+import type { FileFactory } from "./FileFactory.js";
+import type { FileService } from "./FileService.js";
 
 export class StdFile {
 	protected content = "";

@@ -1,9 +1,9 @@
 import "reflect-metadata";
 
 import type { Container } from "inversify";
-import type { CreateAppAdapter } from "./adapters/CreateAppAdapter";
-import CreateNextApp from "./adapters/create-next-app/CreateNextApp";
-import CreateReactApp from "./adapters/create-react-app/CreateReactApp";
+import type { CreateAppAdapter } from "./adapters/CreateAppAdapter.js";
+import CreateNextApp from "./adapters/create-next-app/CreateNextApp.js";
+import CreateReactApp from "./adapters/create-react-app/CreateReactApp.js";
 
 export const AdapterIdentifier = Symbol("CreateAppAdapter");
 

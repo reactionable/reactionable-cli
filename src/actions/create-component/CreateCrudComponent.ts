@@ -6,12 +6,12 @@ import prompts from "prompts";
 const { plural, singular } = pluralize;
 
 import { injectFromBase } from "inversify";
-import type { TypescriptFile } from "../../services/file/TypescriptFile";
-import { TypescriptImport } from "../../services/file/TypescriptImport";
-import { StringUtils } from "../../services/StringUtils";
+import type { TypescriptFile } from "../../services/file/TypescriptFile.js";
+import { TypescriptImport } from "../../services/file/TypescriptImport.js";
+import { StringUtils } from "../../services/StringUtils.js";
 import CreateComponent, {
 	type CreateComponentOptions,
-} from "./CreateComponent";
+} from "./CreateComponent.js";
 
 @injectFromBase()
 export default class CreateCrudComponent extends CreateComponent {

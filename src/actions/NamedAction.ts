@@ -1,4 +1,4 @@
-import type { RealpathAction, RealpathActionOptions } from "./RealpathAction";
+import type { RealpathAction, RealpathActionOptions } from "./RealpathAction.js";
 
 export type NamedActionOptions = RealpathActionOptions;
 

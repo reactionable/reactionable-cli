@@ -2,8 +2,8 @@ import "reflect-metadata";
 
 import type { Container } from "inversify";
 
-import Github from "./adapters/github/Github";
-import type { VersioningAdapter } from "./VersioningAdapter";
+import Github from "./adapters/github/Github.js";
+import type { VersioningAdapter } from "./VersioningAdapter.js";
 
 export const AdapterIdentifier = Symbol("VersioningAdapter");
 
