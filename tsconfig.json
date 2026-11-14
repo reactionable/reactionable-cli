@@ -10,6 +10,8 @@
 		"target": "es2022",
 		"sourceMap": true,
 		"strict": true,
+		"rootDir": "./src",
+		"types": ["node"],
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		"moduleResolution": "NodeNext"
