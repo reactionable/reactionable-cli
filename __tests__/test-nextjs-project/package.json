@@ -10,8 +10,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"next": "*",
-		"@reactionable/ui-bootstrap": "*",
-		"@reactionable/amplify": "*"
+		"next": "^16.4.6",
+		"@reactionable/ui-bootstrap": "^1.0.0",
+		"@reactionable/amplify": "^1.0.0"
 	}
 }
