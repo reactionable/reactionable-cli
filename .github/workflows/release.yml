@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   prepare:
-    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/prepare-package-release.yml@a60704c5e9902675a1b4a5141411d95733e80ff5 # 3.0.2
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/prepare-package-release.yml@98d91b1cc347efc64cd5fb20bc0ebc076acad114 # 3.1.0
     permissions:
       actions: write
       contents: write
@@ -46,7 +46,7 @@ jobs:
 
   release:
     needs: [prepare, validate]
-    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/release.yml@a60704c5e9902675a1b4a5141411d95733e80ff5 # 3.0.2
+    uses: hoverkraft-tech/ci-github-nodejs/.github/workflows/release.yml@98d91b1cc347efc64cd5fb20bc0ebc076acad114 # 3.1.0
     permissions:
       actions: read
       contents: write
@@ -77,7 +77,7 @@ jobs:
         with:
           persist-credentials: false
       - id: deployment
-        uses: hoverkraft-tech/ci-github-publish/actions/deploy/github-pages@5b821495b1c3b68eb2e7fba71992dfe851612ae6 # 3.0.3
+        uses: hoverkraft-tech/ci-github-publish/actions/deploy/github-pages@80fa7011b27f49f2e04a19f932d36047d17a28f2 # 3.0.7
         with:
           build-artifact-id: ${{ needs.validate.outputs.build-artifact-id }}
           build-path: build/docs
